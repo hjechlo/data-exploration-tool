@@ -1,0 +1,22 @@
+# secrets
+.env
+
+# datasets / large local files
+data/
+*.csv
+*.xlsx
+*.parquet
+*.pkl
+*.zip
+
+# outputs
+profile_outputs/
+outputs/
+reports/
+
+# python cache
+__pycache__/
+*.pyc
+
+# mac files
+.DS_Store
