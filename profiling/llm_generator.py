@@ -16,7 +16,7 @@ from .prompts import (
     REPORT_SUMMARY_PROMPT,
     DATASET_SUMMARY_PROMPT,
     JOIN_PATH_INTERPRETATION_PROMPT,
-    CROSS_COLUMN_VALIDATION_PROMPT,
+    GENERATE_VALIDATION_RULES_PROMPT,
 )
 
 
@@ -725,46 +725,83 @@ class LLMDictionaryGenerator:
 
         return ""
     
-
-    def generate_cross_column_rules(
+    # ------------------------------------------------------------------
+    # Validation rule generation
+    # ------------------------------------------------------------------
+    
+    def generate_validation_rules(
         self,
         table_name: str,
-        findings: list[dict],
+        column_summary: list[dict],
+        df,  # pandas DataFrame — the actual data
+        join_hints: dict[str, list[str]] | None = None,
+        n_sample: int = 100,
     ) -> list[dict]:
-        """Generate formal cross-column validation rules from record-wise findings."""
-        if not findings:
-            return []
+        """
+        Ask the LLM to generate validation rules AND identify failing records.
+        Replaces the hardcoded generate_column_validation_rules() in column_analyzer.
+        """
+        import pandas as pd
 
         cfg = self.config
         cache_dir = cfg.output_dir / f"{table_name}_llm_chunks"
         cache_dir.mkdir(parents=True, exist_ok=True)
-        cached = cache_dir / "cross_column_rules.json"
+        cached = cache_dir / "validation_rules.json"
 
         if cfg.llm_resume and cached.exists():
-            print(f"  [{table_name}] Cross-column rules: reusing cached result.")
+            print(f"  [{table_name}] Validation rules: reusing cached result.")
             with open(cached, encoding="utf-8") as f:
                 return json.load(f)
 
-        prompt = CROSS_COLUMN_VALIDATION_PROMPT.format(
+        # Build column evidence (same structure as prepare_evidence but lighter)
+        evidence = []
+        for row in column_summary:
+            evidence.append({
+                "column_name": row["column_name"],
+                "data_type": row["data_type"],
+                "intended_data_type": row.get("intended_data_type", row["data_type"]),
+                "sample_values": row["sample_values"],
+                "observed_distinct_values": row.get("permissible_values"),
+                "missing_pct": row.get("profile", {}).get("missing_pct", 0),
+                "errors": row.get("errors", []),
+                "relationship_role": row.get("relationship_role", ""),
+            })
+
+        # Sample records — use actual data so LLM can check failing rows
+        sample_df = df.head(n_sample)
+        sample_records = json.loads(
+            sample_df.astype(str).to_json(orient="records", force_ascii=False)
+        )
+
+        prompt = GENERATE_VALIDATION_RULES_PROMPT.format(
             table_name=table_name,
-            findings_json=json.dumps(findings, indent=2, ensure_ascii=False),
+            evidence_json=json.dumps(evidence, indent=2, ensure_ascii=False),
+            sample_records_json=json.dumps(sample_records, indent=2, ensure_ascii=False),
+            join_hints_json=json.dumps(join_hints or {}, indent=2, ensure_ascii=False),
+            n_sample=n_sample,
         )
 
         for attempt in range(1, cfg.llm_max_retries + 1):
-            print(f"  [{table_name}] Cross-column rules, attempt {attempt}/{cfg.llm_max_retries}")
+            print(f"  [{table_name}] Validation rules, attempt {attempt}/{cfg.llm_max_retries}")
             raw = self._call_llm(prompt)
             try:
                 rules = clean_output(raw)
                 if not isinstance(rules, list):
                     raise ValueError("Expected JSON array")
+                # Stamp table name on every rule
+                for i, rule in enumerate(rules):
+                    rule.setdefault("rule_id", i + 1)
+                    rule.setdefault("table", table_name)
+                    rule.setdefault("columns", [rule.get("column", "")])
                 with open(cached, "w", encoding="utf-8") as f:
                     json.dump(rules, f, indent=2, ensure_ascii=False)
-                print(f"  [{table_name}] Cross-column rules: success ({len(rules)} rules).")
+                print(f"  [{table_name}] Validation rules: success ({len(rules)} rules).")
                 return rules
             except Exception as e:
-                print(f"  [{table_name}] Cross-column rules attempt {attempt} failed: {e}")
+                print(f"  [{table_name}] Validation rules attempt {attempt} failed: {e}")
 
         return []
+    
     
  
     # ------------------------------------------------------------------

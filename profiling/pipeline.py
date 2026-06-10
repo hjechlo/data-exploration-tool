@@ -249,67 +249,45 @@ class DataDictionaryPipeline:
         profile_results: dict | None = None,
     ) -> dict[str, list[dict]]:
         """
-        Generate validation rules for all tables.
-
-        Per-column rules are generated deterministically from profiled data — no LLM.
-        Cross-column rules (date ordering, numeric relationships, null consistency)
-        are detected from record-wise data checks, then worded by the LLM.
+        Generate validation rules for all tables via LLM.
+        The LLM generates rules AND identifies failing records in the sample.
+        Cross-table referential integrity rules are appended from FK join paths.
         """
-        # column_summaries already annotated with relationship_role and join_hints
-        # by _annotate_relationship_roles() called before step 4.
-        # Use them directly as annotated_summaries.
-        annotated_summaries = column_summaries
-
         all_rules = {}
 
-        for table_name, table_summary in annotated_summaries.items():
+        for table_name, table_summary in column_summaries.items():
             print(f"  Generating validation rules for {table_name}...")
 
-            # Per-column rules — deterministic, no LLM
-            rules = self.column_analyzer.generate_column_validation_rules(
-                table_summary, table_name
-            )
-            print(f"  [{table_name}] Column rules: {len(rules)} rules generated.")
+            df = profile_results[table_name]["df"] if profile_results else None
 
-            # Cross-column rules — data-driven check + LLM wording
-            if profile_results and table_name in profile_results and self.llm_generator:
-                df = profile_results[table_name]["df"]
-                findings = self.column_analyzer.detect_cross_column_relationships(
-                    df, table_summary
+            if self.llm_generator and df is not None:
+                # Build join hints from MinHash FK relationships
+                join_hints = {row["column_name"]: [] for row in table_summary}
+                for jp in minhash_results.get("join_paths", []):
+                    fk_table = jp.get("foreign_key_table")
+                    fk_col = jp.get("foreign_key_column")
+                    pk_table = jp.get("primary_key_table")
+                    pk_col = jp.get("primary_key_column")
+                    if fk_table == table_name and fk_col in join_hints:
+                        join_hints[fk_col].append(f"FK → {pk_table}.{pk_col}")
+                    if pk_table == table_name and pk_col in join_hints:
+                        join_hints[pk_col].append(f"PK ← {fk_table}.{fk_col}")
+                rules = self.llm_generator.generate_validation_rules(
+                    table_name=table_name,
+                    column_summary=table_summary,
+                    df=df,
+                    join_hints=join_hints,
+                    n_sample=self.config.llm_validation_sample_size,
                 )
-                if findings:
-                    print(
-                        f"  [{table_name}] Found {len(findings)} cross-column "
-                        f"relationship(s) — generating rules..."
-                    )
-                    cross_rules = self.llm_generator.generate_cross_column_rules(
-                        table_name, findings
-                    )
-                    # Build a lookup from findings to inject check_params
-                    findings_lookup = {
-                        tuple(sorted(f["columns"])): f for f in findings
-                    }
-                    offset = len(rules)
-                    for r in cross_rules:
-                        r["rule_id"] = offset + r.get("rule_id", 0)
-                        r["category"] = "cross_column"
-                        # Inject check_params from findings so rules can be executed
-                        key = tuple(sorted(r.get("columns", [])))
-                        finding = findings_lookup.get(key, {})
-                        r["check_params"] = finding.get("check_params", {})
-                        r["check_params"]["related_cols"] = r.get("columns", [])
-                        # Set "column" for Word rendering
-                        if "columns" in r and "column" not in r:
-                            r["column"] = " & ".join(r["columns"])
-                    rules.extend(cross_rules)
+            else:
+                # Fallback: no LLM — empty rules
+                rules = []
 
             all_rules[table_name] = rules
-            print(f"  [{table_name}] Validation rules: success ({len(rules)} rules total).")
-        # Cross-table referential integrity — derived from FK join paths in minhash_results
-        all_dfs = {
-            tn: profile_results[tn]["df"]
-            for tn in profile_results or {}
-        }
+            print(f"  [{table_name}] Validation rules: {len(rules)} rules.")
+
+        # Cross-table referential integrity — appended from FK join paths
+        all_dfs = {tn: profile_results[tn]["df"] for tn in profile_results or {}}
         for jp in minhash_results.get("join_paths", []):
             if jp.get("relationship_type") != "foreign_key":
                 continue
@@ -319,21 +297,32 @@ class DataDictionaryPipeline:
             pk_col = jp.get("primary_key_column")
             if not all([fk_table, fk_col, pk_table, pk_col]):
                 continue
-            if fk_table not in all_rules or pk_table not in all_dfs or fk_table not in all_dfs:
+            if fk_table not in all_rules or pk_table not in all_dfs:
+                continue
+            # Skip if LLM already generated a referential rule for this column
+            already_has_referential = any(
+                r.get("type") in ("referential", "referential_cross_table")
+                and r.get("column") == fk_col
+                for r in all_rules[fk_table]
+            )
+            if already_has_referential:
                 continue
             rule_id = len(all_rules[fk_table]) + 1
             all_rules[fk_table].append({
                 "rule_id": rule_id,
                 "table": fk_table,
                 "column": fk_col,
-                "type": "referential_cross_table",
-                "rule": f"{fk_table}.{fk_col} value must exist in {pk_table}.{pk_col}",
+                "columns": [fk_col],
+                "category": "cross_table",
+                "type": "referential",
+                "rule": f"{fk_table}.{fk_col} must exist in {pk_table}.{pk_col}",
+                "rationale": "Foreign key relationship detected by MinHash analysis.",
                 "check_params": {
                     "col_a": fk_col,
                     "pk_table": pk_table,
                     "pk_col": pk_col,
-                    "reference": f"{pk_table}.{pk_col}",
                 },
+                "failing_record_indices": [],
             })
 
         return all_rules
@@ -350,8 +339,7 @@ class DataDictionaryPipeline:
         for table_name, rules in validation_rules.items():
             if table_name not in profile_results:
                 continue
-            # Resolve pk_values at runtime for referential_cross_table rules
-            # to avoid materialising millions of values into the JSON payload.
+            # Inject pk_values at runtime for referential cross-table rules
             for rule in rules:
                 if rule.get("type") == "referential_cross_table":
                     cp = rule.get("check_params", {})

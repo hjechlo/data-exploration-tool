@@ -397,23 +397,117 @@ Evidence:
 {evidence_json}
 """
 
-CROSS_COLUMN_VALIDATION_PROMPT = """
-You are generating cross-column validation rules for a data dictionary report.
+GENERATE_VALIDATION_RULES_PROMPT = """
+You are a data quality expert. Your task is to generate validation rules for a dataset table,
+then identify which records fail each rule.
 
-Each rule checks a relationship BETWEEN two or more columns at the record level.
-You are given statistical findings from actual data checks — use these as evidence.
+## Your responsibilities
 
-For each finding, write one validation rule. Each rule must have:
-- rule_id: integer (start from 1)
-- columns: list of column names involved
-- rule: a clear plain-English statement of the constraint
-- justification: reference the violation count and rate from the evidence
-- severity: "error" if any violations found, "warning" if violation_rate > 0 but low, "info" if clean
-- type: copy the type field from the finding ("date_ordering", "numeric_sum", "null_consistency")
+1. For KNOWN sensitive/structured column types, apply the patterns specified below.
+2. For EVERYTHING ELSE, infer the best validation rule from what you observe in the data evidence.
+3. Generate CROSS-COLUMN rules where columns relate to each other (e.g. start < end date,
+   FK consistency, logical dependencies).
+4. Consider relationships ACROSS TABLES where join hints are provided.
 
-Return a JSON array only. No explanation, no markdown.
+## Custom logic — technical rules
 
-Dataset: {table_name}
-Findings from data checks:
-{findings_json}
+These are hard requirements for the execution environment. Violating them will cause
+rules to silently fail or produce incorrect results.
+
+**Type selection:**
+- Null/NA checks → always use type "not_null", never custom logic
+- Date format checks → always use type "format" with a regex, never pd.to_datetime()
+- Numeric range checks → always use type "range" with min/max
+- If a column is already int64, Int64, or float64, do NOT add a "is numeric" custom rule —
+  the dtype already guarantees it; use type "range" only
+
+**Custom logic expressions:**
+- Use `!=` for value comparisons — never `is not` or `is` (identity checks on pandas
+  objects always return True regardless of the actual value)
+- `df` is available for cross-row checks, e.g. uniqueness:
+  `df[df['col'] == row['col']].shape[0] > 1`
+
+## Patterns to apply for known column types
+
+**EMAIL columns:**
+- Minimum structural check only: must match ^[^@]+@[^@\\s]+$  (something@something, no spaces)
+- Do NOT use a strict RFC regex — email formats are complex and valid emails can look unusual
+- Flag: missing @, spaces in address, no domain part
+
+**AGE columns:**
+- Must be a positive integer
+- Flag: non-numeric values, values below 0, values above 120
+- Flag: values below 13 if this appears to be a consumer service account
+
+**DATE columns:**
+- Infer the format from sample values (e.g. YYYY-MM-DD, YYYYMMDD, DD/MM/YYYY, YYYY-MM-DD HH:MM:SS)
+- Flag: impossible dates (month > 12, day > 31), future dates if column is a historical field,
+  non-parseable values
+
+**PHONE NUMBER columns:**
+- Infer the country context from sample values
+- Check for: valid country code, valid area code structure, total digit count within valid range
+  (7-15 digits per E.164)
+- Flag: too few digits, too many digits, non-numeric characters (except +, -, space, parentheses)
+
+**POSTAL CODE columns:**
+- Infer the country/format from sample values
+- Flag: wrong digit count, non-alphanumeric characters, values outside observed format
+
+**GENDER columns:**
+- Flag: values outside the observed set, inconsistent casing, unexpected abbreviations
+
+**RACE / ETHNICITY columns:**
+- Flag: values outside the observed set, inconsistent casing
+
+**NATIONALITY / COUNTRY columns:**
+- Flag: inconsistent representations of the same country (abbreviations, languages, ISO codes mixed)
+- Suggest standardising to a single form
+
+**RELIGION columns:**
+- Flag: values outside the observed set, inconsistent casing
+
+## Output format
+
+Return a JSON array. Each element is one rule:
+
+```json
+[
+  {{
+    "rule_id": 1,
+    "table": "<table_name>",
+    "column": "<column_name>",
+    "columns": ["<col>"] or ["<col_a>", "<col_b>"] for cross-column rules,
+    "category": "per_column" | "cross_column" | "cross_table",
+    "type": "format" | "enumeration" | "range" | "not_null" | "referential" | "uniqueness" | "sentinel_check" | "date_ordering" | "custom",
+    "rule": "<plain English description of the rule>",
+    "rationale": "<why this rule was chosen based on the data>",
+    "check_params": {{
+      "regex": "<regex string if applicable>",
+      "min": <number if applicable>,
+      "max": <number if applicable>,
+      "values": ["<list if enumeration>"],
+      "logic": "<python-evaluable expression if custom, using row['col'] syntax>"
+      "col_a": "<earlier column name for date_ordering rules>",
+      "col_b": "<later column name for date_ordering rules — must be non-null for rule to apply>"
+    }},
+    "failing_record_indices": [<list of 0-based row indices that fail this rule>]
+  }}
+]
+```
+
+## Table: {table_name}
+
+### Column evidence:
+{evidence_json}
+
+### Sample records (first {n_sample} rows as JSON):
+{sample_records_json}
+
+### Cross-table join hints:
+{join_hints_json}
+
+Generate all rules now. Be thorough. For every column, either generate a rule or explicitly
+justify why no rule is needed. For failing_record_indices, check the sample records carefully
+and list every index that fails the rule.
 """

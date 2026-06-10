@@ -931,600 +931,7 @@ class ColumnAnalyzer:
             rows.append(row)
 
         return rows
-    
-    def generate_column_validation_rules(
-        self,
-        column_summary: list[dict],
-        table_name: str,
-    ) -> list[dict]:
-        """
-        Generate per-column validation rules deterministically from profiled data.
-        Each rule includes check_params so it can be executed against real records.
-        """
-        rules: list[dict] = []
-        rule_id = 1
 
-        for row in column_summary:
-            col = row["column_name"]
-            intended = row.get("intended_data_type", row["data_type"])
-            storage = row["data_type"]
-            permissible = row.get("permissible_values")
-            role = row.get("relationship_role", "")
-            is_identifier = role in ("primary_key", "foreign_key", "join_key")
-
-            # 1. Primary key integrity.
-            # FK referential rules are generated later in pipeline.py using cross-table metadata.
-            if role == "primary_key":
-                rules.append({
-                    "rule_id": rule_id,
-                    "table": table_name,
-                    "column": col,
-                    "type": "primary_key",
-                    "rule": f"{table_name}.{col} must be non-null and unique",
-                    "check_params": {},
-                })
-                rule_id += 1
-
-            # 1. Type mismatch
-            if intended != storage:
-                rules.append({
-                    "rule_id": rule_id,
-                    "table": table_name,
-                    "column": col,
-                    "type": "type",
-                    "rule": f"value must be stored as {intended}, not {storage}",
-                    "check_params": {"intended_type": intended, "storage_type": storage},
-                })
-                rule_id += 1
-            
-            # 1B. Strict compact YYYYMMDD date validation.
-            errors_text = " | ".join(row.get("errors", []))
-
-            compact_yyyymmdd_evidence = (
-                "date-like values stored in non-standard numeric/string format" in errors_text
-            )
-
-            if intended.startswith("datetime") and compact_yyyymmdd_evidence:
-                date_format = "YYYYMMDD"
-
-                rules.append({
-                    "rule_id": rule_id,
-                    "table": table_name,
-                    "column": col,
-                    "type": "valid_yyyymmdd_date",
-                    "rule": (
-                        f"{col} must be a valid real calendar date in {date_format} format "
-                        f"after removing any .0 suffix; month must be 01–12 and day must exist "
-                        f"for that month"
-                    ),
-                    "check_params": {
-                        "format": date_format,
-                        "strip_decimal_suffix": True,
-                    },
-                })
-                rule_id += 1
-            
-            # 1C. Numeric-like columns containing non-numeric raw values.
-            _format_analysis_1c = row.get("_format_analysis", {}) or {}
-            _top_formats_1c = (
-                _format_analysis_1c
-                .get("format_fingerprints", {})
-                .get("top_formats", [])
-            )
-            _has_alpha_prefix_variant = any(
-                re.fullmatch(r"a+X+", fmt.get("pattern", ""))
-                for fmt in _top_formats_1c
-            )
-
-            if (
-                "non-numeric value(s)" in errors_text
-                and "numeric-like column" in errors_text
-                and not _has_alpha_prefix_variant
-            ):
-                intended_l = str(intended).lower()
-                is_integer_target = "int" in intended_l
-
-                rule_type = "integer_parseable" if is_integer_target else "numeric_parseable"
-
-                rules.append({
-                    "rule_id": rule_id,
-                    "table": table_name,
-                    "column": col,
-                    "type": rule_type,
-                    "rule": (
-                        f"{col} must contain values that can be parsed as "
-                        f"{'integers' if is_integer_target else 'numbers'}"
-                    ),
-                    "check_params": {
-                        "allow_decimal": not is_integer_target,
-                    },
-                })
-                rule_id += 1
-            
-            if "sentinel/placeholder value(s) detected" in errors_text:
-                rules.append({
-                    "rule_id": rule_id,
-                    "table": table_name,
-                    "column": col,
-                    "type": "sentinel_check",
-                    "rule": (
-                        f"{col} should not contain sentinel/placeholder values "
-                        f"such as 99999, 9999, or 999999 — investigate and replace "
-                        f"with NULL or a valid value"
-                    ),
-                    "check_params": {
-                        "sentinel_values": [99999, 9999, 999999, -1, -9999],
-                    },
-                })
-                rule_id += 1
-
-            # 2. Enumeration — only truly categorical (already cast to category by preprocessor)
-            if permissible and storage == "category" and not is_identifier:
-                rules.append({
-                    "rule_id": rule_id,
-                    "table": table_name,
-                    "column": col,
-                    "type": "enumeration",
-                    "rule": f"value must be one of: {permissible}",
-                    "check_params": {"values": permissible},
-                })
-                rule_id += 1
-
-            # 3. Format — only for string/object/category structural formats.
-            storage_l = str(storage).lower()
-            is_string_like = (
-                "string" in storage_l
-                or "object" in storage_l
-                or "category" in storage_l
-            )
-
-            if is_string_like:
-                col_l = col.lower()
-                format_analysis = row.get("_format_analysis", {})
-                known_patterns = format_analysis.get("known_patterns", {}) or {}
-
-                # 3A. Datetime-like strings
-                # This is allowed because it is a real structural rule:
-                # YYYY-MM-DD HH:MM:SS, not a natural-language text fingerprint.
-                if intended.startswith("datetime"):
-                    rules.append({
-                        "rule_id": rule_id,
-                        "table": table_name,
-                        "column": col,
-                        "type": "format",
-                        "rule": f"{col} must follow a valid datetime format such as YYYY-MM-DD HH:MM:SS",
-                        "check_params": {
-                            "regex": r"^\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2})?)?$",
-                            "pattern_name": "datetime_string",
-                        },
-                    })
-                    rule_id += 1
-
-                # 3B. Email
-                # Only create this rule if the column name says it is email.
-                elif "email" in col_l:
-                    rules.append({
-                        "rule_id": rule_id,
-                        "table": table_name,
-                        "column": col,
-                        "type": "format",
-                        "rule": f"{col} must follow a valid email address structure, e.g. name@example.com",
-                        "check_params": {
-                            # More permissive than ASCII-only; supports internationalized local parts.
-                            "regex": r"^[^\s@]+@[^\s@]+\.[^\s@]+$",
-                            "pattern_name": "email",
-                        },
-                    })
-                    rule_id += 1
-
-
-                # 3D. Postal / ZIP code
-                # Only generate this for postal-code-like columns.
-                # Do not use known_patterns blindly because numeric fields like Milliseconds
-                # can accidentally match postal-code-like regexes.
-                elif any(token in col_l for token in ("postal", "postcode", "zipcode", "zip")):
-                    rules.append({
-                        "rule_id": rule_id,
-                        "table": table_name,
-                        "column": col,
-                        "type": "format",
-                        "rule": f"{col} should follow a valid postal/ZIP code structure for the relevant country",
-                        "check_params": {
-                            # Generic: letters/digits/spaces/hyphens, avoids country-specific hardcoding.
-                            "regex": r"^[A-Za-z0-9][A-Za-z0-9\s-]{2,15}$",
-                            "pattern_name": "postal_code_generic",
-                        },
-                    })
-                    rule_id += 1
-
-                # 3E. URL
-                elif any(token in col_l for token in ("url", "website", "link")):
-                    rules.append({
-                        "rule_id": rule_id,
-                        "table": table_name,
-                        "column": col,
-                        "type": "format",
-                        "rule": f"{col} must follow a valid URL structure, e.g. https://example.com",
-                        "check_params": {
-                            "regex": r"^https?://[^\s]+$",
-                            "pattern_name": "url",
-                        },
-                    })
-                    rule_id += 1
-
-                # 3F. Stable alphanumeric code
-                # Only for code/id/reference-like columns, not names/titles/descriptions.
-                elif any(token in col_l for token in ("code", "ref", "reference", "number", "no")):
-                    top_formats = (
-                        format_analysis
-                        .get("format_fingerprints", {})
-                        .get("top_formats", [])
-                    )
-
-                    stable_code_patterns = []
-                    readable_formats = []
-                    cumulative_pct = 0.0
-
-                    for fmt in top_formats[:6]:
-                        pattern = fmt.get("pattern", "")
-                        pct = float(fmt.get("percentage", 0) or 0)
-
-                        if not pattern:
-                            continue
-
-                        # Only allow true code-like formats with both letters and digits.
-                        # This blocks pure text fingerprints like aaaaa aaaaaaaa.
-                        if not ("a" in pattern and "X" in pattern):
-                            continue
-
-                        # Also block free-text-looking formats with too many spaces/words.
-                        if str(pattern).count(" ") > 1:
-                            continue
-
-                        if pct >= 1.0 or cumulative_pct < 95.0:
-                            stable_code_patterns.append(pattern)
-                            cumulative_pct += pct
-
-                            if re.fullmatch(r"a+X+a+", pattern):
-                                n_prefix = len(re.match(r"^a+", pattern).group(0))
-                                n_digits = len(re.search(r"X+", pattern).group(0))
-                                n_suffix = len(re.search(r"a+$", pattern).group(0))
-
-                                if n_prefix == 1 and n_suffix == 1:
-                                    readable_formats.append(
-                                        f"one alphabetic prefix, followed by {n_digits} digits, "
-                                        f"ending with one alphabetic suffix"
-                                    )
-                                else:
-                                    readable_formats.append(
-                                        f"{n_prefix} alphabetic prefix letter(s), followed by "
-                                        f"{n_digits} digit(s), ending with "
-                                        f"{n_suffix} alphabetic suffix letter(s)"
-                                    )
-
-                            elif re.fullmatch(r"a+X+", pattern):
-                                n_letters = len(re.match(r"^a+", pattern).group(0))
-                                n_digits = len(re.search(r"X+$", pattern).group(0))
-                                readable_formats.append(
-                                    f"{n_letters} letter(s) followed by {n_digits} digit(s)"
-                                )
-
-                            elif re.fullmatch(r"X+a+", pattern):
-                                n_digits = len(re.match(r"^X+", pattern).group(0))
-                                n_letters = len(re.search(r"a+$", pattern).group(0))
-                                readable_formats.append(
-                                    f"{n_digits} digit(s) followed by {n_letters} letter(s)"
-                                )
-
-                            else:
-                                readable_formats.append(pattern)
-
-                        if cumulative_pct >= 99.0:
-                            break
-
-                    if stable_code_patterns and cumulative_pct >= 95.0:
-                        regex_parts = []
-                        for pattern in stable_code_patterns:
-                            regex = ""
-                            for ch in pattern:
-                                if ch == "X":
-                                    regex += r"\d"
-                                elif ch == "a":
-                                    regex += r"[A-Za-z]"
-                                else:
-                                    regex += re.escape(ch)
-                            regex_parts.append(regex)
-
-                        combined_regex = r"^(?:" + "|".join(regex_parts) + r")$"
-
-                        if len(readable_formats) == 1:
-                            rule_text = (
-                                f"{col} must match the observed stable code format: "
-                                f"{readable_formats[0]}."
-                            )
-                        else:
-                            rule_text = (
-                                f"{col} must match one of the observed stable code formats: "
-                                + " OR ".join(readable_formats)
-                                + "."
-                            )
-
-                        rules.append({
-                            "rule_id": rule_id,
-                            "table": table_name,
-                            "column": col,
-                            "type": "format",
-                            "rule": rule_text,
-                            "check_params": {
-                                "regex": combined_regex,
-                                "pattern_name": "stable_code_format",
-                            },
-                        })
-                        rule_id += 1
-
-            # 7. Binary flag constraint — int columns where observed range is exactly {0, 1}
-            if "int" in str(storage).lower() and not is_identifier:
-                col_min = row.get("profile", {}).get("min")
-                col_max = row.get("profile", {}).get("max")
-                if col_min is not None and col_max is not None and float(col_min) == 0.0 and float(col_max) == 1.0:
-                    rules.append({
-                        "rule_id": rule_id,
-                        "table": table_name,
-                        "column": col,
-                        "type": "enumeration",
-                        "rule": f"{col} must be 0 or 1",
-                        "check_params": {"values": [0, 1]},
-                    })
-                    rule_id += 1
-
-        return rules
-
-    def detect_cross_column_relationships(
-        self,
-        df: pd.DataFrame,
-        column_summary: list[dict],
-    ) -> list[dict]:
-        """
-        Run record-wise cross-column checks and return findings with violation counts.
-
-        Checks:
-        - Date ordering: col_a <= col_b for all date/time column pairs
-        - Numeric sum: col_c ≈ col_a + col_b for numeric column triplets
-        - Null consistency: if col_a is non-null, col_b should also be non-null
-        """
-
-        findings = []
-
-        date_cols = [
-            r["column_name"] for r in column_summary
-            if (
-                "date" in r["column_name"].lower()
-                or r.get("intended_data_type", "").startswith("datetime")
-            )
-            and r["column_name"] in df.columns
-        ]
-
-        numeric_cols = [
-            r["column_name"] for r in column_summary
-            if r.get("data_type") in ("int64", "float64")
-            and r.get("relationship_role") not in ("primary_key", "foreign_key", "join_key")
-            and r["column_name"] in df.columns
-        ]
-
-        # 1. Date ordering
-        def _is_ordered_pair(a: str, b: str) -> bool:
-            a_l, b_l = a.lower(), b.lower()
-            a_is_start = any(h in a_l for h in self.config.date_ordering_start_hints)
-            b_is_end   = any(h in b_l for h in self.config.date_ordering_end_hints)
-            b_is_start = any(h in b_l for h in self.config.date_ordering_start_hints)
-            a_is_end   = any(h in a_l for h in self.config.date_ordering_end_hints)
-            return (a_is_start and b_is_end) or (b_is_start and a_is_end)
-        
-        for i, col_a in enumerate(date_cols):
-            for col_b in date_cols[i + 1:]:
-                try:
-                    a_parsed = pd.to_datetime(df[col_a], errors="coerce")
-                    b_parsed = pd.to_datetime(df[col_b], errors="coerce")
-                    both_valid = a_parsed.notna() & b_parsed.notna()
-                    n_both = int(both_valid.sum())
-                    if n_both == 0:
-                        continue
-                    violations_ab = int((a_parsed[both_valid] > b_parsed[both_valid]).sum())
-                    violations_ba = int((b_parsed[both_valid] > a_parsed[both_valid]).sum())
-                    if violations_ab / n_both <= 0.05:
-                        findings.append({
-                            "type": "date_ordering",
-                            "columns": [col_a, col_b],
-                            "rule": f"{col_a} must be on or before {col_b}",
-                            "n_checked": n_both,
-                            "n_violations": violations_ab,
-                            "violation_rate": round(violations_ab / n_both, 3),
-                            "check_params": {"col_a": col_a, "col_b": col_b},
-                            "sample_violations": df.loc[
-                                both_valid & (a_parsed > b_parsed), [col_a, col_b]
-                            ].head(3).to_dict("records"),
-                        })
-                    elif violations_ba / n_both <= 0.05:
-                        findings.append({
-                            "type": "date_ordering",
-                            "columns": [col_b, col_a],
-                            "rule": f"{col_b} must be on or before {col_a}",
-                            "n_checked": n_both,
-                            "n_violations": violations_ba,
-                            "violation_rate": round(violations_ba / n_both, 3),
-                            "check_params": {"col_a": col_b, "col_b": col_a},
-                            "sample_violations": df.loc[
-                                both_valid & (b_parsed > a_parsed), [col_a, col_b]
-                            ].head(3).to_dict("records"),
-                        })
-                except Exception:
-                    continue
-
-        # 2. Numeric sum
-        if len(numeric_cols) >= 3:
-            for k, col_c in enumerate(numeric_cols):
-                for i, col_a in enumerate(numeric_cols):
-                    if i == k:
-                        continue
-                    for col_b in numeric_cols[i + 1:]:
-                        if col_b == col_c:
-                            continue
-                        try:
-                            mask = (
-                                df[col_a].notna()
-                                & df[col_b].notna()
-                                & df[col_c].notna()
-                            )
-                            n_checked = int(mask.sum())
-                            if n_checked < 10:
-                                continue
-                            expected = df.loc[mask, col_a] + df.loc[mask, col_b]
-                            actual = df.loc[mask, col_c]
-                            mean_abs = actual.abs().mean()
-                            tolerance = mean_abs * 0.01 if mean_abs > 0 else 0.01
-                            violations = int((abs(expected - actual) > tolerance).sum())
-                            if violations / n_checked <= 0.02:
-                                findings.append({
-                                    "type": "numeric_sum",
-                                    "columns": [col_a, col_b, col_c],
-                                    "rule": f"{col_c} must equal {col_a} + {col_b}",
-                                    "n_checked": n_checked,
-                                    "n_violations": violations,
-                                    "violation_rate": round(violations / n_checked, 3),
-                                    "check_params": {"col_a": col_a, "col_b": col_b, "col_c": col_c},
-                                })
-                        except Exception:
-                            continue
-
-        # 3. Date columns must not be in the future
-        today = pd.Timestamp.now().normalize()
-        for col_date in date_cols:
-            try:
-                parsed = pd.to_datetime(df[col_date], errors="coerce")
-                valid = parsed.notna()
-                n_valid = int(valid.sum())
-                if n_valid == 0:
-                    continue
-                future_mask = valid & (parsed > today)
-                n_future = int(future_mask.sum())
-                # Only emit rule if no violations (or very few) — it should hold universally
-                if n_future / n_valid <= 0.02:
-                    findings.append({
-                        "type": "date_not_future",
-                        "columns": [col_date],
-                        "rule": f"{col_date} must not be a future date",
-                        "n_checked": n_valid,
-                        "n_violations": n_future,
-                        "violation_rate": round(n_future / n_valid, 3),
-                        "check_params": {"col_a": col_date},
-                    })
-            except Exception:
-                continue
-
-        # 4. NRIC birth year consistent with Age column (universally applicable — derived from data)
-        nric_cols = [
-            r["column_name"] for r in column_summary
-            if r["column_name"] in df.columns
-            and r.get("_format_analysis", {}).get("known_patterns", {}).get("nric_sg", {}).get("percentage", 0) >= 80
-        ]
-        age_cols = [
-            r["column_name"] for r in column_summary
-            if r["column_name"] in df.columns
-            and "age" in r["column_name"].lower()
-            and r.get("data_type") in ("int64", "float64", "string", "object")
-        ]
-        current_year = pd.Timestamp.now().year
-        dob_cols = []
-        for r in column_summary:
-            col_name = r["column_name"]
-            if col_name not in df.columns:
-                continue
-            if not r.get("intended_data_type", "").startswith("datetime"):
-                continue
-            # A DOB column is a date column where all values fall in a plausible birth year range.
-            # This is fully data-driven — no column name keywords used.
-            parsed = pd.to_datetime(df[col_name], errors="coerce")
-            valid_years = parsed.dropna().dt.year
-            if len(valid_years) == 0:
-                continue
-            if valid_years.min() >= 1900 and valid_years.max() <= (current_year - 10):
-                dob_cols.append(col_name)
-        current_year = pd.Timestamp.now().year
-
-        def _extract_nric_birth_year(nric_series: pd.Series, current_year: int) -> pd.Series:
-            two_digit = nric_series.str[1:3].apply(pd.to_numeric, errors="coerce")
-            prefix = nric_series.str[0]
-            century = pd.Series(1900, index=nric_series.index)
-            century[prefix == "T"] = 2000
-            century[(prefix != "T") & (two_digit <= (current_year % 100))] = 2000
-            return century + two_digit
-
-        for nric_col in nric_cols:
-            nric_str = df[nric_col].astype(str).str.strip().str.upper()
-            valid_nric = nric_str.str.match(r'^[STFG]\d{7}[A-Z]$', na=False)
-
-            # DOB path — preferred, exact year match
-            for dob_col in dob_cols:
-                try:
-                    dob_parsed = pd.to_datetime(df[dob_col], errors="coerce")
-                    both_valid = valid_nric & dob_parsed.notna()
-                    n_checked = int(both_valid.sum())
-                    if n_checked < 5:
-                        continue
-                    nric_year = _extract_nric_birth_year(nric_str[both_valid], current_year)
-                    dob_year = dob_parsed[both_valid].dt.year
-                    violations = int((nric_year != dob_year).sum())
-                    if violations / n_checked <= 0.02:
-                        findings.append({
-                            "type": "nric_dob_consistency",
-                            "columns": [nric_col, dob_col],
-                            "rule": f"Birth year encoded in {nric_col} must match year in {dob_col}",
-                            "n_checked": n_checked,
-                            "n_violations": violations,
-                            "violation_rate": round(violations / n_checked, 3),
-                            "check_params": {
-                                "col_a": nric_col,
-                                "col_b": dob_col,
-                                "check_mode": "dob",
-                                "current_year": current_year,
-                            },
-                        })
-                except Exception:
-                    continue
-
-            # Age path — fallback when no DOB column present, ±2 year tolerance
-            if not dob_cols:
-                for age_col in age_cols:
-                    try:
-                        age_vals = pd.to_numeric(df[age_col], errors="coerce")
-                        both_valid = valid_nric & age_vals.notna()
-                        n_checked = int(both_valid.sum())
-                        if n_checked < 5:
-                            continue
-                        nric_year = _extract_nric_birth_year(nric_str[both_valid], current_year)
-                        expected_age = current_year - nric_year
-                        actual_age = age_vals[both_valid]
-                        violations = int((abs(expected_age - actual_age) > 2).sum())
-                        if violations / n_checked <= 0.05:
-                            findings.append({
-                                "type": "nric_age_consistency",
-                                "columns": [nric_col, age_col],
-                                "rule": f"{age_col} must be consistent with birth year encoded in {nric_col} (±2 years)",
-                                "n_checked": n_checked,
-                                "n_violations": violations,
-                                "violation_rate": round(violations / n_checked, 3),
-                                "check_params": {
-                                    "col_a": nric_col,
-                                    "col_b": age_col,
-                                    "check_mode": "age",
-                                    "current_year": current_year,
-                                },
-                            })
-                    except Exception:
-                        continue
-
-
-        return findings
     
     def run_validation_checks(
         self,
@@ -1608,7 +1015,7 @@ class ColumnAnalyzer:
 
         for rule in validation_rules:
             rule_id = rule.get("rule_id")
-            col = rule.get("column", "")
+            col = rule.get("column") or (rule.get("columns") or [""])[0]
             rule_type = rule.get("type")
             check_params = rule.get("check_params", {})
 
@@ -1750,7 +1157,10 @@ class ColumnAnalyzer:
         elif rule_type == "enumeration":
             values = check_params.get("values", [])
             if values and col in df.columns:
-                return df[col].notna() & ~df[col].isin(values)
+                # Coerce to string for comparison to handle int/string type mismatches
+                str_values = [str(v) for v in values]
+                col_str = df[col].astype(str).str.strip()
+                return df[col].notna() & ~col_str.isin(str_values)
             
         elif rule_type == "numeric_sum":
             col_a = check_params.get("col_a")
@@ -1940,6 +1350,86 @@ class ColumnAnalyzer:
             if col_max is not None:
                 failing = failing | (df[col].notna() & (numeric > col_max))
             return failing
+        
+        elif rule_type == "custom":
+            logic = check_params.get("logic")
+            if not logic:
+                return None
+
+            # Redirect known bad LLM patterns to correct native handlers
+            # rather than accumulating guards — keeps this branch clean
+
+            # Pattern: combined 'free'/sentinel check on numeric column
+            # (LLM merges two rules into one custom expression that misfires on floats)
+            if col in df.columns and ("'free'" in logic or '"free"' in logic) and "99999" in logic:
+                col_str = df[col].astype(str).str.strip().str.lower()
+                sentinel_hit = pd.to_numeric(df[col], errors="coerce") == 99999
+                free_hit = col_str == "free"
+                return df[col].notna() & (free_hit | sentinel_hit)
+
+            # Pattern: numeric parseability or range check on already-numeric column
+            # (isdigit/isnumeric/isinstance break on Int64/float64 — extract range and apply natively)
+            if col in df.columns and pd.api.types.is_numeric_dtype(df[col]):
+                if any(kw in logic for kw in ("isdigit", "isnumeric", "is_integer", "isinstance")):
+                    min_match = re.search(r'>=\s*(\d+)', logic)
+                    max_match = re.search(r'<=\s*(\d+)', logic)
+                    col_min = int(min_match.group(1)) if min_match else None
+                    col_max = int(max_match.group(1)) if max_match else None
+                    if col_min is None and col_max is None:
+                        return pd.Series(False, index=df.index)
+
+                    numeric = pd.to_numeric(df[col], errors="coerce")
+                    failing = pd.Series(False, index=df.index)
+                    if col_min is not None:
+                        failing = failing | (df[col].notna() & (numeric < col_min))
+                    if col_max is not None:
+                        failing = failing | (df[col].notna() & (numeric > col_max))
+                    return failing
+
+            _cols = re.findall(r"row\['([^']+)'\]", logic)
+            if len(_cols) == 2 and all(c in df.columns for c in _cols):
+                if any(op in logic for op in (">=", "<=", " > ", " < ")):
+                    _a = pd.to_datetime(df[_cols[0]], errors="coerce")
+                    _b = pd.to_datetime(df[_cols[1]], errors="coerce")
+                    _both = _a.notna() & _b.notna()
+                    if ">=" in logic:
+                        return _both & (_a < _b)
+                    elif "<=" in logic:
+                        return _both & (_a > _b)
+                    elif " > " in logic:
+                        return _both & (_a <= _b)
+                    elif " < " in logic:
+                        return _both & (_a >= _b)
+
+            # Pattern: identity checks that always return True — skip silently
+            if " is not pd.NaT" in logic or " is pd.NaT" in logic or \
+            (" is not None" in logic and "pd.to_datetime" in logic) or \
+            ("pd.to_numeric" in logic and " is not " in logic):
+                print(f"    [custom rule] skipping unsafe identity check: {logic}")
+                return None
+
+            # General eval — df is available for cross-row checks
+            try:
+                referenced_cols = [
+                    c for c in re.findall(r"row\['([^']+)'\]", logic)
+                    if c in df.columns
+                ]
+
+                def _safe_eval(row):
+                    # If any referenced column is null, this row cannot
+                    # meaningfully satisfy a cross-column rule — skip it.
+                    if referenced_cols and any(pd.isna(row[c]) for c in referenced_cols):
+                        return False
+                    try:
+                        return bool(eval(logic, {"row": row, "pd": pd, "re": re, "df": df}))
+                    except Exception:
+                        return False
+
+                failing = df.apply(_safe_eval, axis=1)
+                return failing
+            except Exception as e:
+                print(f"    [custom rule] eval failed for '{logic}': {e}")
+                return None
 
         elif rule_type in ("type", "referential"):
             return None 
