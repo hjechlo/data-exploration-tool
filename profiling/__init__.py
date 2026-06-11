@@ -17,7 +17,7 @@ from .loader import DataLoader
 from .preprocessor import DataPreprocessor
 from .profiler import DataProfiler
 from .column_analyzer import ColumnAnalyzer
-from .minhash_analyzer_enhanced import MinHashAnalyzer
+from .minhash_analyzer import MinHashAnalyzer
 from .llm_generator import LLMDictionaryGenerator
 from .exporters import DataDictionaryExporter
 

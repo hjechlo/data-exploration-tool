@@ -48,6 +48,7 @@ class PipelineConfig:
     join_threshold: float = 0.5
     shingle_join_threshold: float = 0.6
     duplicate_threshold: float = 0.9
+    near_identical_threshold: float = 0.7
 
     # Composite quality score approach
     join_quality_threshold: float = 0.65    
