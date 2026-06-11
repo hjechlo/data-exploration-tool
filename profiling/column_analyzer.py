@@ -1050,6 +1050,7 @@ class ColumnAnalyzer:
         self,
         df: pd.DataFrame,
         validation_rules: list[dict],
+        record_id_col: str | None = None,
     ) -> dict:
         """
         Apply validation rules against actual records.
@@ -1124,7 +1125,8 @@ class ColumnAnalyzer:
 
             return candidates[0]["column"]
 
-        record_id_col = _find_record_identifier_column()
+        if record_id_col is None or record_id_col not in df.columns:
+            record_id_col = df.columns[0] if len(df.columns) > 0 else None
 
         for rule in validation_rules:
             rule_id = rule.get("rule_id")

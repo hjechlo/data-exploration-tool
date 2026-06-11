@@ -357,8 +357,14 @@ class DataDictionaryPipeline:
                                 .str.replace(r"\.0+$", "", regex=True)
                             )
             df = profile_results[table_name]["df"]
+            # Derive record identifier: most unique, fully non-null column
+            record_id_col = max(
+                (c for c in df.columns if df[c].isna().sum() == 0),
+                key=lambda c: df[c].nunique() / max(len(df[c]), 1),
+                default=None,
+            )
             print(f"  Running validation checks for {table_name}...")
-            results = self.column_analyzer.run_validation_checks(df, rules)
+            results = self.column_analyzer.run_validation_checks(df, rules, record_id_col=record_id_col)
             all_check_results[table_name] = results
 
             n_failing = sum(
