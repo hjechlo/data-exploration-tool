@@ -1,0 +1,31 @@
+S/N,Account_No,Name,ID_No,JoinDate,LastLogin,Subscription,SubscriptionFee,Active,AccountBalance,PreferredLanguage,Device,OS,FeedbackScore,FeedbackScore1
+1,1001,Wei Jie,S1234567D,2020-05-12 00:00:00,2023-03-12 00:00:00,Basic,152.2,False,408.2,German,Mobile,Android,3.38,3.38
+2,1001,Hui Min tan,S7654321F,2022-07-26 00:00:00,2023-11-17 00:00:00,Premium,45.97,False,391.09,German,Desktop,Android,1.45,1.45
+3,1002,irfan,S9968522J,2020-01-01 00:00:00,2023-04-04 00:00:00,Basic,692.92,False,714.09,English,Mobile,Android,3.7,3.7
+4,1003,Aisyah,F1122334K,2021-12-05 00:00:00,2024-02-08 00:00:00,Premium,878.06,False,935.96,French,Mobile,Android,3.9,3.9
+5,1004,Priya d/o Rajan,G8765432L,N/A,2023-06-14 00:00:00,Free,616.73,False,907.24,German,Mobile,Windows,2.39,2.39
+6,1005,Arvind s/o Maniam,S2633396B,2021-05-19 00:00:00,2022-05-19 00:00:00,Free,540.3,True,473.26,French,Mobile,iOS,1.78,1.78
+7,1006,Zhi Xuan Ong ,S9136271F,2020-06-04 00:00:00,2024-02-16 00:00:00,Basic,free,True,853.72,French,Tablet,Android,1.86,1.86
+8,1007,Kai Wen,F4455667M,2021-02-18 00:00:00,2024-01-17 00:00:00,Premium,737.49,yes,255.04,German,Mobile,macOs,2.19,2.19
+9,1008,Farah Binte Hassan,G5566778N,2022-04-03 00:00:00,2024-05-12 00:00:00,Free,917.46,True,600.35,French,Desktop,Android,2.65,2.65
+10,1009,Ahmad Firdaus Bin Salleh,S3387002G,2021-07-18 00:00:00,2023-01-27 00:00:00,Basic,961.14,False,763.11,German,Tablet,iOS,3.01,3.01
+11,1010,Kavitha d/o Muthusamy,S8099150I,2022-06-07 00:00:00,2023-08-17 00:00:00,Basic,16.53,False,10,French,Mobile,Windows,1.67,1.67
+12,1010,Hariharan s/o Suresh,T0292156H,2022-07-27 00:00:00,2024-05-10 00:00:00,Basic,902.43,True,341.12,Malay,Tablet,Linux,2.27,2.27
+13,1011,Lee yixuan,F7788990P,2022-08-09 00:00:00,2024-02-15 00:00:00,Basic,232.6,False,244.42,German,Mobile,iOS,3.73,3.73
+14,1012,Jun Wei,G6677889Q,2022-06-18 00:00:00,2023-11-17 00:00:00,Premium,728.27,False,334.34,French,Desktop,Windows,2.28,2.28
+15,1013,Nabilah,S9539727A,2021-06-28 00:00:00,2023-07-16 00:00:00,Premium,651.79,False,476.89,French,Tablet,macOs,2.87,2.87
+16,1014,Danish,S8421753J,2020-07-26 00:00:00,2023-10-17 00:00:00,Basic,764.98,True,250.7,English,Mobile,iOS,5,5
+17,1015,Ramesh s/o Govindasamy,F9900112R,2022-11-29 00:00:00,2024-01-11 00:00:00,Gold,768.38,True,324.4,French,Tablet,macOs,4.95,4.95
+18,1016,Shalini d/o Krishnan,G2233445S,2022-06-25 00:00:00,2023-06-15 00:00:00,Premium,37.13,False,124.56,English,Mobile,Linux,4.01,4.01
+19,1017,Ann,S8705681C,2020-06-22 00:00:00,2024-04-22 00:00:00,Basic,476.92,True,309.03,English,Mobile,macOs,4.89,4.89
+20,1018,Koh Ming Hao,F1011121T,2020-11-02 00:00:00,2023-08-15 00:00:00,Basic,250.85,True,777.48,French,Desktop,iOS,2.33,2.33
+21,1019,Siti Ameerah Binte Aziz,S9203906D,2021-05-26 00:00:00,2023-11-22 00:00:00,Free,304.6,False,892.5,English,Desktop,Windows,3.75,3.75
+22,1020,Faizal Bin Hamzah,G3344556U,2025-13-01,2023-07-18 00:00:00,Premium,958.92,False,177.16,German,Tablet,Linux,1.78,1.78
+23,1021,Tan Li Wei,S9916569C,2020-02-17 00:00:00,2023-09-16 00:00:00,Basic,946.52,False,50.59,French,Mobile,Android,3.3,3.3
+24,1022,junrong,S8792459I,2022-09-17 00:00:00,2023-07-29 00:00:00,Free,99999,False,979.25,English,Desktop,Android,1.79,1.79
+25,1023,Aishah Binte Yusof,F2122233V,2022-08-19 00:00:00,2023-07-10 00:00:00,Free,251.93,True,755.07,French,Mobile,Android,4.92,4.92
+26,1024,Manoj s/o Raghavan,G4455667W,2022-07-23 00:00:00,2023-07-10 00:00:00,Basic,944.34,False,352.35,Tamil,Desktop,Android,1.1,1.1
+27,1025,Revathi d/o Venkatesan,S7516430J,2021-01-12 00:00:00,2023-09-30 00:00:00,Premium,617.72,False,101.83,English,Tablet,Android,1.96,1.96
+28,1026,Wang Shi Jie,S8403757E,2021-08-23 00:00:00,2023-03-30 00:00:00,Premium,434.17,True,623.68,German,Mobile,Windows,4.46,4.46
+29,1027,Lau Pei Ling,S1234567Z,2021-03-14 00:00:00,2023-05-19 00:00:00,Free,464.85,False,571.48,French,Desktop,macOs,1,1
+30,1028,Iskandar Bin Ahmad,F0000000X,2021-01-07 00:00:00,2023-04-13 00:00:00,Free,470.09,True,293.79,English,Desktop,Linux,1.68,1.68

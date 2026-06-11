@@ -9,7 +9,7 @@ data/
 *.pkl
 *.zip
 
-# outputs
+# generated outputs
 profile_outputs/
 outputs/
 reports/
@@ -20,3 +20,10 @@ __pycache__/
 
 # mac files
 .DS_Store
+
+# allow curated sample outputs
+!sample_outputs/
+!sample_outputs/**
+!sample_outputs/**/*.csv
+!sample_outputs/**/*.docx
+!sample_outputs/**/*.json

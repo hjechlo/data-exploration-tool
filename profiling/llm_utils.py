@@ -109,6 +109,73 @@ def clean_actions(actions: list[str]) -> list[str]:
     return real_actions if real_actions else ["[No Immediate Action]"]
 
 
+def _semantic_chunks(
+    reordered: list[dict],
+    sim_matrix,
+    original_order: list[int],
+    max_chunk_size: int,
+) -> list[list[dict]]:
+    """
+    Split a semantically reordered column list into variable-size chunks
+    by finding natural breakpoints where similarity between adjacent columns
+    drops sharply below the distribution of all adjacent similarities.
+
+    Rules:
+    - Compute similarity between each adjacent pair in the reordered sequence.
+    - Split where similarity drops below (mean - 0.5 * std) of all adjacent sims.
+    - Never let a chunk exceed max_chunk_size — force-split if needed.
+    - Never produce an empty chunk.
+    """
+    import numpy as np
+
+    n = len(reordered)
+    if n <= 1:
+        return [reordered]
+
+    # Similarity between each adjacent pair in the reordered sequence
+    adj_sims = []
+    for i in range(n - 1):
+        a = original_order[i]
+        b = original_order[i + 1]
+        adj_sims.append(float(sim_matrix[a][b]))
+
+    mean_sim = float(np.mean(adj_sims))
+    std_sim  = float(np.std(adj_sims))
+    threshold = mean_sim - 1.0 * std_sim
+
+    # Walk the sequence and split at breakpoints or when max size is hit
+    result_chunks = []
+    current_chunk = [reordered[0]]
+
+    for i in range(1, n):
+        similarity_to_prev = adj_sims[i - 1]
+        is_breakpoint      = similarity_to_prev < threshold
+        is_full            = len(current_chunk) >= max_chunk_size
+
+        if is_breakpoint or is_full:
+            result_chunks.append(current_chunk)
+            current_chunk = [reordered[i]]
+        else:
+            current_chunk.append(reordered[i])
+
+    if current_chunk:
+        result_chunks.append(current_chunk)
+
+    merged = []
+    for chunk in result_chunks:
+        if len(chunk) == 1 and merged and len(merged[-1]) < max_chunk_size:
+            merged[-1].extend(chunk)
+        else:
+            merged.append(chunk)
+    result_chunks = merged
+
+    # Log the split for visibility
+    sizes = [len(c) for c in result_chunks]
+    names = [[col["column_name"] for col in c] for c in result_chunks]
+    print(f"    [semantic chunks] {len(result_chunks)} chunks, sizes {sizes}: {names}")
+
+    return result_chunks
+
 def chunks(items: list, size: int):
     """Yield successive fixed-size chunks from a list."""
     for i in range(0, len(items), size):

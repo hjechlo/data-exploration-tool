@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 from datasketch import MinHash, MinHashLSH
 from .format_pattern_analyzer import FormatPatternAnalyzer
-from .json_utils import is_sequential_ordinal
+from .json_utils import is_sequential_ordinal,_email_local
 
 from .config import EMAIL_REGEX, ID_NAME_HINTS, PLACEHOLDER_TOKENS, PipelineConfig
 
@@ -246,7 +246,7 @@ class ColumnAnalyzer:
         return groups
  
     def detect_column_errors(
-        self, col_name: str, series: pd.Series, storage_type: str, is_foreign_key: bool = False, format_analysis: dict | None = None
+        self, col_name: str, series: pd.Series, storage_type: str, intended_type: str, is_foreign_key: bool = False, format_analysis: dict | None = None
     ) -> list[str]:
         """Return a list of human-readable error/quality strings for a column.
         
@@ -254,7 +254,9 @@ class ColumnAnalyzer:
             col_name: Column name
             series: Pandas Series with column data
             storage_type: Data type (string, datetime64[ns], int64, etc.)
+            intended_type: Inferred semantic type (categorical, datetime, key_like, etc.)
             is_foreign_key: If True, skip duplicate errors (duplicates are expected in FKs)
+            format_analysis: Optional dict with results from FormatPatternAnalyzer, used to detect formatting inconsistencies
         """
         errors: list[str] = []
 
@@ -302,11 +304,61 @@ class ColumnAnalyzer:
                     f"examples: {bad_values}"
                 )
         
-        # Email validation
+        # Email validation — intentionally non-strict.
+        # Only flag structural failures (missing @, spaces).
+        # Plus-tags, new TLDs, and subdomains are all valid.
         if "email" in col_name.lower():
-            bad = [v for v in non_missing_str.unique() if v and not EMAIL_REGEX.match(v)]
-            if bad:
-                errors.append(f"malformed email values {bad[:5]}")
+            structurally_bad = [
+                v for v in non_missing_str.unique()
+                if v and not EMAIL_REGEX.match(v)
+            ]
+            if structurally_bad:
+                errors.append(
+                    f"structurally malformed email values (missing @ or contains spaces): "
+                    f"{structurally_bad[:5]}"
+                )
+
+            # Case inconsistency — deduplication risk.
+            # Use lowercase, never uppercase: uppercasing is destructive for unicode
+            # (e.g. ß→SS, Turkish İ folds differently across systems/locales).
+            if (non_missing_str != non_missing_str.str.lower()).any():
+                errors.append(
+                    "email column contains mixed-case values — "
+                    "lowercase (not uppercase) before deduplication or uniqueness checks "
+                    "to avoid unicode case-folding issues"
+                )
+
+            fake_vals = [
+                v for v in non_missing_str.unique()
+                if _email_local(v) in PLACEHOLDER_TOKENS
+            ]
+            if fake_vals:
+                errors.append(
+                    f"probable placeholder email addresses detected "
+                    f"(local part matches known sentinel): {fake_vals[:5]}"
+                )
+
+            # Domain concentration — statistically anomalous uniformity signals
+            # test/seeded data. Real customer datasets have high domain diversity.
+            domains = non_missing_str.str.extract(r"@([^@\s]+)$", expand=False).str.lower()
+            domain_counts = domains.value_counts(normalize=True)
+            if len(domain_counts) > 1:
+                top_domain, top_pct = domain_counts.index[0], domain_counts.iloc[0]
+                if top_pct > 0.8:
+                    errors.append(
+                        f"email domain unusually concentrated: '{top_domain}' appears in "
+                        f"{top_pct:.0%} of values — may indicate test or seeded data"
+                    )
+
+            # Plus-tag prevalence — informational, not an error.
+            plus_count = int(non_missing_str.str.contains(r"\+", regex=True).sum())
+            plus_pct = plus_count / len(non_missing_str) * 100
+            if plus_pct >= 5:
+                errors.append(
+                    f"{plus_count} values ({plus_pct:.1f}%) use plus-tag subaddressing "
+                    f"(e.g. user+tag@domain.com) — valid RFC addresses; "
+                    f"do not strip the +tag when deduplicating without business confirmation"
+                )
         
         # Identifier duplicates
         name = col_name.lower()
@@ -452,8 +504,9 @@ class ColumnAnalyzer:
         # Contaminated categorical column detection
         n_distinct = non_missing_str.nunique()
         if (uniqueness_ratio < 0.05
-            and n_distinct > 50   # ← was 20
-            and storage_type in ("string", "object", "category")):
+            and n_distinct > 50 
+            and storage_type in ("string", "object", "category")
+            and intended_type not in ("datetime64[ns]", "date", "datetime")):
             errors.append(
                 f"column appears categorical (low uniqueness: {uniqueness_ratio:.1%}) "
                 f"but has {n_distinct} distinct values — possible contamination or encoding issues"
@@ -883,7 +936,8 @@ class ColumnAnalyzer:
 
             errors = self.detect_column_errors(
                 col_name, raw_series, storage_type,
-                format_analysis=format_analysis
+                format_analysis=format_analysis,
+                intended_type=intended_type,
             )
             column_facts = self.build_column_facts(
                 col_name, raw_series, storage_type, permissible_values,

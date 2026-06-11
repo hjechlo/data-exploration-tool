@@ -96,3 +96,6 @@ def is_sequential_ordinal(series: "pd.Series") -> bool:
     vals_int = sorted(vals.astype(int).unique())
     n = len(vals_int)
     return vals_int[0] == 1 and vals_int[-1] == n
+
+def _email_local(v: str) -> str:
+                return v.split("@", 1)[0].lower().strip() if "@" in v else ""

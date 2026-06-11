@@ -417,9 +417,17 @@ rules to silently fail or produce incorrect results.
 **Type selection:**
 - Null/NA checks → always use type "not_null", never custom logic
 - Date format checks → always use type "format" with a regex, never pd.to_datetime()
-- Numeric range checks → always use type "range" with min/max
-- If a column is already int64, Int64, or float64, do NOT add a "is numeric" custom rule —
-  the dtype already guarantees it; use type "range" only
+- Numeric range checks → always use type "range" with min/max — this works correctly
+  regardless of whether the column is stored as numeric or string dtype
+- Never add a "is numeric" custom rule on a column that is already int64, Int64, or float64
+- If a column is stored as string/object but contains mostly numeric values, still use
+  type "range" for bounds — pd.to_numeric() handles the conversion internally
+- If evidence shows non-numeric values mixed into a numeric column, generate a separate
+  type "custom" rule for that check only, with logic that uses pd.to_numeric() to test
+  parseability — never use string methods like isalpha(), isdigit(), isinstance(), or
+  isnumeric() to check numeric validity as these break unpredictably on mixed-type columns
+- For standardisation rules that flag non-canonical values, always frame the check as
+  "value is NOT the canonical form" — never flag the canonical value itself
 
 **Custom logic expressions:**
 - Use `!=` for value comparisons — never `is not` or `is` (identity checks on pandas
@@ -430,9 +438,17 @@ rules to silently fail or produce incorrect results.
 ## Patterns to apply for known column types
 
 **EMAIL columns:**
-- Minimum structural check only: must match ^[^@]+@[^@\\s]+$  (something@something, no spaces)
-- Do NOT use a strict RFC regex — email formats are complex and valid emails can look unusual
-- Flag: missing @, spaces in address, no domain part
+- Structural check only: must match ^[^@\s]+@[^@\s]+$ (something@something, no spaces)
+- Do NOT use a strict RFC regex — valid emails include plus-tags (user+tag@domain.com),
+  new TLDs (.email, .photography), subdomains, and non-ASCII local parts
+- Flag as FORMAT violation: missing @, whitespace inside address
+- Flag as SENTINEL violation (type "sentinel_check") if evidence shows placeholder local
+  parts (test, noreply, admin, user) — only if the error evidence explicitly mentions them
+- Flag as STANDARDIZE action if evidence reports mixed-case values: emails must be
+  lowercased (NOT uppercased) — uppercasing is destructive for unicode (ß→SS, İ→i)
+- Do NOT flag plus-tag subaddressing as invalid — it is RFC 5321 compliant
+- Do NOT flag new or unusual TLDs (.email, .io, .photography) as invalid
+- Do NOT recommend stripping the +tag when deduplicating unless business rules confirm it
 
 **AGE columns:**
 - Must be a positive integer

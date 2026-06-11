@@ -1,0 +1,31 @@
+S/N,Account_No,Name,ID_No,Race,Gender,Age,Contact_No,Email,Country,Street_Name,Postal_Code
+1,1001,Lim Wei Jie,S1234567D,Chinese,Male,66,65 80742791,not-an-email,Singapore,East Coast Road,596200
+2,1001,Tan Hui Min,S7654321F,Chinese,Female,4,65 89648602,thm@example.com,Singapore,Pasir Panjang Road,423371
+3,1002,Muhammad Irfan Bin Rahman,S9968522J,Malay,Male,26,65 89604438,irfan@example.com,Singapura,Joo Chiat Place,117341
+4,1003,Nur Aisyah Binte Zulkifli,F1122334K,Malay,Female,54,65 89628434,yah@example.com,Singapura,Westwood Avenue,427739
+5,1004,Priya d/o Rajan,G8765432L,Indian,Female,65,65 89600061,priya@example.com,S'pore,Ang Mo Kio Avenue 2,648145
+6,1005,Arvind s/o Maniam,S2633396B,Indian,Male,60,65 89639635,arvind@example.com,Singapore,Tai Keng Gardens,560259
+7,1006,Ong Zhi Xuan,S9136271F,Chinese,Female,34,+65 89644090,zx91@example.com,Singapore,Sixth Avenue,534105
+8,1007,Chua Kai Wen,F4455667M,Chinese,Male,40,+65 88552024,kaiwen@example.com,Singapore,West Coast Road,275761
+9,1008,Farah Binte Hassan,G5566778N,Malay,Female,27,+65 80925315,farah@example.com,Singapore,Yishun Ring Road,120513
+10,1009,Ahmad Firdaus Bin Salleh,S3387002G,Malay,Male,58,+65 80734991,fir338@example.com,S'pore,Westwood Crescent,760103
+11,1010,Kavitha d/o Muthusamy,S8099150I,Indian,Female,45,+65 89629229,kav@example.com,Singapore,North Bridge Road,648495
+12,1010,Hariharan s/o Suresh,T0292156H,Indian,Male,23,+65 98657005,hariiii@example.com,Singapore,Springside View,179094
+13,1011,Lee Yi Xuan,F7788990P,Chinese,Female,54,65 67865467,lyx@example.com,SG,Upper Changi Road,786055
+14,1012,Goh Jun Wei,G6677889Q,Chinese,Male,46,65 67865333,gjw@example.com,Singapore,Upper Serangoon Road,486907
+15,1013,Nabilah Binte Rahmat,S9539727A,Malay,Female,30,65 67945676,nabilah@example.com,Singapore,Sims Avenue,347694
+16,1014,Danish Bin Kamaruddin,S8421753J,Malay,Male,41,65 63678654,dandan@example.com,Singapore,Balestier Road,387405
+17,1015,Ramesh s/o Govindasamy,F9900112R,Indian,Male,64,65 65789456,meshy@example.com,Singapore,Sembawang Road,320002
+18,1016,Shalini d/o Krishnan,G2233445S,Indian,Female,36,63648765,shasha@example.com,Singapore,Holland Road,756957
+19,1017,Teo Li Ann,S8705681C,Chinese,Female,38,89618651,useremail.com,SG,Tanjong Katong Road,258849
+20,1018,Koh Ming Hao,F1011121T,Chinese,Male,Twenty-five,89617233,hao@example.com,Singapore,Kovan Road,436950
+21,1019,Siti Ameerah Binte Aziz,F1011121T,Malay,Female,33,89649550,siti@example.com,Singapore,Cashew Crescent,544694
+22,1020,Faizal Bin Hamzah,G3344556U,Malay,Male,50,89639976,zal@example.com,Singapore,River Valley Road,677656
+23,1021,Tan Li Wei,S9916569C,Chinese,Female,26,89610352,liwei@example.com,Singapore,Emerald Hill Road,179020
+24,1022,Lim Jun Rong,S8792459I,Chinese,Male,38,89609417,rongrong@example.com,新加坡,Upper Bukit Timah Road,229287
+25,1023,Aishah Binte Yusof,F2122233V,Malay,Female,18,65478367,aishah@example.com,Singapore,Macpherson Road,588166
+26,1024,Manoj s/o Raghavan,G4455667W,Indian,Male,33,68946357,nono@example.com,Singapore,Paya Lebar Crescent,348469
+27,1025,Revathi d/o Venkatesan,S7516430J,Indian,Female,50,62357895,reva@example.com,Singapore,Bedok Reservoir Road,533759
+28,1026,Wang Shi Jie,S8403757E,Chinese,Male,41,67389267,wsj@example.com,新加坡,Pandan Loop,410633
+29,1027,Lau Pei Ling,S1234567Z,Chinese,Female,56,8964359,peiling@example.com,Singapore,Bedok Road,126888
+30,1028,Iskandar Bin Ahmad,F0000000X,Malay,Male,47,,iskandar@example.com,Singapore,Yuk Tong Avenue,465390

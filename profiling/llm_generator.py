@@ -9,7 +9,7 @@ import os
 from pathlib import Path as _Path
 
 from .config import PipelineConfig
-from .llm_utils import clean_output, validate_llm_rows, clean_actions, chunks, strip_thinking
+from .llm_utils import clean_output, validate_llm_rows, clean_actions, chunks, strip_thinking, _semantic_chunks
 from .prompts import (
     DATA_DICTIONARY_SYSTEM_PROMPT,
     DATA_DICTIONARY_USER_PROMPT,
@@ -286,9 +286,14 @@ class LLMDictionaryGenerator:
         # columns are processed together rather than by file sequence.
         # Only meaningful when chunk_size > 1.
         if chunk_size > 1:
-            evidence = self._group_by_logic(evidence)
- 
-        for i, chunk in enumerate(chunks(evidence, chunk_size), start=1):
+            reordered, sim_matrix, original_order = self._group_by_logic(evidence)
+            evidence_chunks =_semantic_chunks(
+                reordered, sim_matrix, original_order, max_chunk_size=chunk_size
+            )
+        else:
+            evidence_chunks = [[col] for col in evidence]
+
+        for i, chunk in enumerate(evidence_chunks, start=1):
             expected_names = [r["column_name"] for r in chunk]
             cached = chunk_dir / f"chunk_{i}_validated.json"
  
@@ -828,7 +833,8 @@ class LLMDictionaryGenerator:
             from sklearn.metrics.pairwise import cosine_similarity
         except ImportError:
             print("    [semantic grouping] sentence-transformers not available — skipping.")
-            return evidence
+            n = len(evidence)
+            return evidence, [[1.0] * n for _ in range(n)], list(range(n))
  
         def build_sentence(col: dict) -> str:
             """
@@ -915,4 +921,4 @@ class LLMDictionaryGenerator:
         print(f"    [semantic ordering] {n} columns reordered: "
             f"{[c['column_name'] for c in reordered]}")
 
-        return reordered
+        return reordered, sim_matrix, order

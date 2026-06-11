@@ -11,7 +11,8 @@ PLACEHOLDER_TOKENS: set[str] = {
         'n.a.', 'not available', '--', '???', '?', 'missing'
     }
 
-EMAIL_REGEX = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+#EMAIL_REGEX = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
+EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+$")
 
 ID_NAME_HINTS: set[str] = {"id", "key", "identifier", "uuid", "ssn", "soc_sec"}
 
