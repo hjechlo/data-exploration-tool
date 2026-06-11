@@ -157,7 +157,7 @@ class FormatPatternAnalyzer:
             numeric = pd.to_numeric(series, errors='coerce').dropna()
             if len(numeric) > 0:
                 skewness = numeric.skew()
-                if abs(skewness) > 1:
+                if abs(skewness) > 1 or len(numeric) < 100:
                     p99 = numeric.quantile(0.999)
                     p01 = numeric.quantile(0.001)
                     iqr = numeric.quantile(0.75) - numeric.quantile(0.25)

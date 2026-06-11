@@ -14,7 +14,7 @@ from pathlib import Path
 import pandas as pd
  
 from .config import PipelineConfig
-from .json_utils import json_default, clean_for_json
+from .utils import json_default, clean_for_json
  
  
 class DataDictionaryExporter:

@@ -17,7 +17,7 @@ from collections import defaultdict
 import pandas as pd
 import numpy as np
 from datasketch import MinHashLSH
-from .json_utils import is_sequential_ordinal
+from .utils import is_sequential_ordinal
 
 from .config import PipelineConfig
 
@@ -851,6 +851,22 @@ class MinHashAnalyzer:
 
             if same_table and resemblance >= cfg.duplicate_threshold and not both_low_cardinality:
                 duplicate_columns.append(pair_record)
+
+            elif (
+                same_table
+                and resemblance >= cfg.near_identical_threshold
+                and resemblance < cfg.duplicate_threshold
+                and not both_low_cardinality
+            ):
+                near_identical_record = {
+                    **pair_record,
+                    "relationship_type": "near_identical",
+                    "note": (
+                        f"Columns are {resemblance:.1%} similar — likely duplicates that have "
+                        f"diverged. Confirm if both are needed or if one has been incorrectly modified."
+                    ),
+                }
+                duplicate_columns.append(near_identical_record)
 
             if not same_table:
                 if self._candidate_name_pair(

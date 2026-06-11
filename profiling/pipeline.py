@@ -19,10 +19,10 @@ from .config import PipelineConfig
 from .exporters import DataDictionaryExporter
 from .llm_generator import LLMDictionaryGenerator
 from .loader import DataLoader
-from .minhash_analyzer_enhanced import MinHashAnalyzer
+from .minhash_analyzer import MinHashAnalyzer
 from .profiler import DataProfiler
 from .preprocessor import DataPreprocessor
-from .json_utils import json_default
+from .utils import json_default
 
 class DataDictionaryPipeline:
     """
@@ -122,19 +122,24 @@ class DataDictionaryPipeline:
             print(f"    {len(summary)} columns, {cols_with_minhash} with MinHash sketches")
         return column_summaries
  
-    def step_minhash(self, column_summaries: dict,profile_results: dict) -> dict:
+    def step_minhash(self, column_summaries: dict, profile_results: dict) -> dict:
         """Run MinHash analysis across all columns."""
-        all_summaries = [
-            row
-            for rows in column_summaries.values()
-            for row in rows
-        ]
+        all_summaries = []
+
         for table_name, rows in column_summaries.items():
             for row in rows:
-                all_summaries.append({**row, "table_name": table_name})
-        
+                all_summaries.append({
+                    **row,
+                    "table_name": row.get("table_name", table_name),
+                })
+
         dataframes = {name: result["df"] for name, result in profile_results.items()}
-        results = self.minhash_analyzer.find_joinable_columns(all_summaries, dataframes=dataframes)
+
+        results = self.minhash_analyzer.find_joinable_columns(
+            all_summaries,
+            dataframes=dataframes,
+        )
+
         self.minhash_analyzer.report(results)
         self.minhash_analyzer.report_cross_table_duplicates(results["duplicate_columns"])
         return results

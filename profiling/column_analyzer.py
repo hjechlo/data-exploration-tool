@@ -10,10 +10,65 @@ from pathlib import Path
 import pandas as pd
 from datasketch import MinHash, MinHashLSH
 from .format_pattern_analyzer import FormatPatternAnalyzer
-from .json_utils import is_sequential_ordinal,_email_local
-
+from .utils import is_sequential_ordinal,email_local
 from .config import EMAIL_REGEX, ID_NAME_HINTS, PLACEHOLDER_TOKENS, PipelineConfig
 
+def detect_numeric_anomalies(
+    series: pd.Series,
+    col_name: str,
+    config: "PipelineConfig",
+    is_date_like: bool = False,
+) -> list[str]:
+    """
+    Detect statistical outliers in a numeric column using IQR-based fencing.
+
+    Skips: date-like columns, ID/key/code columns, columns with fewer than
+    10 non-null values, and columns with zero IQR (constant distributions).
+    Uses config.outlier_tail_multiplier as the fence multiplier, tightened
+    automatically for small datasets (< 100 rows).
+    """
+    errors: list[str] = []
+
+    _is_id_like = any(
+        hint in col_name.lower().replace("_", "").replace(" ", "")
+        for hint in ("id", "key", "code", "no", "num", "sn", "seq")
+    )
+    if is_date_like or _is_id_like:
+        return errors
+
+    numeric_vals = pd.to_numeric(series, errors="coerce").dropna()
+    if len(numeric_vals) < 10:
+        return errors
+
+    q25 = numeric_vals.quantile(0.25)
+    q75 = numeric_vals.quantile(0.75)
+    iqr = q75 - q25
+    if iqr == 0:
+        return errors
+
+    multiplier = config.outlier_tail_multiplier
+    if len(numeric_vals) < 100:
+        multiplier = min(multiplier, 1.5)
+
+    upper_fence = q75 + multiplier * iqr
+    lower_fence = q25 - multiplier * iqr
+
+    outliers_high = numeric_vals[numeric_vals > upper_fence]
+    outliers_low  = numeric_vals[numeric_vals < lower_fence]
+
+    if len(outliers_high) > 0:
+        errors.append(
+            f"{len(outliers_high)} value(s) exceed the statistically expected "
+            f"upper bound of {upper_fence:.4g} (Q3 + {multiplier}×IQR): "
+            f"{sorted(outliers_high.unique().tolist())[:5]}"
+        )
+    if len(outliers_low) > 0:
+        errors.append(
+            f"{len(outliers_low)} value(s) fall below the statistically expected "
+            f"lower bound of {lower_fence:.4g} (Q1 - {multiplier}×IQR): "
+            f"{sorted(outliers_low.unique().tolist())[:5]}"
+        )
+    return errors
 
 class ColumnAnalyzer:
     """
@@ -330,7 +385,7 @@ class ColumnAnalyzer:
 
             fake_vals = [
                 v for v in non_missing_str.unique()
-                if _email_local(v) in PLACEHOLDER_TOKENS
+                if email_local(v) in PLACEHOLDER_TOKENS
             ]
             if fake_vals:
                 errors.append(
@@ -500,6 +555,10 @@ class ColumnAnalyzer:
                     f"{len(suspicious_low)} age value(s) below 13 — may be unrealistic "
                     f"for a service account: {suspicious_low.unique().tolist()[:5]}"
                 )
+
+        # Statistical outlier detection for numeric columns
+        if storage_type in ("int64", "Int64", "float64"):
+            errors.extend(detect_numeric_anomalies(series, col_name, self.config, is_date_like))
 
         # Contaminated categorical column detection
         n_distinct = non_missing_str.nunique()
@@ -936,8 +995,8 @@ class ColumnAnalyzer:
 
             errors = self.detect_column_errors(
                 col_name, raw_series, storage_type,
-                format_analysis=format_analysis,
                 intended_type=intended_type,
+                format_analysis=format_analysis,
             )
             column_facts = self.build_column_facts(
                 col_name, raw_series, storage_type, permissible_values,

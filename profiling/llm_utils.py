@@ -109,7 +109,7 @@ def clean_actions(actions: list[str]) -> list[str]:
     return real_actions if real_actions else ["[No Immediate Action]"]
 
 
-def _semantic_chunks(
+def semantic_chunks(
     reordered: list[dict],
     sim_matrix,
     original_order: list[int],

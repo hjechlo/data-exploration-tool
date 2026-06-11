@@ -283,7 +283,7 @@ def main() -> None:
         column_summaries = pipeline.step_column_summaries(profile_results)
 
         print("\n── MinHash analysis ────────────────────────────────")
-        pipeline.step_minhash(column_summaries)
+        pipeline.step_minhash(column_summaries, profile_results)
 
         print("\n✓ Done (LLM skipped). Profiles saved to:", config.output_dir)
     else:

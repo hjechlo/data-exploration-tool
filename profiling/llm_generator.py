@@ -9,7 +9,7 @@ import os
 from pathlib import Path as _Path
 
 from .config import PipelineConfig
-from .llm_utils import clean_output, validate_llm_rows, clean_actions, chunks, strip_thinking, _semantic_chunks
+from .llm_utils import clean_output, validate_llm_rows, clean_actions, chunks, strip_thinking, semantic_chunks
 from .prompts import (
     DATA_DICTIONARY_SYSTEM_PROMPT,
     DATA_DICTIONARY_USER_PROMPT,
@@ -287,7 +287,7 @@ class LLMDictionaryGenerator:
         # Only meaningful when chunk_size > 1.
         if chunk_size > 1:
             reordered, sim_matrix, original_order = self._group_by_logic(evidence)
-            evidence_chunks =_semantic_chunks(
+            evidence_chunks =semantic_chunks(
                 reordered, sim_matrix, original_order, max_chunk_size=chunk_size
             )
         else:
