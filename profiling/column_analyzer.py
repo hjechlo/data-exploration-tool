@@ -501,7 +501,7 @@ class ColumnAnalyzer:
                 found_sentinels = [v for v in sentinel_patterns if (numeric_vals == v).any()]
                 if found_sentinels:
                     errors.append(
-                        f"possible sentinel/placeholder value(s) detected: {found_sentinels} "
+                        f"{found_sentinels} "
                         f"— confirm if these represent missing or invalid data"
                     )
 
@@ -1078,12 +1078,26 @@ class ColumnAnalyzer:
             def _name_score(col: str) -> int:
                 n = _norm(col)
 
-                if n == "id":
+                # Exact match on known ID hints
+                if n in {h.replace("_", "") for h in ID_NAME_HINTS}:
                     return 100
-                if n.endswith("id") or "identifier" in n or n.endswith("key"):
+
+                # Ends with or contains an ID hint token
+                if any(n.endswith(h.replace("_", "")) or h.replace("_", "") in n
+                       for h in ID_NAME_HINTS):
                     return 90
+
+                # Ends with "no" or "number" but is NOT a descriptive/contact field
+                descriptive = (
+                    self.config.relationship_descriptive_terms
+                    | self.config.relationship_descriptive_prefixes
+                )
+                descriptive_norm = {d.replace("_", "") for d in descriptive}
                 if n.endswith("no") or n.endswith("number") or "serial" in n:
+                    if any(d in n for d in descriptive_norm):
+                        return 10
                     return 70
+
                 if n in {"sn", "sno", "seq", "sequence", "rowno", "recordno"}:
                     return 60
 
@@ -1123,10 +1137,11 @@ class ColumnAnalyzer:
                 reverse=True,
             )
 
-            return candidates[0]["column"]
+            best = candidates[0]
+            return best["column"] if best["name_score"] > 0 else None
 
         if record_id_col is None or record_id_col not in df.columns:
-            record_id_col = df.columns[0] if len(df.columns) > 0 else None
+            record_id_col = _find_record_identifier_column()
 
         for rule in validation_rules:
             rule_id = rule.get("rule_id")
@@ -1216,7 +1231,7 @@ class ColumnAnalyzer:
                 record_identifier = df.at[idx, record_id_col]
 
             violation_records.append({
-                "Row": str(idx),
+                "Row": str(idx+1),
                 "Record Identifier": str(record_identifier),
                 "Failed Column": ", ".join(failed_cols) if failed_cols else "—",
                 "Failed Value": " | ".join(failed_values) if failed_values else "—",
