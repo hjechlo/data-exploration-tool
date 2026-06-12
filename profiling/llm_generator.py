@@ -772,8 +772,22 @@ class LLMDictionaryGenerator:
                 "relationship_role": row.get("relationship_role", ""),
             })
 
-        # Sample records — use actual data so LLM can check failing rows
-        sample_df = df.head(n_sample)
+        # Stratified sample: dirty rows first, then fill with random rows.
+        # Ensures the LLM sees actual violations, not just the clean top of the file.
+        error_cols = [row["column_name"] for row in column_summary if row.get("errors")]
+        if error_cols:
+            valid_cols = [c for c in error_cols if c in df.columns]
+            dirty_mask = df[valid_cols].isnull().any(axis=1) if valid_cols else pd.Series(False, index=df.index)
+            dirty_rows = df[dirty_mask]
+            clean_rows = df[~dirty_mask]
+            n_dirty = min(len(dirty_rows), n_sample // 2)
+            n_clean = min(len(clean_rows), n_sample - n_dirty)
+            sample_df = pd.concat([
+                dirty_rows.head(n_dirty),
+                clean_rows.sample(min(n_clean, len(clean_rows)), random_state=42)
+            ]).head(n_sample)
+        else:
+            sample_df = df.head(n_sample)
         sample_records = json.loads(
             sample_df.astype(str).to_json(orient="records", force_ascii=False)
         )

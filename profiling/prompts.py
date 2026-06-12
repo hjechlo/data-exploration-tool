@@ -407,8 +407,11 @@ then identify which records fail each rule.
 2. For EVERYTHING ELSE, infer the best validation rule from what you observe in the data evidence.
 3. Generate CROSS-COLUMN rules where columns relate to each other (e.g. start < end date,
    FK consistency, logical dependencies).
-4. Consider relationships ACROSS TABLES where join hints are provided.
-
+4. Consider relationships ACROSS TABLES where join hints are provided:
+   - FK hints → generate referential integrity rules (every FK value must exist in the PK table)
+   - one-to-one key hints → generate consistency rules (values must match across both tables)
+   - shared value domain hints → generate consistency rules (values should come from the
+     same observed set; flag values in one table absent from the other)
 ## Custom logic — technical rules
 
 These are hard requirements for the execution environment. Violating them will cause
