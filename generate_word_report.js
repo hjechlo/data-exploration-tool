@@ -974,26 +974,60 @@ async function main() {
     });
 
     allChildren.push(
-      new Table({
-        width: { size: PAGE_WIDTH, type: WidthType.DXA },
-        columnWidths: colWidths,
-        rows: [
-          new TableRow({ children: cols.map((c, i) => headerCell(c, colWidths[i])) }),
-          ...violationRecords.map((rec, idx) =>
-            new TableRow({
-              children: cols.map((c, i) =>
-                dataCell(String(rec[c] ?? "—"), colWidths[i], idx % 2 !== 0)
-              ),
-            })
-          ),
-        ],
-      }),
-      new Paragraph({ children: [new TextRun("")], spacing: { after: 120 } }),
-      new Paragraph({
-        text: `Number of records that fail the rules: ${totalFailing}`,
-        spacing: { before: 100, after: 200 },
-      })
-    );
+        new Table({
+          width: { size: PAGE_WIDTH, type: WidthType.DXA },
+          columnWidths: colWidths,
+          rows: [
+            new TableRow({ children: cols.map((c, i) => headerCell(c, colWidths[i])) }),
+            ...violationRecords.map((rec, idx) =>
+              new TableRow({
+                children: cols.map((c, i) => {
+                  const listCols = ["Failed Column", "Failed Value", "Validation Rules Failed"];
+
+                  if (listCols.includes(c)) {
+                    // Dynamically choose delimiter: 
+                    // Rules use "|" 
+                    // Failed Column uses ", "
+                    // Failed Value uses " | "
+                    let delimiter;
+                    if (c === "Validation Rules Failed") delimiter = "|";
+                    else if (c === "Failed Column") delimiter = ", ";
+                    else delimiter = " | "; 
+                    
+                    const items = String(rec[c] || "").split(delimiter).map(item => {
+                      // Determine if we should add a bullet point (Yes for Columns/Values, No for Rules)
+                      const shouldAddBullet = (c !== "Validation Rules Failed");
+                      const textContent = shouldAddBullet ? "• " + item.trim() : item.trim();
+                      
+                      return new Paragraph({
+                        children: [
+                          new TextRun({ text: textContent, size: 18, font: "Arial" })
+                        ],
+                        spacing: { after: 60 } // Maintains vertical white space
+                      });
+                    });
+                    return new TableCell({
+                      width: { size: colWidths[i], type: WidthType.DXA },
+                      borders: cellBorder(),
+                      margins: { top: 80, bottom: 80, left: 120, right: 120 },
+                      shading: idx % 2 !== 0 ? { fill: ALT_ROW_BG, type: ShadingType.CLEAR } : undefined,
+                      children: items,
+                    });
+                  }
+
+                  // DEFAULT: Standard rendering for Row and Record Identifier
+                  return dataCell(String(rec[c] ?? "—"), colWidths[i], idx % 2 !== 0);
+                })
+              })
+            ),
+          ],
+        }),
+        new Paragraph({ children: [new TextRun("")], spacing: { after: 120 } }),
+        new Paragraph({
+          text: `Number of records that fail the rules: ${totalFailing}`,
+          spacing: { before: 100, after: 200 },
+        })
+      );
   }
 
   const doc = new Document({
