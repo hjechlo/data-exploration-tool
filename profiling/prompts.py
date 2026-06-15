@@ -447,6 +447,14 @@ rules to silently fail or produce incorrect results.
   objects always return True regardless of the actual value)
 - `df` is available for cross-row checks, e.g. uniqueness:
   `df[df['col'] == row['col']].shape[0] > 1`
+- CRITICAL: `logic` must evaluate to True when the row VIOLATES the rule (the
+  failing/bad case), NOT when it passes. For "must be parseable as a valid date"
+  (pass = parseable), the FAILING condition is "NOT parseable":
+    correct:   pd.isna(pd.to_datetime(row['Col'], errors='coerce'))
+    incorrect: not pd.isna(pd.to_datetime(row['Col'], errors='coerce'))
+  Before finalizing, read your logic string and ask: "if this evaluates to True,
+  is that the BAD case described by the rule?" If `not` appears immediately
+  before `pd.isna(...)`, it is almost certainly inverted — remove the `not`.
 
 ## Patterns to apply for known column types
 

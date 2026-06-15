@@ -1168,7 +1168,10 @@ class ColumnAnalyzer:
                     failed_value = "—"
                     failed_col = col
 
-                    if col in df.columns:
+                    if check_params.get("col_b") in df.columns and check_params.get("col_b") != col:
+                        failed_col = check_params["col_b"]
+                        failed_value = df.at[idx, failed_col]
+                    elif col in df.columns:
                         failed_value = df.at[idx, col]
                     else:
                         related_cols = check_params.get("related_cols", [])
@@ -1217,14 +1220,17 @@ class ColumnAnalyzer:
         violation_records = []
 
         for idx, failures in record_failed_rules.items():
-            failed_cols = list(dict.fromkeys(
-                f["column"] for f in failures if f.get("column")
-            ))
-
-            failed_values = [
-                str(f.get("failed_value", "—"))
-                for f in failures
-            ]
+            seen_pairs = set()
+            failed_cols = []
+            failed_values = []
+            for f in failures:
+                col_name = f.get("column") or "—"
+                val = str(f.get("failed_value", "—"))
+                pair = (col_name, val)
+                if pair not in seen_pairs:
+                    seen_pairs.add(pair)
+                    failed_cols.append(col_name)
+                    failed_values.append(val)
 
             record_identifier = "—"
             if record_id_col and record_id_col in df.columns:
@@ -1491,6 +1497,21 @@ class ColumnAnalyzer:
             logic = check_params.get("logic")
             if not logic:
                 return None
+
+            # Pattern: inverted parseability check — LLM wrote the PASS condition
+            # ("not pd.isna(...)") instead of the FAIL condition ("pd.isna(...)")
+            _inverted_match = re.match(
+                r"^\s*not\s+pd\.isna\(pd\.to_(?:datetime|numeric)\(row\['([^']+)'\].*\)\s*\)\s*$",
+                logic.strip()
+            )
+            if _inverted_match:
+                target_col = _inverted_match.group(1)
+                if target_col in df.columns:
+                    if "to_datetime" in logic:
+                        parsed = pd.to_datetime(df[target_col], errors="coerce")
+                    else:
+                        parsed = pd.to_numeric(df[target_col], errors="coerce")
+                    return df[target_col].notna() & parsed.isna()
 
             # Redirect known bad LLM patterns to correct native handlers
             # rather than accumulating guards — keeps this branch clean

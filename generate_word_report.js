@@ -994,9 +994,11 @@ async function main() {
                     else if (c === "Failed Column") delimiter = ", ";
                     else delimiter = " | "; 
                     
-                    const items = String(rec[c] || "").split(delimiter).map(item => {
-                      // Determine if we should add a bullet point (Yes for Columns/Values, No for Rules)
-                      const shouldAddBullet = (c !== "Validation Rules Failed");
+                    const splitItems = String(rec[c] || "").split(delimiter);
+                    const items = splitItems.map(item => {
+                      // Only bullet when there are multiple items — a single
+                      // value doesn't need a bullet marker.
+                      const shouldAddBullet = (c !== "Validation Rules Failed") && splitItems.length > 1;
                       const textContent = shouldAddBullet ? "• " + item.trim() : item.trim();
                       
                       return new Paragraph({
