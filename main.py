@@ -222,12 +222,12 @@ def build_config(args: argparse.Namespace) -> PipelineConfig:
         shingle_join_threshold=args.shingle_join_threshold,
         duplicate_threshold=args.duplicate_threshold,
         llm_resume=not args.no_resume,
-        llm_model=args.llm_model or os.environ.get("DEPLOYMENT_GPT54", ""),
-        llm_chunk_model=args.chunk_model or os.environ.get("DEPLOYMENT_GPT54", ""),
-        llm_endpoint=os.environ.get("ENDPOINT_GPT54", ""),
-        llm_chunk_endpoint=os.environ.get("ENDPOINT_GPT54", ""),
-        llm_is_native_azure=True,  
-        llm_chunk_is_native_azure=True,  
+        llm_model=args.llm_model or os.environ.get("DEPLOYMENT_KIMI", ""),
+        llm_chunk_model=args.chunk_model or os.environ.get("DEPLOYMENT_KIMI", ""),
+        llm_endpoint=os.environ.get("ENDPOINT_KIMI", ""),
+        llm_chunk_endpoint=os.environ.get("ENDPOINT_KIMI", ""),
+        llm_is_native_azure=False,  
+        llm_chunk_is_native_azure=False,  
     )
     if args.chunk_size is not None:
         kwargs["llm_chunk_size"] = args.chunk_size
