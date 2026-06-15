@@ -455,6 +455,13 @@ rules to silently fail or produce incorrect results.
   Before finalizing, read your logic string and ask: "if this evaluates to True,
   is that the BAD case described by the rule?" If `not` appears immediately
   before `pd.isna(...)`, it is almost certainly inverted — remove the `not`.
+- For numeric columns representing continuous real-world measurements (durations,
+  distances, prices, counts), do NOT generate a `range` rule with min/max equal to
+  the observed sample's min/max unless there is a domain reason for that exact
+  bound (e.g., percentage ≤ 100, age ≤ 120, rating ≤ 5). A small sample's maximum
+  is not necessarily the true maximum — IQR-based outlier flags are informational,
+  not hard limits. If uncertain, omit the upper bound or use a clearly wider,
+  round-number bound.
 
 ## Patterns to apply for known column types
 

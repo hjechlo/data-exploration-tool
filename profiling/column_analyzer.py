@@ -6,8 +6,8 @@ import json
 import re
 import copy
 from pathlib import Path
-
 import pandas as pd
+
 from datasketch import MinHash, MinHashLSH
 from .format_pattern_analyzer import FormatPatternAnalyzer
 from .utils import is_sequential_ordinal,email_local
@@ -134,6 +134,14 @@ class ColumnAnalyzer:
 
         if n == 0:
             return "empty"
+
+        # Nested JSON columns (dicts/lists) are unhashable — stringify for
+        # uniqueness counting only; doesn't mutate the original series.
+        if non_null.apply(lambda x: isinstance(x, (dict, list))).any():
+            non_null = non_null.apply(
+                lambda x: json.dumps(x, sort_keys=True, default=str)
+                if isinstance(x, (dict, list)) else x
+            )
 
         unique_count = non_null.nunique(dropna=True)
         uniqueness_ratio = unique_count / n

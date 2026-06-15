@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pandas as pd
 import chardet
+import json
 
 from .config import SUPPORTED_EXTENSIONS
 
@@ -84,12 +85,22 @@ class DataLoader:
                 row["_geometry_type"] = geom.get("type")
             rows.append(row)
         return pd.DataFrame(rows)
+    
+    @staticmethod
+    def _load_json(path: Path) -> pd.DataFrame:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            list_keys = [k for k, v in data.items() if isinstance(v, list) and v and isinstance(v[0], dict)]
+            if len(list_keys) == 1:
+                return pd.json_normalize(data[list_keys[0]])
+        return pd.read_json(path)
  
     READERS = {
         ".csv": _load_csv_safe.__func__,
         ".xlsx": lambda p: pd.read_excel(p),
         ".xls": lambda p: pd.read_excel(p),
-        ".json": lambda p: pd.read_json(p),
+        ".json": _load_json.__func__,
         ".geojson": _load_geojson.__func__,
         ".parquet": lambda p: pd.read_parquet(p),
     }

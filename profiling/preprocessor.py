@@ -3,6 +3,7 @@ DataPreprocessor — light, low-risk cleaning to keep data close to raw form.
 """
 
 import pandas as pd
+import json as json
 
 from .config import PipelineConfig
 
@@ -34,6 +35,17 @@ class DataPreprocessor:
                 seen[col] += 1
                 new_cols.append(f"{col}_{seen[col]}")
         df.columns = new_cols
+
+        # Flatten unhashable nested values (dicts/lists from JSON columns) to
+        # strings, so downstream nunique/value_counts/regex operations don't crash
+        for col in df.columns:
+            if df[col].dtype == "object":
+                sample = df[col].dropna()
+                if len(sample) > 0 and sample.apply(lambda x: isinstance(x, (dict, list))).any():
+                    df[col] = df[col].apply(
+                        lambda x: json.dumps(x, sort_keys=True, default=str)
+                        if isinstance(x, (dict, list)) else x
+                    )
 
         # Strip whitespace in string-like columns
         for col in df.select_dtypes(include=["object", "string"]).columns:
