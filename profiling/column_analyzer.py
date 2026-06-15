@@ -1379,8 +1379,14 @@ class ColumnAnalyzer:
             if col_a not in df.columns:
                 return None
             parsed = pd.to_datetime(df[col_a], errors="coerce")
-            today = pd.Timestamp.now().normalize()
-            return parsed.notna() & (parsed > today)
+            cutoff_str = check_params.get("cutoff_date")
+            if cutoff_str:
+                cutoff = pd.to_datetime(cutoff_str, errors="coerce")
+                if pd.isna(cutoff):
+                    cutoff = pd.Timestamp.now().normalize()
+            else:
+                cutoff = pd.Timestamp.now().normalize()
+            return parsed.notna() & (parsed > cutoff)
 
         elif rule_type in ("nric_age_consistency", "nric_dob_consistency"):
             nric_col = check_params.get("col_a")

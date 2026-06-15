@@ -263,17 +263,37 @@ class DataDictionaryPipeline:
             df = profile_results[table_name]["df"] if profile_results else None
 
             if self.llm_generator and df is not None:
-                # Build join hints from MinHash FK relationships
+                # Build join hints from MinHash relationships — all typed
+                # relationships, not just FK
                 join_hints = {row["column_name"]: [] for row in table_summary}
                 for jp in minhash_results.get("join_paths", []):
-                    fk_table = jp.get("foreign_key_table")
-                    fk_col = jp.get("foreign_key_column")
-                    pk_table = jp.get("primary_key_table")
-                    pk_col = jp.get("primary_key_column")
-                    if fk_table == table_name and fk_col in join_hints:
-                        join_hints[fk_col].append(f"FK → {pk_table}.{pk_col}")
-                    if pk_table == table_name and pk_col in join_hints:
-                        join_hints[pk_col].append(f"PK ← {fk_table}.{fk_col}")
+                    rel_type = jp.get("relationship_type", "")
+
+                    if rel_type == "foreign_key":
+                        fk_table = jp.get("foreign_key_table")
+                        fk_col = jp.get("foreign_key_column")
+                        pk_table = jp.get("primary_key_table")
+                        pk_col = jp.get("primary_key_column")
+                        if fk_table == table_name and fk_col in join_hints:
+                            join_hints[fk_col].append(f"FK → {pk_table}.{pk_col}")
+                        if pk_table == table_name and pk_col in join_hints:
+                            join_hints[pk_col].append(f"PK ← {fk_table}.{fk_col}")
+
+                    elif rel_type == "one_to_one_key":
+                        col_a, col_b = jp.get("col_a"), jp.get("col_b")
+                        t_a, t_b = jp.get("table_a"), jp.get("table_b")
+                        if t_a == table_name and col_a in join_hints:
+                            join_hints[col_a].append(f"one-to-one key with {t_b}.{col_b}")
+                        if t_b == table_name and col_b in join_hints:
+                            join_hints[col_b].append(f"one-to-one key with {t_a}.{col_a}")
+
+                    elif rel_type == "shared_value_domain":
+                        col_a, col_b = jp.get("col_a"), jp.get("col_b")
+                        t_a, t_b = jp.get("table_a"), jp.get("table_b")
+                        if t_a == table_name and col_a in join_hints:
+                            join_hints[col_a].append(f"shared value domain with {t_b}.{col_b} — consistency check candidate")
+                        if t_b == table_name and col_b in join_hints:
+                            join_hints[col_b].append(f"shared value domain with {t_a}.{col_a} — consistency check candidate")
                 rules = self.llm_generator.generate_validation_rules(
                     table_name=table_name,
                     column_summary=table_summary,
