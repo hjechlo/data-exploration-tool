@@ -412,6 +412,10 @@ then identify which records fail each rule.
    - one-to-one key hints → generate consistency rules (values must match across both tables)
    - shared value domain hints → generate consistency rules (values should come from the
      same observed set; flag values in one table absent from the other)
+5. Before finalizing each rule, check it against 1-2 actual sample values from the
+   evidence. If the rule's description would mark a normal-looking sample value as
+   invalid, revise the rule.
+
 ## Custom logic — technical rules
 
 These are hard requirements for the execution environment. Violating them will cause
@@ -419,7 +423,13 @@ rules to silently fail or produce incorrect results.
 
 **Type selection:**
 - Null/NA checks → always use type "not_null", never custom logic
-- Date format checks → always use type "format" with a regex, never pd.to_datetime()
+- For "must not be in the future" / "must be before [date]" rules on a single date
+  column, ALWAYS use type "date_not_future" with check_params
+  {{"col_a": "<column>", "cutoff_date": "YYYY-MM-DD"}} — never type "custom" for
+  this. If checking against today's date rather than a fixed cutoff, omit
+  cutoff_date entirely. Before finalizing, verify your cutoff direction matches
+  the rule's plain-English description: "must NOT be in the future (after X)"
+  means values GREATER than X are violations.
 - Numeric range checks → always use type "range" with min/max — this works correctly
   regardless of whether the column is stored as numeric or string dtype
 - Never add a "is numeric" custom rule on a column that is already int64, Int64, or float64
@@ -468,6 +478,8 @@ rules to silently fail or produce incorrect results.
 - Check for: valid country code, valid area code structure, total digit count within valid range
   (7-15 digits per E.164)
 - Flag: too few digits, too many digits, non-numeric characters (except +, -, space, parentheses)
+- If sample values include a country code prefix, your rule must treat
+  "country code + local number" as VALID — do not describe this as an error.
 
 **POSTAL CODE columns:**
 - Infer the country/format from sample values
