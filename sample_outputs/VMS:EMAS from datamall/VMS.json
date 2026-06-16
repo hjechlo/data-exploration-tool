@@ -1,0 +1,41 @@
+{
+    "odata.metadata": "http://datamall2.mytransport.sg/ltaodataservice/$metadata#VMS",
+    "value": [
+        {
+            "EquipmentID": "EVMS_RG10",
+            "Latitude": 1.3144430377988463,
+            "Longitude": 103.87474391991731,
+            "Message": "13 Feb 12mn-6am,KPE(TPE) entry,closure"
+        },
+        {
+            "EquipmentID": "AVMS_0002",
+            "Latitude": 1.2995755069991306,
+            "Longitude": 103.87761701158318,
+            "Message": "ROAD WORKS,KPE(TPE),BUANGKOK EXIT"
+        },
+        {
+            "EquipmentID": "AVMS_0010",
+            "Latitude": 1.3750555857309075,
+            "Longitude": 103.91004712414785,
+            "Message": ""
+        },
+        {
+            "EquipmentID": "TID_0005",
+            "Latitude": 1.3759407159562118,
+            "Longitude": 103.90995528645502,
+            "Message": "ROAD WORKS,TPE(PIE) EXIT,DRIVE WITH CARE"
+        },
+        {
+            "EquipmentID": "AVMS_0004",
+            "Latitude": 1.3039210616636898,
+            "Longitude": 103.87790492061654,
+            "Message": "DO NOT STOP,VEHICLE,IN TUNNEL"
+        },
+        {
+            "EquipmentID": "EVMS_RA10",
+            "Latitude": 1.295364642248256,
+            "Longitude": 103.87209776665925,
+            "Message": ""
+        }
+    ]
+}
