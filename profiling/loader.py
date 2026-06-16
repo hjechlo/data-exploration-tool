@@ -91,9 +91,20 @@ class DataLoader:
         with open(path, encoding="utf-8") as f:
             data = json.load(f)
         if isinstance(data, dict):
-            list_keys = [k for k, v in data.items() if isinstance(v, list) and v and isinstance(v[0], dict)]
+            list_keys = [k for k, v in data.items()
+                         if isinstance(v, list) and v and isinstance(v[0], dict)]
             if len(list_keys) == 1:
-                return pd.json_normalize(data[list_keys[0]])
+                rows = pd.json_normalize(data[list_keys[0]])
+                # Inject all top-level scalar fields into every row.
+                # Constant/metadata fields will be flagged by downstream profiling.
+                scalar_fields = {
+                    k: v for k, v in data.items()
+                    if k != list_keys[0]
+                    and not isinstance(v, (list, dict))
+                }
+                for col, val in scalar_fields.items():
+                    rows[col] = val
+                return rows
         return pd.read_json(path)
  
     READERS = {

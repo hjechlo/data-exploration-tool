@@ -462,6 +462,10 @@ rules to silently fail or produce incorrect results.
   is not necessarily the true maximum — IQR-based outlier flags are informational,
   not hard limits. If uncertain, omit the upper bound or use a clearly wider,
   round-number bound.
+- For integer fields that appear to be binary flags (values are 0 and/or 1), always 
+  validate the domain as {0, 1} regardless of whether the observed sample contains only
+  one of those values. Never constrain the rule to a single constant value just because 
+  the sample shows no variance.
 
 ## Patterns to apply for known column types
 
@@ -487,6 +491,12 @@ rules to silently fail or produce incorrect results.
 - Infer the format from sample values (e.g. YYYY-MM-DD, YYYYMMDD, DD/MM/YYYY, YYYY-MM-DD HH:MM:SS)
 - Flag: impossible dates (month > 12, day > 31), future dates if column is a historical field,
   non-parseable values
+- Flag future dates ONLY for historical fields (e.g. created_at, birth_date, transaction_date).
+  Do NOT flag future dates for forward-looking fields such as estimated arrival times,
+  scheduled times, expiry dates, or due dates — these are expected to be in the future.
+  Example: a column named EstimatedArrival, ScheduledDeparture, or ExpiryDate should
+  use a reasonableness window rule (e.g. within 2 hours of the request time), NOT a
+  \"must not be in the future\" rule.
 
 **PHONE NUMBER columns:**
 - Infer the country context from sample values
