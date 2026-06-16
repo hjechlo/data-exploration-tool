@@ -6,6 +6,8 @@ recommended actions, with retry logic, chunk caching, and output validation.
 import json
 import re
 import os
+from openai import AzureOpenAI
+import numpy as np
 from pathlib import Path as _Path
 
 from .config import PipelineConfig
@@ -33,13 +35,14 @@ class LLMDictionaryGenerator:
 
     _st_model = None
 
-    @classmethod
-    def _get_st_model(cls):
-        """Lazy-load SentenceTransformer and cache at class level."""
-        if cls._st_model is None:
-            from sentence_transformers import SentenceTransformer
-            cls._st_model = SentenceTransformer("all-MiniLM-L6-v2")
-        return cls._st_model
+    # @classmethod
+    # def _get_st_model(cls):
+    #     """Lazy-load SentenceTransformer and cache at class level."""
+    #     if cls._st_model is None:
+    #        from sentence_transformers import SentenceTransformer
+    #        cls._st_model = SentenceTransformer("all-MiniLM-L6-v2")
+    #     return cls._st_model
+        #pass
  
     def __init__(self, llm_client, config: PipelineConfig):
         self.engine = llm_client   
@@ -885,8 +888,16 @@ class LLMDictionaryGenerator:
         n         = len(evidence)
         sentences = [build_sentence(col) for col in evidence]
 
-        model = LLMDictionaryGenerator._get_st_model()
-        embeddings = model.encode(sentences, show_progress_bar=False)
+        client = AzureOpenAI(
+            azure_endpoint=os.environ.get("ENDPOINT_EMBED", ""),
+            api_key=os.environ.get("AZURE_OPENAI_KEY", ""),
+            api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-05-01-preview"),
+        )
+        response = client.embeddings.create(
+            model=os.environ.get("DEPLOYMENT_EMBED", ""),
+            input=sentences,
+        )
+        embeddings = np.array([item.embedding for item in response.data])
         sim_matrix = cosine_similarity(embeddings)
 
         # Greedy nearest-neighbour traversal

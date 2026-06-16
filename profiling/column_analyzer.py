@@ -580,19 +580,18 @@ class ColumnAnalyzer:
             )
 
         # Boolean inconsistency check
-        bool_true = {"true", "yes", "1"}
-        bool_false = {"false", "no", "0"}
-        bool_all = bool_true | bool_false
-        non_missing_lower = non_missing_str.str.lower()
-        if non_missing_lower.isin(bool_all).mean() >= 0.9:
-            unique_vals = set(non_missing_lower.unique())
-            if unique_vals & bool_true and unique_vals & bool_false:
-                mixed = non_missing_str[~non_missing_lower.isin({"true", "false"})].unique().tolist()[:5]
-                if mixed:
-                    errors.append(
-                        f"boolean column contains non-standard representations: {mixed} "
-                        f"— standardize to 'True'/'False' before converting to bool dtype"
-                    )
+        non_missing_lower = non_missing_str.str.lower().str.strip()
+        unique_vals = set(non_missing_lower.unique())
+        if len(unique_vals) == 2 and unique_vals != {"true", "false"}:
+            common_bool_spellings = {
+                "true", "false", "yes", "no", "y", "n", "t", "f", "1", "0", "1.0", "0.0"
+            }
+            if unique_vals.issubset(common_bool_spellings):
+                mixed = non_missing_str.unique().tolist()[:5]
+                errors.append(
+                    f"boolean column contains non-standard representations: {mixed} "
+                    f"— standardize to 'True'/'False' before converting to bool dtype"
+                )
 
         # Near-duplicate strings (skip for dates and numeric columns)
         is_mostly_numeric = pd.to_numeric(non_missing_str, errors="coerce").notna().mean() > 0.7
@@ -895,10 +894,14 @@ class ColumnAnalyzer:
                     intended_type = "float64"
                 else:
                     # Check for boolean-like columns before datetime
-                    bool_vals = {"true", "false", "yes", "no", "1", "0"}
+                    common_bool_spellings = {
+                        "true", "false", "yes", "no", "y", "n", "t", "f", "1", "0", "1.0", "0.0"
+                    }
                     non_null_lower = raw_series.dropna().astype(str).str.strip().str.lower()
-                    if non_null_lower.isin(bool_vals).mean() >= 0.9:
+                    unique_bool_check = set(non_null_lower.unique())
+                    if len(unique_bool_check) == 2 and unique_bool_check.issubset(common_bool_spellings):
                         intended_type = "bool"
+
                     else:
                         # Try parsing as datetime from the DATA itself, not the column name
                         date_ratio = pd.to_datetime(
@@ -1554,18 +1557,17 @@ class ColumnAnalyzer:
             _cols = re.findall(r"row\['([^']+)'\]", logic)
             if len(_cols) == 2 and all(c in df.columns for c in _cols):
                 if any(op in logic for op in (">=", "<=", " > ", " < ")):
-                    _a = pd.to_datetime(df[_cols[0]], errors="coerce")
-                    _b = pd.to_datetime(df[_cols[1]], errors="coerce")
-                    _both = _a.notna() & _b.notna()
-                    if ">=" in logic:
-                        return _both & (_a < _b)
-                    elif "<=" in logic:
-                        return _both & (_a > _b)
-                    elif " > " in logic:
-                        return _both & (_a <= _b)
-                    elif " < " in logic:
-                        return _both & (_a >= _b)
-
+                        _a = pd.to_datetime(df[_cols[0]], errors="coerce")
+                        _b = pd.to_datetime(df[_cols[1]], errors="coerce")
+                        _both = _a.notna() & _b.notna()
+                        if ">=" in logic:
+                            return _both & (_a < _b)
+                        elif "<=" in logic:
+                            return _both & (_a > _b)
+                        elif " > " in logic:
+                            return _both & (_a <= _b)
+                        elif " < " in logic:
+                            return _both & (_a >= _b)
             # Pattern: identity checks that always return True — skip silently
             if " is not pd.NaT" in logic or " is pd.NaT" in logic or \
             (" is not None" in logic and "pd.to_datetime" in logic) or \

@@ -463,7 +463,7 @@ rules to silently fail or produce incorrect results.
   not hard limits. If uncertain, omit the upper bound or use a clearly wider,
   round-number bound.
 - For integer fields that appear to be binary flags (values are 0 and/or 1), always 
-  validate the domain as {0, 1} regardless of whether the observed sample contains only
+  validate the domain as {{0, 1}} regardless of whether the observed sample contains only
   one of those values. Never constrain the rule to a single constant value just because 
   the sample shows no variance.
 
