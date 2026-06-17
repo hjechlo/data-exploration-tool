@@ -66,7 +66,7 @@ class PipelineConfig:
     llm_chunk_size: int = 1
     llm_max_retries: int = 3
     llm_save_raw_outputs: bool = True
-    llm_validation_sample_size: int = 300
+    llm_validation_sample_size: int = 50
     llm_resume: bool = False
     llm_timeout: int = 600
     llm_model: str = "" 
