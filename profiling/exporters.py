@@ -213,6 +213,36 @@ class DataDictionaryExporter:
             name: str((self.config.output_dir / f"{name}_data_dictionary.csv").resolve())
             for name in all_data_dictionaries
         }
+                # Force Word column cards to follow the CSV description/actions
+        for table_name, rows in all_data_dictionaries.items():
+            csv_path = self.config.output_dir / f"{table_name}_data_dictionary.csv"
+
+            if not csv_path.exists():
+                continue
+
+            csv_df = pd.read_csv(csv_path, dtype=str, keep_default_na=False)
+
+            csv_lookup = {
+                r["column_name"]: r
+                for _, r in csv_df.iterrows()
+            }
+
+            for row in rows:
+                col_name = row.get("column_name")
+
+                if col_name not in csv_lookup:
+                    continue
+
+                csv_row = csv_lookup[col_name]
+
+                row["description"] = csv_row.get("description", "").strip()
+
+                actions_text = csv_row.get("recommended_actions", "").strip()
+                row["recommended_actions"] = (
+                    [x.strip() for x in actions_text.split(" | ") if x.strip()]
+                    if actions_text
+                    else ["[No Immediate Action]"]
+                )
  
         # Derive title from dataset names if not provided
         if not report_title:
