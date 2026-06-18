@@ -5,7 +5,7 @@ DataPreprocessor — light, low-risk cleaning to keep data close to raw form.
 import pandas as pd
 import json as json
 
-from .config import PipelineConfig
+from ..core.config import PipelineConfig
 
 
 class DataPreprocessor:

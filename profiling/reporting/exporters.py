@@ -13,8 +13,8 @@ from pathlib import Path
  
 import pandas as pd
  
-from .config import PipelineConfig
-from .utils import json_default, clean_for_json
+from ..core.config import PipelineConfig
+from ..core.utils import json_default, clean_for_json
  
  
 class DataDictionaryExporter:
@@ -382,3 +382,77 @@ class DataDictionaryExporter:
  
         print(f"Word report saved to: {out_path}")
         return out_path
+
+def export_outputs(
+    exporter: DataDictionaryExporter,
+    all_dictionaries: dict[str, list[dict]],
+    minhash_results: dict,
+    *,
+    generate_word: bool = True,
+    word_script: str = "generate_word_report.js",
+    report_title: str = "",
+    dataset_summaries: dict[str, str] | None = None,
+    report_summary: str = "",
+    join_interpretation: str = "",
+    validation_rules: dict[str, list[dict]] | None = None,
+    validation_check_results: dict[str, dict] | None = None,
+) -> dict:
+    """Write every table, validation artifact, and optional Word report."""
+    output_paths: dict = {}
+    validation_rules = validation_rules or {}
+    validation_check_results = validation_check_results or {}
+
+    for table_name, dictionary in all_dictionaries.items():
+        paths = exporter.export_table(dictionary, table_name)
+        output_paths[table_name] = paths
+        print(f"  {table_name}: CSV → {paths['csv']}, JSON → {paths['json']}")
+
+        if table_name in validation_rules:
+            rules_path = (
+                exporter.config.output_dir
+                / f"{table_name}_validation_rules.json"
+            )
+            with open(rules_path, "w", encoding="utf-8") as file:
+                json.dump(
+                    validation_rules[table_name],
+                    file,
+                    indent=2,
+                    ensure_ascii=False,
+                    default=json_default,
+                )
+            print(f"  {table_name}: Validation rules → {rules_path}")
+
+        if table_name in validation_check_results:
+            check_path = (
+                exporter.config.output_dir
+                / f"{table_name}_validation_check_results.json"
+            )
+            check_results = validation_check_results[table_name]
+            with open(check_path, "w", encoding="utf-8") as file:
+                json.dump(
+                    check_results,
+                    file,
+                    indent=2,
+                    ensure_ascii=False,
+                    default=json_default,
+                )
+            print(
+                f"  {table_name}: {check_results['total_failing_records']} "
+                f"failing records → {check_path}"
+            )
+
+    if generate_word:
+        word_path = exporter.to_word(
+            all_dictionaries,
+            minhash_results,
+            word_script,
+            report_title=report_title,
+            dataset_summaries=dataset_summaries or {},
+            report_summary=report_summary,
+            join_interpretation=join_interpretation,
+            validation_rules=validation_rules,
+            validation_check_results=validation_check_results,
+        )
+        output_paths["_word_report"] = word_path
+
+    return output_paths

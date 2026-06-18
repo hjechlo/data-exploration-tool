@@ -8,7 +8,7 @@ import re
 import pandas as pd
 from collections import Counter
 from typing import Dict
-from .config import PLACEHOLDER_TOKENS
+from ..core.config import PLACEHOLDER_TOKENS
 
 class FormatPatternAnalyzer:
     """
@@ -17,7 +17,7 @@ class FormatPatternAnalyzer:
     Provides concrete evidence for LLM to generate specific recommendations.
     """
     
-    def __init__(self,config=None):
+    def __init__(self,config):
         # Common format patterns
         self.config = config
         self.patterns = {

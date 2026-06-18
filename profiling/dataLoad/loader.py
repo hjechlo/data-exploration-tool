@@ -8,7 +8,7 @@ import pandas as pd
 import chardet
 import json
 
-from .config import SUPPORTED_EXTENSIONS
+from ..core.config import SUPPORTED_EXTENSIONS
 
 
 class DataLoader:

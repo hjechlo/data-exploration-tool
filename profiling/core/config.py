@@ -67,14 +67,13 @@ class PipelineConfig:
     llm_max_retries: int = 3
     llm_save_raw_outputs: bool = True
     llm_validation_sample_size: int = 300
+    llm_validation_batch_size: int = 50
     llm_resume: bool = False
     llm_timeout: int = 600
+
     llm_model: str = "" 
-    llm_chunk_model: str = ""         # Azure deployment name for JSON chunks, e.g. "gpt-4o-mini"
     llm_endpoint: str = ""            # Azure endpoint for primary model
-    llm_chunk_endpoint: str = ""      # Azure endpoint for chunk model (falls back to llm_endpoint)
     llm_is_native_azure: bool = False  # True = AzureOpenAI client, False = OpenAI-compatible client
-    llm_chunk_is_native_azure: bool = False
 
     
     outlier_z_score_threshold: float = 3.0

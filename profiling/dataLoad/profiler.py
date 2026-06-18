@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 from ydata_profiling import ProfileReport
 
-from .config import PipelineConfig
+from ..core.config import PipelineConfig
 from .preprocessor import DataPreprocessor
 
 
@@ -62,3 +62,25 @@ class DataProfiler:
             "json_report": str(json_path),
         }
         return df_clean, report, summary
+
+
+def profile_datasets(
+    dataset_paths: list[Path],
+    loader,
+    profiler: DataProfiler,
+) -> dict:
+    """Load, preprocess, and profile all requested datasets."""
+    profile_results = {}
+    for path in dataset_paths:
+        name = path.stem
+        raw_df = loader.load(path)
+        df, report, summary = profiler.profile(raw_df, name)
+        profile_results[name] = {
+            "raw_df": raw_df,
+            "df": df,
+            "report": report,
+            "summary": summary,
+            "path": path,
+        }
+        print(f"  Profiled {name}: {df.shape[0]} rows × {df.shape[1]} cols")
+    return profile_results

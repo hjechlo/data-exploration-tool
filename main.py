@@ -21,8 +21,6 @@ Usage
     # Adjust thresholds
     python main.py --join-threshold 0.4 --duplicate-threshold 0.85
 
-    # Profile + MinHash only, skip LLM (useful for testing)
-    python main.py --no-llm
 """
 
 import argparse
@@ -32,9 +30,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from profiling import DataDictionaryPipeline, PipelineConfig
-from profiling.loader import DataLoader
-from profiling.llm_engine import AzureLLMEngine
+from profiling import PipelineConfig, run_pipeline
+from profiling.dataLoad.loader import DataLoader
+from profiling.llm.llm_engine import AzureLLMEngine
+from profiling.core.models import PipelineRunRequest
 
 
 def parse_args() -> argparse.Namespace:
@@ -87,17 +86,12 @@ def parse_args() -> argparse.Namespace:
 
     # LLM
     parser.add_argument(
-        "--no-llm",
-        action="store_true",
-        help="Skip LLM generation (profile + MinHash only).",
-    )
-    parser.add_argument(
         "--chunk-size",
         type=int,
         default=None,
         help=(
             "Number of columns per LLM prompt chunk. "
-            "Defaults to the value in config.py (currently 5). "
+            "Defaults to the value in config.py (currently 1). "
             "Use 1 for reasoning/thinking models."
         ),
     )
@@ -110,16 +104,7 @@ def parse_args() -> argparse.Namespace:
         "--llm-model",
         default="",
         metavar="MODEL_NAME",
-        help="Azure deployment name for the primary model. Can also be set via DEPLOYMENT_GPT51 in .env.",
-    )
-    parser.add_argument(
-        "--chunk-model",
-        default="",
-        metavar="MODEL_NAME",
-        help=(
-            "Instruct model for JSON generation (per-column descriptions). "
-            "Falls back to --llm-model if not set."
-        ),
+        help="Azure deployment name for the primary model. Can also be set via DEPLOYMENT_KIMI in .env.",
     )
 
     parser.add_argument(
@@ -223,11 +208,8 @@ def build_config(args: argparse.Namespace) -> PipelineConfig:
         duplicate_threshold=args.duplicate_threshold,
         llm_resume=not args.no_resume,
         llm_model=args.llm_model or os.environ.get("DEPLOYMENT_KIMI", ""),
-        llm_chunk_model=args.chunk_model or os.environ.get("DEPLOYMENT_KIMI", ""),
         llm_endpoint=os.environ.get("ENDPOINT_KIMI", ""),
-        llm_chunk_endpoint=os.environ.get("ENDPOINT_KIMI", ""),
         llm_is_native_azure=False,  
-        llm_chunk_is_native_azure=False,  
     )
     if args.chunk_size is not None:
         kwargs["llm_chunk_size"] = args.chunk_size
@@ -250,49 +232,49 @@ def parse_dataset_descriptions(args: argparse.Namespace) -> dict[str, str]:
 
 def main() -> None:
     load_dotenv()
+
     args = parse_args()
     dataset_paths = resolve_datasets(args)
     config = build_config(args)
 
-    # LLM client (needed for --list-models too)
-    llm_client = None
-    if not args.no_llm:
-        try:
-            llm_client = AzureLLMEngine(
-                api_key=os.environ["AZURE_OPENAI_KEY"].strip(),
-                api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-05-01-preview"),
-            )
-        except KeyError as e:
-            print(f"Error: missing environment variable {e}.")
-            print("Set AZURE_OPENAI_KEY in your .env file.")
-            sys.exit(1)
+    try:
+        llm_client = AzureLLMEngine(
+            api_key=os.environ["AZURE_OPENAI_KEY"].strip(),
+            api_version=os.environ.get(
+                "AZURE_OPENAI_API_VERSION",
+                "2024-05-01-preview",
+            ),
+        )
+    except KeyError as error:
+        print(
+            f"Error: missing environment variable {error}."
+        )
+        print(
+            "Set AZURE_OPENAI_KEY in your .env file."
+        )
+        sys.exit(1)
 
     if args.llm_model:
-        print(f"Using primary model: {args.llm_model}")
-    if args.chunk_model:
-        print(f"Using chunk model:   {args.chunk_model}")
-
-    pipeline = DataDictionaryPipeline(config, llm_client=llm_client)
-
-    if args.no_llm:
-        # Profile + MinHash only
-        print("\n── Profiling ───────────────────────────────────────")
-        profile_results = pipeline.step_profile(dataset_paths)
-
-        print("\n── Column analysis ─────────────────────────────────")
-        column_summaries = pipeline.step_column_summaries(profile_results)
-
-        print("\n── MinHash analysis ────────────────────────────────")
-        pipeline.step_minhash(column_summaries, profile_results)
-
-        print("\n✓ Done (LLM skipped). Profiles saved to:", config.output_dir)
-    else:
-        pipeline.run(
-            dataset_paths=dataset_paths,
-            generate_word=not args.no_word,
-            word_script=args.word_script,
-            dataset_descriptions=parse_dataset_descriptions(args),
+        print(
+            f"Using primary model: {args.llm_model}"
         )
+
+    request = PipelineRunRequest(
+        dataset_paths=tuple(dataset_paths),
+        dataset_descriptions=parse_dataset_descriptions(args),
+        generate_word=not args.no_word,
+        word_script=Path(args.word_script),
+    )
+
+    result = run_pipeline(
+        request=request,
+        config=config,
+        llm_client=llm_client,
+    )
+
+    print(
+        f"Outputs saved under: {result.run_directory}"
+    )
 
 
 if __name__ == "__main__":
