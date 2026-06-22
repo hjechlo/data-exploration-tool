@@ -17,6 +17,8 @@ def detect_numeric_anomalies(
     col_name: str,
     config: "PipelineConfig",
     is_date_like: bool = False,
+    missing_mask: "pd.Series | None" = None,
+    intended_type: str | None = None,
 ) -> list[str]:
     """
     Detect statistical outliers in a numeric column using IQR-based fencing.
@@ -27,24 +29,48 @@ def detect_numeric_anomalies(
     automatically for small datasets (< 100 rows).
     """
     errors: list[str] = []
-    flagged_idx: set[int] = set()
+    flagged_idx: set = set()
 
     _is_id_like = any(
         hint in col_name.lower().replace("_", "").replace(" ", "")
         for hint in ("id", "key", "code", "no", "num", "sn", "seq")
     )
     if is_date_like or _is_id_like:
-        return errors, flagged_idx
+        return errors, flagged_idx, {}
 
-    numeric_vals = pd.to_numeric(series, errors="coerce").dropna()
+    if not pd.api.types.is_numeric_dtype(series):
+        # Handle string/object columns with numeric intended type (e.g. SubscriptionFee
+        # stored as string but intended as float64) so their fences are available
+        # for range rule validation in rules.py.
+        if intended_type in ("float64", "int64", "Int64", "float32", "int32"):
+            numeric_vals = pd.to_numeric(series, errors="coerce").dropna()
+            if len(numeric_vals) >= 10:
+                q25 = numeric_vals.quantile(0.25)
+                q75 = numeric_vals.quantile(0.75)
+                iqr = q75 - q25
+                if iqr > 0:
+                    multiplier = config.outlier_tail_multiplier
+                    if len(numeric_vals) < 100:
+                        multiplier = min(multiplier, 1.5)
+                    return errors, flagged_idx, {
+                        "upper_fence": round(float(q75 + multiplier * iqr), 4),
+                        "lower_fence": round(float(q25 - multiplier * iqr), 4),
+                    }
+        return errors, flagged_idx, {}
+
+    numeric_vals = (
+        series[~missing_mask].dropna()
+        if missing_mask is not None
+        else series.dropna()
+    )
     if len(numeric_vals) < 10:
-        return errors, flagged_idx
+        return errors, flagged_idx, {}
 
     q25 = numeric_vals.quantile(0.25)
     q75 = numeric_vals.quantile(0.75)
     iqr = q75 - q25
     if iqr == 0:
-        return errors, flagged_idx
+        return errors, flagged_idx, {}
 
     multiplier = config.outlier_tail_multiplier
     if len(numeric_vals) < 100:
@@ -52,20 +78,76 @@ def detect_numeric_anomalies(
 
     upper_fence = q75 + multiplier * iqr
     lower_fence = q25 - multiplier * iqr
+
     outliers_high = numeric_vals[numeric_vals > upper_fence]
-    outliers_low = numeric_vals[numeric_vals < lower_fence]
+    outliers_low  = numeric_vals[numeric_vals < lower_fence]
 
     if len(outliers_high) > 0:
-        errors.append(f"{len(outliers_high)} value(s) exceed the statistically expected "
-                       f"upper bound of {upper_fence:.4g} (Q3 + {multiplier}×IQR): "
-                       f"{sorted(outliers_high.unique().tolist())[:5]}")
+        errors.append(
+            f"{len(outliers_high)} value(s) exceed the statistically expected "
+            f"upper bound of {upper_fence:.4g} (Q3 + {multiplier}×IQR): "
+            f"{sorted(outliers_high.unique().tolist())[:5]}"
+        )
         flagged_idx.update(outliers_high.index)
     if len(outliers_low) > 0:
-        errors.append(f"{len(outliers_low)} value(s) fall below the statistically expected "
-                       f"lower bound of {lower_fence:.4g} (Q1 - {multiplier}×IQR): "
-                       f"{sorted(outliers_low.unique().tolist())[:5]}")
+        errors.append(
+            f"{len(outliers_low)} value(s) fall below the statistically expected "
+            f"lower bound of {lower_fence:.4g} (Q1 - {multiplier}×IQR): "
+            f"{sorted(outliers_low.unique().tolist())[:5]}"
+        )
         flagged_idx.update(outliers_low.index)
-    return errors, flagged_idx
+
+    # Sentinel detection: concentrated outliers on either fence side suggest
+    already_flagged: set = set()
+    for extreme_vals, fence, sign in [
+        (outliers_high, upper_fence, "above"),
+        (outliers_low,  lower_fence, "below"),
+    ]:
+        if extreme_vals.empty:
+            continue
+        for val in extreme_vals.unique():
+            val_count = (numeric_vals == val).sum()
+            concentration = val_count / len(extreme_vals)
+            if concentration >= 0.8:
+                suspect_mask = numeric_vals == val
+                errors.append(
+                    f"[{val}] is a statistical outlier ({sign} expected range "
+                    f"{fence:.4g}) and appears sentinel-coded "
+                    f"({val_count} record(s) share this exact value) "
+                    f"— confirm if this represents missing or invalid data"
+                )
+                flagged_idx.update(numeric_vals.index[suspect_mask])
+                already_flagged.add(val)
+
+    # Sign-anomalous check — runs independently of the fence.
+    mostly_positive = (numeric_vals > 0).mean() > 0.95
+    mostly_negative = (numeric_vals < 0).mean() > 0.95
+
+    if mostly_positive:
+        sign_anom_vals = numeric_vals[numeric_vals < 0]
+    elif mostly_negative:
+        sign_anom_vals = numeric_vals[numeric_vals > 0]
+    else:
+        sign_anom_vals = numeric_vals.iloc[0:0]
+
+    for val in sign_anom_vals.unique():
+        if val in already_flagged:
+            continue
+        val_count = (numeric_vals == val).sum()
+        suspect_mask = numeric_vals == val
+        errors.append(
+            f"[{val}] is sign-anomalous "
+            f"({'negative' if val < 0 else 'positive'} value in an "
+            f"almost-entirely-{'positive' if mostly_positive else 'negative'} column) "
+            f"— confirm if this represents missing or invalid data"
+        )
+        flagged_idx.update(numeric_vals.index[suspect_mask])
+        already_flagged.add(val)
+
+    return errors, flagged_idx, {
+        "upper_fence": round(float(upper_fence), 4),
+        "lower_fence": round(float(lower_fence), 4),
+    }
 
 def detect_near_duplicate_values(series: pd.Series, config: PipelineConfig) -> list[list[str]]:
     cfg = config
@@ -127,6 +209,7 @@ def detect_column_errors(
     """
     errors: list[str] = []
     flagged_idx: set = set()
+    fences: dict = {}
 
     s = series.astype(str).str.strip()
     null_mask = series.isna()
@@ -154,7 +237,7 @@ def detect_column_errors(
     non_missing_str = non_missing.astype(str).str.strip()
 
     if len(non_missing_str) == 0:
-        return errors, flagged_idx
+        return errors, flagged_idx, {}
     numeric_storage_types = {"int64", "int32", "Int64", "float64", "float32"}
 
     if storage_type in numeric_storage_types:
@@ -301,32 +384,6 @@ def detect_column_errors(
                 errors.append("numeric code values may have lost leading zeros")
                 flagged_idx.update(cleaned_digits.index[outlier_mask])
 
-    # Sentinel/placeholder value detection for numeric columns
-    if storage_type in ("int64", "Int64", "float64"):
-        numeric_vals = pd.to_numeric(non_missing_str, errors="coerce").dropna()
-        if len(numeric_vals) > 0:
-            # Always check for large round-number sentinels
-            always_check = [99999, 9999, 999999]
-            _signed_sentinel_exclusions = {
-                "qty", "quantity", "amount", "balance", "value",
-                "price", "total", "revenue", "sales", "profit",
-                "margin", "adjustment", "delta", "change", "diff",
-            }
-            col_l = col_name.lower()
-            _allow_negatives = any(
-                token in col_l for token in _signed_sentinel_exclusions
-            )
-            signed_check = [] if _allow_negatives else [-1, -9999]
-
-            sentinel_patterns = always_check + signed_check
-            sentinel_mask = numeric_vals.isin(sentinel_patterns)
-            found_sentinels = [v for v in sentinel_patterns if (numeric_vals == v).any()]
-            if found_sentinels:
-                errors.append(
-                    f"{found_sentinels} "
-                    f"— confirm if these represent missing or invalid data"
-                )
-                flagged_idx.update(numeric_vals.index[sentinel_mask])
 
     # Date validation — detect from data, not column name
     is_date_storage = storage_type == "datetime64[ns]"
@@ -384,9 +441,20 @@ def detect_column_errors(
 
     # Statistical outlier detection for numeric columns
     if storage_type in ("int64", "Int64", "float64"):
-        anomaly_errors, anomaly_idx = detect_numeric_anomalies(series, col_name, config, is_date_like)
+        anomaly_errors, anomaly_idx, fences = detect_numeric_anomalies(
+            series, col_name, config, is_date_like, missing_mask=missing_mask,
+            intended_type=intended_type,
+        )
         errors.extend(anomaly_errors)
         flagged_idx.update(anomaly_idx)
+    
+    elif storage_type in ("string", "object") and intended_type in (
+        "float64", "int64", "Int64", "float32", "int32"
+    ):
+        _, _, fences = detect_numeric_anomalies(
+            series, col_name, config, is_date_like, missing_mask=missing_mask,
+            intended_type=intended_type,
+        )
 
     # Contaminated categorical column detection
     n_distinct = non_missing_str.nunique()
@@ -431,7 +499,7 @@ def detect_column_errors(
             flat = {v for g in groups for v in g}
             flagged_idx.update(non_missing_str.index[non_missing_str.isin(flat)])
 
-    return errors, flagged_idx
+    return errors, flagged_idx, fences
 
 def remove_fk_errors_from_results( 
     data_dictionary: list[dict], 

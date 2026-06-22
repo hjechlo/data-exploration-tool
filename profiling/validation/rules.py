@@ -5,6 +5,7 @@ adding rule logic.
 """
 
 import json
+import re
 
 from ..core.config import PipelineConfig
 from ..llm.utils import clean_output
@@ -65,7 +66,6 @@ def generate_validation_rules(
     # Ensures the LLM sees actual violations, not just the clean top of the file.
     error_cols = [row["column_name"] for row in column_summary if row.get("errors")]
     if error_cols:
-        valid_cols = [c for c in error_cols if c in df.columns]
         flagged_indices: set = set()
         for row in column_summary:
             flagged_indices.update(row.get("_flagged_indices") or set())
@@ -82,16 +82,6 @@ def generate_validation_rules(
             ]).head(n_sample)
         else:
             sample_df = df.head(n_sample)
-        dirty_rows = df[dirty_mask]
-        clean_rows = df[~dirty_mask]
-        n_dirty = min(len(dirty_rows), n_sample // 2)
-        n_clean = min(len(clean_rows), n_sample - n_dirty)
-        sample_df = pd.concat(
-            [
-                dirty_rows.head(n_dirty),
-                clean_rows.sample(min(n_clean, len(clean_rows)), random_state=42),
-            ]
-        ).head(n_sample)
     else:
         sample_df = df.head(n_sample)
     sample_records = json.loads(
@@ -139,12 +129,121 @@ def generate_validation_rules(
             rules = clean_output(raw)
             if not isinstance(rules, list):
                 raise ValueError("Expected JSON array")
-            # Stamp table name on every rule
+            # Stamp table name and rule_id on every rule
             for i, rule in enumerate(rules):
                 rule.setdefault("rule_id", i + 1)
                 rule.setdefault("table", table_name)
                 rule.setdefault("columns", [rule.get("column", "")])
                 rule.pop("failing_record_indices", None)
+
+            # ----------------------------------------------------------------
+            # Post-generation deterministic overrides
+            # ----------------------------------------------------------------
+
+            similarity_by_col = {
+                row["column_name"]: row.get("similarity_kind", "")
+                for row in column_summary
+            }
+            col_summary_by_name = {
+                row["column_name"]: row for row in column_summary
+            }
+            col_intended_type = {
+                row["column_name"]: row.get("intended_data_type", row["data_type"])
+                for row in column_summary
+            }
+            numeric_storage = {"int64", "int32", "Int64", "float64", "float32"}
+
+            # Pass 1 — Remove range rules on key-like, categorical, and
+            # discrete_code columns (identifiers and enumerations have no
+            # meaningful continuous domain bound).
+            rules = [
+                rule for rule in rules
+                if not (
+                    rule.get("type") == "range"
+                    and similarity_by_col.get(rule.get("column", ""), "")
+                        in ("key_like", "categorical", "discrete_code")
+                )
+            ]
+
+            # Pass 2 — Remove range rules with implausible bounds.
+            # A real domain ceiling (age ≤ 120, rating ≤ 5) produces a bound
+            # at most a few multiples of the IQR fence. An invented round number
+            # (5000, 50000) is far beyond it. Threshold lives in config.
+            fence_multiplier = getattr(cfg, "range_fence_suspicion_multiplier", 3.0)
+
+            filtered: list[dict] = []
+            for rule in rules:
+                if rule.get("type") != "range":
+                    filtered.append(rule)
+                    continue
+                col = rule.get("column", "")
+                col_profile = col_summary_by_name.get(col, {}).get("profile", {})
+                llm_max = rule.get("check_params", {}).get("max")
+                llm_min = rule.get("check_params", {}).get("min")
+                upper_fence = col_profile.get("upper_fence")
+                lower_fence = col_profile.get("lower_fence")
+
+                suspicious = False
+                if llm_max is not None and upper_fence is not None and upper_fence > 0:
+                    suspicious = suspicious or (llm_max > upper_fence * fence_multiplier)
+                if llm_min is not None and lower_fence is not None and lower_fence < 0:
+                    suspicious = suspicious or (llm_min < lower_fence * fence_multiplier)
+
+                if not suspicious:
+                    filtered.append(rule)
+            rules = filtered
+
+            # Pass 3 — Replace range rules on code-like columns with format rules.
+            # Trigger: numeric storage + intended_data_type == "string" (the
+            # profiler already flagged this as a fixed-width code, not a
+            # continuous measurement). Format regex derived from the dominant
+            # all-digit pattern in _format_analysis — no column-name matching.
+            filtered = []
+            for rule in rules:
+                col = rule.get("column", "")
+                is_code_like_range = (
+                    rule.get("type") == "range"
+                    and col_intended_type.get(col) == "string"
+                    and col_summary_by_name.get(col, {}).get("data_type") in numeric_storage
+                )
+                if not is_code_like_range:
+                    filtered.append(rule)
+                    continue
+
+                col_row = col_summary_by_name.get(col, {})
+                top_formats = (
+                    col_row.get("_format_analysis", {})
+                    .get("format_fingerprints", {})
+                    .get("top_formats", [])
+                )
+                # Dominant pattern must be all-digit (X+) with >= 50% coverage
+                dominant_len = next(
+                    (
+                        len(fmt["pattern"])
+                        for fmt in top_formats
+                        if re.fullmatch(r"X+", fmt.get("pattern", ""))
+                        and float(fmt.get("percentage", 0)) >= 50
+                    ),
+                    None,
+                )
+                if dominant_len:
+                    rule["type"] = "format"
+                    rule["check_params"] = {"regex": rf"^\d{{{dominant_len}}}$"}
+                    rule["rule"] = f"{col} must be a {dominant_len}-digit code"
+                    rule["rationale"] = (
+                        f"Dominant observed format is {dominant_len} digits "
+                        f"(derived from the data distribution). Values of different "
+                        f"lengths are likely truncated, padded, or sentinel values."
+                    )
+                    filtered.append(rule)
+                # else: no dominant digit pattern — drop the rule rather than
+                # keeping an invented bound
+            rules = filtered
+
+            # Re-stamp rule_ids after filtering
+            for i, rule in enumerate(rules):
+                rule["rule_id"] = i + 1
+
             with open(cached, "w", encoding="utf-8") as f:
                 json.dump(rules, f, indent=2, ensure_ascii=False)
             print(f"  [{table_name}] Validation rules: success ({len(rules)} rules).")
@@ -267,6 +366,57 @@ def generate_rules_for_tables(
                 },
             }
         )
+
+
+    for table_name, table_summary in column_summaries.items():
+        for col_row in table_summary:
+            col = col_row["column_name"]
+            if not (
+                col_row.get("intended_data_type") == "string"
+                and col_row.get("data_type") in {"int64", "int32", "Int64", "float64", "float32"}
+            ):
+                continue
+
+            # Skip if a format rule already exists for this column
+            if any(
+                r.get("type") == "format" and r.get("column") == col
+                for r in all_rules.get(table_name, [])
+            ):
+                continue
+
+            top_formats = (
+                col_row.get("_format_analysis", {})
+                .get("format_fingerprints", {})
+                .get("top_formats", [])
+            )
+            dominant_len = next(
+                (
+                    len(fmt["pattern"])
+                    for fmt in top_formats
+                    if re.fullmatch(r"X+", fmt.get("pattern", ""))
+                    and float(fmt.get("percentage", 0)) >= 50
+                ),
+                None,
+            )
+            if not dominant_len:
+                continue
+
+            rule_id = len(all_rules[table_name]) + 1
+            all_rules[table_name].append({
+                "rule_id": rule_id,
+                "table": table_name,
+                "column": col,
+                "columns": [col],
+                "category": "per_column",
+                "type": "format",
+                "rule": f"{col} must be a {dominant_len}-digit code",
+                "rationale": (
+                    f"Dominant observed format is {dominant_len} digits "
+                    f"(derived from data distribution). Values of different "
+                    f"lengths are likely truncated, padded, or sentinel values."
+                ),
+                "check_params": {"regex": rf"^\d{{{dominant_len}}}$"},
+            })
 
     return all_rules
 

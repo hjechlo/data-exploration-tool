@@ -69,6 +69,18 @@ rules to silently fail or produce incorrect results.
   one of those values. Never constrain the rule to a single constant value just because 
   the sample shows no variance.
 
+## Semantic & Business Logic Rules (Cross-Column)
+Look beyond simple math or dates. You must infer real-world business logic and semantic consistency between columns. Use type "custom" for these rules.
+
+1. **State Dependencies:** If a status column indicates a negative/inactive state, dependent metric columns should logically be zero, null, or absent.
+   - Example: If `Subscription = "No"` or `"Cancelled"`, then `SubscriptionFee` must be 0 or null.
+   - Example: If `EmploymentStatus = "Unemployed"`, then `MonthlySalary` must be 0, null, or missing.
+2. **Derived Attribute Mismatches:** Check if columns that represent the same concept in different formats contradict each other.
+   - Example: If `DateOfBirth` is "2010-05-01", but `Age` is "35", the age contradicts the birth year.
+   - Example: If `Status = "Deceased"`, but `LastLoginDate` is recent.
+3. **Mutually Exclusive States:** Flag if a user holds two states that shouldn't overlap.
+   - Example: `IsStudent = True` and `FullTimeEmployment = True` (soft warning).
+
 ## Patterns to apply for known column types
 
 **EMAIL columns:**
@@ -164,8 +176,10 @@ Return a JSON array. Each element is one rule:
 {join_hints_json}
 
 Generate all rules now. Be thorough. For every column, either generate a rule or explicitly
-justify why no rule is needed. Do not return failing record indices in this response; a separate
-LLM pass will apply the generated rules to every row in the complete dataset.
+justify why no rule is needed. For failing_record_indices, check the sample records carefully
+and list every index that fails the rule. If you identify a strong semantic rule but there are 
+no failing records in the provided sample, output the rule anyway.
+Do not hallucinate indices.
 """
 
 APPLY_VALIDATION_RULES_PROMPT = """

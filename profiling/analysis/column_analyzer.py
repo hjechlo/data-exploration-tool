@@ -124,7 +124,7 @@ class ColumnAnalyzer:
                     fixed_width_code_like = (
                         digit_ratio >= 0.98
                         and dominant_len >= 4
-                        and dominant_len_pct >= 0.95
+                        and dominant_len_pct >= 0.90
                         and unique_ratio >= 0.5
                     )
 
@@ -204,11 +204,12 @@ class ColumnAnalyzer:
                 _anoms["suspicious_values"] = []
                 #_anoms["outlier_values"] = []
 
-            errors, flagged_idx = detect_column_errors(
+            errors, flagged_idx, fences = detect_column_errors(
                 self.config, col_name, raw_series, storage_type,
                 intended_type=intended_type,
                 format_analysis=format_analysis,
             )
+            profile_stats.update(fences)
             column_facts = build_column_facts(
                 self.config, self.format_analyzer, col_name, raw_series, storage_type, permissible_values,
                 format_analysis=format_analysis,

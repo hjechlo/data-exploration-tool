@@ -455,12 +455,17 @@ rules to silently fail or produce incorrect results.
   is that the BAD case described by the rule?" If `not` appears immediately
   before `pd.isna(...)`, it is almost certainly inverted — remove the `not`.
 - For numeric columns representing continuous real-world measurements (durations,
-  distances, prices, counts), do NOT generate a `range` rule with min/max equal to
-  the observed sample's min/max unless there is a domain reason for that exact
+  distances, prices, counts), **DO NOT** use the observed sample minimum or maximum 
+  as hard range bounds. **unless** there is a domain reason for that exact
   bound (e.g., percentage ≤ 100, age ≤ 120, rating ≤ 5). A small sample's maximum
   is not necessarily the true maximum — IQR-based outlier flags are informational,
-  not hard limits. If uncertain, omit the upper bound or use a clearly wider,
-  round-number bound.
+  not hard limits. Sample extrema and IQR-based lower_fence/upper_fence values describe 
+  the current data distribution but do not necessarily represent valid domain limits. 
+- Generate a range rule only when the evidence supports a meaningful domain constraint, 
+  such as a percentage between 0 and 100, an age not exceeding 120, or a rating not exceeding 5. 
+  When a one-sided domain constraint is clear, include only that bound. If no defensible domain 
+  bound is available, omit the range rule rather than inventing a limit or converting statistical 
+  outlier thresholds into validation constraints.
 - For integer fields that appear to be binary flags (values are 0 and/or 1), always 
   validate the domain as {{0, 1}} regardless of whether the observed sample contains only
   one of those values. Never constrain the rule to a single constant value just because 
