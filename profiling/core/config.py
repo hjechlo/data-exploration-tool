@@ -67,7 +67,8 @@ class PipelineConfig:
     llm_max_retries: int = 3
     llm_save_raw_outputs: bool = True
     llm_validation_sample_size: int = 300
-    llm_validation_batch_size: int = 300
+    llm_validation_batch_size: int = 50
+    llm_validation_concurrency: int = 5 
     llm_resume: bool = False
     llm_timeout: int = 600
 

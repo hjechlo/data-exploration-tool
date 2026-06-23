@@ -1,220 +1,355 @@
 GENERATE_VALIDATION_RULES_PROMPT = """
-You are a data quality expert. Your task is to generate validation rules for a dataset table.
-
-## Your responsibilities
-
-1. For KNOWN sensitive/structured column types, apply the patterns specified below.
-2. For EVERYTHING ELSE, You MUST infer validation rules for every column using the supplied dataset
-evidence.
-3. Generate CROSS-COLUMN rules where columns relate to each other (e.g. start < end date,
-   FK consistency, logical dependencies).
-4. Consider relationships ACROSS TABLES where join hints are provided:
-   - FK hints → generate referential integrity rules (every FK value must exist in the PK table)
-   - one-to-one key hints → generate consistency rules (values must match across both tables)
-   - shared value domain hints → generate consistency rules (values should come from the
-     same observed set; flag values in one table absent from the other)
-5. Before finalizing each rule, check it against all provided sample records
-that contain the relevant column or columns. Confirm that the rule flags
-the observed anomalous values without incorrectly rejecting structurally
-normal values.
-
-## Custom logic — technical rules
-
-These are hard requirements for the execution environment. Violating them will cause
-rules to silently fail or produce incorrect results.
-
-**Type selection:**
-- Null/NA checks → always use type "not_null", never custom logic
-- For "must not be in the future" / "must be before [date]" rules on a single date
-  column, ALWAYS use type "date_not_future" with check_params
-  {{"col_a": "<column>", "cutoff_date": "YYYY-MM-DD"}} — never type "custom" for
-  this. If checking against today's date rather than a fixed cutoff, omit
-  cutoff_date entirely. Before finalizing, verify your cutoff direction matches
-  the rule's plain-English description: "must NOT be in the future (after X)"
-  means values GREATER than X are violations.
-- Numeric range checks → always use type "range" with min/max — this works correctly
-  regardless of whether the column is stored as numeric or string dtype
-- Never add a "is numeric" custom rule on a column that is already int64, Int64, or float64
-- If a column is stored as string/object but contains mostly numeric values, still use
-  type "range" for bounds — pd.to_numeric() handles the conversion internally
-- If evidence shows non-numeric values mixed into a numeric column, generate a separate
-  type "custom" rule for that check only, with logic that uses pd.to_numeric() to test
-  parseability — never use string methods like isalpha(), isdigit(), isinstance(), or
-  isnumeric() to check numeric validity as these break unpredictably on mixed-type columns
-- For standardisation rules that flag non-canonical values, always frame the check as
-  "value is NOT the canonical form" — never flag the canonical value itself
-
-**Custom logic expressions:**
-- Use `!=` for value comparisons — never `is not` or `is` (identity checks on pandas
-  objects always return True regardless of the actual value)
-- `df` is available for cross-row checks, e.g. uniqueness:
-  `df[df['col'] == row['col']].shape[0] > 1`
-- CRITICAL: `logic` must evaluate to True when the row VIOLATES the rule (the
-  failing/bad case), NOT when it passes. For "must be parseable as a valid date"
-  (pass = parseable), the FAILING condition is "NOT parseable":
-    correct:   pd.isna(pd.to_datetime(row['Col'], errors='coerce'))
-    incorrect: not pd.isna(pd.to_datetime(row['Col'], errors='coerce'))
-  Before finalizing, read your logic string and ask: "if this evaluates to True,
-  is that the BAD case described by the rule?" If `not` appears immediately
-  before `pd.isna(...)`, it is almost certainly inverted — remove the `not`.
-- For numeric columns representing continuous real-world measurements (durations,
-  distances, prices, counts), do NOT generate a `range` rule with min/max equal to
-  the observed sample's min/max unless there is a domain reason for that exact
-  bound (e.g., percentage ≤ 100, age ≤ 120, rating ≤ 5). A small sample's maximum
-  is not necessarily the true maximum — IQR-based outlier flags are informational,
-  not hard limits. If uncertain, omit the upper bound or use a clearly wider,
-  round-number bound.
-- For integer fields that appear to be binary flags (values are 0 and/or 1), always 
-  validate the domain as {{0, 1}} regardless of whether the observed sample contains only
-  one of those values. Never constrain the rule to a single constant value just because 
-  the sample shows no variance.
-
-## Semantic & Business Logic Rules (Cross-Column)
-Look beyond simple math or dates. You must infer real-world business logic and semantic consistency between columns. Use type "custom" for these rules.
-
-1. **State Dependencies:** If a status column indicates a negative/inactive state, dependent metric columns should logically be zero, null, or absent.
-   - Example: If `Subscription = "No"` or `"Cancelled"`, then `SubscriptionFee` must be 0 or null.
-   - Example: If `EmploymentStatus = "Unemployed"`, then `MonthlySalary` must be 0, null, or missing.
-2. **Derived Attribute Mismatches:** Check if columns that represent the same concept in different formats contradict each other.
-   - Example: If `DateOfBirth` is "2010-05-01", but `Age` is "35", the age contradicts the birth year.
-   - Example: If `Status = "Deceased"`, but `LastLoginDate` is recent.
-3. **Mutually Exclusive States:** Flag if a user holds two states that shouldn't overlap.
-   - Example: `IsStudent = True` and `FullTimeEmployment = True` (soft warning).
-
-## Patterns to apply for known column types
-
-**EMAIL columns:**
-- Structural check only: must match ^[^@\s]+@[^@\s]+$ (something@something, no spaces)
-- Do NOT use a strict RFC regex — valid emails include plus-tags (user+tag@domain.com),
-  new TLDs (.email, .photography), subdomains, and non-ASCII local parts
-- Flag as FORMAT violation: missing @, whitespace inside address
-- Flag as SENTINEL violation (type "sentinel_check") if evidence shows placeholder local
-  parts (test, noreply, admin, user) — only if the error evidence explicitly mentions them
-- Flag as STANDARDIZE action if evidence reports mixed-case values: emails must be
-  lowercased (NOT uppercased) — uppercasing is destructive for unicode (ß→SS, İ→i)
-- Do NOT flag plus-tag subaddressing as invalid — it is RFC 5321 compliant
-- Do NOT flag new or unusual TLDs (.email, .io, .photography) as invalid
-- Do NOT recommend stripping the +tag when deduplicating unless business rules confirm it
-
-**AGE columns:**
-- Must be a positive integer
-- Flag: non-numeric values, values below 0, values above 120
-- Flag: values below 13 if this appears to be a consumer service account
-
-**DATE columns:**
-- Infer the format from sample values (e.g. YYYY-MM-DD, YYYYMMDD, DD/MM/YYYY, YYYY-MM-DD HH:MM:SS)
-- Flag: impossible dates (month > 12, day > 31), future dates if column is a historical field,
-  non-parseable values
-- Flag future dates ONLY for historical fields (e.g. created_at, birth_date, transaction_date).
-  Do NOT flag future dates for forward-looking fields such as estimated arrival times,
-  scheduled times, expiry dates, or due dates — these are expected to be in the future.
-  Example: a column named EstimatedArrival, ScheduledDeparture, or ExpiryDate should
-  use a reasonableness window rule (e.g. within 2 hours of the request time), NOT a
-  \"must not be in the future\" rule.
-
-**PHONE NUMBER columns:**
-- Infer the country context from sample values
-- Check for: valid country code, valid area code structure, total digit count within valid range
-  (7-15 digits per E.164)
-- Flag: too few digits, too many digits, non-numeric characters (except +, -, space, parentheses)
-- If sample values include a country code prefix, your rule must treat
-  "country code + local number" as VALID — do not describe this as an error.
-
-**POSTAL CODE columns:**
-- Infer the country/format from sample values
-- Flag: wrong digit count, non-alphanumeric characters, values outside observed format
-
-**GENDER columns:**
-- Flag: values outside the observed set, inconsistent casing, unexpected abbreviations
-
-**RACE / ETHNICITY columns:**
-- Flag: values outside the observed set, inconsistent casing
-
-**NATIONALITY / COUNTRY columns:**
-- Flag: inconsistent representations of the same country (abbreviations, languages, ISO codes mixed)
-- Suggest standardising to a single form
-
-**RELIGION columns:**
-- Flag: values outside the observed set, inconsistent casing
-
+You are a data quality expert generating validation rules for a dataset table.
+ 
 ## Output format
-
+ 
 Return a JSON array. Each element is one rule:
-
+ 
 ```json
 [
-  {
+  {{
     "rule_id": 1,
     "table": "<table_name>",
     "column": "<column_name>",
-    "columns": ["<col>"] or ["<col_a>", "<col_b>"] for cross-column rules,
+    "columns": ["<col>"],
     "category": "per_column" | "cross_column" | "cross_table",
-    "type": "format" | "enumeration" | "range" | "not_null" | "referential" | "uniqueness" | "sentinel_check" | "date_ordering" | "custom",
-    "rule": "<plain English description of the rule>",
-    "rationale": "<why this rule was chosen based on the data>",
+    "type": "format" | "enumeration" | "range" | "not_null" |
+            "referential" | "referential_cross_table" | "uniqueness" |
+            "sentinel_check" | "date_ordering" | "date_not_future" |
+            "numeric_parseable" | "integer_parseable" |
+            "phone_validity" | "custom",
+    "rule": "<plain-English description>",
+    "rationale": "<why this rule was chosen based on the evidence>",
     "check_params": {{
-      "regex": "<regex string if applicable>",
-      "min": <number if applicable>,
-      "max": <number if applicable>,
-      "values": ["<list if enumeration>"],
-      "logic": "<python-evaluable expression if custom, using row['col'] syntax>"
-      "col_a": "<earlier column name for date_ordering rules>",
-      "col_b": "<later column name for date_ordering rules — must be non-null for rule to apply>"
-    },
+      "regex":            "<regex string, if applicable>",
+      "expected_length":  "<integer, if applicable>",
+      "min":              "<number, if applicable>",
+      "max":              "<number, if applicable>",
+      "values":           ["<allowed values for enumeration rules>"],
+      "sentinel_values":  ["<explicit sentinel values for sentinel_check rules>"],
+      "logic":            "<Python expression using row['col']; True = violation>",
+      "col_a":            "<first/primary column, if applicable>",
+      "col_b":            "<second/comparison column, if applicable>",
+      "ref_table":        "<referenced table for referential rules>",
+      "ref_column":       "<referenced column for referential rules>",
+      "country_code":     "<country code for phone rules, if applicable>",
+      "valid_first_digits": ["<allowed first digits, if applicable>"],
+      "dominant_length":  "<expected local phone-number length, if applicable>"
+    }}
+  }}
 ]
 ```
+ 
+---
+## Your responsibilities
+ 
+1. For **known sensitive/structured column types**, apply the patterns specified in the
+   "Per-column rules for known types" section below.
+2. For **everything else**, infer validation rules for every column using the supplied
+   evidence. For every column, either generate at least one rule or explicitly justify
+   why none is needed.
+3. Generate **cross-column rules** where columns relate to each other (e.g. start < end
+   date, FK consistency, logical dependencies).
+4. Generate **cross-table rules** where join hints are provided:
+   - FK hints → referential integrity (every FK value must exist in the PK table).
+   - One-to-one key hints → consistency (values must match across both tables).
+   - Shared value domain hints → consistency (values should come from the same observed
+     set; flag values in one table absent from the other).
+   - Semantic cross-column rules also apply across tables. If a column in
+     table A and a column in table B are related via a join key **or** carry logically
+     dependent meaning (e.g. a name particle encoding gender vs. a gender field), generate 
+     a cross-table custom rule scoped to the table containing the primary column.
+5. **Verify against sample records** before finalising each rule. Confirm it flags the
+   observed anomalous values without incorrectly rejecting structurally normal values.
+ 
+---
+## Rule type selection
+ 
+Use this table to pick the correct type. Using `custom` where a named type exists will
+cause the rule to fail silently.
+ 
+| Scenario                                        | Use type            | Never use      |
+|-------------------------------------------------|---------------------|----------------|
+| Null / missing value check                      | `not_null`          | `custom`       |
+| Numeric bounds (min / max)                      | `range`             | `custom`       |
+| Single-date "must not be in the future" check   | `date_not_future`   | `custom`       |
+| Allowed value set                               | `enumeration`       | `custom`       |
+| Sentinel / placeholder value detection          | `sentinel_check`    | `custom`       |
+| All other checks                                | `custom`            | —              |
+ 
+**`not_null` rules** — generate one only when BOTH conditions are met:
+- The column is a mandatory business field (identifier, primary key, required FK, date),
+  OR the evidence explicitly shows `missing_pct > 0`.
+- A not_null rule that can never fire (no missing values, optional column) adds no value.
+ 
+**`range` rules** — use for numeric bounds regardless of whether the column is stored
+as numeric or string dtype (`pd.to_numeric()` handles conversion internally). Do NOT
+generate a range rule with `min`/`max` equal to the observed sample's min/max unless a
+real domain constraint applies (e.g. percentage ≤ 100, age ≤ 120, rating ≤ 5). If no
+domain constraint applies, omit the range rule.
+ 
+**`date_not_future`** — supply `check_params` as:
+`{{"col_a": "<column>", "cutoff_date": "YYYY-MM-DD"}}`.
+Omit `cutoff_date` when checking against today's date. Before finalising, verify the
+cutoff direction: "must NOT be after X" means values **greater than** X are violations.
+ 
+**`sentinel_check`** — `check_params.sentinel_values` is mandatory. Include only values
+supported by the supplied evidence. Never generate a sentinel_check rule without it.
+ 
+**`is numeric` custom rules** — never add one for a column already typed int64, Int64,
+or float64. If non-numeric values are mixed into a numeric column, generate a separate
+`custom` rule using `pd.to_numeric()` to test parseability.
+ 
+**Binary flag columns** (values 0/1) — always validate the domain as {{0, 1}} even if
+the sample shows only one value.
+ 
+---
 
-## Table: {table_name}
+## Custom logic expressions
+ 
+These rules apply to every `"logic"` string in `check_params`.
+ 
+**True = violation.** The expression must evaluate to `True` for rows you want to flag
+(the bad case), and `False` for valid rows. Test by reading the expression aloud: "if
+this is True, is that the bad case?" If `not` appears immediately before `pd.isna(...)`,
+the logic is almost certainly inverted — remove the `not`.
+ 
+```python
+# Correct  — True when the value is NOT a parseable date (bad case)
+pd.isna(pd.to_datetime(row['Col'], errors='coerce'))
+ 
+# Incorrect — True when the value IS parseable (good case)
+not pd.isna(pd.to_datetime(row['Col'], errors='coerce'))
+```
+ 
+**Comparison operators** — always use `!=` / `==`, never `is not` / `is`. Identity
+checks on pandas objects return True regardless of value.
+ 
+**Cross-row checks** — `df` is available:
+```python
+df[df['col'] == row['col']].shape[0] > 1   # uniqueness example
+```
+ 
+**String methods** — never use `isalpha()`, `isdigit()`, `isinstance()`, or
+`isnumeric()` to validate numeric columns. These break on mixed-type columns. Use
+`pd.to_numeric(row['col'], errors='coerce')` instead.
+ 
+**Standardisation rules** — frame the check as "value is NOT the canonical form". Never
+flag the canonical value itself.
 
+**Cross-table logic** — `df` contains only the current table's rows. Other tables are
+not available as variables at evaluation time. Do not reference external dataframes
+(e.g. `acc_info_df`, `other_df`) in logic expressions — these will always fail.
+Cross-table semantic rules that require looking up values in another table should be
+noted in the `rule` and `rationale` fields only. Set `"logic": ""` — do not attempt
+to write a logic expression that references another table's data. Any expression
+referencing a variable other than `row`, `df`, `pd`, or `re` will fail at runtime.
+ 
+---
+
+## Per-column rules for known types
+ 
+Each entry follows the same structure: **Flag**, **Sentinel**, **Standardise**, **Never**.
+ 
+**EMAIL**
+- Flag (format): must match `^[^@\s]+@[^@\s]+$` — flag missing `@` or whitespace inside
+  the address.
+- Flag (sentinel): type `sentinel_check` if evidence shows placeholder local parts
+  (`test`, `noreply`, `admin`, `user`) — only when the error evidence explicitly mentions
+  them.
+- Standardise: flag mixed-case values if evidence reports them; emails must be
+  **lowercased** (not uppercased — uppercasing is destructive for unicode).
+- Never: flag plus-tag subaddressing (`user+tag@domain.com`), new or unusual TLDs
+  (`.email`, `.io`, `.photography`), or recommend stripping `+tag` for deduplication
+  unless business rules confirm it. Do not use a strict RFC regex.
+ 
+**AGE**
+- Flag: non-numeric values; values below 0 or above 120.
+- Flag: values below 13 if the dataset appears to be a consumer service.
+- Sentinel / Standardise: n/a.
+- Never: generate a range rule with bounds taken directly from the observed sample.
+ 
+**DATE**
+- Flag (format): infer the expected format from sample values (e.g. `YYYY-MM-DD`,
+  `DD/MM/YYYY`, `YYYY-MM-DD HH:MM:SS`). Flag non-parseable values and impossible dates
+  (month > 12, day > 31).
+- Flag (future): use `date_not_future` only for **historical** fields (created_at,
+  birth_date, transaction_date). Do NOT flag future dates for forward-looking fields
+  (estimated arrival, scheduled departure, expiry date, due date).
+- Sentinel / Standardise: n/a.
+- Never: apply a "must not be in the future" rule to a forward-looking column.
+ 
+**PHONE NUMBER**
+- Flag: too few or too many digits (valid range: 7–15 per E.164); non-numeric characters
+  other than `+`, `-`, space, or parentheses.
+- Flag: invalid country code or area code structure, inferred from sample values.
+- Sentinel / Standardise: n/a.
+- Never: flag a number that includes a valid country code prefix as an error — treat
+  "country code + local number" as valid.
+ 
+**POSTAL CODE**
+- Flag: wrong digit/character count; non-alphanumeric characters; values outside the
+  observed format (infer country/format from sample values).
+- Sentinel / Standardise / Never: follow evidence.
+ 
+**GENDER**
+- Flag: values outside the observed set; inconsistent casing; unexpected abbreviations.
+- Sentinel / Standardise / Never: follow evidence.
+ 
+**RACE / ETHNICITY**
+- Flag: values outside the observed set; inconsistent casing.
+- Sentinel / Standardise / Never: follow evidence.
+ 
+**NATIONALITY / COUNTRY**
+- Flag: inconsistent representations of the same country (abbreviations, languages, ISO
+  codes mixed).
+- Standardise: suggest standardising to a single form.
+- Never: follow evidence.
+ 
+**RELIGION**
+- Flag: values outside the observed set; inconsistent casing.
+- Sentinel / Standardise / Never: follow evidence.
+ 
+---
+
+## Cross-column semantic & business logic rules
+ 
+Use type `"custom"` for all rules in this section. Generate these even if no failing
+records appear in the sample — output the rule anyway if the business logic is sound.
+ 
+**1. State dependencies**
+If a status column indicates an inactive/negative state, dependent metric columns should
+be zero, null, or absent.
+- Example: `Subscription = "No"` or `"Cancelled"` → `SubscriptionFee` must be 0 or null.
+- Example: `EmploymentStatus = "Unemployed"` → `MonthlySalary` must be 0, null, or
+  missing.
+ 
+**2. Derived attribute mismatches**
+Columns representing the same concept in different forms must not contradict each other.
+- Example: `DateOfBirth = "2010-05-01"` but `Age = 35` — contradicts the birth year.
+- Example: `Status = "Deceased"` but `LastLoginDate` is recent.
+ 
+**3. Mutually exclusive states**
+Flag records where two states that should not co-exist are both present.
+- Example: `IsStudent = True` and `FullTimeEmployment = True`.
+ 
+**4. Conditional presence (field co-dependencies)**
+If one field being populated implies another must also be populated, flag records where
+the dependent field is absent.
+- Example: `street_number` is provided but `street_name` or `address_line_1` is null.
+- Example: `discount_code` is present but `discount_amount` is null.
+- Scan all address, contact, and composite-key columns for such dependencies.
+ 
+**5. Geographic / administrative consistency**
+Where the dataset contains region-specific structured data, validate internal consistency
+between geographic fields.
+- Australia example: if `country = "Australia"`, validate that `state` belongs to
+  `{{NSW, VIC, QLD, SA, WA, TAS, NT, ACT}}` and that `postcode` falls within the known
+  range for that state (NSW 1000–2999, VIC 3000–3999, QLD 4000–4999, SA 5000–5999,
+  WA 6000–6999, TAS 7000–7999, NT 0800–0999, ACT 0200–0299 and 2600–2639).
+- Apply equivalent rules for other countries if evidence supports it (e.g. Singapore
+  6-digit postcodes starting with valid district prefixes).
+ 
+**6. Cultural / linguistic name consistency**
+Where names contain culturally specific particles that encode gender or relationship, 
+validate that those particles are consistent with other demographic columns. Only generate 
+this rule if the sample data across the tables being validated in this pipeline run
+actually contains such particles.
+- Malay/Indian Singapore example: `Bin` or `s/o` indicates Male; `Binte` or `d/o` indicates
+  Female — flag if `Gender` contradicts the particle.
+- Spanish example: gendered suffixes in honorifics must match the `Gender` column.
+---
+
+## Pre-submission checklist
+ 
+Before returning your output, verify each rule against these gates:
+ 
+1. **Type is correct** — no `custom` where a named type exists (see type-selection table).
+2. **Logic polarity** — every `logic` expression returns `True` for the **bad** case.
+   If `not pd.isna(...)` appears, it is almost certainly inverted.
+3. **Sentinel rules have values** — every `sentinel_check` rule has a non-empty
+   `sentinel_values` list.
+4. **Range bounds are domain-derived** — no `range` rule whose `min`/`max` is simply
+   copied from the observed sample without a real domain reason.
+5. **not_null rules are justified** — each one covers a mandatory field or a column with
+   observed nulls (`missing_pct > 0`).
+6. **Sample verification** — the rule flags observed anomalies without rejecting
+   structurally valid records from the sample.
+ 
+---
+
+## Table context
+ 
+### Table: {table_name}
+ 
 ### Column evidence:
 {evidence_json}
-
+ 
 ### Sample records (first {n_sample} rows as JSON):
 {sample_records_json}
-
+ 
 ### Cross-table join hints:
 {join_hints_json}
 
+### Other tables in this pipeline run:
+{sibling_evidence_json}
+
 Generate all rules now. Be thorough. For every column, either generate a rule or explicitly
-justify why no rule is needed. For failing_record_indices, check the sample records carefully
-and list every index that fails the rule. If you identify a strong semantic rule but there are 
-no failing records in the provided sample, output the rule anyway.
-Do not hallucinate indices.
+justify why no rule is needed. If you identify a strong semantic rule but there are no
+failing records in the provided sample, output the rule anyway.
 """
 
+
+
 APPLY_VALIDATION_RULES_PROMPT = """
-You are a data quality analyst applying already-defined validation rules to dataset records.
-
-Do not add, remove, rewrite, or reinterpret the rules. Apply every rule exactly as provided.
-Each record contains `_row_index`, which is the original zero-based row index in the dataset.
-
-Instructions:
-1. Evaluate every provided rule against every provided record.
-2. Return every rule_id, even when no rows fail.
-3. Return `_row_index` values, not positions within the JSON array.
-4. Do not return an index that is absent from the provided records.
-5. Null values fail `not_null` rules. For other rules, null is not a failure unless the
-   rule explicitly states otherwise.
-6. For `referential_cross_table`, compare the foreign-key value against
-   `check_params.pk_values`.
-7. Return JSON only.
-
-Required output:
+You are a data quality analyst applying pre-defined validation rules to dataset records.
+ 
+Do not add, remove, rewrite, or reinterpret any rule. Apply every rule exactly as written.
+If instructions below appear to conflict, lower-numbered instructions take precedence.
+ 
+## Instructions
+ 
+1. Evaluate **every** rule against **every** record.
+2. Return **every** `rule_id` in the output, even when no rows fail.
+3. Use `_row_index` values (original zero-based row index in the full dataset), not the record's
+   position in the JSON array.
+4. Never return a `_row_index` that is absent from the provided records.
+5. Null values fail `not_null` rules. For `custom` rules, if a null value would cause
+   the logic expression to error, treat the record as passing (not a violation) unless
+   the rule explicitly targets null values.
+ 
+## Type-specific behaviour
+ 
+- **`referential_cross_table`** — compare the foreign-key value against
+  `check_params.pk_values`.
+- **`custom`** — evaluate the `check_params.logic` expression; the expression returns
+  `True` when the row **violates** the rule.
+ 
+## Required output
+ 
+Return JSON only — no preamble, no explanation.
+ 
 ```json
 [
-  {
+  {{
     "rule_id": 1,
     "failing_record_indices": [0, 5]
-  },
-  {
+  }},
+  {{
     "rule_id": 2,
     "failing_record_indices": []
-  }
-]```
-
-Validation rules:
+  }}
+]
+```
+ 
+## Validation rules
+ 
 {rules_json}
-
-Records:
+ 
+## Records
+ 
 {records_json}
+
+Before returning, verify each flagged index: confirm the record at that index actually
+violates the rule as written. If uncertain, include the index anyway.
 """

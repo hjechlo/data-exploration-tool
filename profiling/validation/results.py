@@ -473,11 +473,33 @@ def _apply_rule_check(
         return df[col_a].notna() & ~col_str.isin(pk_values)
 
     elif rule_type == "sentinel_check":
-        sentinel_values = check_params.get("sentinel_values", [])
-        if col not in df.columns or not sentinel_values:
+        if col not in df.columns:
             return None
+
+        sentinel_values = check_params.get("sentinel_values")
+
+        if not isinstance(sentinel_values, list) or not sentinel_values:
+            return None
+
+        non_missing = df[col].notna()
+
+        raw = df[col].astype(str).str.strip()
+        sentinel_strings = {
+            str(value).strip()
+            for value in sentinel_values
+        }
+
+        string_hit = raw.isin(sentinel_strings)
+
         numeric = pd.to_numeric(df[col], errors="coerce")
-        return df[col].notna() & numeric.isin(sentinel_values)
+        numeric_sentinels = pd.to_numeric(
+            pd.Series(sentinel_values),
+            errors="coerce",
+        ).dropna()
+
+        numeric_hit = numeric.isin(numeric_sentinels.tolist())
+
+        return non_missing & (string_hit | numeric_hit)
 
     elif rule_type == "not_null":
         if col in df.columns:
@@ -495,6 +517,17 @@ def _apply_rule_check(
         if col_max is not None:
             failing = failing | (df[col].notna() & (numeric > col_max))
         return failing
+    
+    elif rule_type == "uniqueness":
+        if col not in df.columns:
+            return None
+
+        non_missing = df[col].notna()
+
+        return (
+            non_missing
+            & df[col].duplicated(keep=False)
+        )
 
     elif rule_type == "custom":
         logic = check_params.get("logic")
@@ -567,28 +600,33 @@ def _apply_rule_check(
             print(f"    [custom rule] skipping unsafe identity check: {logic}")
             return None
 
-        # General eval — df is available for cross-row checks
+        # General eval — vectorised df['col'] expression (fast, whole dataframe at once)
         try:
-            referenced_cols = [
-                c for c in re.findall(r"row\['([^']+)'\]", logic)
-                if c in df.columns
-            ]
+            mask = eval(
+                logic,
+                {
+                    "__builtins__": {},
+                    "pd": pd,
+                    "re": re,
+                    "df": df,
+                    "str": str,
+                    "int": int,
+                    "float": float,
+                    "bool": bool,
+                    "abs": abs,
+                },
+            )
+        except Exception as exc:
+            raise ValueError(
+                f"Custom validation expression failed: {logic!r}. "
+                f"Underlying error: {exc}"
+            ) from exc
 
-            def _safe_eval(row):
-                # If any referenced column is null, this row cannot
-                # meaningfully satisfy a cross-column rule — skip it.
-                if referenced_cols and any(pd.isna(row[c]) for c in referenced_cols):
-                    return False
-                try:
-                    return bool(eval(logic, {"row": row, "pd": pd, "re": re, "df": df}))
-                except Exception:
-                    return False
+        if not isinstance(mask, pd.Series):
+            raise TypeError(
+                "Custom validation expression must return a pandas Series, "
+                f"but returned {type(mask).__name__}: {logic!r}"
+            )
 
-            failing = df.apply(_safe_eval, axis=1)
-            return failing
-        except Exception as e:
-            print(f"    [custom rule] eval failed for '{logic}': {e}")
-            return None
-
-    elif rule_type in ("type", "referential"):
-        return None 
+        mask = mask.reindex(df.index, fill_value=False)
+        return mask.fillna(False).astype(bool) 

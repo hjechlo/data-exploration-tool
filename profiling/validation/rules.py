@@ -19,7 +19,8 @@ def generate_validation_rules(
     column_summary: list[dict],
     df,  # pandas DataFrame — the actual data
     join_hints: dict[str, list[str]] | None = None,
-    n_sample: int = 100,
+    n_sample: int = 300,
+    sibling_evidence: dict | None = None,
 ) -> list[dict]:
     """
     Ask the LLM to generate validation rules for one dataset table.
@@ -106,17 +107,19 @@ def generate_validation_rules(
         ensure_ascii=False,
     )
 
+    sibling_evidence_json = json.dumps(
+        {k: v for k, v in (sibling_evidence or {}).items() if k != table_name},
+        indent=2,
+        ensure_ascii=False,
+    )
+
+
     prompt = (
         GENERATE_VALIDATION_RULES_PROMPT.replace("{table_name}", table_name)
         .replace("{evidence_json}", evidence_json)
-        .replace(
-            "{sample_records_json}",
-            sample_records_json,
-        )
-        .replace(
-            "{join_hints_json}",
-            join_hints_json,
-        )
+        .replace("{sample_records_json}", sample_records_json)
+        .replace("{join_hints_json}", join_hints_json)
+        .replace("{sibling_evidence_json}", sibling_evidence_json)
         .replace("{n_sample}", str(n_sample))
     )
 
@@ -243,6 +246,19 @@ def generate_validation_rules(
             # Re-stamp rule_ids after filtering
             for i, rule in enumerate(rules):
                 rule["rule_id"] = i + 1
+                rule.setdefault("table", table_name)
+                rule.setdefault("columns", [rule.get("column", "")])
+                rule.setdefault("check_params", {})
+
+                '''if not rule.get("column"):
+                    raise ValueError(
+                        f"Rule #{rule['rule_id']} is missing its column."
+                    )'''
+
+                if not rule.get("type"):
+                    raise ValueError(
+                        f"Rule #{rule['rule_id']} is missing its type."
+                    )
 
             with open(cached, "w", encoding="utf-8") as f:
                 json.dump(rules, f, indent=2, ensure_ascii=False)
@@ -312,6 +328,19 @@ def generate_rules_for_tables(
                         join_hints[col_b].append(
                             f"shared value domain with {t_a}.{col_a} — consistency check candidate"
                         )
+            
+            sibling_evidence = {
+                tname: [
+                    {
+                        "column_name": row["column_name"],
+                        "data_type": row["data_type"],
+                        "sample_values": row["sample_values"],
+                    }
+                    for row in tsummary
+                ]
+                for tname, tsummary in column_summaries.items()
+            }
+            
             rules = generate_validation_rules(
                 config=config,
                 llm_generator=llm_generator,
@@ -320,6 +349,7 @@ def generate_rules_for_tables(
                 df=df,
                 join_hints=join_hints,
                 n_sample=config.llm_validation_sample_size,
+                sibling_evidence=sibling_evidence,
             )
         else:
             rules = []
