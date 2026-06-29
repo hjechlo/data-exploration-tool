@@ -282,6 +282,27 @@ def validate_tables(
                         .drop_duplicates()
                         .tolist()
                     )
+            if rule.get("type") == "cross_table_semantic":
+                sibling_table = params.get("sibling_table")
+                sibling_columns = params.get("sibling_join_col"), params.get("sibling_data_col")
+                current_join_col = params.get("join_col")
+
+                if (
+                    sibling_table
+                    and sibling_table in all_dfs
+                    and all(c and c in all_dfs[sibling_table].columns for c in sibling_columns)
+                    and current_join_col
+                ):
+                    sibling_df = all_dfs[sibling_table]
+                    join_col, data_col = sibling_columns
+                    params["sibling_lookup"] = (
+                        sibling_df[[join_col, data_col]]
+                        .dropna()
+                        .drop_duplicates(subset=[join_col])
+                        .set_index(join_col)[data_col]
+                        .astype(str)
+                        .to_dict()
+                    )
 
         print(f"  Asking the LLM to identify failed records for {table_name}...")
 

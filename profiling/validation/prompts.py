@@ -17,7 +17,7 @@ Return a JSON array. Each element is one rule:
             "referential" | "referential_cross_table" | "uniqueness" |
             "sentinel_check" | "date_ordering" | "date_not_future" |
             "numeric_parseable" | "integer_parseable" |
-            "phone_validity" | "custom",
+            "phone_validity" | "custom" | "cross_table_semantic",
     "rule": "<plain-English description>",
     "rationale": "<why this rule was chosen based on the evidence>",
     "check_params": {{
@@ -137,13 +137,16 @@ df[df['col'] == row['col']].shape[0] > 1   # uniqueness example
 **Standardisation rules** — frame the check as "value is NOT the canonical form". Never
 flag the canonical value itself.
 
-**Cross-table logic** — `df` contains only the current table's rows. Other tables are
-not available as variables at evaluation time. Do not reference external dataframes
-(e.g. `acc_info_df`, `other_df`) in logic expressions — these will always fail.
-Cross-table semantic rules that require looking up values in another table should be
-noted in the `rule` and `rationale` fields only. Set `"logic": ""` — do not attempt
-to write a logic expression that references another table's data. Any expression
-referencing a variable other than `row`, `df`, `pd`, or `re` will fail at runtime.
+**Cross-table semantic rules** — when a rule requires looking up a value from another
+table, use type `"cross_table_semantic"` instead of `"custom"`. Set `"logic": ""` and
+populate these fields in `check_params`:
+- `"sibling_table"`: the exact name of the other table
+- `"join_col"`: the column in the current table used to join
+- `"sibling_join_col"`: the matching column in the sibling table
+- `"sibling_data_col"`: the column in the sibling table containing the data to check
+- `"semantic_check"`: plain-English description of what to check once the lookup is available
+Do not reference external dataframes in logic expressions — these will always fail.
+Any expression referencing a variable other than `row`, `df`, `pd`, or `re` will fail at runtime.
  
 ---
 
@@ -245,8 +248,8 @@ Where the dataset contains region-specific structured data, validate internal co
 between geographic fields.
 - Australia example: if `country = "Australia"`, validate that `state` belongs to
   `{{NSW, VIC, QLD, SA, WA, TAS, NT, ACT}}` and that `postcode` falls within the known
-  range for that state (NSW 1000–2999, VIC 3000–3999, QLD 4000–4999, SA 5000–5999,
-  WA 6000–6999, TAS 7000–7999, NT 0800–0999, ACT 0200–0299 and 2600–2639).
+  range for that state (NSW 1000–2599 **or** NSW 2640–2999, VIC 3000–3999, QLD 4000–4999,
+  SA 5000–5999, WA 6000–6999, TAS 7000–7999, NT 0800–0999, ACT 0200–0299 **or** ACT 2600–2639).
 - Apply equivalent rules for other countries if evidence supports it (e.g. Singapore
   6-digit postcodes starting with valid district prefixes).
  
@@ -291,6 +294,9 @@ Before returning your output, verify each rule against these gates:
 ### Cross-table join hints:
 {join_hints_json}
 
+### Dataset description:
+{dataset_description}
+
 ### Other tables in this pipeline run:
 {sibling_evidence_json}
 
@@ -319,9 +325,15 @@ If instructions below appear to conflict, lower-numbered instructions take prece
    the rule explicitly targets null values.
  
 ## Type-specific behaviour
- 
+- **`enumeration`** — flag the record if the column value is not in `check_params.values`.
+  Compare as strings: cast the record's column value to string before checking membership.
 - **`referential_cross_table`** — compare the foreign-key value against
   `check_params.pk_values`.
+- **`cross_table_semantic`** — a `sibling_lookup` dict is pre-injected into
+  `check_params.sibling_lookup` as `{join_key: sibling_value}`. Look up the current
+  record's `check_params.join_col` value in `sibling_lookup` to retrieve the sibling
+  value, then apply `check_params.semantic_check` to determine if the record violates
+  the rule. If the join key is not found in `sibling_lookup`, treat the record as passing.
 - **`custom`** — evaluate the `check_params.logic` expression; the expression returns
   `True` when the row **violates** the rule.
  
@@ -351,5 +363,5 @@ Return JSON only — no preamble, no explanation.
 {records_json}
 
 Before returning, verify each flagged index: confirm the record at that index actually
-violates the rule as written. If uncertain, include the index anyway.
+violates the rule as written. If uncertain, omit the index rather than include it.
 """

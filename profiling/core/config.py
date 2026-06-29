@@ -11,7 +11,6 @@ PLACEHOLDER_TOKENS: set[str] = {
         'n.a.', 'not available', '--', '???', '?', 'missing'
     }
 
-#EMAIL_REGEX = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+$")
 
 ID_NAME_HINTS: set[str] = {"id", "key", "identifier", "uuid", "ssn", "soc_sec"}
@@ -67,8 +66,8 @@ class PipelineConfig:
     llm_max_retries: int = 3
     llm_save_raw_outputs: bool = True
     llm_validation_sample_size: int = 300
-    llm_validation_batch_size: int = 50
-    llm_validation_concurrency: int = 5 
+    llm_validation_batch_size: int = 200
+    llm_validation_concurrency: int = 10
     llm_resume: bool = False
     llm_timeout: int = 600
 
@@ -83,7 +82,6 @@ class PipelineConfig:
         r'^0{3,}$',
         r'^1{3,}$',
         r'^9{3,}$',
-        #r'^test',
         r'^x{3,}',
         r'^dummy',
     ])

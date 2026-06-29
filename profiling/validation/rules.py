@@ -21,6 +21,7 @@ def generate_validation_rules(
     join_hints: dict[str, list[str]] | None = None,
     n_sample: int = 300,
     sibling_evidence: dict | None = None,
+    dataset_description: str = "",
 ) -> list[dict]:
     """
     Ask the LLM to generate validation rules for one dataset table.
@@ -120,6 +121,7 @@ def generate_validation_rules(
         .replace("{sample_records_json}", sample_records_json)
         .replace("{join_hints_json}", join_hints_json)
         .replace("{sibling_evidence_json}", sibling_evidence_json)
+        .replace("{dataset_description}", dataset_description)
         .replace("{n_sample}", str(n_sample))
     )
 
@@ -276,6 +278,7 @@ def generate_rules_for_tables(
     column_summaries: dict,
     minhash_results: dict,
     profile_results: dict | None = None,
+    dataset_descriptions: dict[str, str] | None = None,
 ) -> dict[str, list[dict]]:
     """
     Generate validation rules for all tables via the LLM.
@@ -340,7 +343,7 @@ def generate_rules_for_tables(
                 ]
                 for tname, tsummary in column_summaries.items()
             }
-            
+
             rules = generate_validation_rules(
                 config=config,
                 llm_generator=llm_generator,
@@ -350,6 +353,7 @@ def generate_rules_for_tables(
                 join_hints=join_hints,
                 n_sample=config.llm_validation_sample_size,
                 sibling_evidence=sibling_evidence,
+                dataset_description=(dataset_descriptions or {}).get(table_name, ""),
             )
         else:
             rules = []

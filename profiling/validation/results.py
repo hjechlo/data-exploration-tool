@@ -4,7 +4,6 @@ Functions were moved from the former column analyzer without changing their
 validation behavior.
 """
 
-import json
 import re
 
 import pandas as pd

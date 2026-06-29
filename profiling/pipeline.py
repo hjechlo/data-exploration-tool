@@ -122,6 +122,7 @@ def run(
         column_summaries=column_summaries,
         minhash_results=minhash_results,
         profile_results=profile_results,
+        dataset_descriptions=dataset_summaries,
     )
 
     print("\n── Step 5b: Validation checks (record-wise) ────────")
