@@ -282,6 +282,7 @@ def validate_tables(
                         .drop_duplicates()
                         .tolist()
                     )
+            
             if rule.get("type") == "cross_table_semantic":
                 sibling_table = params.get("sibling_table")
                 sibling_columns = params.get("sibling_join_col"), params.get("sibling_data_col")
@@ -292,6 +293,7 @@ def validate_tables(
                     and sibling_table in all_dfs
                     and all(c and c in all_dfs[sibling_table].columns for c in sibling_columns)
                     and current_join_col
+                    and sibling_columns[0] != sibling_columns[1]
                 ):
                     sibling_df = all_dfs[sibling_table]
                     join_col, data_col = sibling_columns

@@ -145,6 +145,14 @@ populate these fields in `check_params`:
 - `"sibling_join_col"`: the matching column in the sibling table
 - `"sibling_data_col"`: the column in the sibling table containing the data to check
 - `"semantic_check"`: plain-English description of what to check once the lookup is available
+- `sibling_join_col` and `sibling_data_col` must always be different columns — the join 
+column identifies which record to match, the data column is the value being checked. 
+Using the same column for both is invalid and the rule will be skipped.
+
+The `"rule"` field for cross_table_semantic rules must explicitly state the specific
+condition being checked (the actual values, mapping, or pattern) not just reference
+that "consistency" is required.
+
 Do not reference external dataframes in logic expressions — these will always fail.
 Any expression referencing a variable other than `row`, `df`, `pd`, or `re` will fail at runtime.
  
@@ -278,6 +286,12 @@ Before returning your output, verify each rule against these gates:
    observed nulls (`missing_pct > 0`).
 6. **Sample verification** — the rule flags observed anomalies without rejecting
    structurally valid records from the sample.
+7. **Rule consistency across the same column** — no two rules on the same column may
+   contradict each other. If one rule treats a value as invalid (e.g. a non-numeric
+   string in a numeric field), no other rule on that column may permit that same value
+   as acceptable. Conditional rules (`cross_column`/`custom`) must still respect type
+   constraints already established by other rules on that column — do not allow a
+   placeholder string as a valid alternative to a numeric value.
  
 ---
 
@@ -329,6 +343,10 @@ If instructions below appear to conflict, lower-numbered instructions take prece
   Compare as strings: cast the record's column value to string before checking membership.
 - **`referential_cross_table`** — compare the foreign-key value against
   `check_params.pk_values`.
+- **`format`** — apply `check_params.regex` against the column value. If the rule's
+  text explicitly states an exemption for missing/null values (e.g. "or be <NA> for
+  missing values"), treat null or missing values as passing, not failing, regardless
+  of whether they match the regex.
 - **`cross_table_semantic`** — a `sibling_lookup` dict is pre-injected into
   `check_params.sibling_lookup` as `{join_key: sibling_value}`. Look up the current
   record's `check_params.join_col` value in `sibling_lookup` to retrieve the sibling

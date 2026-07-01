@@ -42,14 +42,17 @@ def run_validation_checks(
 
         def _name_score(col: str) -> int:
             n = _norm(col)
+            # Tokenize on underscores/camelCase before normalizing, so we match whole tokens
+            tokens = set(re.split(r"[^a-z0-9]+", re.sub(r"(?<=[a-z])(?=[A-Z])", "_", col).lower()))
 
-            # Exact match on known ID hints
-            if n in {h.replace("_", "") for h in ID_NAME_HINTS}:
+            hint_tokens = {h.replace("_", "") for h in ID_NAME_HINTS}
+
+            # Exact match on known ID hints (whole token, not substring)
+            if tokens & hint_tokens:
                 return 100
 
-            # Ends with or contains an ID hint token
-            if any(n.endswith(h.replace("_", "")) or h.replace("_", "") in n
-                   for h in ID_NAME_HINTS):
+            # Ends with or contains an ID hint as a distinct token, not a substring
+            if any(n.endswith(h.replace("_", "")) for h in ID_NAME_HINTS):
                 return 90
 
             # Ends with "no" or "number" but is NOT a descriptive/contact field
@@ -103,7 +106,22 @@ def run_validation_checks(
         )
 
         best = candidates[0]
-        return best["column"] if best["name_score"] > 0 else None
+
+        # Prefer a genuine name-matched identifier. If none exists, fall back
+        # to the most identifier-like column by uniqueness, as long as it's
+        # reasonably unique (avoids picking a low-cardinality categorical).
+        if best["name_score"] > 0:
+            return best["column"]
+
+        fallback_candidates = [c for c in candidates if c["uniqueness"] >= 0.9]
+        if fallback_candidates:
+            fallback_candidates.sort(
+                key=lambda x: (x["uniqueness"], -x["avg_len"]),
+                reverse=True,
+            )
+            return fallback_candidates[0]["column"]
+
+        return None
 
     if record_id_col is None or record_id_col not in df.columns:
         record_id_col = _find_record_identifier_column()
