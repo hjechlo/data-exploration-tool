@@ -179,6 +179,9 @@ Each entry follows the same structure: **Flag**, **Sentinel**, **Standardise**, 
 - Flag: values below 13 if the dataset appears to be a consumer service.
 - Sentinel / Standardise: n/a.
 - Never: generate a range rule with bounds taken directly from the observed sample.
+- Never: generate a sentinel_check rule for an age value that falls within a 
+  plausible human lifespan (0–120), even if it appears as a statistical outlier. 
+  IQR outlier flags are for human review only, not evidence of sentinel coding.
  
 **DATE**
 - Flag (format): infer the expected format from sample values (e.g. `YYYY-MM-DD`,
@@ -265,7 +268,11 @@ between geographic fields.
 Where names contain culturally specific particles that encode gender or relationship, 
 validate that those particles are consistent with other demographic columns. Only generate 
 this rule if the sample data across the tables being validated in this pipeline run
-actually contains such particles.
+actually contains such particles. When comparing against a demographic column,
+normalise the comparison value to a consistent case before checking. The particle rule
+should not fail due to casing inconsistencies in the comparison column that are already
+covered by a separate standardisation rule. Express this in the logic expression using
+`.strip().lower()` or `.strip().title()` on the comparison column value.
 - Malay/Indian Singapore example: `Bin` or `s/o` indicates Male; `Binte` or `d/o` indicates
   Female — flag if `Gender` contradicts the particle.
 - Spanish example: gendered suffixes in honorifics must match the `Gender` column.

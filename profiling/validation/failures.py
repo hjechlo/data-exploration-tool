@@ -336,7 +336,7 @@ def validate_tables(
 
         n_failing = sum(
             1 for result in results["per_rule"]
-            if result.get("n_violations", 0) > 0
+            if result.get("n_violations") or 0 > 0
         )
 
         print(

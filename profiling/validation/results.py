@@ -81,7 +81,7 @@ def run_validation_checks(
             uniqueness = non_null.nunique(dropna=True) / len(non_null)
             score = _name_score(c)
 
-            if score == 0 and uniqueness < 1.0:
+            if score == 0 and uniqueness < 0.9:
                 continue
 
             avg_len = non_null.astype(str).str.len().mean()
@@ -134,32 +134,33 @@ def run_validation_checks(
 
         try:
             if use_llm_indices:
-                raw_indices = rule.get(
-                    "failing_record_indices",
-                    [],
-                )
+                failing_mask = _apply_rule_check(df, rule_type, col, check_params)
+                if failing_mask is not None:
+                    # Deterministic path available — use it, ignore LLM indices
+                    failing_indices = df.index[failing_mask.fillna(False)].tolist()
+                else:
+                    # No deterministic path (e.g. cross_table_semantic) — fall back to LLM
+                    raw_indices = rule.get("failing_record_indices", [])
 
-                if not isinstance(raw_indices, list):
-                    raise ValueError(
-                        "failing_record_indices must be a list"
-                    )
+                    if not isinstance(raw_indices, list):
+                        raise ValueError("failing_record_indices must be a list")
 
-                failing_indices = sorted({
-                    int(index)
-                    for index in raw_indices
-                })
+                    failing_indices = sorted({
+                        int(index)
+                        for index in raw_indices
+                    })
 
-                invalid_indices = [
-                    index
-                    for index in failing_indices
-                    if index not in df.index
-                ]
+                    invalid_indices = [
+                        index
+                        for index in failing_indices
+                        if index not in df.index
+                    ]
 
-                if invalid_indices:
-                    raise ValueError(
-                        f"Invalid failing row indices: "
-                        f"{invalid_indices[:10]}"
-                    )
+                    if invalid_indices:
+                        raise ValueError(
+                            f"Invalid failing row indices: "
+                            f"{invalid_indices[:10]}"
+                        )
 
             else:
                 failing_mask = _apply_rule_check(
