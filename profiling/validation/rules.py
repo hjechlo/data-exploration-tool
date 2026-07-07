@@ -300,49 +300,109 @@ def generate_validation_rules(
                     continue
 
                 # 5d: token-shadowing repair — when one string literal in a
-                _logic5d = (rule.get("check_params") or {}).get("logic") or ""
-                if "row['" in _logic5d and " in " in _logic5d:
-                    _lits = set(re.findall(r"'([^']{2,})'", _logic5d))
-                    _lits = {l for l in _lits if not l.startswith("row[")}
-                    _shadowed_all = {
-                        a for a in _lits
-                        if any(a != b and a in b for b in _lits)
-                    }
-                    # Direct rewrites only for tokens in an `in` membership test
-                    _shadowed = {
-                        a for a in _shadowed_all
-                        if re.search(rf"'{re.escape(a)}'\s+in\s+", _logic5d)
-                    }
-                    
-                    _new_logic = _logic5d
-                    _strip_case = re.compile(r'\.(?:upper|lower)\(\)$')
-                    for _tok in _shadowed:
-                        _pat = re.escape(_tok)
-                        _new_logic = re.sub(
-                            rf"'{_pat}'\s+in\s+(str\(row\['[^']+'\]\)(?:\.(?:upper|lower)\(\))?|row\['[^']+'\](?:\.(?:upper|lower)\(\))?|[A-Za-z_]\w*)",
-                            lambda m, p=_pat: f"bool(re.search(r'(?<![a-z0-9]){p}(?![a-z0-9])', {_strip_case.sub('', m.group(1))}.lower()))",
-                            _new_logic,
-                        )
-                    # Also handle: any(v in X for v in ['bin', ...]) where a
-                    # list element is shadowed by another literal in the logic.
-                    def _rewrite_any(m):
-                        var, operand, listbody = m.group(1), m.group(2), m.group(3)
-                        toks = re.findall(r"'([^']+)'", listbody)
-                        if not any(t in _shadowed_all for t in toks):
-                            return m.group(0)
-                        alt = "|".join(re.escape(t) for t in toks)
-                        clean = _strip_case.sub("", operand)
-                        return (
-                            f"bool(re.search(r'(?<![a-z0-9])(?:{alt})(?![a-z0-9])', "
-                            f"{clean}.lower()))"
-                        )
-                    _new_logic = re.sub(
-                        r"any\(\s*(\w+)\s+in\s+(str\(row\['[^']+'\]\)(?:\.(?:upper|lower)\(\))?)\s+for\s+\1\s+in\s+\[([^\]]*)\]\s*\)",
-                        _rewrite_any,
-                        _new_logic,
+                _logic5d = str(
+                    (rule.get("check_params") or {}).get(
+                        "logic",
+                        "",
                     )
-                    if _new_logic != _logic5d:
-                        rule["check_params"]["logic"] = _new_logic
+                )
+
+                if (
+                    rule.get("category") in {
+                        "cross_column",
+                        "cross_table",
+                    }
+                    and " in " in _logic5d
+                ):
+                    _strip_case = re.compile(
+                        r"\.(?:lower|upper)\(\)$"
+                    )
+
+                    def _rewrite_direct_membership(match):
+                        term = match.group(1)
+                        operand = match.group(2)
+
+                        clean_operand = _strip_case.sub(
+                            "",
+                            operand,
+                        )
+
+                        escaped_term = re.escape(
+                            term.casefold()
+                        )
+
+                        return (
+                            "bool(re.search("
+                            f"r'(?<![a-z0-9]){escaped_term}"
+                            "(?![a-z0-9])', "
+                            f"str({clean_operand}).lower()"
+                            "))"
+                        )
+
+                    # Example:
+                    # 'term' in str(row['Name']).lower()
+                    _logic5d = re.sub(
+                        r"'([^']+)'\s+in\s+"
+                        r"("
+                        r"(?:str\()?row\['[^']+'\]\)?"
+                        r"(?:\.(?:lower|upper)\(\))?"
+                        r")",
+                        _rewrite_direct_membership,
+                        _logic5d,
+                    )
+
+                    def _rewrite_any_membership(match):
+                        variable = match.group(1)
+                        operand = match.group(2)
+                        list_body = match.group(3)
+
+                        del variable
+
+                        terms = [
+                            single or double
+                            for single, double in re.findall(
+                                r"'([^']+)'|\"([^\"]+)\"",
+                                list_body,
+                            )
+                            if single or double
+                        ]
+
+                        if not terms:
+                            return match.group(0)
+
+                        alternatives = "|".join(
+                            re.escape(term.casefold())
+                            for term in terms
+                        )
+
+                        clean_operand = _strip_case.sub(
+                            "",
+                            operand,
+                        )
+
+                        return (
+                            "bool(re.search("
+                            f"r'(?<![a-z0-9])(?:{alternatives})"
+                            "(?![a-z0-9])', "
+                            f"str({clean_operand}).lower()"
+                            "))"
+                        )
+
+                    # Example:
+                    # any(v in str(row['Name']).lower()
+                    #     for v in ['term1', 'term2'])
+                    _logic5d = re.sub(
+                        r"any\(\s*(\w+)\s+in\s+"
+                        r"("
+                        r"(?:str\()?row\['[^']+'\]\)?"
+                        r"(?:\.(?:lower|upper)\(\))?"
+                        r")"
+                        r"\s+for\s+\1\s+in\s+\[([^\]]*)\]\s*\)",
+                        _rewrite_any_membership,
+                        _logic5d,
+                    )
+
+                    rule["check_params"]["logic"] = _logic5d
                 # 5e: casing-normalised enumeration in custom logic defeats
                 # casing validation (title()/upper()/lower() before not-in).
                 # Convert to strict enumeration using the listed values.
@@ -766,46 +826,47 @@ def generate_rules_for_tables(
     # # duplicated account number) cannot be classified as one_to_one_key
     # # by MinHash precisely because its duplicates break the join, so it
     # # is caught here via its observed uniqueness ratio instead.
-    # _min_ratio = getattr(config, "uniqueness_rule_min_ratio", 0.9)
-    # for jp in minhash_results.get("join_paths", []):
-    #     _pairs = (
-    #         (jp.get("table_a") or jp.get("foreign_key_table"),
-    #          jp.get("col_a") or jp.get("foreign_key_column")),
-    #         (jp.get("table_b") or jp.get("primary_key_table"),
-    #          jp.get("col_b") or jp.get("primary_key_column")),
-    #     )
-    #     for tname, cname in _pairs:
-    #         if not tname or not cname or tname not in all_rules:
-    #             continue
-    #         if any(
-    #             r.get("type") == "uniqueness" and r.get("column") == cname
-    #             for r in all_rules[tname]
-    #         ):
-    #             continue
-    #         _tdf = all_dfs.get(tname)
-    #         if _tdf is None or cname not in _tdf.columns:
-    #             continue
-    #         _non_null = _tdf[cname].dropna()
-    #         if len(_non_null) == 0:
-    #             continue
-    #         _ratio = _non_null.nunique(dropna=True) / len(_non_null)
-    #         if _ratio < _min_ratio:
-    #             continue
-    #         all_rules[tname].append({
-    #             "rule_id": len(all_rules[tname]) + 1,
-    #             "table": tname,
-    #             "column": cname,
-    #             "columns": [cname],
-    #             "category": "per_column",
-    #             "type": "uniqueness",
-    #             "rule": f"{cname} must be unique within {tname}",
-    #             "rationale": (
-    #                 f"Column participates in a detected cross-table relationship "
-    #                 f"and is {_ratio:.1%} distinct; treated as a candidate key, "
-    #                 f"duplicates flagged for review."
-    #             ),
-    #             "check_params": {},
-    #         })
+    _min_ratio = getattr(config, "uniqueness_rule_min_ratio", 0.9)
+    for tname, tsummary in column_summaries.items():
+        _tdf = all_dfs.get(tname)
+        if _tdf is None:
+            continue
+        for col_row in tsummary:
+            cname = col_row["column_name"]
+            _intended = str(
+                col_row.get("intended_data_type") or col_row.get("data_type", "")
+            ).lower()
+            if not _intended.startswith(("string", "object", "str")):
+                continue  # numeric measures are often near-unique by chance
+            if cname not in _tdf.columns:
+                continue
+            if any(
+                r.get("type") == "uniqueness" and r.get("column") == cname
+                for r in all_rules.get(tname, [])
+            ):
+                continue
+            _non_null = _tdf[cname].dropna()
+            if len(_non_null) == 0:
+                continue
+            _ratio = _non_null.nunique(dropna=True) / len(_non_null)
+            if _ratio < _min_ratio or _ratio >= 1.0:
+                continue
+            _dups = _non_null[_non_null.duplicated(keep=False)].unique()[:3].tolist()
+            all_rules[tname].append({
+                "rule_id": len(all_rules[tname]) + 1,
+                "table": tname,
+                "column": cname,
+                "columns": [cname],
+                "category": "per_column",
+                "type": "uniqueness",
+                "rule": f"{cname} must be unique within {tname}",
+                "rationale": (
+                    f"Column is {_ratio:.1%} distinct with duplicate value(s) "
+                    f"{_dups} observed; treated as a candidate identifier — "
+                    f"duplicates flagged for review."
+                ),
+                "check_params": {},
+            })
 
     # # Uniqueness — also inject for columns used as sibling_data_col in
     # # cross_table_semantic rules, which MinHash may not have linked directly.

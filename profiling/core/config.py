@@ -2,6 +2,7 @@
 Shared constants and default configuration for the profiling pipeline.
 """
 
+import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -76,8 +77,8 @@ class PipelineConfig:
     llm_resume: bool = False
     llm_timeout: int = 600
 
-    llm_model: str = "" 
-    llm_endpoint: str = ""            # Azure endpoint for primary model
+    llm_model: str = field(default_factory=lambda: os.environ.get("DEPLOYMENT_KIMI", "")) 
+    llm_endpoint: str = field(default_factory=lambda: os.environ.get("ENDPOINT_KIMI", ""))
     llm_is_native_azure: bool = False  # True = AzureOpenAI client, False = OpenAI-compatible client
 
     uniqueness_rule_min_ratio: float = 0.9

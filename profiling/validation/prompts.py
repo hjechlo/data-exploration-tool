@@ -251,8 +251,9 @@ Use type `"custom"` for all rules in this section. Generate these even if no fai
 records appear in the sample — output the rule anyway if the business logic is sound.
  
 **1. State dependencies**
-If a status column indicates an inactive/negative state, dependent metric columns should
-be zero, null, or absent.
+If one column constrains a numeric column, require the exact numeric value supported by
+the evidence. Do not permit null or text alternatives unless the evidence explicitly
+states that they are valid.
 - Example: `Subscription = "No"` or `"Cancelled"` → `SubscriptionFee` must be 0 or null.
 - Example: `EmploymentStatus = "Unemployed"` → `MonthlySalary` must be 0, null, or
   missing.
@@ -285,13 +286,15 @@ between geographic fields.
  
 **6. Cultural / linguistic name consistency**
 Where names contain culturally specific particles that encode gender or relationship, 
-validate that those particles are consistent with other demographic columns. Only generate 
+validate that those particles are consistent with other demographic columns.Match particles 
+as complete terms using regex boundaries; never use plain substring membership because a 
+shorter particle may occur inside a longer particle. Only generate 
 this rule if the sample data across the tables being validated in this pipeline run
 actually contains such particles. When comparing against a demographic column,
 normalise the comparison value to a consistent case before checking. The particle rule
 should not fail due to casing inconsistencies in the comparison column that are already
 covered by a separate standardisation rule. Express this in the logic expression using
-`.strip().lower()` or `.strip().title()` on the comparison column value.
+`.strip().lower()` or `.strip().title()` on the comparison column value. 
 - Malay/Indian Singapore example: `Bin` or `s/o` indicates Male; `Binte` or `d/o` indicates
   Female — flag if `Gender` contradicts the particle.
 - Spanish example: gendered suffixes in honorifics must match the `Gender` column.

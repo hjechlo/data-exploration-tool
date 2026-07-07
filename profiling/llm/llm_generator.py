@@ -22,8 +22,8 @@ class LLMDictionaryGenerator:
 
     def call(self, prompt: str, system_prompt: str | None = None) -> str:
         """Call the primary Azure deployment (used for summaries and interpretations)."""
-        endpoint = self.config.llm_endpoint or os.environ.get("ENDPOINT_KIMI", "")
-        deployment = self.config.llm_model or os.environ.get("DEPLOYMENT_KIMI", "")
+        endpoint = self.config.llm_endpoint 
+        deployment = self.config.llm_model
         is_native = self.config.llm_is_native_azure
         return self.engine.generate_response(
             endpoint=endpoint,
