@@ -122,6 +122,9 @@ def generate_dataset_summary(
                 "data_type": row.get("intended_data_type", row["data_type"]),
                 "sample_values": row["sample_values"][:3],
                 "observed_distinct_values": row.get("permissible_values"),
+                "n_total": row.get("profile", {}).get("n_total"),
+                "n_distinct": row.get("profile", {}).get("n_distinct"),
+                "missing_count": row.get("profile", {}).get("missing_count"),
             }
             for row in column_summary
         ],

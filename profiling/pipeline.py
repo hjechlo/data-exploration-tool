@@ -119,7 +119,7 @@ def run(
     validation_rules = generate_rules_for_tables(
         config=run_config,
         llm_generator=llm_generator,
-        column_summaries=column_summaries,
+        column_summaries=all_dictionaries,
         minhash_results=minhash_results,
         profile_results=profile_results,
         dataset_descriptions=dataset_summaries,

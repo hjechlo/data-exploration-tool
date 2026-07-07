@@ -131,7 +131,8 @@ class LLMDictionaryGenerator:
         results = []
         for col_evidence in chunk:
             col_name = col_evidence["column_name"]
-            col_cached = chunk_dir / f"chunk_{chunk_index}_{col_name}_validated.json"
+            safe_col = re.sub(r"[^\w\-.]", "_", col_name)
+            col_cached = chunk_dir / f"chunk_{chunk_index}_{safe_col}_validated.json"
             if cfg.llm_resume and col_cached.exists():
                 print(f"    [{table_name}] {col_name}: reusing cached result.")
                 with open(col_cached, encoding="utf-8") as f:
@@ -156,7 +157,7 @@ class LLMDictionaryGenerator:
                 )
                 raw_path = (
                     chunk_dir
-                    / f"chunk_{chunk_index}_{col_name}_attempt_{attempt}_raw.txt"
+                    / f"chunk_{chunk_index}_{safe_col}_attempt_{attempt}_raw.txt"
                 )
                 raw_path.write_text(raw, encoding="utf-8")
                 try:
@@ -212,21 +213,13 @@ class LLMDictionaryGenerator:
                             0,
                             f"[VALIDATE] Enforce referential integrity against {_parent} — all values must reference a valid record in the parent table.",
                         )
-            merged.append(
-                {
-                    "column_name": row["column_name"],
-                    "data_type": row["data_type"],
-                    "intended_data_type": row.get(
-                        "intended_data_type", row["data_type"]
-                    ),
-                    "sample_values": row["sample_values"],
-                    "permissible_values": row.get("permissible_values"),
-                    "profile": row.get("profile", {}),
-                    "errors": row["errors"],
-                    "description": llm.get("description", ""),
-                    "recommended_actions": clean_actions(_actions),
-                }
-            )
+            merged_row = {
+                **row,
+                "description": llm.get("description", ""),
+                "recommended_actions": clean_actions(_actions),
+            }
+
+            merged.append(merged_row)
         return merged
 
 

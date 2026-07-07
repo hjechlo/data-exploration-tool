@@ -17,6 +17,11 @@ ID_NAME_HINTS: set[str] = {"id", "key", "identifier", "uuid", "ssn", "soc_sec"}
 
 SUPPORTED_EXTENSIONS: list[str] = [".csv", ".xlsx", ".xls", ".parquet", ".json",".geojson", ".txt"]
 
+BOOLEAN_SPELLINGS: dict[str, bool] = {
+    "true": True, "t": True, "yes": True, "y": True, "1": True, "1.0": True,
+    "false": False, "f": False, "no": False, "n": False, "0": False, "0.0": False,
+}
+
 
 @dataclass
 class PipelineConfig:
@@ -75,7 +80,8 @@ class PipelineConfig:
     llm_endpoint: str = ""            # Azure endpoint for primary model
     llm_is_native_azure: bool = False  # True = AzureOpenAI client, False = OpenAI-compatible client
 
-    
+    uniqueness_rule_min_ratio: float = 0.9
+
     outlier_z_score_threshold: float = 3.0
     outlier_tail_multiplier: float = 2.0
     suspicious_string_patterns: list[str] = field(default_factory=lambda: [
@@ -97,7 +103,7 @@ class PipelineConfig:
         "modified", "updated", "changed"
     })
 
-        # Relationship-name heuristics
+    # Relationship-name heuristics
     # These are generic defaults, not dataset-specific rules.
     # They can be tuned per project if needed.
     relationship_descriptive_prefixes: set[str] = field(default_factory=lambda: {

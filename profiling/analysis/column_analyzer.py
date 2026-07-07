@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from ..core.config import EMAIL_REGEX, PLACEHOLDER_TOKENS, PipelineConfig
+from ..core.config import EMAIL_REGEX, PLACEHOLDER_TOKENS, BOOLEAN_SPELLINGS, PipelineConfig
 from .column_errors import detect_column_errors
 from .column_evidence import build_column_facts, extract_sample_values
 from .format_pattern_analyzer import FormatPatternAnalyzer
@@ -93,13 +93,12 @@ class ColumnAnalyzer:
                 if numeric_ratio >= 0.9:
                     intended_type = "float64"
                 else:
-                    # Check for boolean-like columns before datetime
-                    common_bool_spellings = {
-                        "true", "false", "yes", "no", "y", "n", "t", "f", "1", "0", "1.0", "0.0"
-                    }
                     non_null_lower = raw_series.dropna().astype(str).str.strip().str.lower()
                     unique_bool_check = set(non_null_lower.unique())
-                    if len(unique_bool_check) == 2 and unique_bool_check.issubset(common_bool_spellings):
+                    if (
+                        2 <= len(unique_bool_check)
+                        and unique_bool_check.issubset(BOOLEAN_SPELLINGS)
+                    ):
                         intended_type = "bool"
 
                     else:

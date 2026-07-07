@@ -354,6 +354,7 @@ Rules:
 - **Do NOT** mention data quality errors, missing values, or recommended actions
 - **Do NOT** mention join paths or cross-dataset relationships — that is covered in the executive summary
 - **Do NOT** call a column a "primary key" unless the evidence explicitly confirms a primary/foreign-key relationship. If it only appears unique and non-null within one table, call it a "unique table-level identifier".
+- **Do NOT** describe a column as unique unless `n_distinct` equals `n_total` and there are no missing values.
 - Observed distinct values are observed dataset values only, not official approved code lists.
 - Write in professional flowing prose. No bullet points. No markdown. Return plain text only.
 

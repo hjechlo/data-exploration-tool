@@ -16,7 +16,7 @@ Return a JSON array. Each element is one rule:
     "type": "format" | "enumeration" | "range" | "not_null" |
             "referential" | "referential_cross_table" | "uniqueness" |
             "sentinel_check" | "date_ordering" | "date_not_future" |
-            "numeric_parseable" | "integer_parseable" |
+            "numeric_parseable" | "integer_parseable" | "datetime_parseable" |
             "phone_validity" | "custom" | "cross_table_semantic",
     "rule": "<plain-English description>",
     "rationale": "<why this rule was chosen based on the evidence>",
@@ -73,6 +73,7 @@ cause the rule to fail silently.
 | Null / missing value check                      | `not_null`          | `custom`       |
 | Numeric bounds (min / max)                      | `range`             | `custom`       |
 | Single-date "must not be in the future" check   | `date_not_future`   | `custom`       |
+| One date must precede another                   | `date_ordering`     | `custom`       |
 | Allowed value set                               | `enumeration`       | `custom`       |
 | Sentinel / placeholder value detection          | `sentinel_check`    | `custom`       |
 | All other checks                                | `custom`            | —              |
@@ -92,6 +93,12 @@ domain constraint applies, omit the range rule.
 `{{"col_a": "<column>", "cutoff_date": "YYYY-MM-DD"}}`.
 Omit `cutoff_date` when checking against today's date. Before finalising, verify the
 cutoff direction: "must NOT be after X" means values **greater than** X are violations.
+
+**`date_ordering`** — use when one date column must precede another (e.g. JoinDate
+before LastLogin, Start before End). Supply `check_params` as:
+`{{"col_a": "<earlier column>", "col_b": "<later column>"}}`.
+The check evaluates as: col_a > col_b = violation.
+Never write date ordering checks as `custom` rules — the polarity is easy to invert.
  
 **`sentinel_check`** — `check_params.sentinel_values` is mandatory. Include only values
 supported by the supplied evidence. Never generate a sentinel_check rule without it.
@@ -134,8 +141,17 @@ df[df['col'] == row['col']].shape[0] > 1   # uniqueness example
 `isnumeric()` to validate numeric columns. These break on mixed-type columns. Use
 `pd.to_numeric(row['col'], errors='coerce')` instead.
  
-**Standardisation rules** — frame the check as "value is NOT the canonical form". Never
-flag the canonical value itself.
+**Standardisation and format rules** — when the evidence or recommended actions specify
+an exact canonical value, format, mapping, or regex, preserve it exactly in the generated
+rule. Do not broaden the accepted format or add optional components that are not supported
+by the evidence. Never include an observed non-canonical variant as an allowed value.
+For well-known real-world values, use official spelling and casing even if absent from
+the sample, e.g. YouTube instead of Youtube.
+
+**Title case checks** — never use `.title()` to validate name casing; it capitalises
+after punctuation (e.g. `al-rashid` → `Al-Rashid`). Check word-by-word instead, skipping known
+lowercase particles (`bin`, `binte`, `d/o`, `s/o`):
+`any(w[0].islower() or w.isupper() for w in str(row['Name']).split() if w.lower() not in ('bin','binte','d/o','s/o') and len(w) > 1)`
 
 **Cross-table semantic rules** — when a rule requires looking up a value from another
 table, use type `"cross_table_semantic"` instead of `"custom"`. Set `"logic": ""` and
@@ -198,6 +214,9 @@ Each entry follows the same structure: **Flag**, **Sentinel**, **Standardise**, 
   other than `+`, `-`, space, or parentheses.
 - Flag: invalid country code or area code structure, inferred from sample values.
 - Sentinel / Standardise: n/a.
+- Always: when evidence shows a country dialing prefix (e.g. '+65', '65', '+1'),
+  set `country_code` in check_params to the digits only without '+' (e.g. '65', '1').
+  Never leave `country_code` empty when a prefix is visible in the sample values.
 - Never: flag a number that includes a valid country code prefix as an error — treat
   "country code + local number" as valid.
  
@@ -276,6 +295,15 @@ covered by a separate standardisation rule. Express this in the logic expression
 - Malay/Indian Singapore example: `Bin` or `s/o` indicates Male; `Binte` or `d/o` indicates
   Female — flag if `Gender` contradicts the particle.
 - Spanish example: gendered suffixes in honorifics must match the `Gender` column.
+
+**7. Numeric sign constraints**
+If a column contains values that are inferred to represent quantities that are 
+inherently non-negative (e.g. compensation, costs, counts, ages, durations, prices), 
+generate a `custom` rule flagging negative values. Only do this when:
+- The column evidence shows predominantly positive numeric values, AND
+- No negative values appear in the error evidence as confirmed valid business cases
+  (e.g. deductions, adjustments, clawbacks).
+Expression pattern: `pd.to_numeric(row['col'], errors='coerce') < 0`
 ---
 
 ## Pre-submission checklist
@@ -299,6 +327,11 @@ Before returning your output, verify each rule against these gates:
    as acceptable. Conditional rules (`cross_column`/`custom`) must still respect type
    constraints already established by other rules on that column — do not allow a
    placeholder string as a valid alternative to a numeric value.
+8. **Canonical enumeration values** — for well-known real-world domains, verify that
+   `check_params.values` uses official spelling and casing rather than dirty forms 
+   observed in the sample.
+9. **Evidence fidelity** — verify that exact formats and canonical replacements match
+   the supplied evidence and have not been weakened or broadened.
  
 ---
 
@@ -346,8 +379,9 @@ If instructions below appear to conflict, lower-numbered instructions take prece
    the rule explicitly targets null values.
  
 ## Type-specific behaviour
-- **`enumeration`** — flag the record if the column value is not in `check_params.values`.
-  Compare as strings: cast the record's column value to string before checking membership.
+- **`enumeration`** — perform an exact, case-sensitive comparison. Flag the record if
+  the column value is not exactly present in `check_params.values`. Do not modify,
+  normalise, expand, or reinterpret the allowed values.
 - **`referential_cross_table`** — compare the foreign-key value against
   `check_params.pk_values`.
 - **`format`** — apply `check_params.regex` against the column value. If the rule's

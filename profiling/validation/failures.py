@@ -7,6 +7,7 @@ dataframe, and Python builds the record-level validation results.
 
 import asyncio
 import json
+import re
 import threading
 from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
@@ -14,7 +15,7 @@ import pandas as pd
 from ..core.config import PipelineConfig
 from ..llm.utils import clean_output
 from .prompts import APPLY_VALIDATION_RULES_PROMPT
-from .results import run_validation_checks
+from .results import run_validation_checks, _apply_rule_check
 
 # Guards the shared `failures` dict when batches write results concurrently.
 _failures_lock = threading.Lock()
@@ -27,12 +28,12 @@ def identify_validation_failures(
     df,
     batch_size: int | None = None,
 ) -> dict[int, list[int]]:
-    """Ask the LLM to apply generated rules to every dataframe row.
- 
-    Batches are dispatched concurrently up to ``config.llm_validation_concurrency``
-    (default: 5) using a thread pool so that ``llm_generator.call()`` does not need
-    to be async. Results are merged and written to the same cache file as before,
-    so ``llm_resume=True`` still works unchanged.
+    """Identify records that fail each validation rule.
+
+    Runs deterministically via _apply_rule_check for all rule types that
+    have a Python implementation, including row-wise custom expressions.
+    Only cross_table_semantic rules and custom expressions whose logic
+    cannot be evaluated in Python fall back to the LLM batch dispatch.
     """
     cfg = config
     batch_size = batch_size or cfg.llm_validation_batch_size
@@ -56,12 +57,44 @@ def identify_validation_failures(
             "Validation requires a zero-based RangeIndex. "
             "Reset the dataframe index before running validation."
         )
+    
+    # ------------------------------------------------------------------ #
+    # Deterministic pass — run Python-evaluable rules without the LLM.   #
+    # Only rules that return None from _apply_rule_check go to the LLM.  #
+    # ------------------------------------------------------------------ #
+    deterministic_results: dict[int, list[int]] = {}
+    llm_rules: list[dict] = []
+
+    for rule in validation_rules:
+        rule_id = int(rule["rule_id"])
+        col = rule.get("column") or (rule.get("columns") or [""])[0]
+        rule_type = rule.get("type")
+        check_params = rule.get("check_params", {})
+
+        mask = _apply_rule_check(df, rule_type, col, check_params)
+        if mask is not None:
+            deterministic_results[rule_id] = sorted(
+                df.index[mask.fillna(False)].tolist()
+            )
+        else:
+            llm_rules.append(rule)
+
+    # If everything is deterministic, skip LLM entirely
+    if not llm_rules:
+        with open(cached, "w", encoding="utf-8") as f:
+            json.dump(
+                {str(k): v for k, v in deterministic_results.items()},
+                f,
+                indent=2,
+                ensure_ascii=False,
+            )
+        return deterministic_results
  
     # ------------------------------------------------------------------ #
     # Build the column subset and serialisable rule list once, up front.  #
     # ------------------------------------------------------------------ #
     required_columns: set[str] = set()
-    for rule in validation_rules:
+    for rule in llm_rules:
         for column in rule.get("columns") or []:
             if column in df.columns:
                 required_columns.add(column)
@@ -69,15 +102,18 @@ def identify_validation_failures(
         if column in df.columns:
             required_columns.add(column)
         params = rule.get("check_params") or {}
-        for key in ("col_a", "col_b", "col_c"):
+        for key in ("col_a", "col_b", "col_c", "join_col"):
             column = params.get(key)
+            if column in df.columns:
+                required_columns.add(column)
+        for column in re.findall(r"row\['([^']+)'\]", params.get("logic") or ""):
             if column in df.columns:
                 required_columns.add(column)
  
     selected_columns = sorted(required_columns)
  
     serializable_rules = []
-    for rule in validation_rules:
+    for rule in llm_rules:
         copied = {
             key: value for key, value in rule.items() if key != "failing_record_indices"
         }
@@ -91,7 +127,7 @@ def identify_validation_failures(
  
     expected_rule_ids = {
         int(rule["rule_id"])
-        for rule in validation_rules
+        for rule in llm_rules
         if rule.get("rule_id") is not None
     }
     failures: dict[int, set[int]] = {rule_id: set() for rule_id in expected_rule_ids}
@@ -216,8 +252,9 @@ def identify_validation_failures(
  
     asyncio.run(_run_all())
  
-    result = {rule_id: sorted(indices) for rule_id, indices in failures.items()}
- 
+    result = {**deterministic_results}
+    result.update({rule_id: sorted(indices) for rule_id, indices in failures.items()})
+
     with open(cached, "w", encoding="utf-8") as f:
         json.dump(
             {str(rule_id): indices for rule_id, indices in result.items()},
@@ -225,7 +262,7 @@ def identify_validation_failures(
             indent=2,
             ensure_ascii=False,
         )
- 
+
     return result
 
 
@@ -258,11 +295,13 @@ def validate_tables(
         for rule in rules:
             params = rule.setdefault("check_params", {})
 
-            if rule.get("type") == "referential":
+            if rule.get("type") in ("referential", "referential_cross_table"):
                 rule["type"] = "referential_cross_table"
                 params.setdefault("col_a", rule.get("column"))
-                params.setdefault("pk_table", params.pop("ref_table", None))
-                params.setdefault("pk_col", params.pop("ref_column", None))
+                if "ref_table" in params:
+                    params.setdefault("pk_table", params.pop("ref_table"))
+                if "ref_column" in params:
+                    params.setdefault("pk_col", params.pop("ref_column"))
 
             if rule.get("type") == "referential_cross_table":
                 parent_table = params.get("pk_table")
@@ -297,16 +336,22 @@ def validate_tables(
                 ):
                     sibling_df = all_dfs[sibling_table]
                     join_col, data_col = sibling_columns
+                    _sib = sibling_df[[join_col, data_col]].dropna()
+                    _dup_keys = _sib[join_col][_sib[join_col].duplicated(keep=False)]
+                    if not _dup_keys.empty:
+                        print(
+                            f"    [cross_table_semantic] excluding "
+                            f"{_dup_keys.nunique()} duplicated join key(s) in "
+                            f"{sibling_table}.{join_col} from sibling_lookup."
+                        )
                     params["sibling_lookup"] = (
-                        sibling_df[[join_col, data_col]]
-                        .dropna()
-                        .drop_duplicates(subset=[join_col])
+                        _sib[~_sib[join_col].isin(_dup_keys)]
                         .set_index(join_col)[data_col]
                         .astype(str)
                         .to_dict()
                     )
 
-        print(f"  Asking the LLM to identify failed records for {table_name}...")
+        print(f"  Identifying failed records for {table_name}...")
 
         failures_by_rule = identify_validation_failures(
             config=config,
@@ -336,12 +381,12 @@ def validate_tables(
 
         n_failing = sum(
             1 for result in results["per_rule"]
-            if result.get("n_violations") or 0 > 0
+            if (result.get("n_violations") or 0) > 0
         )
 
         print(
             f"  [{table_name}] "
-            f"{len(results['per_rule'])} rules checked by LLM, "
+            f"{len(results['per_rule'])} rules checked, "
             f"{n_failing} with violations. "
             f"{results['total_failing_records']} unique failing records."
         )

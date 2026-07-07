@@ -134,33 +134,32 @@ def run_validation_checks(
 
         try:
             if use_llm_indices:
-                failing_mask = _apply_rule_check(df, rule_type, col, check_params)
-                if failing_mask is not None:
-                    # Deterministic path available — use it, ignore LLM indices
-                    failing_indices = df.index[failing_mask.fillna(False)].tolist()
-                else:
-                    # No deterministic path (e.g. cross_table_semantic) — fall back to LLM
-                    raw_indices = rule.get("failing_record_indices", [])
+                raw_indices = rule.get(
+                    "failing_record_indices",
+                    [],
+                )
 
-                    if not isinstance(raw_indices, list):
-                        raise ValueError("failing_record_indices must be a list")
+                if not isinstance(raw_indices, list):
+                    raise ValueError(
+                        "failing_record_indices must be a list"
+                    )
 
-                    failing_indices = sorted({
-                        int(index)
-                        for index in raw_indices
-                    })
+                failing_indices = sorted({
+                    int(index)
+                    for index in raw_indices
+                })
 
-                    invalid_indices = [
-                        index
-                        for index in failing_indices
-                        if index not in df.index
-                    ]
+                invalid_indices = [
+                    index
+                    for index in failing_indices
+                    if index not in df.index
+                ]
 
-                    if invalid_indices:
-                        raise ValueError(
-                            f"Invalid failing row indices: "
-                            f"{invalid_indices[:10]}"
-                        )
+                if invalid_indices:
+                    raise ValueError(
+                        f"Invalid failing row indices: "
+                        f"{invalid_indices[:10]}"
+                    )
 
             else:
                 failing_mask = _apply_rule_check(
@@ -292,7 +291,7 @@ def _apply_rule_check(
         non_missing = df[col].notna() & (col_str != "")
 
         if pattern_name == "datetime_string":
-            structural_ok = col_str.str.match(pattern, na=False, case=False) if pattern else True
+            structural_ok = col_str.str.match(pattern, na=False) if pattern else True
 
             def _is_real_datetime(x: str) -> bool:
                 try:
@@ -305,7 +304,7 @@ def _apply_rule_check(
             return non_missing & ~(structural_ok & calendar_ok)
 
         if pattern:
-            valid = col_str.str.match(pattern, na=False, case=False)
+            valid = col_str.str.match(pattern, na=False)
             return non_missing & ~valid
 
         if length:
@@ -338,8 +337,8 @@ def _apply_rule_check(
         col_a = check_params.get("col_a")
         col_b = check_params.get("col_b")
         if col_a and col_b and col_a in df.columns and col_b in df.columns:
-            a_parsed = pd.to_datetime(df[col_a], errors="coerce")
-            b_parsed = pd.to_datetime(df[col_b], errors="coerce")
+            a_parsed = pd.to_datetime(df[col_a], errors="coerce",format="mixed")
+            b_parsed = pd.to_datetime(df[col_b], errors="coerce",format="mixed")
             both_valid = a_parsed.notna() & b_parsed.notna()
             return both_valid & (a_parsed > b_parsed)
 
@@ -400,12 +399,20 @@ def _apply_rule_check(
             valid = raw.map(_is_number)
 
         return non_missing & ~valid
+    
+    elif rule_type == "datetime_parseable":
+        if col not in df.columns:
+            return None
+        raw = df[col].astype(str).str.strip()
+        non_missing = df[col].notna() & (raw != "")
+        parsed = pd.to_datetime(df[col], errors="coerce", format="mixed")
+        return non_missing & parsed.isna()
 
     elif rule_type == "date_not_future":
         col_a = check_params.get("col_a", col)
         if col_a not in df.columns:
             return None
-        parsed = pd.to_datetime(df[col_a], errors="coerce")
+        parsed = pd.to_datetime(df[col_a], errors="coerce",format="mixed")
         cutoff_str = check_params.get("cutoff_date")
         if cutoff_str:
             cutoff = pd.to_datetime(cutoff_str, errors="coerce")
@@ -449,26 +456,39 @@ def _apply_rule_check(
     elif rule_type == "phone_validity":
         col_a = check_params.get("col_a", col)
         country_code = check_params.get("country_code")
-        valid_first = check_params.get("valid_first_digits", [str(d) for d in range(1, 10)])
         dominant_length = check_params.get("dominant_length")
+
         if col_a not in df.columns or not dominant_length:
             return None
+
+        try:
+            dominant_length = int(dominant_length)
+        except (TypeError, ValueError):
+            return None
+
         raw = df[col_a].astype(str).str.strip()
+        non_missing = df[col_a].notna()
+
         if country_code:
-            stripped = raw.str.replace(rf'^\+?{re.escape(country_code)}[\s\-]?', '', regex=True)
+            country_code = str(country_code)
+
+            # Require the exact international format:
+            # +<country code><space><local number>
+            canonical_regex = (
+                rf"^\+{re.escape(country_code)} "
+                rf"\d{{{dominant_length}}}$"
+            )
         else:
-            stripped = raw
-        digit_only = stripped.str.fullmatch(r'\d+', na=False)
-        failing = pd.Series(False, index=df.index)
-        local_nums = stripped[digit_only]
-        invalid = (
-            ~local_nums.str.len().isin([dominant_length]) |
-            ~local_nums.str[0].isin(valid_first)
+            # If no country code is provided, require only the local number.
+            canonical_regex = rf"^\d{{{dominant_length}}}$"
+
+        valid_format = raw.str.fullmatch(
+            canonical_regex,
+            na=False,
         )
-        failing.loc[digit_only[digit_only].index] = invalid.values
-        # Non-digit local numbers after stripping also fail
-        failing.loc[df[col_a].notna() & ~digit_only] = True
-        return failing
+
+        # Missing values are handled by the separate not_null rule.
+        return non_missing & ~valid_format
 
     elif rule_type == "referential_cross_table":
         col_a = check_params.get("col_a", col)
@@ -555,7 +575,7 @@ def _apply_rule_check(
         # Pattern: inverted parseability check — LLM wrote the PASS condition
         # ("not pd.isna(...)") instead of the FAIL condition ("pd.isna(...)")
         _inverted_match = re.match(
-            r"^\s*not\s+pd\.isna\(pd\.to_(?:datetime|numeric)\(row\['([^']+)'\].*\)\s*\)\s*$",
+            r"^\s*not\s+pd\.isna\(pd\.to_(?:datetime|numeric)\(row\['([^']+)'\][^)]*\)\s*\)\s*$",
             logic.strip()
         )
         if _inverted_match:
@@ -563,6 +583,21 @@ def _apply_rule_check(
             if target_col in df.columns:
                 if "to_datetime" in logic:
                     parsed = pd.to_datetime(df[target_col], errors="coerce")
+                else:
+                    parsed = pd.to_numeric(df[target_col], errors="coerce")
+                return df[target_col].notna() & parsed.isna()
+            
+        # Pattern: straight parseability check — pd.isna(pd.to_datetime/numeric(...))
+        # Exclude nulls so they are flagged only by not_null.
+        _parse_match = re.match(
+            r"^\s*pd\.isna\(pd\.to_(datetime|numeric)\(row\['([^']+)'\].*\)\s*\)\s*$",
+            logic.strip()
+        )
+        if _parse_match:
+            target_col = _parse_match.group(2)
+            if target_col in df.columns:
+                if _parse_match.group(1) == "datetime":
+                    parsed = pd.to_datetime(df[target_col], errors="coerce", format="mixed")
                 else:
                     parsed = pd.to_numeric(df[target_col], errors="coerce")
                 return df[target_col].notna() & parsed.isna()
@@ -598,25 +633,98 @@ def _apply_rule_check(
                 return failing
 
         _cols = re.findall(r"row\['([^']+)'\]", logic)
-        if len(_cols) == 2 and all(c in df.columns for c in _cols):
-            if any(op in logic for op in (">=", "<=", " > ", " < ")):
-                    _a = pd.to_datetime(df[_cols[0]], errors="coerce")
-                    _b = pd.to_datetime(df[_cols[1]], errors="coerce")
-                    _both = _a.notna() & _b.notna()
-                    if ">=" in logic:
-                        return _both & (_a < _b)
-                    elif "<=" in logic:
-                        return _both & (_a > _b)
-                    elif " > " in logic:
-                        return _both & (_a <= _b)
-                    elif " < " in logic:
-                        return _both & (_a >= _b)
+        if (
+            len(_cols) == 2
+            and all(c in df.columns for c in _cols)
+            and not any(pd.api.types.is_numeric_dtype(df[c]) for c in _cols)
+            and any(op in logic for op in (">=", "<=", " > ", " < "))
+        ):
+            _a = pd.to_datetime(df[_cols[0]], errors="coerce", format="mixed")
+            _b = pd.to_datetime(df[_cols[1]], errors="coerce", format="mixed")
+            if _a.notna().any() and _b.notna().any():
+                _both = _a.notna() & _b.notna()
+                if ">=" in logic:
+                    return _both & (_a >= _b)
+                elif "<=" in logic:
+                    return _both & (_a <= _b)
+                elif " > " in logic:
+                    return _both & (_a > _b)
+                elif " < " in logic:
+                    return _both & (_a < _b)
+                    
+        # Pattern: row-wise column equality/inequality check
+        _eq_match = re.match(
+            r"^\s*row\['([^']+)'\]\s*(!=|==)\s*row\['([^']+)'\]\s*$",
+            logic.strip()
+        )
+        if _eq_match:
+            col_a, op, col_b = _eq_match.group(1), _eq_match.group(2), _eq_match.group(3)
+            if col_a in df.columns and col_b in df.columns:
+                if op == "!=":
+                    return df[col_a] != df[col_b]
+                else:
+                    return ~(df[col_a] == df[col_b])
+                
         # Pattern: identity checks that always return True — skip silently
         if " is not pd.NaT" in logic or " is pd.NaT" in logic or \
         (" is not None" in logic and "pd.to_datetime" in logic) or \
         ("pd.to_numeric" in logic and " is not " in logic):
             print(f"    [custom rule] skipping unsafe identity check: {logic}")
             return None
+        
+        # Row-wise expressions — evaluate per row deterministically.
+        if "row[" in logic:
+            clean_logic = re.sub(r"^\s*import\s+\w+\s*;\s*", "", logic.strip())
+            _err_count = [0]
+            def _row_eval(row, _logic=clean_logic):
+                try:
+                    result = eval(_logic, {
+                        "__builtins__": {},
+                        "pd": pd,
+                        "re": re,
+                        "str": str,
+                        "int": int,
+                        "float": float,
+                        "bool": bool,
+                        "abs": abs,
+                        "len": len,
+                        "any": any,
+                        "all": all,
+                        "row": row,
+                        "df": df,
+                    })
+                    if result is pd.NA:
+                        return False
+                    return bool(result)
+                except SyntaxError:
+                    try:
+                        local_ns = {
+                            "row": row, "df": df, "pd": pd, "re": re,
+                            "str": str, "int": int, "float": float,
+                            "bool": bool, "abs": abs, "len": len,
+                            "any": any, "all": all,
+                        }
+                        lines = [l.strip() for l in _logic.split(";") if l.strip()]
+                        for line in lines[:-1]:
+                            exec(line, {"__builtins__": {}}, local_ns)
+                        result = eval(lines[-1], {"__builtins__": {}}, local_ns)
+                        if result is pd.NA:
+                            return False
+                        return bool(result)
+                    except Exception:
+                        _err_count[0] += 1
+                        return False
+                except Exception:
+                    _err_count[0] += 1
+                    return False
+            _mask = df.apply(_row_eval, axis=1)
+            if _err_count[0] > 0:
+                print(
+                    f"    [custom rule] logic failed on {_err_count[0]} row(s) — "
+                    f"deferring entire rule to LLM: {logic[:80]}"
+                )
+                return None
+            return _mask
 
         # General eval — vectorised df['col'] expression (fast, whole dataframe at once)
         try:
@@ -635,16 +743,21 @@ def _apply_rule_check(
                 },
             )
         except Exception as exc:
-            raise ValueError(
-                f"Custom validation expression failed: {logic!r}. "
-                f"Underlying error: {exc}"
-            ) from exc
-
-        if not isinstance(mask, pd.Series):
-            raise TypeError(
-                "Custom validation expression must return a pandas Series, "
-                f"but returned {type(mask).__name__}: {logic!r}"
+            print(
+                f"    [custom rule] vectorised expression failed — "
+                f"deferring to LLM: {logic[:80]} ({exc})"
             )
+            return None
+
+        # After
+        if not isinstance(mask, pd.Series):
+            if isinstance(mask, (bool, int, float)):
+                mask = pd.Series(bool(mask), index=df.index)
+            else:
+                raise TypeError(
+                    "Custom validation expression must return a pandas Series, "
+                    f"but returned {type(mask).__name__}: {logic!r}"
+                )
 
         mask = mask.reindex(df.index, fill_value=False)
         return mask.fillna(False).astype(bool) 
