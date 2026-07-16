@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name stored as text. The column has 30 values, 0 missing values, and 30 distinct non-null values, so all observed values are unique. Values appear to contain road or street names, with one observed casing deviation such as 'HOLLAND ROAD' alongside title-case values like 'Balestier Road' and 'Upper Bukit Timah Road'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended casing standard for street names before standardisation. One observed value uses all caps ('HOLLAND ROAD') while the other observed values are predominantly title case."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field storing 30 distinct Singapore street addresses with no missing values. All values are unique. Case analysis shows that most values follow Title Case convention, with one all-caps value deviating from this pattern.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic casing deviations affecting 1 value (3.3%) using the dominant Title Case convention: 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]
+```

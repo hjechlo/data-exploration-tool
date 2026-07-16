@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string with 2 missing values (6.7% of 30 records). Contains 28 distinct non-null values, predominantly numeric strings representing fees typically ranging from 37.13 to 961.14, plus one text value 'free' and one suspicious high value '99999'. All non-null values are unique. Column requires conversion to float64 for proper numeric analysis.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from string to float64, transforming text value to numeric zero: 'free' → '0.00'.",
+      "[CLARIFY] Confirm whether '99999' is a valid subscription fee or a placeholder for missing/unknown data; if placeholder, replace with NULL.",
+      "[CLARIFY] Confirm whether the 2 missing values (6.7%) are expected or if this field is required for downstream billing analysis."
+    ]
+  }
+]

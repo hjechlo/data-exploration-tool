@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "S_N is an integer join key linking customer records; it contains 30 unique non‑null values ranging from 1 to 30 with no missing entries.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

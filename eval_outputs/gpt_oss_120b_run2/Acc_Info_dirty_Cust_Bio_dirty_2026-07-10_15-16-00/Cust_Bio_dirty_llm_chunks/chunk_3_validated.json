@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full name field storing personal names with cultural patronymic markers such as 'Bin', 'Binte', 's/o', and 'd/o'. All 30 values are non‑null and unique. The column shows a mix of title‑case, all‑uppercase (e.g., 'WANG SHI JIE') and all‑lowercase (e.g., 'lim wei jie') entries.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all‑uppercase and all‑lowercase entries to title case (e.g., 'WANG SHI JIE' → 'Wang Shi Jie', 'lim wei jie' → 'Lim Wei Jie'), affecting 2 of 30 records (≈6.7%)."
+    ]
+  }
+]

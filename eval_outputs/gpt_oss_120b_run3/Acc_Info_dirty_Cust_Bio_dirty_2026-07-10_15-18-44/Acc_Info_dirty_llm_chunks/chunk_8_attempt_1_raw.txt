@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee stored as a string but intended as a numeric (float64) value. The column has 30 records with 2 NULLs (6.7% missing). All 28 non‑NULL values are unique; 27 look numeric (e.g., '152.2', '45.97') while one value ('free') cannot be parsed as a number. The observed range spans from '152.2' to the non‑numeric sentinel 'free', and the value '99999' appears as a suspicious outlier.",
+    "recommended_actions": [
+      "[CLARIFY] Clarify the intended handling of the non‑numeric entry 'free' and the outlier '99999' (e.g., treat as missing, special code, or valid fee).",
+      "[VALIDATE] Verify that all values conform to a numeric format: digits with an optional decimal point and up to two decimal places — e.g., 152.2 or 45.97."
+    ]
+  }
+]

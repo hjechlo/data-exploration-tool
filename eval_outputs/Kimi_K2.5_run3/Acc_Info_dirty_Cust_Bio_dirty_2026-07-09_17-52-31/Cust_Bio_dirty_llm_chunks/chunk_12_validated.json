@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 with 30 records, zero missing values, and 30 distinct values (100% unique). Values range from 6907 to 786055 with observed lengths of 4, 5, and 6 digits, indicating potential loss of leading zeros from integer storage or mixed international formats. The column is currently stored as integer but intended as string type.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve leading zeros and prevent further data loss.",
+      "[CLARIFY] Review length inconsistencies: values range from 4 to 6 digits (e.g., 6907, 99999, 410633). Confirm whether shorter values represent lost leading zeros requiring padding (e.g., 6907 → '06907') or valid postal codes from different countries with varying length standards.",
+      "[VALIDATE] After type conversion, ensure all values conform to the confirmed postal code format (e.g., 6-digit numeric string such as '410633')."
+    ]
+  }
+]

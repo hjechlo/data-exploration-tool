@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier (likely Serial Number) with values ranging from 1 to 30. Contains 30 records with no missing values and 29 distinct values, indicating one duplicate occurrence (value '3'). Serves as a one-to-one join key to Cust_Bio_dirty.S_N with 100% coverage on this table.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N before joining or loading new records."
+    ]
+  }
+]
+```

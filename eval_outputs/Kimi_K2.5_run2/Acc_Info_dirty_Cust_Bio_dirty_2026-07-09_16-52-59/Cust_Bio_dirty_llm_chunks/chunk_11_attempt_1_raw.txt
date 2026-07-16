@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name stored as text. Contains 30 distinct values with no missing records. All values are unique. One value ('HOLLAND ROAD') appears in all-uppercase format while the remaining values follow Title Case convention.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the all-uppercase value to Title Case: 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]
+```

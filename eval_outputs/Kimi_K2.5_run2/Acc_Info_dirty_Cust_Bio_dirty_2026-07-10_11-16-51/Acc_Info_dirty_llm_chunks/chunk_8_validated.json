@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string despite representing monetary values. Contains 2 NULL values (6.7% of 30 records) and 28 distinct non-null entries including valid decimal amounts ranging from 16.53 to 961.14, the text value 'free', and suspicious outlier '99999'. All non-null values are unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the meaning and correct representation of: (1) non-numeric value 'free' (should this be 0.00 or NULL?), (2) domain-implausible outlier '99999' (placeholder for missing data?), and (3) whether the 2 missing values (6.7%) are expected or if the field is required for downstream use.",
+      "[STANDARDIZE] Convert valid numeric strings to float64 data type once special values are resolved.",
+      "[VALIDATE] Ensure all values are positive decimal numbers with up to 2 decimal places (e.g., 434.17)."
+    ]
+  }
+]

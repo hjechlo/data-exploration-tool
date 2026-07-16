@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "Numeric feedback score field containing 30 records with no missing values. Values range from 1.0 to 7.3 with 29 distinct values (value 1.78 appears twice). Contains a statistical outlier at 7.3 which may be sentinel-coded. Column appears to be a near-duplicate of 'FeedbackScore1' (81.25% value resemblance).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 7.3 represents a valid feedback score or is a sentinel value indicating missing/invalid data (currently flagged as statistical outlier exceeding Q3 + 1.5×IQR).",
+      "[CLARIFY] Review near-duplicate relationship with column 'FeedbackScore1' (81.25% value resemblance) to determine if both columns are required or if one should be removed to reduce redundancy."
+    ]
+  }
+]
+```

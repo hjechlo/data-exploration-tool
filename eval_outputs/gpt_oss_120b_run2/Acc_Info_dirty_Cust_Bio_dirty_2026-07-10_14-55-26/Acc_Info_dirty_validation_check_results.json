@@ -1,0 +1,511 @@
+{
+  "per_rule": [
+    {
+      "rule_id": 1,
+      "column": "S_N",
+      "rule": "Duplicate join‑key values in S_N are not allowed.",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "S_N": 3
+        },
+        {
+          "S_N": 3
+        }
+      ]
+    },
+    {
+      "rule_id": 2,
+      "column": "S_N",
+      "rule": "S_N must not be null because it is a mandatory join key.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 3,
+      "column": "Account_No",
+      "rule": "Account_No must be a four‑digit numeric string (e.g., '1001').",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 4,
+      "column": "ID",
+      "rule": "ID should follow the 9‑character pattern: a letter, seven digits, then a letter (e.g., 'S8403757E').",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID": "S123456"
+        }
+      ]
+    },
+    {
+      "rule_id": 5,
+      "column": "ID",
+      "rule": "Flag IDs that use the shorter 7‑character pattern (letter + six digits) as possible sentinel values.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID": "S123456"
+        }
+      ]
+    },
+    {
+      "rule_id": 6,
+      "column": "JoinDate",
+      "rule": "JoinDate must not be null because it records when the account was created.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": null
+        }
+      ]
+    },
+    {
+      "rule_id": 7,
+      "column": "JoinDate",
+      "rule": "JoinDate must be parseable as a datetime in ISO format.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": "2025-13-01"
+        }
+      ]
+    },
+    {
+      "rule_id": 8,
+      "column": "JoinDate",
+      "rule": "JoinDate must not be in the future relative to today (2026‑07‑10).",
+      "type": "date_not_future",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": "2027-01-15 00:00:00"
+        }
+      ]
+    },
+    {
+      "rule_id": 9,
+      "column": "LastLogin",
+      "rule": "LastLogin must be parseable as a datetime in ISO format.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 10,
+      "column": "LastLogin",
+      "rule": "LastLogin must not be in the future relative to today (2026‑07‑10).",
+      "type": "date_not_future",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 11,
+      "column": "JoinDate",
+      "rule": "JoinDate must be earlier than or equal to LastLogin.",
+      "type": "date_ordering",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": "2027-01-15 00:00:00"
+        },
+        {
+          "JoinDate": "2020-11-02 00:00:00"
+        }
+      ]
+    },
+    {
+      "rule_id": 12,
+      "column": "Subscription_Type",
+      "rule": "Subscription_Type must be one of the known tier names.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 13,
+      "column": "SubscriptionFee",
+      "rule": "SubscriptionFee must be parseable as a numeric value.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "SubscriptionFee": "free"
+        }
+      ]
+    },
+    {
+      "rule_id": 14,
+      "column": "SubscriptionFee",
+      "rule": "Flag sentinel values in SubscriptionFee such as the non‑numeric code 'free' and the extreme amount '99999'.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "SubscriptionFee": "free"
+        },
+        {
+          "SubscriptionFee": "99999"
+        }
+      ]
+    },
+    {
+      "rule_id": 15,
+      "column": "Status",
+      "rule": "Status must use the dominant boolean representations True or False",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Status": "no"
+        },
+        {
+          "Status": "yes"
+        },
+        {
+          "Status": "1"
+        },
+        {
+          "Status": "0"
+        }
+      ]
+    },
+    {
+      "rule_id": 16,
+      "column": "AccountBalance",
+      "rule": "Flag sentinel values in AccountBalance such as the outlier '99999.0' and the negative amount '-150.5'.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "AccountBalance": -150.5
+        },
+        {
+          "AccountBalance": 99999.0
+        }
+      ]
+    },
+    {
+      "rule_id": 17,
+      "column": "PreferredLanguage",
+      "rule": "PreferredLanguage must be one of the supported language names.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 18,
+      "column": "Device",
+      "rule": "Device must be one of the known device categories.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 19,
+      "column": "OS",
+      "rule": "OS values must match one of the canonical operating‑system names (case‑insensitive).",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 20,
+      "column": "FeedbackScore",
+      "rule": "Flag the outlier value 7.3 in FeedbackScore as a possible sentinel.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "FeedbackScore": 7.3
+        }
+      ]
+    },
+    {
+      "rule_id": 21,
+      "column": "FeedbackScore1",
+      "rule": "FeedbackScore1 must be identical to FeedbackScore.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "FeedbackScore1": 2.65
+        },
+        {
+          "FeedbackScore1": 4.11
+        }
+      ]
+    },
+    {
+      "rule_id": 22,
+      "column": "Full_Name",
+      "rule": "If Full_Name contains a gender‑encoding particle (Bin, Binte, d/o, s/o) it must be consistent with the Gender value in Cust_Bio_dirty for the same S_N.",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 23,
+      "column": "Account_No",
+      "rule": "Account_No must not be null because it identifies the account number.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 24,
+      "column": "Full_Name",
+      "rule": "Full_Name should not be all‑lowercase; flag names that appear to be uncapitalised.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Full_Name": "irfan"
+        },
+        {
+          "Full_Name": "junrong"
+        }
+      ]
+    },
+    {
+      "rule_id": 25,
+      "column": "S_N",
+      "rule": "Every S_N in Acc_Info_dirty must exist in Cust_Bio_dirty.S_N",
+      "type": "referential_cross_table",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 26,
+      "column": "Account_No",
+      "rule": "Account_No must be unique within Acc_Info_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1010
+        },
+        {
+          "Account_No": 1010
+        }
+      ]
+    }
+  ],
+  "violation_records": [
+    {
+      "Row": "3",
+      "Record Identifier": "S9968522J",
+      "Failed Column": "S_N, AccountBalance, Full_Name",
+      "Failed Value": "3 | -150.5 | irfan",
+      "Validation Rules Failed": "#1: Duplicate join‑key values in S_N are not allowed. | #16: Flag sentinel values in AccountBalance such as the outlier '99999.0' and the negative amount '-150.5'. | #24: Full_Name should not be all‑lowercase; flag names that appear to be uncapitalised."
+    },
+    {
+      "Row": "6",
+      "Record Identifier": "S2633396B",
+      "Failed Column": "S_N",
+      "Failed Value": "3",
+      "Validation Rules Failed": "#1: Duplicate join‑key values in S_N are not allowed."
+    },
+    {
+      "Row": "29",
+      "Record Identifier": "S123456",
+      "Failed Column": "ID",
+      "Failed Value": "S123456",
+      "Validation Rules Failed": "#4: ID should follow the 9‑character pattern: a letter, seven digits, then a letter (e.g., 'S8403757E'). | #5: Flag IDs that use the shorter 7‑character pattern (letter + six digits) as possible sentinel values."
+    },
+    {
+      "Row": "5",
+      "Record Identifier": "G8765432L",
+      "Failed Column": "JoinDate",
+      "Failed Value": "<NA>",
+      "Validation Rules Failed": "#6: JoinDate must not be null because it records when the account was created."
+    },
+    {
+      "Row": "22",
+      "Record Identifier": "G3344556U",
+      "Failed Column": "JoinDate",
+      "Failed Value": "2025-13-01",
+      "Validation Rules Failed": "#7: JoinDate must be parseable as a datetime in ISO format."
+    },
+    {
+      "Row": "18",
+      "Record Identifier": "G2233445S",
+      "Failed Column": "JoinDate, LastLogin",
+      "Failed Value": "2027-01-15 00:00:00 | 2023-06-15 00:00:00",
+      "Validation Rules Failed": "#8: JoinDate must not be in the future relative to today (2026‑07‑10). | #11: JoinDate must be earlier than or equal to LastLogin."
+    },
+    {
+      "Row": "20",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "LastLogin",
+      "Failed Value": "2019-01-01 00:00:00",
+      "Validation Rules Failed": "#11: JoinDate must be earlier than or equal to LastLogin."
+    },
+    {
+      "Row": "7",
+      "Record Identifier": "S9136271F",
+      "Failed Column": "SubscriptionFee, Status",
+      "Failed Value": "free | no",
+      "Validation Rules Failed": "#13: SubscriptionFee must be parseable as a numeric value. | #14: Flag sentinel values in SubscriptionFee such as the non‑numeric code 'free' and the extreme amount '99999'. | #15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "24",
+      "Record Identifier": "S8792459I",
+      "Failed Column": "SubscriptionFee, Full_Name",
+      "Failed Value": "99999 | junrong",
+      "Validation Rules Failed": "#14: Flag sentinel values in SubscriptionFee such as the non‑numeric code 'free' and the extreme amount '99999'. | #24: Full_Name should not be all‑lowercase; flag names that appear to be uncapitalised."
+    },
+    {
+      "Row": "8",
+      "Record Identifier": "F4455667M",
+      "Failed Column": "Status",
+      "Failed Value": "yes",
+      "Validation Rules Failed": "#15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "14",
+      "Record Identifier": "G6677889Q",
+      "Failed Column": "Status",
+      "Failed Value": "1",
+      "Validation Rules Failed": "#15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "21",
+      "Record Identifier": "S9203906D",
+      "Failed Column": "Status",
+      "Failed Value": "0",
+      "Validation Rules Failed": "#15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "28",
+      "Record Identifier": "S8403757E",
+      "Failed Column": "AccountBalance",
+      "Failed Value": "99999.0",
+      "Validation Rules Failed": "#16: Flag sentinel values in AccountBalance such as the outlier '99999.0' and the negative amount '-150.5'."
+    },
+    {
+      "Row": "9",
+      "Record Identifier": "G5566778N",
+      "Failed Column": "FeedbackScore, FeedbackScore1",
+      "Failed Value": "7.3 | 2.65",
+      "Validation Rules Failed": "#20: Flag the outlier value 7.3 in FeedbackScore as a possible sentinel. | #21: FeedbackScore1 must be identical to FeedbackScore."
+    },
+    {
+      "Row": "15",
+      "Record Identifier": "S9539727A",
+      "Failed Column": "FeedbackScore1",
+      "Failed Value": "4.11",
+      "Validation Rules Failed": "#21: FeedbackScore1 must be identical to FeedbackScore."
+    },
+    {
+      "Row": "1",
+      "Record Identifier": "S1234567D",
+      "Failed Column": "Account_No",
+      "Failed Value": "1001",
+      "Validation Rules Failed": "#26: Account_No must be unique within Acc_Info_dirty"
+    },
+    {
+      "Row": "2",
+      "Record Identifier": "S7654321F",
+      "Failed Column": "Account_No",
+      "Failed Value": "1001",
+      "Validation Rules Failed": "#26: Account_No must be unique within Acc_Info_dirty"
+    },
+    {
+      "Row": "11",
+      "Record Identifier": "S8099150I",
+      "Failed Column": "Account_No",
+      "Failed Value": "1010",
+      "Validation Rules Failed": "#26: Account_No must be unique within Acc_Info_dirty"
+    },
+    {
+      "Row": "12",
+      "Record Identifier": "T0292156H",
+      "Failed Column": "Account_No",
+      "Failed Value": "1010",
+      "Validation Rules Failed": "#26: Account_No must be unique within Acc_Info_dirty"
+    }
+  ],
+  "total_failing_records": 19
+}

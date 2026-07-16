@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full_Name stores a person's full name as free‑text string. The column contains 30 records, 0% missing, and all values are unique. Observed values include a variety of cultural naming conventions such as patronymic markers (d/o, s/o, Bin, Binte) and mixed capitalization, but no data quality issues are reported.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

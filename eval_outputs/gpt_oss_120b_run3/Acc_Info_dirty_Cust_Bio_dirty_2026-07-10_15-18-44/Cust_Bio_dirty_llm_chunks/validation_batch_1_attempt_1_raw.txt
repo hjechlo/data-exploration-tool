@@ -1,0 +1,6 @@
+[
+  {
+    "rule_id": 21,
+    "failing_record_indices": []
+  }
+]

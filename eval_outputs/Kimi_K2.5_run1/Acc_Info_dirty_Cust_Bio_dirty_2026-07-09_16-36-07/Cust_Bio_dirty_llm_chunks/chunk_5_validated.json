@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race or ethnicity classification stored as string. All 30 records are populated with no missing values. Contains 6 observed string variations representing 3 categories (Chinese, Indian, Malay) with inconsistent capitalization patterns.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to Title Case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[VALIDATE] Ensure all values conform to the standardized categorical set: 'Chinese', 'Indian', 'Malay'."
+    ]
+  }
+]

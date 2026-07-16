@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system platform identifier storing device OS names. Contains 8 distinct values across 30 records with no missing values, representing five platforms: Android, iOS, Linux, Windows, and macOS. Casing inconsistencies detected across multiple entries (e.g., 'Android' vs 'android', 'iOS' vs 'IOS', 'Linux' vs 'LINUX'), and 'macOs' appears to be a capitalization variant of the official 'macOS' brand name.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify OS name casing to official brand forms: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values match one of the five canonical operating system names: Android, iOS, Linux, Windows, macOS."
+    ]
+  }
+]
+```

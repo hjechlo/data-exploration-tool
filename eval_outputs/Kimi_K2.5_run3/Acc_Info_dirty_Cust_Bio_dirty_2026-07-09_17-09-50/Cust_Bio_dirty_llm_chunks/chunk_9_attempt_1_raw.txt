@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Email",
+    "description": "Email address field containing 30 records with no missing values. Contains 29 distinct values with one duplicate entry ('thm@example.com'). 4 records (13.3%) contain structurally malformed values including missing '@' symbols, embedded spaces, or duplicate '@' characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Fix deterministic formatting errors affecting 2 records (6.7%): 'zx91 @example.com' → 'zx91@example.com', 'nabilah@@example.com' → 'nabilah@example.com'.",
+      "[CLARIFY] Review and correct non-deterministic malformed entries: 'not-an-email', 'useremail.com'.",
+      "[VALIDATE] Ensure all values follow standard email format: local-part@domain (e.g., 'user@example.com')."
+    ]
+  }
+]
+```

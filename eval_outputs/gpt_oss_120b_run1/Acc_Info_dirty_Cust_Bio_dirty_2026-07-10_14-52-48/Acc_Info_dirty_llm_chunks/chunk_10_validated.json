@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Monetary balance stored as float64. All 30 records are non‑null and unique. Values range from -150.5 to 99,999.0; the column is almost entirely positive, with a single negative value (-150.5) and an extreme high value (99,999.0) flagged as anomalies. Every entry appears numeric.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the sentinel value 99,999.0 and the negative value -150.5 represent missing, invalid, or legitimate data, and decide on appropriate handling (e.g., removal, imputation, or retention)."
+    ]
+  }
+]

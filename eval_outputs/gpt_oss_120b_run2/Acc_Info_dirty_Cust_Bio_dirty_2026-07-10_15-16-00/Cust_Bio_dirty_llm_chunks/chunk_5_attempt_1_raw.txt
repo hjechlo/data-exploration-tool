@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race column stores self‑reported ethnicity as a short string. All 30 records are non‑null; there are 6 distinct values: Chinese, Indian, Malay (appearing as 'Malay', 'MALAY', 'malay') and Indian (appearing as 'Indian', 'indian'). Observed value lengths range from 5 to 7 characters. The field is low‑cardinality categorical with case inconsistencies.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case variants to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[CLARIFY] Confirm the official set of allowed race categories (e.g., Chinese, Indian, Malay) and whether any additional values should be permitted."
+    ]
+  }
+]

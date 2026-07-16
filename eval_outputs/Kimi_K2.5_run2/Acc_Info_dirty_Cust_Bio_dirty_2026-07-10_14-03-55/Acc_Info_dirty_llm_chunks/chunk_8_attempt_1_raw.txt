@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string despite representing numeric currency values. Contains 2 NULL values (6.7% of 30 records). Observed values range from 16.53 to 961.14, with one non-numeric entry 'free' and one suspicious outlier '99999' that appears to be a placeholder for missing data.",
+    "recommended_actions": [
+      "[CLARIFY] Assess data quality issues before type conversion: (1) Confirm if 'free' represents $0 or should be NULL, (2) Verify if '99999' is a placeholder for missing data given it is 100x higher than other observed fees, (3) Determine whether 2 missing values (6.7%) are acceptable for downstream billing analysis.",
+      "[STANDARDIZE] Convert data type from string to float64 after resolving non-numeric values ('free', '99999')."
+    ]
+  }
+]
+```

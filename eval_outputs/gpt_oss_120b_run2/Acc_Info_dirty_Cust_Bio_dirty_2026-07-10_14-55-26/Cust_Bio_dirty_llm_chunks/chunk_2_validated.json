@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number identifier stored as int64 but intended to be a 4‑character string. Values range from 1001 to 1028, all numeric and exactly 4 characters long. The column has 30 records, no missing values, and 28 distinct values, with two duplicated numbers ('1001', '1010').",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric Account_No values to 4‑character strings, e.g., 1026 → '1026'.",
+      "[CLARIFY] Verify whether the duplicated values ('1001', '1010') are legitimate or represent data quality issues."
+    ]
+  }
+]

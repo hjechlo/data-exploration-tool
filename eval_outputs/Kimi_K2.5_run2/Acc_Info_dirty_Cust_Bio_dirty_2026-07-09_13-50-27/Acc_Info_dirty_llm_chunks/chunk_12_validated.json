@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical field indicating the device type used for access. Contains 3 distinct values (Desktop, Mobile, Tablet) across 30 records with 0 missing values (100% complete). Values are stored as strings with observed lengths of 6–7 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

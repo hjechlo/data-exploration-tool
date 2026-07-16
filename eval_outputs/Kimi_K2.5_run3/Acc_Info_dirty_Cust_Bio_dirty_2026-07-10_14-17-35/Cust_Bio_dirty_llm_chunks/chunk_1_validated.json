@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier stored as integer, with values ranging from 1 to 30. All 30 records contain unique non-null values. Serves as a one-to-one shared join key with Acc_Info_dirty.S_N, with 100% referential integrity from this table to the related table (96.7% reverse coverage).",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]

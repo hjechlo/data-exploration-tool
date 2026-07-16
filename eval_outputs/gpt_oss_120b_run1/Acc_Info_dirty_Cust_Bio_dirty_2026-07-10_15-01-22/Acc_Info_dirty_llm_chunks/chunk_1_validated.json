@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "S_N is an integer identifier (int64) ranging from 1 to 30. The column contains 30 records with no missing values and 29 distinct values; the value '3' appears twice, making the column near‑unique and serving as a join key.",
+    "recommended_actions": [
+      "[CLARIFY] Review the duplicate value '3' to confirm whether S_N must be unique across records."
+    ]
+  }
+]

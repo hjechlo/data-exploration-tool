@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as int64 despite representing categorical location data. Contains 30 unique non-null values (0% missing) ranging from 6907 to 786055. Values exhibit inconsistent lengths of 4, 5, and 6 digits, suggesting potential mixing of international postal code formats or data entry variations.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to properly handle postal codes as categorical identifiers and preserve potential leading zeros: 410633 → '410633', 99999 → '99999', 6907 → '6907'.",
+      "[CLARIFY] Confirm whether the variation in digit length (4, 5, and 6 digits) represents valid international postal codes or indicates data quality issues requiring standardisation to a consistent format."
+    ]
+  }
+]

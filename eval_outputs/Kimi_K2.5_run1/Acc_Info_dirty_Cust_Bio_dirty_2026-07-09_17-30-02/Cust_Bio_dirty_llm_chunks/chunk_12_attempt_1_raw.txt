@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier currently stored as int64 but intended as string type to preserve digit formatting. Contains 30 distinct non-null values with no missing data. Observed values display inconsistent lengths of 4, 5, and 6 digits (range: 6907 to 786055), suggesting potential mixed-country formats or variable zero-padding.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve digit sequences and prevent mathematical interpretation: 410633 → '410633', 99999 → '99999', 6907 → '6907'.",
+      "[CLARIFY] Review variable length patterns (4, 5, and 6 digits). Confirm whether values represent mixed international postal formats or if shorter values indicate truncation/padding errors requiring standardisation."
+    ]
+  }
+]
+```

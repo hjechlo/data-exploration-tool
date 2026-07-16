@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback or rating score ranging from 1.0 to 5.0, stored as float64. Contains 30 records with no missing values and 29 distinct values (near-unique, with value 1.78 appearing twice). Values display decimal precision up to two places, consistent with a rating scale.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm relationship with column 'FeedbackScore' — the columns show 81.25% value resemblance. Determine if both are required or if one should be removed to eliminate redundancy."
+    ]
+  }
+]
+```

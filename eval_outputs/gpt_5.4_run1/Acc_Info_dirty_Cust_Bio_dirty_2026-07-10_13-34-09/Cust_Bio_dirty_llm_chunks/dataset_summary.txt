@@ -1,0 +1,5 @@
+This dataset describes individual customer biographical and contact records, likely in a customer master or onboarding context within a consumer, banking, or account-based service domain. The records contain personal identity, demographic, and address-related details for named individuals associated with account numbers.
+
+The data is likely intended to support customer identification, contact management, profiling, and administrative recordkeeping, and could be used in operational systems or analyses involving customer demographics and account-holder information. Its contents suggest use cases such as maintaining customer directories, validating customer attributes, or segmenting customers by basic personal characteristics and location.
+
+The table contains 30 rows and 12 columns. A unique table-level identifier is evident in S_N, while the remaining fields are organized into account and identity attributes, personal and demographic characteristics, contact details, and geographic/address information.

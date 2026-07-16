@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field stored as text, with 30 total records, 0 missing values, and 29 distinct non-null values, making it near-unique with one repeated value ('F1011121T'). Most values (28 records, 93.3%) follow a consistent pattern of one letter, 7 digits, and one trailing letter, for example 'S8403757E'. Two records (6.6%) use incompatible formats: one has one letter, 6 digits, and one trailing letter ('F212233V'), and one has 7 digits plus one trailing letter with no leading letter ('1916569C'). Observed value lengths are 8 and 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 2 incompatible ID formats (6.6%) with the data owner: 'F212233V' uses one letter, 6 digits, and one trailing letter, and '1916569C' has no leading letter. Confirm whether these are valid exceptions, data entry errors, or incomplete IDs before any standardisation.",
+      "[VALIDATE] Ensure all new values follow the confirmed ID format. If the dominant pattern is correct, values should contain one leading letter, followed by 7 digits, and end with one trailing uppercase letter — for example, 'S8403757E'."
+    ]
+  }
+]

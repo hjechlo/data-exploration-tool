@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Status field stored as string with six distinct values that encode a boolean state ('True', 'False', '1', '0', 'yes', 'no'). No missing values in the 30 records. Intended data type is boolean, so a type conversion is recommended.",
+    "recommended_actions": [
+      "[STANDARDIZE] Map alternative representations to a single boolean form, e.g., '1' → 'True', '0' → 'False', 'yes' → 'True', 'no' → 'False'.",
+      "[VALIDATE] Ensure all values conform to the chosen boolean representation after standardisation."
+    ]
+  }
+]

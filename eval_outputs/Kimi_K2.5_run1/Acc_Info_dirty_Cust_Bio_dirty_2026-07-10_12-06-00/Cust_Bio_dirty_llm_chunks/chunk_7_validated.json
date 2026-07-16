@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field with technical type int64 but containing mixed numeric and text content across 30 records with no missing values. Values range from -5 to 66 years. Contains one text representation ('Twenty-five') that cannot be parsed as a number, and includes 2 values (-5 and 4) below 13 years that may be unrealistic for the service context. 24 distinct values observed.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → 25.",
+      "[CLARIFY] Review 2 potentially unrealistic age values (-5 and 4) to confirm validity or identify data entry errors.",
+      "[VALIDATE] Ensure all values are non-negative integers within a plausible human age range (e.g., 0-120) after standardization."
+    ]
+  }
+]

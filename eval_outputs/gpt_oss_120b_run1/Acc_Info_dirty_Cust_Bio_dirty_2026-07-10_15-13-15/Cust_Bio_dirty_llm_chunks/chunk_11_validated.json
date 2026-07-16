@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field storing free‑text street names. Contains 30 distinct values, no missing records, and each value is unique. Most entries use title case, with a single all‑uppercase entry.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert uppercase entries to title case, e.g., 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]

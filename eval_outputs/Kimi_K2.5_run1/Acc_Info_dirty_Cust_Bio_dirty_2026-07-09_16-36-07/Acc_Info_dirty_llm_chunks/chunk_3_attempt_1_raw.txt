@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Account holder's full name stored as free-text. All 30 records are populated with unique values representing diverse cultural naming conventions, including Malay patronymics (Bin/Binte), Indian patronymics (s/o, d/o), and Chinese name structures. Four values deviate from the dominant Title Case pattern and one value contains extra internal whitespace.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize case deviations to Title Case: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Hui Min tan' → 'Hui Min Tan', 'Lee yixuan' → 'Lee Yixuan'.",
+      "[STANDARDIZE] Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]
+```

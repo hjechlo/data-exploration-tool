@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "SubscriptionFee stores the fee amount as a string, though it should be a numeric float. The column has 30 records with 2 nulls (6.7% missing). All 28 non‑null values are unique; 27 of them are numeric strings (e.g., '152.2', '45.97') and one value 'free' cannot be parsed as a number. The value '99999' appears as a possible outlier. Observed value lengths range from 4 to 6 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric string values to float64, e.g., '152.2' → 152.2 (covers ~96% of non‑null values).",
+      "[CLARIFY] Determine the correct handling for the non‑numeric value 'free' and verify whether '99999' is a valid fee or an erroneous placeholder.",
+      "[VALIDATE] After standardisation, ensure all values conform to a numeric format with up to two decimal places, e.g., 152.20."
+    ]
+  }
+]

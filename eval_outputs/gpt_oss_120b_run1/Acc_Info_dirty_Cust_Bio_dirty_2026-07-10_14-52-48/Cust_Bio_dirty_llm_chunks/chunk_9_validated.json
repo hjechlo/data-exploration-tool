@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Email",
+    "description": "Email address field stored as string. Contains 30 records with no missing values; 86.7% match a standard email pattern, 29 distinct values with one duplicate ('thm@example.com'). Four records are structurally malformed ('not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com').",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct malformed email entries: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'.",
+      "[VALIDATE] Ensure all values conform to a standard email format, e.g., local-part@domain.tld."
+    ]
+  }
+]

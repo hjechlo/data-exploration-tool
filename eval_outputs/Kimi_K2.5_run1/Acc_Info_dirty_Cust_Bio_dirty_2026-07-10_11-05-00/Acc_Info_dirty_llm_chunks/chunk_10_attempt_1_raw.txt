@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 with 30 distinct non-null values across 30 records (no missing values). Contains a sentinel-coded statistical outlier at 99999.0 (exceeding the expected upper bound of 1525) and one negative value of -150.5.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business rules for anomalous values: (1) 99999.0 appears to be a sentinel for missing/invalid data, (2) -150.5 is the sole negative value (verify if overdrafts are permitted or if this is a data entry error)."
+    ]
+  }
+]
+```

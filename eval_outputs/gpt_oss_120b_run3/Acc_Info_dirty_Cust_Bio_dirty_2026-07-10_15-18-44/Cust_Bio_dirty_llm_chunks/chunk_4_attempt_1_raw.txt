@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Customer identifier stored as a string. 93.3% of the 30 values follow the pattern letter‑7‑digits‑letter (e.g., S8403757E). The remaining 6.6% use alternative patterns: letter‑6‑digits‑letter (e.g., F212233V) or 7‑digits‑letter (e.g., 1916569C). No nulls; 29 distinct values with one duplicate ('F1011121T'). Observed lengths are 8 or 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how to handle the 6.6% of IDs that deviate from the dominant 'letter‑7‑digits‑letter' format (e.g., 'F212233V', '1916569C') before any standardisation or validation."
+    ]
+  }
+]

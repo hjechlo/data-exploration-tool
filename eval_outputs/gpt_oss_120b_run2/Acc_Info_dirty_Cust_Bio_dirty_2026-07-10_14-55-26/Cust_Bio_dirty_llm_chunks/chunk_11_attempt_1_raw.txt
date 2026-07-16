@@ -1,0 +1,7 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field stored as free-text string; 30 records with 0 missing values and all values unique, representing various Singapore street names such as 'Pandan Loop' and 'Upper Bukit Timah Road'.",
+    "recommended_actions": ["[No Immediate Action]"]
+  }
+]

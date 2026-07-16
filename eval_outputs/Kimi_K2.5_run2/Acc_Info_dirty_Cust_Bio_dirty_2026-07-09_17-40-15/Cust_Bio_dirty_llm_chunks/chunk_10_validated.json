@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country name stored as string across 30 records with no missing values. Contains 8 distinct representations of Singapore including English case variations ('Singapore', 'SINGAPORE', 'singapore'), abbreviations ('S'pore', 'SG'), formal name ('Republic of Singapore'), and non-English variants ('Singapura', '新加坡'). Value lengths range from 2 to 21 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical form for remaining variants: verify whether to standardize abbreviations ('S'pore', 'SG'), formal name ('Republic of Singapore'), and non-English forms ('Singapura', '新加坡') to the standard English short form 'Singapore', or preserve specific formats for multilingual business requirements."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Categorical string field with 30 non‑null records. Contains 8 distinct values that all refer to Singapore, shown in multiple languages, abbreviations, and case variations (e.g., '新加坡', 'Republic of Singapore', 'SG', 'Singapura', 'S'pore', 'Singapore', 'SINGAPORE', 'singapore'). No official reference list is provided.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical country name to use for Singapore and define a mapping for the observed variants such as '新加坡', 'Republic of Singapore', 'SG', 'Singapura', \"S'pore\", 'Singapore', 'SINGAPORE', 'singapore'."
+    ]
+  }
+]

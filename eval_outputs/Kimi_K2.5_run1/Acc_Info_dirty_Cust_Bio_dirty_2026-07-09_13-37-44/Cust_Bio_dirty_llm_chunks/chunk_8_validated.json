@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number field stored as text with 2 missing values (6.7% of 30 records). Values exhibit significant format inconsistency: approximately 18% use international format with '+65' prefix and space, while roughly 39% use '65' prefix with space and 43% appear as local 8-digit numbers without country code. One value ('8964359') contains only 7 digits, suggesting possible truncation or data entry error. All non-null values are unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats to consistent international format with '+65' prefix and no spaces: '65 80742791' → '+6580742791', '62357895' → '+6562357895', '+65 80734991' → '+6580734991'.",
+      "[CLARIFY] Verify whether the 7-digit value '8964359' is truncated or represents a valid legacy number, and confirm whether the 2 missing values (6.7%) are expected or if contact numbers should be mandatory for all records.",
+      "[VALIDATE] Ensure all values conform to the format: '+65' followed by exactly 8 digits."
+    ]
+  }
+]

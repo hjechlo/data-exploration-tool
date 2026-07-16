@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age column stored as int64 with 30 records and no missing values. Contains 24 distinct values ranging from -5 to 66. One entry ('Twenty-five') is non-numeric (3.3% of rows). Two values are below the typical adult threshold (4 and -5), which may be unrealistic for the service.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the non-numeric entry 'Twenty-five' → '25' (3.3% of rows).",
+      "[CLARIFY] Confirm whether ages below 13, especially the negative value -5, are valid for this dataset or should be corrected/removed."
+    ]
+  }
+]

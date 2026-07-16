@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as text. All 30 records are non-null and all values are unique. Most values (29 of 30, 96.7%) follow a consistent format of one letter, followed by 7 digits, ending with one letter, for example 'S8403757E'. One value (3.3%), 'S123456', uses an incompatible shorter format.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 1 incompatible value (3.3%) that does not match the dominant identifier structure: 'S123456'. Confirm whether IDs should follow the format: one letter, followed by 7 digits, ending with one letter — for example, 'S8403757E'."
+    ]
+  }
+]

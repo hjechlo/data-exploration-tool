@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Unique identifier field stored as text. All 30 values are non-null and distinct. 96.7% follow a 9-character pattern: a letter, seven digits, and a trailing letter (e.g., S8403757E). 3.3% are 7-character IDs consisting of a letter followed by six digits (e.g., S123456). Observed lengths range from 7 to 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of 7-character IDs such as 'S123456' that do not match the dominant 9-character pattern."
+    ]
+  }
+]

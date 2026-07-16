@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as text. Contains 30 distinct non-null values (100% complete) with no duplicates. Values exhibit mixed casing, with some records in lowercase or mixed case. Includes multicultural naming patterns such as Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert values with lowercase or mixed-case components to Title Case following the dominant convention: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Hui Min tan' → 'Hui Min Tan', 'Lee yixuan' → 'Lee Yixuan'.",
+      "[STANDARDIZE] Remove extra whitespace between name components: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]
+```

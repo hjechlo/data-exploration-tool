@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as a string, although the intended type is datetime. The column has 29 distinct non-null values across 30 records, with all non-null values unique. One record is missing (1 of 30, 3.3%). Most values appear in a timestamp-like format such as '2021-03-14 00:00:00', but one value is unparseable as a date: '2025-13-01'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize date storage by converting valid string values to a datetime type and using one consistent format; 3.4% of observed values use a date-only form such as '2025-13-01' instead of the dominant timestamp-like form '2021-03-14 00:00:00'.",
+      "[CLARIFY] Review the unparseable date value '2025-13-01' and confirm the intended month/day before conversion, since month '13' is invalid.",
+      "[VALIDATE] Ensure all values are valid calendar dates in a single approved format, for example 'YYYY-MM-DD HH:MM:SS' such as '2021-03-14 00:00:00'."
+    ]
+  }
+]

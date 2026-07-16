@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical device-type field stored as string. The column is complete with 0 missing values out of 30 records and contains 3 distinct non-null values: 'Desktop', 'Mobile', and 'Tablet'. Values are low-cardinality and consistently represented in the observed data.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

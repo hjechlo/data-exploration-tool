@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier (likely serial number) stored as int64, ranging from 1 to 30. Contains 29 distinct values across 30 records with one duplicate value ('3'). Serves as a one-to-one shared join key with 'Cust_Bio_dirty.S_N' with complete coverage (100.0%) in this table. No missing values.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is valid given the indicated one-to-one relationship with 'Cust_Bio_dirty.S_N', or if it represents a data entry error requiring resolution.",
+      "[VALIDATE] Enforce referential integrity against 'Cust_Bio_dirty.S_N' before joining or loading new records."
+    ]
+  }
+]

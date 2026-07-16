@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as string with datetime semantic content. Contains 1 missing value (3.3% of 30 records) and 1 invalid date entry ('2025-13-01'). Valid dates range from 2020-01-01 to 2027-01-15. All 29 non-null values are unique, with observed lengths of 10 characters (invalid date) and 19 characters (standard 'YYYY-MM-DD 00:00:00' format).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert valid date strings from 'YYYY-MM-DD 00:00:00' format to datetime64[ns] data type.",
+      "[CLARIFY] Review the invalid date '2025-13-01' (month 13 does not exist) and confirm the intended value with the data owner. Also confirm whether the single missing value (3.3%) represents optional data or requires correction.",
+      "[VALIDATE] Ensure all values represent valid calendar dates (months 1-12, appropriate days per month) and conform to ISO datetime format before and after type conversion."
+    ]
+  }
+]

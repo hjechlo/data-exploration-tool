@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "ID_No is a string identifier with lengths of 8 to 9 characters. All 30 records are non‑null; there are 29 distinct values with one duplicate (F1011121T). 93.3% of values follow the pattern letter‑7‑digits‑letter (e.g., S8403757E), while 3.3% each use a six‑digit variant (letter‑6‑digits‑letter) and a seven‑digit‑only variant (7‑digits‑letter).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how to handle the 6.6% of records that use non‑standard formats aXXXXXXa and XXXXXXXa and whether they should be padded or transformed to the dominant aXXXXXXXa pattern."
+    ]
+  }
+]

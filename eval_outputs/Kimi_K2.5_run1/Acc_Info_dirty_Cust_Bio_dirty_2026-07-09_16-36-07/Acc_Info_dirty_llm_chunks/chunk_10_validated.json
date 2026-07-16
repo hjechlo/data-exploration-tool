@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal values. All 30 records are non-null and unique. Values range from -150.5 to 99999.0, with one statistical outlier at 99999.0 (3.3%) that appears sentinel-coded, and one negative value at -150.5 (3.3%).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous values: 99999.0 (1 record, 3.3%) appears sentinel-coded and exceeds the statistical upper bound, while -150.5 (1 record, 3.3%) is the sole negative value. Determine if these represent legitimate balances, overdrafts, or require conversion to NULL."
+    ]
+  }
+]

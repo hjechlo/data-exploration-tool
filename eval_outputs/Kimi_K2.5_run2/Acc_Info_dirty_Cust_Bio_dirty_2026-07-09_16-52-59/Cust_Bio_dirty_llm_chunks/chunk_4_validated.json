@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identification number stored as 8-9 character alphanumeric text, appearing to follow Singapore NRIC/FIN format. 93.3% of 30 records conform to the standard 9-character structure (letter prefix + 7 digits + checksum letter), while 6.6% use non-standard 8-character formats. Contains 29 distinct values (96.7% unique) with zero missing values. One value ('F1011121T') appears twice.",
+    "recommended_actions": [
+      "[CLARIFY] Verify the 2 records with non-standard 8-character formats: '1916569C' (missing prefix letter) and 'F212233V' (6-digit middle section instead of 7). Confirm if these are data entry errors or valid alternative ID formats.",
+      "[CLARIFY] Review the duplicate value 'F1011121T' appearing in 2 records to determine if this represents a data quality issue or legitimate repeated reference.",
+      "[VALIDATE] Ensure all values conform to the format: one uppercase letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S1234567A."
+    ]
+  }
+]

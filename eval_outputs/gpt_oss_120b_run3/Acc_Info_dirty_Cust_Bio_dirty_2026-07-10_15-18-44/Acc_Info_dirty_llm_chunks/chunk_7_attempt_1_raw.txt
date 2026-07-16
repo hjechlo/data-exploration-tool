@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Subscription_Type stores the subscription tier for each account as a categorical string. The column has 30 non‑null records with 5 distinct values ('Basic', 'Free', 'Gold', 'Platinum', 'Premium'), ranging in length from 4 to 8 characters. All records are present (0% missing) but the values are not unique, reflecting the low‑cardinality nature of the field.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the official list of subscription types and whether the observed values ('Basic', 'Free', 'Gold', 'Platinum', 'Premium') are complete and correct."
+    ]
+  }
+]

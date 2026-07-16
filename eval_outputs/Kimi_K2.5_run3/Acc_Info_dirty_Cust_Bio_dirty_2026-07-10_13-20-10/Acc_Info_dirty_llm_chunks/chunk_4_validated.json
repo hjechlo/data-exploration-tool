@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Singapore NRIC/FIN identifier stored as string. Contains 30 distinct non-null values (100% unique) out of 30 total records with no missing data. 96.7% of values follow the standard 9-character format (one letter prefix, 7 digits, one checksum letter), while 1 record (3.3%) uses a truncated 7-character format missing both a digit and the checksum suffix.",
+    "recommended_actions": [
+      "[CLARIFY] Review the malformed entry 'S123456' which appears to be missing both a digit and the checksum letter compared to the dominant format. Confirm the correct value with the data owner.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

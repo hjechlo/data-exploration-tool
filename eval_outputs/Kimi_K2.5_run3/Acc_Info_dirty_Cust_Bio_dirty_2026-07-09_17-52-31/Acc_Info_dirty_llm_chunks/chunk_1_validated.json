@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric serial or sequence identifier ranging from 1 to 30. Contains 29 distinct values across 30 records with no missing values; value '3' appears twice. Serves as a join key to Cust_Bio_dirty.S_N with 100% referential coverage from this table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is expected given the one-to-one key relationship with Cust_Bio_dirty, or if this indicates a data quality issue requiring deduplication.",
+      "[VALIDATE] Verify referential integrity with Cust_Bio_dirty.S_N before performing join operations."
+    ]
+  }
+]

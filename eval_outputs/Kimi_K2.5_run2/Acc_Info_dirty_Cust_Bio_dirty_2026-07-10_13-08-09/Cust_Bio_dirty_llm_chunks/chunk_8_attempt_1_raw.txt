@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Customer contact phone number stored as text. Contains 2 missing values (6.7% of 30 records). All 28 non-null values are unique. Observed formats include international format with '+65 ' prefix (12 characters), '65 ' prefix without plus (11 characters), and local 8-digit numbers (8 characters). One value ('8964359') contains only 7 digits, appearing incomplete compared to the standard 8-digit Singapore phone number format.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats to international standard: convert 8-digit numbers to '+65 XXXXXXXX' format (e.g., '62357895' → '+65 62357895') and '65 XXXXXXXX' to '+65 XXXXXXXX' format (e.g., '65 80742791' → '+65 80742791').",
+      "[CLARIFY] Review the 7-digit value '8964359' which appears incomplete; confirm if this is a data entry error or if a leading digit is missing.",
+      "[VALIDATE] Ensure all values follow the format: plus sign, country code '65', space, and 8 digits (e.g., '+65 12345678')."
+    ]
+  }
+]
+```

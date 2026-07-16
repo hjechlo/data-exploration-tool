@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Name",
+    "description": "Full name field storing personal names with 30 distinct non-null values. Observed naming conventions include Chinese names, Malay patronymics (Bin/Binte), and Indian patronymics (s/o, d/o), all of which represent expected cultural variation. Two values deviate from the dominant Title Case format: one in all lowercase ('lim wei jie') and one in all uppercase ('WANG SHI JIE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations to Title Case: 'lim wei jie' → 'Lim Wei Jie', 'WANG SHI JIE' → 'Wang Shi Jie'."
+    ]
+  }
+]
+```

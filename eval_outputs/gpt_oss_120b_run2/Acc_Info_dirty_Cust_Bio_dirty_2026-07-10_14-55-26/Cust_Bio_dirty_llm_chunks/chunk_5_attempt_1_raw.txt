@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical string field with 30 non‑null records and 6 distinct values (Chinese, Indian, MALAY, Malay, indian, malay). Observed case variations for the Malay and Indian categories (e.g., 'MALAY', 'malay', 'indian'). Low‑cardinality values range in length from 5 to 7 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical spelling and casing for race categories (e.g., whether 'Malay' or 'MALAY' is preferred, and 'Indian' vs 'indian') and define a standard representation for future use."
+    ]
+  }
+]

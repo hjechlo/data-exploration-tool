@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier represented as 4-digit codes ranging from 1001 to 1028. All 30 records are non-null with 28 distinct values; account numbers 1001 and 1010 each appear twice. Stored as int64 but intended as string.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to properly represent identifiers: 1026 → '1026', 1014 → '1014', 1022 → '1022'.",
+      "[CLARIFY] Confirm whether the duplicate account numbers (1001 and 1010) represent valid business scenarios or data entry errors."
+    ]
+  }
+]
+```

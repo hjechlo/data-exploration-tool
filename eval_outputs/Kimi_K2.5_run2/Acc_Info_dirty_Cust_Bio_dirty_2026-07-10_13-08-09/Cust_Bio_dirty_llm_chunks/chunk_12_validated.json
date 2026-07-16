@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as int64 (requires string conversion). Contains 30 unique values with no missing data (0%). Values range from 6907 to 786055 with observed lengths of 4, 5, and 6 digits. Storing postal codes as integers risks truncation of leading zeros and enables inappropriate mathematical operations.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to treat postal codes as categorical identifiers: 410633 → '410633', 99999 → '99999', 6907 → '6907'.",
+      "[CLARIFY] Investigate mixed postal code lengths (4, 5, and 6 digits). Confirm if shorter codes represent different postal systems or if leading zeros were truncated during integer storage.",
+      "[VALIDATE] After type conversion, verify all values match the expected postal code format and length for the relevant country or region."
+    ]
+  }
+]

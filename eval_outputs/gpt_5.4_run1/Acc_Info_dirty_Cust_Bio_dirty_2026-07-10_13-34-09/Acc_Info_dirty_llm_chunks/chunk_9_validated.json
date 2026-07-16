@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Status flag stored as string with no missing values (0 of 30) and 6 distinct values across 30 records. Observed values mix multiple boolean-like representations: 'True', 'False', '1', '0', 'yes', and 'no'. Column facts indicate the intended type is boolean, so the current content is semantically consistent but not standardised.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical boolean representation for this field before conversion, since observed values use multiple equivalents: 'True'/'False', '1'/'0', and 'yes'/'no'.",
+      "[STANDARDIZE] Standardize the 6 observed string representations into one confirmed boolean format and convert the column from string to boolean.",
+      "[VALIDATE] Ensure all values use the approved boolean representation only, for example a single standard such as 'True' and 'False' after standardisation."
+    ]
+  }
+]

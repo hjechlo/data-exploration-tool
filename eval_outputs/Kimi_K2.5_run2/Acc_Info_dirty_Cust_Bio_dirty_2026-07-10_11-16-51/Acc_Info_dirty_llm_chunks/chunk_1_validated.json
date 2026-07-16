@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric serial number identifier (int64) ranging from 1 to 30, serving as a one-to-one join key to 'Cust_Bio_dirty.S_N'. Contains 29 distinct values across 30 records with one duplicate entry ('3'). No missing values.",
+    "recommended_actions": [
+      "[CLARIFY] Verify whether the duplicate value '3' is intentional or represents a data quality issue, given this column functions as a one-to-one join key with 'Cust_Bio_dirty.S_N'."
+    ]
+  }
+]

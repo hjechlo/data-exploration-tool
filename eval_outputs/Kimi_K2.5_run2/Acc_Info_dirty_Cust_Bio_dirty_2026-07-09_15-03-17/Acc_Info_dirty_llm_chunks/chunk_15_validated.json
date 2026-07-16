@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score or rating stored as float64, with values ranging from 1.0 to 5.0. Contains 29 distinct values across 30 records (near-unique), with only one repeated value ('1.78'). No missing values observed. Note: This column exhibits 81.25% value resemblance to 'FeedbackScore' in the same table, suggesting potential redundancy.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm relationship with column 'FeedbackScore' — determine if FeedbackScore1 is redundant (81.25% value overlap) or if both columns serve distinct business purposes. Remove if duplicate."
+    ]
+  }
+]

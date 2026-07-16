@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string values. Contains 2 NULL values (6.7% of 30 records) and 28 distinct non-null entries. While most values represent legitimate numeric amounts ranging from 16.53 to 961.14, the column includes one text value 'free' and one suspiciously high value '99999' (likely a sentinel/placeholder). The column is stored as string but intended to be float64.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of anomalous values: 'free' (representing zero fee?) and '99999' (sentinel for unknown/missing?), and verify whether 2 missing values (6.7%) are expected for this field.",
+      "[STANDARDIZE] After resolving special values, convert valid numeric strings to float64 type."
+    ]
+  }
+]

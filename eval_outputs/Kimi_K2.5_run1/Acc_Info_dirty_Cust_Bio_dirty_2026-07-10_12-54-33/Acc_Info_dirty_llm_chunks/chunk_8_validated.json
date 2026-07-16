@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as text with 2 missing values (6.7%). Contains 28 distinct non-null values, predominantly numeric decimals ranging from 16.53 to 961.14, but includes 2 non-numeric anomalies: the text value 'free' and the suspiciously high value '99999' (over 100x larger than the next highest valid amount). The string storage prevents numeric aggregation and analysis.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of anomalous values: whether 'free' indicates a zero-cost subscription (to be mapped to 0.00) or a distinct category, and verify if '99999' is a sentinel value for missing/unknown data.",
+      "[STANDARDIZE] Convert the column from string to float64 after resolving anomalies: cast valid numeric strings to decimal format and replace confirmed sentinel values with NULL.",
+      "[VALIDATE] Ensure all values conform to positive decimal currency format (e.g., 434.17) and fall within the expected business range after conversion."
+    ]
+  }
+]

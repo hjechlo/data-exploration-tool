@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing Singapore road and street names. All 30 records (100%) have unique, non-null values. One value appears in ALL CAPS ('HOLLAND ROAD'), deviating from the Title Case format used by all other entries.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations using the dominant Title Case convention: 'HOLLAND ROAD' → 'Holland Road' (3.3% of values)."
+    ]
+  }
+]
+```

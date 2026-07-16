@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical field representing customer gender, stored as text. Contains 30 records with 0 missing values (0%). Four distinct values are observed due to case inconsistencies: 'Male'/'male' and 'Female'/'FEMALE', representing two semantic categories.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values conform to the standardized categories 'Male' or 'Female'."
+    ]
+  }
+]

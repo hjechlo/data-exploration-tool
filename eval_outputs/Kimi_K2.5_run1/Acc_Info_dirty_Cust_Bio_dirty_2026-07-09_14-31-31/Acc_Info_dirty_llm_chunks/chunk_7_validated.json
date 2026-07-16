@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Subscription tier classification containing 5 distinct categories (Basic, Free, Gold, Platinum, Premium) across 30 records. No missing values. Stored as string with observed value lengths ranging from 4 to 8 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

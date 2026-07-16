@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 across 30 records with 0 missing values (0%). All values are distinct (100% uniqueness). Contains suspected sentinel values requiring validation: 99999.0 (statistical outlier flagged as potentially sentinel-coded) and -150.5 (negative value, potentially representing overdraft or invalid data).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of suspected sentinel/anomalous values: 99999.0 (statistical outlier) and -150.5 (negative balance). Verify whether these represent missing/invalid data, overdrafts, or legitimate account balances."
+    ]
+  }
+]

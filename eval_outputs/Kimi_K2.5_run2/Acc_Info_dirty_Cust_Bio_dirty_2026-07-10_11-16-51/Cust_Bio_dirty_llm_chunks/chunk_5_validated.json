@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race or ethnicity classification stored as text. Contains 30 non-null records with 6 distinct values representing three underlying categories (Chinese, Malay, Indian) due to inconsistent casing variations including uppercase ('MALAY'), lowercase ('malay', 'indian'), and title case forms.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[VALIDATE] Ensure all values conform to the standardised categorical set: 'Chinese', 'Malay', 'Indian'."
+    ]
+  }
+]

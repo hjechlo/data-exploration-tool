@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Status flag stored as a string column, although the evidence indicates the intended type is boolean. The field is complete with 0 missing values out of 30 records and contains 6 distinct non-null values. Observed values use multiple boolean-like representations: 'True', 'False', '1', '0', 'yes', and 'no'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical boolean mapping for the 6 observed representations ('True', 'False', '1', '0', 'yes', 'no') before converting the string field to a boolean type.",
+      "[VALIDATE] After the mapping is confirmed, ensure all values use only the approved boolean representations, for example a single standard such as 'True'/'False' or 1/0."
+    ]
+  }
+]

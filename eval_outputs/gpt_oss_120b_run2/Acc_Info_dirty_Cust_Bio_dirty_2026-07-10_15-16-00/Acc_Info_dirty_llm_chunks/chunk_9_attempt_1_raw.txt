@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean flag stored as a string (categorical) with 30 non‑null records and 6 distinct values: '0', '1', 'False', 'True', 'no', 'yes'. The column is low‑cardinality, contains mixed true/false representations, and the intended type is bool.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all true equivalents ('True', '1', 'yes') → 'True' and all false equivalents ('False', '0', 'no') → 'False'.",
+      "[VALIDATE] Ensure that after standardisation only the two canonical values 'True' and 'False' remain."
+    ]
+  }
+]

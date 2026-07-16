@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier containing 4-digit numeric codes ranging from 1001 to 1028. Contains 28 distinct values across 30 records with 0 missing values (0%). Two account numbers (1001 and 1010) each appear twice. Currently stored as int64 but intended type is string.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended type specification."
+    ]
+  }
+]

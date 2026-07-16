@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as text. 2 missing values (6.7% of 30 records). Contains 28 distinct non-null values (100% unique) with numeric strings ranging from 16.53 to 961.14, plus one non-numeric value 'free' and one suspicious outlier '99999' (likely a sentinel for missing/invalid data). Column requires conversion from string to float64 for numeric analysis.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business logic for non-standard values before type conversion: interpret 'free' (representing zero fee, promotional offer, or data entry error?) and verify whether '99999' is a sentinel value for missing/invalid data or requires alternative handling.",
+      "[STANDARDIZE] Convert valid numeric strings to float64 data type after resolving 'free' and '99999'.",
+      "[VALIDATE] Ensure all values represent positive decimal numbers within reasonable subscription fee ranges after conversion."
+    ]
+  }
+]
+```

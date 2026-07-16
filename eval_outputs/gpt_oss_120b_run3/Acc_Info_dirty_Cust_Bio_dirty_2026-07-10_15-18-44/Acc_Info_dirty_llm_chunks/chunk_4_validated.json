@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as a string. All 30 values are non‑null and unique. 96.7% follow the nine‑character pattern letter‑seven‑digits‑letter (e.g., S8403757E); 3.3% are six‑digit variants lacking the trailing letter (e.g., S123456). Observed lengths range from 7 to 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how to handle the 3.3% of IDs using the shorter 'aXXXXXX' format (e.g., 'S123456') and whether they should be converted to the standard 'aXXXXXXXa' pattern."
+    ]
+  }
+]

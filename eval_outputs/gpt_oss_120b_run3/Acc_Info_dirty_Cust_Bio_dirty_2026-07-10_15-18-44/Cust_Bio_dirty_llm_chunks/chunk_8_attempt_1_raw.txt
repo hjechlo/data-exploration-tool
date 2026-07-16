@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact number field stored as string. All 28 non‑NULL values are unique; 2 NULL values represent 6.7% missingness. Observed formats vary: '+65 80734991' (international with plus), '65 80742791' (country code without plus), plain 8‑digit numbers like '62357895', and a 7‑digit entry '8964359'. Lengths range from 7 to 12 characters, indicating inconsistent formatting.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert values lacking the '+65' country code prefix to the international format '+65 XXXXXXXXX' (e.g., '62357895' → '+65 62357895', '65 80742791' → '+65 80742791').",
+      "[VALIDATE] Ensure all values follow the international phone format: a leading '+', two‑digit country code, a space, then eight digits — e.g., '+65 80734991'."
+    ]
+  }
+]

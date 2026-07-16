@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as string with 100% completeness (30 records, 0 missing). Contains 28 distinct values spanning from 2019-01-01 to 2024-05-12. All values consistently use the format 'YYYY-MM-DD 00:00:00' with a uniform midnight time component, suggesting date-level precision. Currently stored as string but intended to be datetime64[ns].",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert string values to datetime64[ns] data type: '2023-03-30 00:00:00' → 2023-03-30 00:00:00.",
+      "[VALIDATE] Ensure all values follow the format: four-digit year, two-digit month, two-digit day, followed by two-digit hour, minute, and second (all zeros observed for time) — e.g., '2023-03-30 00:00:00'."
+    ]
+  }
+]

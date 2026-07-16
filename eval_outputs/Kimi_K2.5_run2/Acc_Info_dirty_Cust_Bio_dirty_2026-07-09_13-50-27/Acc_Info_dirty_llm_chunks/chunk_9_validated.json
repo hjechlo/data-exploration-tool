@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status flag stored as string with 6 distinct representations of binary states across 30 records (no missing values). Observed variants include numeric strings ('0', '1'), title case ('False', 'True'), and lowercase ('no', 'yes'). Column is intended to be stored as boolean type.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the target boolean format (e.g., 'True'/'False', '1'/'0', or 'yes'/'no') for standardizing the 6 observed variants: '0', '1', 'False', 'True', 'no', 'yes'.",
+      "[VALIDATE] After standardization, ensure all values conform to the selected boolean format (e.g., only 'True' or 'False') before converting to boolean data type."
+    ]
+  }
+]

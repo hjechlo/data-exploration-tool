@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "Numeric feedback score stored as float64. Contains 30 records with 0 missing values (0%). Values range from 1.0 to 7.3 with 29 distinct values (near-unique). One value (1.78) appears twice. Contains one high-end value (7.3) that exceeds the statistical upper bound of 6.945 (Q3 + 1.5×IQR) and may be sentinel-coded. Shows 81.25% value resemblance to column FeedbackScore1, suggesting potential duplication.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether both FeedbackScore and FeedbackScore1 are needed, or if one should be removed due to near-duplication (81.25% value resemblance)."
+    ]
+  }
+]
+```

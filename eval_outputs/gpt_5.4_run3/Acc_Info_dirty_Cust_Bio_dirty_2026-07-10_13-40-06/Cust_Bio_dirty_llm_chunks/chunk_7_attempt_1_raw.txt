@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field intended to store numeric ages. The column has 30 records, 0 missing values, and 24 distinct non-null values. It is stored as int64 overall, but the evidence shows one non-numeric entry ('Twenty-five', 3.3%) in this numeric-like column. Observed values range from -5 to 66, with two low-end values (4 and -5) flagged as potentially unrealistic for a service-account context.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize the deterministic text-form age value to numeric format for 3.3% of records: 'Twenty-five' → '25'.",
+      "[CLARIFY] Review the 2 potentially unrealistic age values flagged in the evidence: '4' and '-5'. Confirm whether these are valid records, data entry errors, or require correction/removal.",
+      "[VALIDATE] Ensure all values are stored as numeric ages only, for example whole numbers such as '27' or '58', and reject text-form entries such as 'Twenty-five'."
+    ]
+  }
+]

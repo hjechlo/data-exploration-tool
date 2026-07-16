@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name stored as text. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are distinct. Values appear to contain road or street names, with one observed casing deviation such as 'HOLLAND ROAD' among otherwise title-cased examples.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended casing standard for street names before standardisation; one observed value ('HOLLAND ROAD') differs from the dominant title-case style."
+    ]
+  }
+]

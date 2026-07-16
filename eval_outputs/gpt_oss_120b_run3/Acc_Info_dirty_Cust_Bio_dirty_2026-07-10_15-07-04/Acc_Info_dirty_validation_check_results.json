@@ -1,0 +1,515 @@
+{
+  "per_rule": [
+    {
+      "rule_id": 1,
+      "column": "S_N",
+      "rule": "S_N should be unique across the table (primary key).",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "S_N": 3
+        },
+        {
+          "S_N": 3
+        }
+      ]
+    },
+    {
+      "rule_id": 2,
+      "column": "S_N",
+      "rule": "Every S_N value must exist in Cust_Bio_dirty.S_N to preserve the one‑to‑one relationship.",
+      "type": "referential_cross_table",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 3,
+      "column": "Account_No",
+      "rule": "Account_No must be a four‑digit numeric string (e.g., \"1026\").",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 4,
+      "column": "Full_Name",
+      "rule": "Name particles must be consistent with the gender recorded in Cust_Bio_dirty: \"Bin\" or \"s/o\" → Male; \"Binte\" or \"d/o\" → Female.",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Full_Name": "Arvind s/o Maniam"
+        }
+      ]
+    },
+    {
+      "rule_id": 5,
+      "column": "ID",
+      "rule": "ID should match the dominant 9‑character pattern: a capital letter, seven digits, and a trailing capital letter (e.g., \"S8403757E\").",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID": "S123456"
+        }
+      ]
+    },
+    {
+      "rule_id": 6,
+      "column": "JoinDate",
+      "rule": "JoinDate must not be null.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": null
+        }
+      ]
+    },
+    {
+      "rule_id": 7,
+      "column": "JoinDate",
+      "rule": "JoinDate must be a parseable datetime in the format \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\".",
+      "type": "datetime_parseable",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": "2025-13-01"
+        }
+      ]
+    },
+    {
+      "rule_id": 8,
+      "column": "JoinDate",
+      "rule": "JoinDate must not be later than today.",
+      "type": "date_not_future",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": "2027-01-15 00:00:00"
+        }
+      ]
+    },
+    {
+      "rule_id": 9,
+      "column": "JoinDate",
+      "rule": "JoinDate must be earlier than or equal to LastLogin.",
+      "type": "date_ordering",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "JoinDate": "2027-01-15 00:00:00"
+        },
+        {
+          "JoinDate": "2020-11-02 00:00:00"
+        }
+      ]
+    },
+    {
+      "rule_id": 10,
+      "column": "LastLogin",
+      "rule": "LastLogin must be a parseable datetime in the format \"YYYY-MM-DD HH:MM:SS\".",
+      "type": "datetime_parseable",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 11,
+      "column": "LastLogin",
+      "rule": "LastLogin must not be later than today.",
+      "type": "date_not_future",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 12,
+      "column": "Subscription_Type",
+      "rule": "Subscription_Type must be one of the defined tier names.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 13,
+      "column": "SubscriptionFee",
+      "rule": "SubscriptionFee must be convertible to a numeric (float) value.",
+      "type": "numeric_parseable",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "SubscriptionFee": "free"
+        }
+      ]
+    },
+    {
+      "rule_id": 14,
+      "column": "SubscriptionFee",
+      "rule": "Flag non‑numeric sentinel value \"free\" in SubscriptionFee.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "SubscriptionFee": "free"
+        }
+      ]
+    },
+    {
+      "rule_id": 15,
+      "column": "Status",
+      "rule": "Status must use the dominant boolean representations True or False",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Status": "no"
+        },
+        {
+          "Status": "yes"
+        },
+        {
+          "Status": "1"
+        },
+        {
+          "Status": "0"
+        }
+      ]
+    },
+    {
+      "rule_id": 16,
+      "column": "AccountBalance",
+      "rule": "Flag extreme sentinel values that are likely placeholders.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "AccountBalance": -150.5
+        },
+        {
+          "AccountBalance": 99999.0
+        }
+      ]
+    },
+    {
+      "rule_id": 17,
+      "column": "AccountBalance",
+      "rule": "AccountBalance must not be negative.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "AccountBalance": -150.5
+        }
+      ]
+    },
+    {
+      "rule_id": 18,
+      "column": "PreferredLanguage",
+      "rule": "PreferredLanguage must be one of the supported language names.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 19,
+      "column": "Device",
+      "rule": "Device must be one of the recognized device types.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 20,
+      "column": "OS",
+      "rule": "OS must be one of the canonical operating system names after standardisation.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 8,
+      "violation_rate": 0.267,
+      "passed": false,
+      "sample_violations": [
+        {
+          "OS": "android"
+        },
+        {
+          "OS": "macOs"
+        },
+        {
+          "OS": "LINUX"
+        },
+        {
+          "OS": "macOs"
+        },
+        {
+          "OS": "macOs"
+        }
+      ]
+    },
+    {
+      "rule_id": 21,
+      "column": "OS",
+      "rule": "Flag OS entries that are not a recognised OS irrespective of case.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 22,
+      "column": "FeedbackScore",
+      "rule": "Flag outlier sentinel value 7.3 in FeedbackScore.",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "FeedbackScore": 7.3
+        }
+      ]
+    },
+    {
+      "rule_id": 23,
+      "column": "FeedbackScore1",
+      "rule": "FeedbackScore1 must lie between 1 and 5 inclusive.",
+      "type": "range",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 24,
+      "column": "Account_No",
+      "rule": "Account_No must be unique within Acc_Info_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1010
+        },
+        {
+          "Account_No": 1010
+        }
+      ]
+    }
+  ],
+  "violation_records": [
+    {
+      "Row": "3",
+      "Record Identifier": "S9968522J",
+      "Failed Column": "S_N, AccountBalance",
+      "Failed Value": "3 | -150.5",
+      "Validation Rules Failed": "#1: S_N should be unique across the table (primary key). | #16: Flag extreme sentinel values that are likely placeholders. | #17: AccountBalance must not be negative."
+    },
+    {
+      "Row": "6",
+      "Record Identifier": "S2633396B",
+      "Failed Column": "S_N, Full_Name",
+      "Failed Value": "3 | Arvind s/o Maniam",
+      "Validation Rules Failed": "#1: S_N should be unique across the table (primary key). | #4: Name particles must be consistent with the gender recorded in Cust_Bio_dirty: \"Bin\" or \"s/o\" → Male; \"Binte\" or \"d/o\" → Female."
+    },
+    {
+      "Row": "29",
+      "Record Identifier": "S123456",
+      "Failed Column": "ID, OS",
+      "Failed Value": "S123456 | macOs",
+      "Validation Rules Failed": "#5: ID should match the dominant 9‑character pattern: a capital letter, seven digits, and a trailing capital letter (e.g., \"S8403757E\"). | #20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "5",
+      "Record Identifier": "G8765432L",
+      "Failed Column": "JoinDate",
+      "Failed Value": "<NA>",
+      "Validation Rules Failed": "#6: JoinDate must not be null."
+    },
+    {
+      "Row": "22",
+      "Record Identifier": "G3344556U",
+      "Failed Column": "JoinDate",
+      "Failed Value": "2025-13-01",
+      "Validation Rules Failed": "#7: JoinDate must be a parseable datetime in the format \"YYYY-MM-DD HH:MM:SS\" or \"YYYY-MM-DD\"."
+    },
+    {
+      "Row": "18",
+      "Record Identifier": "G2233445S",
+      "Failed Column": "JoinDate, LastLogin",
+      "Failed Value": "2027-01-15 00:00:00 | 2023-06-15 00:00:00",
+      "Validation Rules Failed": "#8: JoinDate must not be later than today. | #9: JoinDate must be earlier than or equal to LastLogin."
+    },
+    {
+      "Row": "20",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "LastLogin",
+      "Failed Value": "2019-01-01 00:00:00",
+      "Validation Rules Failed": "#9: JoinDate must be earlier than or equal to LastLogin."
+    },
+    {
+      "Row": "7",
+      "Record Identifier": "S9136271F",
+      "Failed Column": "SubscriptionFee, Status",
+      "Failed Value": "free | no",
+      "Validation Rules Failed": "#13: SubscriptionFee must be convertible to a numeric (float) value. | #14: Flag non‑numeric sentinel value \"free\" in SubscriptionFee. | #15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "8",
+      "Record Identifier": "F4455667M",
+      "Failed Column": "Status, OS",
+      "Failed Value": "yes | macOs",
+      "Validation Rules Failed": "#15: Status must use the dominant boolean representations True or False | #20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "14",
+      "Record Identifier": "G6677889Q",
+      "Failed Column": "Status",
+      "Failed Value": "1",
+      "Validation Rules Failed": "#15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "21",
+      "Record Identifier": "S9203906D",
+      "Failed Column": "Status",
+      "Failed Value": "0",
+      "Validation Rules Failed": "#15: Status must use the dominant boolean representations True or False"
+    },
+    {
+      "Row": "28",
+      "Record Identifier": "S8403757E",
+      "Failed Column": "AccountBalance",
+      "Failed Value": "99999.0",
+      "Validation Rules Failed": "#16: Flag extreme sentinel values that are likely placeholders."
+    },
+    {
+      "Row": "4",
+      "Record Identifier": "F1122334K",
+      "Failed Column": "OS",
+      "Failed Value": "android",
+      "Validation Rules Failed": "#20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "12",
+      "Record Identifier": "T0292156H",
+      "Failed Column": "OS, Account_No",
+      "Failed Value": "LINUX | 1010",
+      "Validation Rules Failed": "#20: OS must be one of the canonical operating system names after standardisation. | #24: Account_No must be unique within Acc_Info_dirty"
+    },
+    {
+      "Row": "15",
+      "Record Identifier": "S9539727A",
+      "Failed Column": "OS",
+      "Failed Value": "macOs",
+      "Validation Rules Failed": "#20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "17",
+      "Record Identifier": "F9900112R",
+      "Failed Column": "OS",
+      "Failed Value": "macOs",
+      "Validation Rules Failed": "#20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "19",
+      "Record Identifier": "S8705681C",
+      "Failed Column": "OS",
+      "Failed Value": "macOs",
+      "Validation Rules Failed": "#20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "26",
+      "Record Identifier": "G4455667W",
+      "Failed Column": "OS",
+      "Failed Value": "IOS",
+      "Validation Rules Failed": "#20: OS must be one of the canonical operating system names after standardisation."
+    },
+    {
+      "Row": "9",
+      "Record Identifier": "G5566778N",
+      "Failed Column": "FeedbackScore",
+      "Failed Value": "7.3",
+      "Validation Rules Failed": "#22: Flag outlier sentinel value 7.3 in FeedbackScore."
+    },
+    {
+      "Row": "1",
+      "Record Identifier": "S1234567D",
+      "Failed Column": "Account_No",
+      "Failed Value": "1001",
+      "Validation Rules Failed": "#24: Account_No must be unique within Acc_Info_dirty"
+    },
+    {
+      "Row": "2",
+      "Record Identifier": "S7654321F",
+      "Failed Column": "Account_No",
+      "Failed Value": "1001",
+      "Validation Rules Failed": "#24: Account_No must be unique within Acc_Info_dirty"
+    },
+    {
+      "Row": "11",
+      "Record Identifier": "S8099150I",
+      "Failed Column": "Account_No",
+      "Failed Value": "1010",
+      "Validation Rules Failed": "#24: Account_No must be unique within Acc_Info_dirty"
+    }
+  ],
+  "total_failing_records": 22
+}

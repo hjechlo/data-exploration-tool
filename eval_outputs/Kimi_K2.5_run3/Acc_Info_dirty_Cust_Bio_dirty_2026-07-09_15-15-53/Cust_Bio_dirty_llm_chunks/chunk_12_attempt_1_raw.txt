@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier with 30 distinct non-null values (100% complete and unique). Stored as int64 with values ranging from 6907 to 786055 and observed lengths of 4, 5, and 6 digits. The column is currently stored as integer but intended to be string to preserve leading zeros and prevent numeric interpretation.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve potential leading zeros and ensure postal codes are treated as categorical identifiers.",
+      "[CLARIFY] Confirm whether 4-digit (e.g., 6907) and 5-digit (e.g., 99999) values represent valid postal codes or if they are 6-digit codes with missing leading zeros that require padding."
+    ]
+  }
+]
+```

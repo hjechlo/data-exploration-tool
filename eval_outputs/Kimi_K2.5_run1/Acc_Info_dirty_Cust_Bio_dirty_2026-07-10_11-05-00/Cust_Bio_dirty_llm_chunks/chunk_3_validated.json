@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full name field storing customer names as free-text. Contains 30 unique values with no missing records (100% complete). Observed values reflect multicultural naming conventions including Chinese names, Malay patronymics (Bin/Binte), and Indian patronymics (s/o/d/o). Two values deviate from the dominant Title Case format: one all-lowercase entry ('lim wei jie') and one all-uppercase entry ('WANG SHI JIE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case-only deviations using the dominant Title Case convention: 'lim wei jie' → 'Lim Wei Jie', 'WANG SHI JIE' → 'Wang Shi Jie'."
+    ]
+  }
+]

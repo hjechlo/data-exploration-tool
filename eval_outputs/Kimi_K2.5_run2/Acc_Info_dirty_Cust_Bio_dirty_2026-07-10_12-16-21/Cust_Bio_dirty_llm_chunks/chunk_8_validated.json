@@ -1,0 +1,12 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Phone number field stored as text with 2 missing values (6.7% of 30 records). All 28 non-null values are unique. Data exhibits four structural formats: 12-character international with '+65 ' prefix (17.9%), 11-character international with '65 ' prefix, 8-digit local format, and one anomalous 7-digit value ('8964359').",
+    "recommended_actions": [
+      "[STANDARDIZE] Add '+' prefix to international format numbers missing it: '65 80742791' → '+65 80742791'.",
+      "[CLARIFY] Confirm whether 8-digit local format numbers (e.g., '62357895') should be converted to international format with '+65 ' prefix.",
+      "[CLARIFY] Verify the 7-digit value '8964359' — confirm if this is a truncated mobile number or valid legacy format.",
+      "[VALIDATE] Ensure all values conform to the selected standard format after standardization (e.g., '+65 ' followed by 8 digits)."
+    ]
+  }
+]

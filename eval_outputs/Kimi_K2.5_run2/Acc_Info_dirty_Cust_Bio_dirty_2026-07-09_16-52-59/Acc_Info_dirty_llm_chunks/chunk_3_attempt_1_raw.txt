@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name stored as free-text reflecting diverse cultural naming conventions including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). All 30 records are non-null with unique values. Case analysis shows most values follow a title-like convention, with 5 records (16.7%) showing minor formatting deviations including lowercase segments and excess whitespace.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations using the dominant title-like convention: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'.",
+      "[STANDARDIZE] Remove excess whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]
+```

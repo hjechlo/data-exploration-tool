@@ -1,0 +1,468 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "S_N should be unique within Acc_Info_dirty because it functions as a join key and is described as a one-to-one shared key.",
+    "rationale": "The evidence states S_N is a join_key and a one-to-one key with Cust_Bio_dirty.S_N. The sample shows one repeated value ('3'), so a uniqueness rule is needed to flag duplicate keys before joining.",
+    "check_params": {
+      "logic": "df[df['S_N'] == row['S_N']].shape[0] > 1"
+    }
+  },
+  {
+    "rule_id": 2,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "Every S_N value in Acc_Info_dirty must exist in Cust_Bio_dirty.S_N.",
+    "rationale": "Cross-table join hints explicitly state that S_N is a one-to-one key with Cust_Bio_dirty.S_N, so referential integrity should be enforced across the two tables.",
+    "check_params": {
+      "ref_table": "Cust_Bio_dirty",
+      "ref_column": "S_N"
+    }
+  },
+  {
+    "rule_id": 3,
+    "table": "Acc_Info_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be stored as a 4-digit text code containing exactly four digits.",
+    "rationale": "The evidence says the intended type is string, all observed values are always 4 characters long, and recommended actions explicitly require exactly 4 digits stored as text.",
+    "check_params": {
+      "regex": "^\\d{4}$",
+      "expected_length": 4
+    }
+  },
+  {
+    "rule_id": 4,
+    "table": "Acc_Info_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Account_No should be unique per account record.",
+    "rationale": "This is an account number field in an account master table and is near-unique with repeated values '1001' and '1010' in the sample, which are likely duplicate-account anomalies worth flagging.",
+    "check_params": {
+      "logic": "df[df['Account_No'] == row['Account_No']].shape[0] > 1"
+    }
+  },
+  {
+    "rule_id": 5,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Full_Name should not contain obvious casing anomalies such as all-lowercase name parts, except for known lowercase particles like 'bin', 'binte', 'd/o', and 's/o'.",
+    "rationale": "The evidence explicitly highlights mixed case issues such as 'junrong', 'irfan', 'Hui Min tan', and 'Lee yixuan'. This rule flags structurally suspicious casing while avoiding false positives on cultural particles.",
+    "check_params": {
+      "logic": "any(w[0].islower() or w.isupper() for w in str(row['Full_Name']).split() if w.lower() not in ('bin','binte','d/o','s/o') and len(w) > 1)"
+    }
+  },
+  {
+    "rule_id": 6,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "For the same S_N, Full_Name in Acc_Info_dirty should represent the same person as Cust_Bio_dirty.Name after normalising case and spacing differences.",
+    "rationale": "The two tables are linked one-to-one by S_N and both contain person-name fields. Sample values suggest the same person may appear with different casing or expanded forms across tables, so cross-table semantic consistency is important.",
+    "check_params": {
+      "logic": "",
+      "sibling_table": "Cust_Bio_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Name",
+      "semantic_check": "After joining on S_N, compare Full_Name with Name using case-insensitive and whitespace-normalised matching; flag records where the names clearly refer to different people rather than harmless casing or spacing differences."
+    }
+  },
+  {
+    "rule_id": 7,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID must follow the dominant identifier format: one letter, followed by 7 digits, ending with one letter.",
+    "rationale": "29 of 30 values follow the aXXXXXXXa pattern and the evidence explicitly identifies 'S123456' as an incompatible shorter format. The recommended action confirms the dominant canonical structure.",
+    "check_params": {
+      "regex": "^[A-Za-z]\\d{7}[A-Za-z]$",
+      "expected_length": 9
+    }
+  },
+  {
+    "rule_id": 8,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "ID must be unique across account records.",
+    "rationale": "The dataset description identifies ID as the evident unique table-level identifier, and the sample shows all 30 values are distinct.",
+    "check_params": {
+      "logic": "df[df['ID'] == row['ID']].shape[0] > 1"
+    }
+  },
+  {
+    "rule_id": 9,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "JoinDate must not be null.",
+    "rationale": "JoinDate is a mandatory business date field and the evidence shows 1 NULL value (3.3%), so a not_null rule is justified and will fire on the observed missing record.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 10,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "datetime_parseable",
+    "rule": "JoinDate must be a parseable datetime value in the approved account join-date format.",
+    "rationale": "The column is intended to be datetime, most values use a timestamp-like format such as '2021-03-14 00:00:00', and the evidence explicitly reports one unparseable value: '2025-13-01'.",
+    "check_params": {
+      "logic": "pd.isna(pd.to_datetime(row['JoinDate'], errors='coerce'))"
+    }
+  },
+  {
+    "rule_id": 11,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "date_not_future",
+    "rule": "JoinDate must not be in the future.",
+    "rationale": "JoinDate is a historical account enrollment field. The sample contains a future value '2027-01-15 00:00:00', so a date_not_future rule is appropriate.",
+    "check_params": {
+      "col_a": "JoinDate"
+    }
+  },
+  {
+    "rule_id": 12,
+    "table": "Acc_Info_dirty",
+    "column": "LastLogin",
+    "columns": [
+      "LastLogin"
+    ],
+    "category": "per_column",
+    "type": "datetime_parseable",
+    "rule": "LastLogin must be a parseable datetime in the observed 19-character timestamp format.",
+    "rationale": "The evidence shows LastLogin is intended to be datetime and all observed values use a consistent timestamp-like format such as '2023-03-30 00:00:00'.",
+    "check_params": {
+      "logic": "pd.isna(pd.to_datetime(row['LastLogin'], errors='coerce'))"
+    }
+  },
+  {
+    "rule_id": 13,
+    "table": "Acc_Info_dirty",
+    "column": "LastLogin",
+    "columns": [
+      "LastLogin"
+    ],
+    "category": "cross_column",
+    "type": "date_ordering",
+    "rule": "JoinDate must be on or before LastLogin.",
+    "rationale": "A user cannot log in before joining the service. The sample contains a clear contradiction where JoinDate is '2020-11-02 00:00:00' and LastLogin is '2019-01-01 00:00:00'.",
+    "check_params": {
+      "col_a": "JoinDate",
+      "col_b": "LastLogin"
+    }
+  },
+  {
+    "rule_id": 14,
+    "table": "Acc_Info_dirty",
+    "column": "Subscription_Type",
+    "columns": [
+      "Subscription_Type"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Subscription_Type must be one of the approved subscription tiers: Basic, Free, Gold, Platinum, or Premium.",
+    "rationale": "The column is low-cardinality with exactly five observed values and no evidence of any other valid tiers.",
+    "check_params": {
+      "values": [
+        "Basic",
+        "Free",
+        "Gold",
+        "Platinum",
+        "Premium"
+      ]
+    }
+  },
+  {
+    "rule_id": 15,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "SubscriptionFee must not be null.",
+    "rationale": "The evidence shows 2 NULL values (6.7%). Since this is a core financial field used with subscription type, a not_null rule is justified and will flag the observed missing values.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 16,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "numeric_parseable",
+    "rule": "SubscriptionFee must be parseable as a numeric amount.",
+    "rationale": "The intended type is float64 and the evidence explicitly reports one non-numeric value: 'free'. This rule flags that anomaly without rejecting numeric strings such as '152.2' or '16.53'.",
+    "check_params": {
+      "logic": "pd.isna(pd.to_numeric(row['SubscriptionFee'], errors='coerce'))"
+    }
+  },
+  {
+    "rule_id": 17,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "If Subscription_Type is 'Free', SubscriptionFee must be 0 or null after numeric standardisation.",
+    "rationale": "This is a strong business rule for subscription data. The sample shows several 'Free' subscriptions with positive fees such as 917.46, 99999, 540.3, 464.85, 304.6, 470.09, and 251.93, indicating meaningful contradictions.",
+    "check_params": {
+      "logic": "str(row['Subscription_Type']).strip() == 'Free' and not (pd.isna(row['SubscriptionFee']) or pd.to_numeric(row['SubscriptionFee'], errors='coerce') == 0)"
+    }
+  },
+  {
+    "rule_id": 18,
+    "table": "Acc_Info_dirty",
+    "column": "Status",
+    "columns": [
+      "Status"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Status must use the dominant boolean representations True or False",
+    "rationale": "The evidence says this boolean-like field is inconsistently encoded using 'True', 'False', '1', '0', 'yes', and 'no'. A canonical enumeration is needed to prevent mixed representations.",
+    "check_params": {
+      "values": [
+        "True",
+        "False"
+      ]
+    }
+  },
+  {
+    "rule_id": 19,
+    "table": "Acc_Info_dirty",
+    "column": "AccountBalance",
+    "columns": [
+      "AccountBalance"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "AccountBalance must not use the explicit sentinel value 99999.0.",
+    "rationale": "The evidence explicitly flags 99999.0 as appearing sentinel-coded and potentially representing missing or invalid data. The sample contains this exact value.",
+    "check_params": {
+      "sentinel_values": [
+        "99999.0",
+        "99999"
+      ]
+    }
+  },
+  {
+    "rule_id": 20,
+    "table": "Acc_Info_dirty",
+    "column": "AccountBalance",
+    "columns": [
+      "AccountBalance"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "AccountBalance should not be negative.",
+    "rationale": "Account balance is an inherently non-negative quantity in the observed data context, and the evidence flags -150.5 as sign-anomalous in an almost entirely positive column.",
+    "check_params": {
+      "logic": "pd.to_numeric(row['AccountBalance'], errors='coerce') < 0"
+    }
+  },
+  {
+    "rule_id": 21,
+    "table": "Acc_Info_dirty",
+    "column": "PreferredLanguage",
+    "columns": [
+      "PreferredLanguage"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "PreferredLanguage must be one of the approved observed languages: English, French, German, Malay, or Tamil.",
+    "rationale": "The column is low-cardinality with five consistently represented values and no evidence of additional valid categories.",
+    "check_params": {
+      "values": [
+        "English",
+        "French",
+        "German",
+        "Malay",
+        "Tamil"
+      ]
+    }
+  },
+  {
+    "rule_id": 22,
+    "table": "Acc_Info_dirty",
+    "column": "Device",
+    "columns": [
+      "Device"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Device must be one of Desktop, Mobile, or Tablet.",
+    "rationale": "The evidence shows a stable low-cardinality device domain with exactly these three values.",
+    "check_params": {
+      "values": [
+        "Desktop",
+        "Mobile",
+        "Tablet"
+      ]
+    }
+  },
+  {
+    "rule_id": 23,
+    "table": "Acc_Info_dirty",
+    "column": "OS",
+    "columns": [
+      "OS"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "OS must use canonical operating-system names: Android, iOS, Linux, Windows, or macOS.",
+    "rationale": "The evidence shows inconsistent casing variants for the same categories: 'Android'/'android', 'iOS'/'IOS', 'Linux'/'LINUX', and 'macOs'. Canonical proper-noun forms should be enforced.",
+    "check_params": {
+      "values": [
+        "Android",
+        "iOS",
+        "Linux",
+        "Windows",
+        "macOS"
+      ]
+    }
+  },
+  {
+    "rule_id": 24,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "FeedbackScore must be between 1 and 5 inclusive.",
+    "rationale": "Feedback scores are conventionally bounded ratings, and the paired column FeedbackScore1 ranges from 1.0 to 5.0. The sample contains 7.3, which is clearly outside a standard 1-5 rating scale.",
+    "check_params": {
+      "min": 1,
+      "max": 5
+    }
+  },
+  {
+    "rule_id": 25,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore1",
+    "columns": [
+      "FeedbackScore1"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "FeedbackScore1 must be between 1 and 5 inclusive.",
+    "rationale": "This appears to be the same rating concept as FeedbackScore and all observed values already fall between 1.0 and 5.0, which supports a standard 1-5 rating domain.",
+    "check_params": {
+      "min": 1,
+      "max": 5
+    }
+  },
+  {
+    "rule_id": 26,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore",
+      "FeedbackScore1"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "FeedbackScore and FeedbackScore1 should match exactly for the same record.",
+    "rationale": "The evidence says the two columns are near-duplicates. The sample shows most rows match exactly, but one row has FeedbackScore 7.3 and FeedbackScore1 2.65, indicating a likely inconsistency.",
+    "check_params": {
+      "logic": "pd.to_numeric(row['FeedbackScore'], errors='coerce') != pd.to_numeric(row['FeedbackScore1'], errors='coerce')"
+    }
+  },
+  {
+    "rule_id": 27,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "If Full_Name contains 'Bin' or 's/o', the linked Cust_Bio_dirty.Gender for the same S_N must be Male; if it contains 'Binte' or 'd/o', the linked Gender must be Female.",
+    "rationale": "The sample contains culturally specific particles in names such as 'Bin', 'Binte', 's/o', and 'd/o'. The instructions explicitly call for this semantic rule when such particles are present across tables and a related Gender field exists in another table.",
+    "check_params": {
+      "logic": "",
+      "sibling_table": "Cust_Bio_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Gender",
+      "semantic_check": "After joining on S_N, normalise Gender with strip().lower(). Flag records where Full_Name contains whole-term 'bin' or 's/o' but Gender is not 'male', or contains whole-term 'binte' or 'd/o' but Gender is not 'female'."
+    }
+  },
+  {
+    "rule_id": 28,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "For the same S_N, Acc_Info_dirty.ID should match Cust_Bio_dirty.ID_No exactly.",
+    "rationale": "Both tables contain a personal identifier field linked by the one-to-one key S_N. Sample values suggest mostly matching IDs, and any mismatch would indicate a serious identity inconsistency across tables.",
+    "check_params": {
+      "logic": "",
+      "sibling_table": "Cust_Bio_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "ID_No",
+      "semantic_check": "After joining on S_N, compare ID and ID_No exactly; flag any non-null pair where the values differ."
+    }
+  }
+]

@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country field containing 8 distinct representations of Singapore across 30 records with no missing values. Values appear in multiple formats including English (various casings), abbreviations ('SG', 'S'pore'), formal name ('Republic of Singapore'), and other languages ('Singapura' - Malay, '新加坡' - Chinese).",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify English format variations to title case 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'SG' → 'Singapore', 'S'pore' → 'Singapore', 'Republic of Singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm whether non-English values ('Singapura', '新加坡') should be translated to 'Singapore' or preserved as valid multilingual entries."
+    ]
+  }
+]
+```

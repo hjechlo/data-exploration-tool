@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field stored as integer values (int64) with 30 total records and no missing values. Contains 24 distinct values; 6 values are duplicated. Observed range is -5 to 66. One entry is non-numeric ('Twenty-five'), and two values (4 and -5) fall below a realistic minimum age of 13 for the service.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the non-numeric entry 'Twenty-five' → '25'.",
+      "[CLARIFY] Confirm whether ages below 13 (e.g., 4, -5) are valid for this dataset or should be corrected/removed.",
+      "[VALIDATE] Ensure all ages are positive integers within a realistic range (e.g., 13 to 120) after standardisation."
+    ]
+  }
+]

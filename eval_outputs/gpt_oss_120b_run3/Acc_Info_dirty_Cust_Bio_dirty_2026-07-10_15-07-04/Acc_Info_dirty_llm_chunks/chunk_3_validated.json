@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full_Name column stores personal full names as free‑text strings. It contains 30 distinct, non‑null values with no missing entries. The data includes a variety of cultural naming conventions (e.g., \"Bin\", \"Binte\", \"s/o\", \"d/o\") and exhibits mixed capitalization, such as all‑lowercase names like \"junrong\" and \"irfan\" alongside title‑cased names.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

@@ -1,0 +1,8 @@
+[{
+  "column_name": "Contact_No",
+  "description": "Contact_No stores phone numbers as free‑text strings. All 28 non‑null values are unique. The column has 2 missing values (6.7% of 30 records). Observed formats include international style with a leading '+65' (e.g., '+65 80734991'), local style with '65' and a space (e.g., '65 80742791'), and plain 8‑digit numbers without a country code (e.g., '62357895'). Value lengths range from 7 to 12 characters.",
+  "recommended_actions": [
+    "[STANDARDIZE] Convert non‑standard formats to the dominant international style: '65 80742791' → '+65 80742791', '62357895' → '+65 62357895'.",
+    "[VALIDATE] Ensure all values follow the format: '+65' followed by a space and eight digits — e.g., +65 80734991."
+  ]
+}]

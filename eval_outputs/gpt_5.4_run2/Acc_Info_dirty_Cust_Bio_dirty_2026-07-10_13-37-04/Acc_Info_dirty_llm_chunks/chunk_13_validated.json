@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system category stored as text. The column is complete with 0 missing values out of 30 records and contains 8 distinct non-null values, indicating repeated categorical entries. Observed values show inconsistent casing for the same apparent categories, including 'Android'/'android', 'iOS'/'IOS', and 'Linux'/'LINUX'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the approved canonical casing for operating system names before standardisation. Observed case variants include 'Android' vs 'android', 'iOS' vs 'IOS', and 'Linux' vs 'LINUX'; 'macOs' may also need confirmation of the official form."
+    ]
+  }
+]

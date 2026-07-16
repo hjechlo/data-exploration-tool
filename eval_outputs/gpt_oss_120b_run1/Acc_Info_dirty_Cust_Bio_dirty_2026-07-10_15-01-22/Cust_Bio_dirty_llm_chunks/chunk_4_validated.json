@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "String column containing customer identification numbers. All 30 records are non‑null with 29 distinct values and one duplicate (F1011121T). 93.3% of values follow the pattern letter‑7 digits‑letter (e.g., S8403757E). A small minority (6.6%) use alternative patterns: letter‑6 digits‑letter (F212233V) and 7 digits‑letter (1916569C). Observed lengths are 8 or 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended format for the 6.6% of IDs that deviate from the dominant 'letter‑7 digits‑letter' pattern (e.g., F212233V, 1916569C) and decide whether they should be transformed or accepted.",
+      "[VALIDATE] After clarification, enforce that all ID_No values conform to the agreed pattern, e.g., one leading letter, seven digits, and a trailing letter."
+    ]
+  }
+]

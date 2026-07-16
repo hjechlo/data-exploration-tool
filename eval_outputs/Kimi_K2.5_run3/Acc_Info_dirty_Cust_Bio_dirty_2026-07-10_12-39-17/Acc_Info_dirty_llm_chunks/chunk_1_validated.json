@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64 with values ranging from 1 to 30. Contains 29 distinct values across 30 records, with value '3' appearing twice. No missing values. Serves as a one-to-one shared join key with Cust_Bio_dirty.S_N.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is intentional or represents a data quality issue, given the column's designation as a near-unique join key."
+    ]
+  }
+]

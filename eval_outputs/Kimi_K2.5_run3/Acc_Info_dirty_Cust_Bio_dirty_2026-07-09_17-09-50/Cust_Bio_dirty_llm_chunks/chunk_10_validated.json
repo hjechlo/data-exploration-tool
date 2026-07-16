@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country identifier field containing 8 distinct textual representations of Singapore across 30 records with no missing values. Observed values include standard English ('Singapore'), all-caps ('SINGAPORE'), lowercase ('singapore'), colloquial abbreviation ('S'pore'), ISO code ('SG'), formal state name ('Republic of Singapore'), Malay ('Singapura'), and Chinese ('新加坡'), indicating multilingual data capture alongside casing inconsistencies.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical standard for country representation: determine whether to standardize all values to ISO codes ('SG'), English short form ('Singapore'), or preserve multilingual values ('Singapura', '新加坡'). Review abbreviations ('S'pore') and formal names ('Republic of Singapore') for consistency with downstream analytics and reporting requirements."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number stored as text. The column has 28 non-null values out of 30 records, with 2 missing values (6.7%). All non-null values are unique. Observed values use multiple formats, including 8-digit local numbers (for example, '62357895'), numbers with a '65 ' country-code prefix (for example, '65 80742791'), and numbers with a '+65 ' international prefix (for example, '+65 80734991'). Observed value lengths are 7, 8, 11, and 12 characters, indicating inconsistent formatting and at least one shorter-than-typical value such as '8964359'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended standard phone-number format for this field, as values appear in multiple representations: local 8-digit numbers (for example, '62357895'), '65 ' prefixed numbers (for example, '65 80742791'), and '+65 ' prefixed numbers (for example, '+65 80734991').",
+      "[CLARIFY] Review non-standard length values before standardisation, including 7-digit entries such as '8964359', to confirm whether they are incomplete numbers or valid exceptions.",
+      "[VALIDATE] Ensure all values follow one approved phone-number format after standardisation, with a concrete example such as '+65 80734991' or '80734991', depending on the confirmed business standard."
+    ]
+  }
+]

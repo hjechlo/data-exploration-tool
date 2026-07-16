@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Personal identification number field, consistent with Singapore NRIC/FIN format. Contains 30 distinct non-null values with no missing data (0%). All values are unique. 96.7% of entries follow the standard 9-character format comprising a prefix letter (S, T, F, or G), 7 digits, and a checksum letter (e.g., 'S8403757E'). One record (3.3%) deviates from this pattern: 'S123456' uses a 7-character format lacking both the final checksum letter and one digit.",
+    "recommended_actions": [
+      "[CLARIFY] Review the malformed entry 'S123456' (3.3% of records) which appears to be missing the checksum letter and one digit compared to the dominant format. Confirm whether this is a data entry error, a truncated value, or represents a different identifier type.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

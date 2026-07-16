@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification field stored as string, containing 30 records with no missing values. Observed values include 'Male', 'Female', 'male', and 'FEMALE', indicating case inconsistencies across 4 distinct values representing male and female categories.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case inconsistencies using Title Case convention: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

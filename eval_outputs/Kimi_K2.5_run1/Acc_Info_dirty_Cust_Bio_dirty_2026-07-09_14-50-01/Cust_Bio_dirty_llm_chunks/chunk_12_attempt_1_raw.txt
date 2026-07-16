@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 (requires conversion to string). Contains 30 distinct non-null values with lengths varying from 4 to 6 digits (range: 6907 to 786055). Integer storage prevents proper representation of zero-padded postal codes and may indicate truncated leading zeros in shorter values.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve leading zeros and align with postal code semantics.",
+      "[CLARIFY] Confirm whether the variable lengths (4, 5, and 6 digits) represent valid mixed-country formats or indicate data quality issues such as truncated leading zeros.",
+      "[VALIDATE] After string conversion, verify all values contain only numeric characters."
+    ]
+  }
+]
+```

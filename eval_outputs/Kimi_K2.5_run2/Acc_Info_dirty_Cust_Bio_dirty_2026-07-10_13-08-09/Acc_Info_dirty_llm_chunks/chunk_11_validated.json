@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language stored as categorical text with 5 distinct values (English, French, German, Malay, Tamil). All 30 records are populated with no missing values. Values exhibit consistent title casing and expected length variation (5-7 characters) corresponding to language names.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

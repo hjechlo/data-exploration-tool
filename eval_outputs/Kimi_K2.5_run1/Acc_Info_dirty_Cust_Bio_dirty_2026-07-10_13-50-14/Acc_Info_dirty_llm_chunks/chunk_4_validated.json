@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Government identification numbers, appearing to be Singapore NRIC or FIN codes stored as text. Contains 30 distinct non-null values across 30 records (100% complete, 100% unique). Values employ alphabetic prefixes S, T (typically indicating citizens/PRs) and F, G (typically indicating foreign residents) which may encode residency status or issuance era. Format analysis reveals 96.7% of values follow the standard pattern of one letter, seven digits, and one checksum letter (e.g., 'S8403757E'), while 3.3% (1 record) deviates with a truncated 7-character format lacking the final digit and checksum letter (e.g., 'S123456').",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the malformed entry 'S123456' (currently 7 characters, appearing to be missing one digit and the checksum letter compared to the standard 9-character format).",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

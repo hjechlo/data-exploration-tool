@@ -1,0 +1,12 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number field stored as text. Contains 2 missing values (6.7% of 30 records) and 28 distinct non-null values, all unique. Observed formats include international format with '+65' prefix (12 characters), variant with '65' prefix without plus sign (11 characters), and local 8-digit format (8 characters). One value ('8964359') deviates from the standard 8-digit length with only 7 characters. Value lengths range from 7 to 12 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether missing contact numbers (2 records, 6.7%) are expected or if the field is required for downstream use.",
+      "[STANDARDIZE] Unify phone number formats to consistent international format with '+65' prefix and space separator (currently only 17.9% conform to international pattern). Convert variant formats: '65 80742791' → '+65 80742791', '62357895' → '+65 62357895'.",
+      "[CLARIFY] Verify the 7-digit value '8964359' which appears truncated or incomplete compared to the 8-digit pattern observed in other values.",
+      "[VALIDATE] Ensure all values match the selected phone number format after standardization (e.g., '+65 XXXXXXXX' where X represents a digit)."
+    ]
+  }
+]

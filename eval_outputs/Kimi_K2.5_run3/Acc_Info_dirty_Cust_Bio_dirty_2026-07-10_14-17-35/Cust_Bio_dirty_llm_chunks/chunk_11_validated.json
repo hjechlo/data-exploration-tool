@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field stored as text with 30 distinct values across 30 records (0% missing), all unique. One value ('HOLLAND ROAD') appears in all-uppercase format while the remainder use title case.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to title case: 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]

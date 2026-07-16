@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Categorical string field storing boolean-like values. All 30 records are non‑null with 6 distinct values observed: '0', '1', 'False', 'True', 'no', 'yes'. The column is stored as string but the intended data type is boolean, indicating a need for type conversion.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert alternative representations to a single boolean format: '0' → 'False', '1' → 'True', 'no' → 'False', 'yes' → 'True'.",
+      "[VALIDATE] Ensure that after standardisation only the values 'True' or 'False' remain."
+    ]
+  }
+]

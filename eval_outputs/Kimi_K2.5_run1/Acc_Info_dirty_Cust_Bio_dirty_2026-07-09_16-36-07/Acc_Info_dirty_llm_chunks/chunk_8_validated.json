@@ -1,0 +1,12 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string values requiring conversion to numeric format. Contains 2 NULL values (6.7% of 30 records) and 28 distinct non-null entries. Legitimate fees appear to range from 16.53 to 961.14, with two anomalous values present: the text literal 'free' (non-numeric) and '99999' (likely a sentinel value for missing data, significantly exceeding the normal fee range).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct interpretation of 'free' — should it be standardized to 0.00, treated as NULL, or does it represent a distinct subscription category?",
+      "[CLARIFY] Verify whether '99999' is a sentinel value for unknown/missing fees; if so, replace with NULL before type conversion.",
+      "[STANDARDIZE] Convert the column data type from string to float64 after resolving anomalous values.",
+      "[VALIDATE] Ensure all values are positive decimal numbers within a reasonable business range (e.g., 0.00 to 5000.00) after standardization."
+    ]
+  }
+]

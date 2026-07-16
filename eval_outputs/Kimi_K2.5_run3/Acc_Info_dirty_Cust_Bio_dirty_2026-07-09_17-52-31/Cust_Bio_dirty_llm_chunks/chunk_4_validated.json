@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "National identification number stored as 8-9 character alphanumeric strings, appearing to follow Singapore NRIC/FIN format. 93.3% of values conform to the standard pattern of one prefix letter (S, T, F, or G) followed by 7 digits and a checksum suffix letter. Two records (6.6%) deviate from this format: '1916569C' lacks the prefix letter and 'F212233V' contains only 6 digits. Contains 29 distinct values across 30 records with one duplicate value ('F1011121T'). No missing values.",
+    "recommended_actions": [
+      "[CLARIFY] Verify the correct values for 2 records with anomalous formats: '1916569C' (missing prefix letter) and 'F212233V' (only 6 digits instead of 7). Confirm whether these are data entry errors or valid alternative formats.",
+      "[CLARIFY] Investigate duplicate value 'F1011121T' appearing in 2 records to determine if this represents a legitimate data relationship or a data entry error.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S1234567A."
+    ]
+  }
+]

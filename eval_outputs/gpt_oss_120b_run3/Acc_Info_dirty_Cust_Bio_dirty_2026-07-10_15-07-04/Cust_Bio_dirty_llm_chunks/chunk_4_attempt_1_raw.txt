@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field stored as string (8‑9 characters). 0% missing, 29 distinct values with one duplicate (e.g., 'F1011121T'). 93.3% follow the pattern letter‑7 digits‑letter (e.g., 'S8403757E'), while 6.6% use alternative patterns (letter‑6 digits‑letter or 7 digits‑letter).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how to handle the 6.6% of records using incompatible formats (aXXXXXXa and XXXXXXXa) and decide on a standard format enforcement policy."
+    ]
+  }
+]

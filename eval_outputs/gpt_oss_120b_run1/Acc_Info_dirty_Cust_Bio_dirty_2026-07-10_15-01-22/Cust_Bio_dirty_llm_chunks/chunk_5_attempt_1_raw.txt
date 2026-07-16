@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical string field with 30 non‑null records and 6 distinct values (Chinese, Indian, MALAY, Malay, indian, malay). Values show case inconsistencies for the same categories (e.g., 'Malay', 'MALAY', 'malay' and 'Indian', 'indian'). No missing values.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the official list of race categories and the desired case (e.g., title case) before applying any standardisation."
+    ]
+  }
+]

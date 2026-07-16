@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 despite representing categorical location identifiers, resulting in potential loss of leading zeros. Contains 30 unique non-null values (0 missing, 100% complete) with observed lengths of 4, 5, and 6 digits (range: 6907 to 786055), suggesting mixed regional formats or truncation artefacts from numeric storage.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended storage format and prevent loss of leading zeros.",
+      "[CLARIFY] Review 4-digit (minimum value: 6907) and 5-digit (e.g., 99999) values alongside 6-digit entries to determine if they represent valid regional variations or if leading zeros were truncated. Confirm whether padding is required to restore original values and establish canonical formats by region."
+    ]
+  }
+]

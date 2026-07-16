@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender field stored as a short string (length 4‑6). All 30 records are non‑null and contain only four distinct values: 'Male', 'Female', 'male', and 'FEMALE'. The values differ only in letter case, indicating inconsistent casing across records.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case‑inconsistent entries to title case: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values belong to the allowed set {'Male', 'Female'} after standardisation."
+    ]
+  }
+]

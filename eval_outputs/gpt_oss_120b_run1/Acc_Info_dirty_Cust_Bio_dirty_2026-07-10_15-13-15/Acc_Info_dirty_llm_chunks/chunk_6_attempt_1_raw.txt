@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Timestamp of the most recent login stored as a 19‑character string in the format 'YYYY-MM-DD HH:MM:SS'. The column contains 30 records, has 0 % missing values, 28 distinct values and 2 repeated timestamps, making it near‑unique. It is currently a string but the intended type is datetime64[ns].",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the string values to datetime64[ns] type.",
+      "[VALIDATE] Verify all values follow the format: four‑digit year, hyphen, two‑digit month, hyphen, two‑digit day, space, two‑digit hour (00), colon, two‑digit minute (00), colon, two‑digit second (00) — e.g., 2023-03-30 00:00:00."
+    ]
+  }
+]

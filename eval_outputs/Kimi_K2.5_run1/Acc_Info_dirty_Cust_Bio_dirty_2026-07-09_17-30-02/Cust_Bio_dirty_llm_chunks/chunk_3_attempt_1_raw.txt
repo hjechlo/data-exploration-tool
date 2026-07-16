@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Name",
+    "description": "Customer full name stored as free-text. Contains 30 unique values with no missing records (0%). Values reflect diverse cultural naming conventions including Malay patronymics (Bin/Binte), Indian relational markers (s/o, d/o), and Chinese names. One value appears in all-lowercase format deviating from the dominant title-case pattern.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise the deterministic casing deviation using the dominant title-case convention: 'lim wei jie' → 'Lim Wei Jie'."
+    ]
+  }
+]
+```

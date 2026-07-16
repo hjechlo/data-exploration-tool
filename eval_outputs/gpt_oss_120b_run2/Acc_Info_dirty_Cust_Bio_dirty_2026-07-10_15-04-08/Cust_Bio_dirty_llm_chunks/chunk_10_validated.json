@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field storing the customer's country as a free-text categorical string. Contains 30 non‑null records with 8 distinct values, all referring to Singapore in different languages, abbreviations, and capitalizations (e.g., 'Singapore', 'Singapura', 'S'pore', 'SG', 'SINGAPORE', 'singapore', 'Republic of Singapore', '新加坡'). No missing values; low cardinality but inconsistent representations.",
+    "recommended_actions": [
+      "[CLARIFY] Determine the canonical representation for Singapore (e.g., 'Singapore') and map all observed variants ('Republic of Singapore', \"S'pore\", 'SG', 'SINGAPORE', 'singapore', 'Singapura', '新加坡') to that standard value."
+    ]
+  }
+]

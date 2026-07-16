@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score ranging from 1.0 to 5.0, stored as float64. All 30 records are non-null with 29 distinct values indicating high cardinality. Column exhibits 81.25% value resemblance to 'FeedbackScore' in the same table, suggesting potential duplication.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm relationship with column 'FeedbackScore' — determine if this is a duplicate column that should be removed, or if both serve distinct business purposes."
+    ]
+  }
+]

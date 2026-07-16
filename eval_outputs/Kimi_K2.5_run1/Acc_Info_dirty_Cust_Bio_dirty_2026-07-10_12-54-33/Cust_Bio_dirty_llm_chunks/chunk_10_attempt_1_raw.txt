@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country name field stored as text. Contains 30 records with 0 missing values (0.0%) and 8 distinct values. All observed values represent Singapore in various formats including English case variations (Singapore, SINGAPORE, singapore), abbreviations (SG, S'pore), formal name (Republic of Singapore), and other language representations (Singapura, 新加坡).",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case variations: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical form for variant representations: 'SG', 'S'pore', 'Republic of Singapore', 'Singapura', '新加坡'. Determine whether to standardize all values to English 'Singapore' or if multilingual values should be preserved."
+    ]
+  }
+]
+```

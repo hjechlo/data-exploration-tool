@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone numbers stored as text with 2 missing values (6.7% of 30 records). Contains 28 distinct non-null values with inconsistent formatting: 17.9% use international format with '+65 ' prefix, while others use '65 ' prefix or 8-digit local format without country code. Observed value lengths range from 7 to 12 characters. All non-null values are unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Approximately 82% of values use inconsistent local formats. Convert to international format: '65 80742791' → '+65 80742791', '62357895' → '+65 62357895'.",
+      "[VALIDATE] Ensure all values follow the format: '+65 ' followed by 8 digits — e.g., '+65 80734991'.",
+      "[CLARIFY] Confirm whether the 2 missing values (6.7%) are expected or if contact numbers are required for all customer records."
+    ]
+  }
+]
+```

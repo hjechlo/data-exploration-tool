@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as string data type (intended as datetime64[ns]). Contains 30 records with 0 missing values (100% complete). Values span from 2019-01-01 to 2024-05-12, with 28 distinct timestamps (2 duplicates, indicating multiple users logged in at the same time). All values follow a consistent 19-character format (YYYY-MM-DD HH:MM:SS) with the time component uniformly set to 00:00:00, suggesting date-level precision only.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from string to datetime64[ns] for all 30 records (100%) to enable proper temporal analysis, sorting, and date arithmetic.",
+      "[VALIDATE] Ensure all values conform to the format: four-digit year, two-digit month, two-digit day, followed by 00:00:00 time component — e.g., 2023-03-30 00:00:00."
+    ]
+  }
+]
+```

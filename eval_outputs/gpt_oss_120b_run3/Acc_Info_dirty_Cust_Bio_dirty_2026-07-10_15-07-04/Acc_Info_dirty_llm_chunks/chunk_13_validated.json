@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system field storing categorical string values. Contains 30 non‑null records with 8 distinct values such as 'Android', 'iOS', 'Linux', 'Windows', and 'macOS'. Observed case inconsistencies (e.g., 'android', 'IOS', 'LINUX', 'macOs') indicate data quality issues.",
+    "recommended_actions": [
+      "[STANDARDIZE] Normalize case variations to the official OS names: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values belong to the allowed set of operating system names after standardisation."
+    ]
+  }
+]

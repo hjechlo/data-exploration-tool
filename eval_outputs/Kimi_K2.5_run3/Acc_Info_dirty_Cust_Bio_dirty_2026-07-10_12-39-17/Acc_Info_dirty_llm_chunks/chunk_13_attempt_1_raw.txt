@@ -1,0 +1,11 @@
+```json
+[
+    {
+        "column_name": "OS",
+        "description": "Operating system identifier stored as categorical text. All 30 records are populated with no missing values. Contains 8 distinct observed values representing 5 unique operating systems (Android, iOS, Linux, Windows, macOS) with casing inconsistencies creating apparent duplicates across the dataset.",
+        "recommended_actions": [
+            "[STANDARDIZE] Unify casing to official brand forms: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'."
+        ]
+    }
+]
+```

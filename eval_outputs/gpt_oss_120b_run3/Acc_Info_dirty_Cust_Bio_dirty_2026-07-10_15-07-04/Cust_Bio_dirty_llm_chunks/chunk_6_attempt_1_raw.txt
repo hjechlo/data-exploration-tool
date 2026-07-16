@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender field stored as a short string (4–6 characters). All 30 records are non‑null with four distinct case‑variant values: 'Male', 'male', 'Female', 'FEMALE'. The column is low‑cardinality categorical, representing gender.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case variants to title case: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values are limited to the two canonical categories 'Male' or 'Female' after standardisation."
+    ]
+  }
+]

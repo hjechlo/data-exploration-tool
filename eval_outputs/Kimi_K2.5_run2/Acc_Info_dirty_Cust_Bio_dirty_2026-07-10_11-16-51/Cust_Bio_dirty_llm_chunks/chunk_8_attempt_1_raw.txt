@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number stored as text with inconsistent formatting across 28 non-null records. 2 records (6.7%) have missing values. Observed formats include '+65 XXXXXXXX' (17.9%), '65 XXXXXXXX' (39.3%), and 8-digit local numbers (39.3%). One value ('8964359') contains only 7 digits, diverging from the standard 8-digit length. All non-null values are unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats to the international standard '+65 XXXXXXXX': '65 80742791' → '+65 80742791', '62357895' → '+65 62357895'. This affects approximately 82.1% of non-null records (those currently lacking the '+' prefix or using '65 ' instead of '+65 ').",
+      "[CLARIFY] Confirm whether the 2 missing values (6.7%) are expected for this field, and verify whether the 7-digit value '8964359' is complete or requires correction before standardisation.",
+      "[VALIDATE] Ensure all values match the format '+65 ' followed by 8 digits after standardisation."
+    ]
+  }
+]
+```

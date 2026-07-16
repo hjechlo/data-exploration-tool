@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee stored as a string field, with 28 non-null values across 30 records and 28 distinct non-null values. The column appears to contain mostly numeric fee amounts, but it is stored as text even though the intended type is float64. Two records are missing (6.7%). One observed value, 'free', is non-numeric and prevents full numeric conversion. Numeric values appear in mixed decimal precision, including examples such as '152.2' and '16.53'. A high-end observed value of '99999' is present within the column's recorded range.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how non-numeric fee values such as 'free' should be represented before converting the column to float64; for example, determine whether 'free' should remain as text, be mapped to a numeric amount such as 0, or be handled separately.",
+      "[STANDARDIZE] Standardize numeric formatting after the business rule for non-numeric values is confirmed; 100% of numeric examples show mixed decimal precision, such as '152.2' → '152.20'.",
+      "[VALIDATE] Ensure all fee values follow one approved format after standardisation: either a numeric amount with digits and an optional decimal part such as '152.20', or an explicitly approved non-numeric token such as 'free' if that value is retained."
+    ]
+  }
+]

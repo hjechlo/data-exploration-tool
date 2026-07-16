@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field storing nation of residence or origin as text. Contains 30 records with 0 missing values (0%) and 8 distinct values representing Singapore across multiple languages and formats, including English (various casing), Malay ('Singapura'), Chinese ('新加坡'), ISO code ('SG'), colloquial abbreviation ('S'pore'), and formal state name ('Republic of Singapore').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing deviations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical format for country representation: determine whether to standardize abbreviations ('SG', 'S'pore'), formal names ('Republic of Singapore'), and non-English variants ('Singapura', '新加坡') to the English short form 'Singapore', adopt ISO 3166-1 alpha-2 code 'SG', or retain multilingual values."
+    ]
+  }
+]

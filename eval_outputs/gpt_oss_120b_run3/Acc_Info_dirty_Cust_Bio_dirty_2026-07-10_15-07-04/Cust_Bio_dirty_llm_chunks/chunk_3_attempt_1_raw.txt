@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full personal name stored as free‑text. All 30 records are non‑null and unique. The column mixes title‑case names with a few entries that are all uppercase ('WANG SHI JIE') or all lowercase ('lim wei jie'), showing inconsistent casing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case‑inconsistent entries to title case, e.g., 'WANG SHI JIE' → 'Wang Shi Jie', 'lim wei jie' → 'Lim Wei Jie' (≈6.7% of rows)."
+    ]
+  }
+]

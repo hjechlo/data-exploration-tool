@@ -1,0 +1,14 @@
+[
+  {
+    "rule_id": 4,
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 25,
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 26,
+    "failing_record_indices": []
+  }
+]

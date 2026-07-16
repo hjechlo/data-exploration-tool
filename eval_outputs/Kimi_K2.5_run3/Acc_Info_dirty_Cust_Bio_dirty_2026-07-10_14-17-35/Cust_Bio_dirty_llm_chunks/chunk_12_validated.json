@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as integer (int64) with 30 distinct non-null values across 30 records (100% complete, no missing values). Values range from 6907 to 786055 with observed lengths of 4, 5, and 6 digits. Note: Column is technically stored as int64 but the intended type is string.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended type definition and preserve potential leading zeros."
+    ]
+  }
+]

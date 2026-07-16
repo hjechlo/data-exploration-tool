@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language field storing language names as short strings. All 30 records are non‑null, with five distinct values (English, French, German, Malay, Tamil). Low‑cardinality categorical column with observed lengths of 5–7 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

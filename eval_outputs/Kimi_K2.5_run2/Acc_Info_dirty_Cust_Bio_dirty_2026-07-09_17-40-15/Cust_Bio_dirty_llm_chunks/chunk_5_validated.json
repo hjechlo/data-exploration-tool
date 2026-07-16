@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race or ethnicity classification field stored as categorical text. Contains 30 records with no missing values, representing 3 distinct ethnic groups (Chinese, Malay, Indian) across 6 observed value variations due to case inconsistencies.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[VALIDATE] Ensure all values conform to the standardized set: 'Chinese', 'Malay', 'Indian'."
+    ]
+  }
+]

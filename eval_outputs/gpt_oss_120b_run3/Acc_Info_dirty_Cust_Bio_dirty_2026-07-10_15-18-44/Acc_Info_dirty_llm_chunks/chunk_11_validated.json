@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "PreferredLanguage stores the customer's language preference as a short text string. All 30 records are non‑null and the column contains only five distinct values (English, French, German, Malay, Tamil), indicating a low‑cardinality categorical field.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

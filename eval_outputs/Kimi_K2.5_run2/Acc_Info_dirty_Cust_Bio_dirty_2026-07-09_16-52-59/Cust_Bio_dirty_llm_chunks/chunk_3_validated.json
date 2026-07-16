@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full name field stored as text representing 30 distinct individuals with no missing values. Contains diverse cultural naming conventions including Chinese names, Malay patronymics (Bin/Binte), and Indian patronymics (s/o, d/o). Case analysis reveals 28 values in Title Case, with one all-uppercase value ('WANG SHI JIE') and one all-lowercase value ('lim wei jie') deviating from the dominant pattern.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations to Title Case: 'WANG SHI JIE' → 'Wang Shi Jie', 'lim wei jie' → 'Lim Wei Jie'."
+    ]
+  }
+]

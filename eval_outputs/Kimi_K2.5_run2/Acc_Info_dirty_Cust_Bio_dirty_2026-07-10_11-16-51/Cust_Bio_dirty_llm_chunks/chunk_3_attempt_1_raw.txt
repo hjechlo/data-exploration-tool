@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Name",
+    "description": "Full name stored as free-text with 30 distinct values and no missing records. Contains cultural naming conventions including Malay patronymics (Bin/Binte) and Indian relational suffixes (s/o, d/o). Two values deviate from the dominant Title Case convention: one in all lowercase ('lim wei jie') and one in all uppercase ('WANG SHI JIE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations to Title Case: 'lim wei jie' → 'Lim Wei Jie', 'WANG SHI JIE' → 'Wang Shi Jie'."
+    ]
+  }
+]
+```

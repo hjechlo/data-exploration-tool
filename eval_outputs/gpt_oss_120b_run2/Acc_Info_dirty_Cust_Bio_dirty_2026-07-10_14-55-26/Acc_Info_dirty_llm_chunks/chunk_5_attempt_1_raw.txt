@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stores the date a record joined, currently as a string in 'YYYY-MM-DD HH:MM:SS' format. All 29 non‑null values are unique, with a minimum of 2020-01-01 00:00:00 and a maximum of 2027-01-15 00:00:00. The column has 1 null value (3.3% of 30 records). One value ('2025-13-01') is not parseable as a valid date.",
+    "recommended_actions": [
+      "[CLARIFY] Determine how to handle the unparseable value '2025-13-01' and whether it should be corrected, removed, or set to null.",
+      "[VALIDATE] Ensure all values conform to the ISO datetime format 'YYYY-MM-DD HH:MM:SS' after correction."
+    ]
+  }
+]

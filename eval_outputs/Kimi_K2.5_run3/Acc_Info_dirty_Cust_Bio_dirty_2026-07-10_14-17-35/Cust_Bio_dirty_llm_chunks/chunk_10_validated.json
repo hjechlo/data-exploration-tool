@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field representing Singapore across 30 records with no missing values. Contains 8 distinct representations including English case variations ('SINGAPORE', 'singapore'), abbreviations ('S'pore', 'SG'), formal state name ('Republic of Singapore'), and multilingual official names ('Singapura', '新加坡').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Determine standardization policy for legitimate variations: confirm whether to preserve 'SG' (ISO code), 'Republic of Singapore' (formal state name), 'Singapura' (Malay official name), '新加坡' (Chinese official name), and 'S'pore' (colloquial abbreviation), or standardize all entries to 'Singapore'."
+    ]
+  }
+]

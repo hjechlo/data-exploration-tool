@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string with 2 missing values (6.7% of 30 records). Contains 28 distinct non-null values, predominantly numeric strings representing dollar amounts ranging from ~16.53 to ~961.14, but includes non-numeric value 'free' and suspicious high-end value '99999' that may be a sentinel. Column is stored as string but intended to be float64.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of special values: 'free' (representing $0.00 or missing?) and '99999' (valid fee or sentinel for unknown/unavailable?). Also confirm whether 6.7% missingness is expected or if the field is required for downstream use.",
+      "[STANDARDIZE] Convert valid numeric strings to float64 data type after resolving special value mappings.",
+      "[VALIDATE] Ensure all values conform to standard decimal currency format with up to 2 decimal places (e.g., '434.17')."
+    ]
+  }
+]

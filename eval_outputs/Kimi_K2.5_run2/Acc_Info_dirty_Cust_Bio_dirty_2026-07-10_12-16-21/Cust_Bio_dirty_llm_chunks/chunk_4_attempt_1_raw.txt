@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field storing alphanumeric codes predominantly beginning with letters S, T, F, or G. Contains 30 non-null records with 29 distinct values; one value ('F1011121T') is duplicated. The majority (93.3%) follow a 9-character pattern of prefix letter, seven digits, and suffix letter, while two records (6.6%) deviate: '1916569C' lacks a prefix letter (8 characters), and 'F212233V' contains only six digits (8 characters).",
+    "recommended_actions": [
+      "[CLARIFY] Verify the validity of 2 records with non-standard formats: '1916569C' (missing prefix letter) and 'F212233V' (6 digits instead of 7). Confirm whether these are valid exceptions or require correction.",
+      "[CLARIFY] Investigate the duplicate value 'F1011121T' to determine if it represents a legitimate repeated entry or a data quality error.",
+      "[VALIDATE] Ensure all values conform to the standard format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567A."
+    ]
+  }
+]
+```

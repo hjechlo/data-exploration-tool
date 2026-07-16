@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as text with 2 missing values (6.7% of 30 records). Contains numeric values ranging from 16.53 to 961.14, with one non-numeric entry ('free') and one suspiciously high value ('99999') that appears to be a placeholder or outlier. All 28 non-null values are unique. Column is stored as string but intended for numeric use as float64.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether 'free' represents a $0.00 subscription tier or should be treated as NULL, and verify if '99999' is a valid subscription fee or a placeholder for missing/unknown data (domain-implausible given other values are under 1,000).",
+      "[STANDARDIZE] Convert valid numeric strings to float64 type after resolving anomalous entries. Based on clarification, map 'free' to 0.0 or NULL and '99999' to NULL or the appropriate replacement value.",
+      "[VALIDATE] Ensure all values are positive numbers within a reasonable subscription fee range (e.g., 0.01 to 2000.00) after standardization."
+    ]
+  }
+]

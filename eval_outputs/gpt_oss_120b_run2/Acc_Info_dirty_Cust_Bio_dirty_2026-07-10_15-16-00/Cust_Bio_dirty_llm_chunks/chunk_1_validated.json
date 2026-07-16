@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64 ranging from 1 to 30. All 30 values are non-null, unique, and serve as a one-to-one join key with Acc_Info_dirty.S_N.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

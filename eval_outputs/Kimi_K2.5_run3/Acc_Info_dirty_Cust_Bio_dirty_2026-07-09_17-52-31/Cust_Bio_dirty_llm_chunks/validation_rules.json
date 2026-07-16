@@ -1,0 +1,301 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must not be null",
+    "rationale": "S_N is the primary identifier and join key for the table. It is a mandatory field with 0% missing values in the sample.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 2,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "S_N must exist in Acc_Info_dirty.S_N",
+    "rationale": "S_N is designated as a one-to-one join key with Acc_Info_dirty.S_N. Referential integrity must be enforced to ensure every customer biography record has a corresponding account record.",
+    "check_params": {
+      "ref_table": "Acc_Info_dirty",
+      "ref_column": "S_N"
+    }
+  },
+  {
+    "rule_id": 3,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Account_No must not be null",
+    "rationale": "Account_No is a mandatory business identifier linking to account information. The sample shows 0% missing values.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 4,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be exactly 4 digits",
+    "rationale": "Account numbers follow a 4-digit numeric format (range 1001-1028). Values must be convertible to string and match the 4-digit pattern.",
+    "check_params": {
+      "regex": "^\\d{4}$"
+    }
+  },
+  {
+    "rule_id": 5,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Name must be in Title Case (allowing for lowercase particles like bin, binte, s/o, d/o)",
+    "rationale": "93.3% of names follow Title Case convention. Values like 'lim wei jie' (all lowercase) and 'WANG SHI JIE' (all uppercase) deviate from the standard format.",
+    "check_params": {
+      "logic": "any(w[0].islower() or w.isupper() for w in str(row['Name']).split() if w.lower() not in ('bin','binte','d/o','s/o') and len(w) > 1)"
+    }
+  },
+  {
+    "rule_id": 6,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID_No must follow Singapore NRIC/FIN format: one prefix letter (S, T, F, or G), followed by exactly 7 digits, and ending with one uppercase checksum letter",
+    "rationale": "93.3% of values conform to the standard Singapore NRIC/FIN format. Anomalous formats like '1916569C' (missing prefix) and 'F212233V' (6 digits) must be flagged.",
+    "check_params": {
+      "regex": "^[STFG]\\d{7}[A-Z]$"
+    }
+  },
+  {
+    "rule_id": 7,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "ID_No must match the corresponding ID value in Acc_Info_dirty for the same S_N",
+    "rationale": "ID_No and Acc_Info_dirty.ID represent the same national identifier for a customer. For the same S_N, these values must be consistent across tables.",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "ID",
+      "semantic_check": "ID_No must exactly match the ID value in the sibling table"
+    }
+  },
+  {
+    "rule_id": 8,
+    "table": "Cust_Bio_dirty",
+    "column": "Race",
+    "columns": [
+      "Race"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Race must be one of: Chinese, Malay, Indian",
+    "rationale": "The dataset contains only these three semantic race categories. Casing variations (MALAY, malay, indian) represent the same values and should be standardized, but the validation enforces the canonical set.",
+    "check_params": {
+      "values": [
+        "Chinese",
+        "Malay",
+        "Indian"
+      ]
+    }
+  },
+  {
+    "rule_id": 9,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Gender"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Gender must be either Male or Female",
+    "rationale": "The column represents binary gender classification with observed values Male/Female (plus case variants). The canonical values are Male and Female.",
+    "check_params": {
+      "values": [
+        "Male",
+        "Female"
+      ]
+    }
+  },
+  {
+    "rule_id": 10,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "Age must be between 0 and 120 inclusive",
+    "rationale": "Age represents human age in years. Values must be non-negative and within realistic human lifespan. The sample contains invalid values -5 and 4 (below service threshold) and 66 (valid).",
+    "check_params": {
+      "min": 0,
+      "max": 120
+    }
+  },
+  {
+    "rule_id": 11,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be parseable as a numeric value",
+    "rationale": "The Age column is intended to be numeric but contains text values like 'Twenty-five' that cannot be parsed as numbers. This rule flags any non-numeric representation.",
+    "check_params": {
+      "logic": "pd.isna(pd.to_numeric(row['Age'], errors='coerce'))"
+    }
+  },
+  {
+    "rule_id": 12,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Contact_No must not be null",
+    "rationale": "Contact number is a critical field with 6.7% missing values observed in the sample. As a mandatory contact field, null values are not permitted.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 13,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "phone_validity",
+    "rule": "Contact_No must be a valid Singapore phone number with 8 digits (starting with 6, 8, or 9), optionally prefixed with +65 or 65",
+    "rationale": "All customers are located in Singapore. Valid numbers are 8 digits starting with 6 (landline), 8 or 9 (mobile). The sample contains an invalid 7-digit number '8964359'.",
+    "check_params": {
+      "country_code": "65",
+      "valid_first_digits": [
+        "6",
+        "8",
+        "9"
+      ],
+      "dominant_length": 8
+    }
+  },
+  {
+    "rule_id": 14,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Email must not be null",
+    "rationale": "Email is a mandatory contact field with 0% missing values in the sample.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 15,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Email must contain exactly one @ symbol with no spaces and valid local-part and domain structure",
+    "rationale": "The sample contains structurally malformed emails: 'not-an-email' (no @), 'useremail.com' (no @), 'zx91 @example.com' (embedded space), 'nabilah@@example.com' (consecutive @).",
+    "check_params": {
+      "regex": "^[^@\\s]+@[^@\\s]+$"
+    }
+  },
+  {
+    "rule_id": 16,
+    "table": "Cust_Bio_dirty",
+    "column": "Country",
+    "columns": [
+      "Country"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Country must represent Singapore (allowing for known variants: Singapore, SINGAPORE, singapore, S'pore, SG, Singapura, Republic of Singapore, 新加坡)",
+    "rationale": "The dataset description confirms all customers are located in Singapore. The 8 observed values are all variants of Singapore. Any other value indicates a data error.",
+    "check_params": {
+      "logic": "str(row['Country']).strip() not in ['Singapore', 'SINGAPORE', 'singapore', 'S\\'pore', 'SG', 'Singapura', 'Republic of Singapore', '新加坡']"
+    }
+  },
+  {
+    "rule_id": 17,
+    "table": "Cust_Bio_dirty",
+    "column": "Street_Name",
+    "columns": [
+      "Street_Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Street_Name must be in Title Case",
+    "rationale": "96.7% of street names follow Title Case. One value 'HOLLAND ROAD' uses all caps and deviates from the standard format.",
+    "check_params": {
+      "logic": "any(w[0].islower() or w.isupper() for w in str(row['Street_Name']).split() if len(w) > 1)"
+    }
+  },
+  {
+    "rule_id": 18,
+    "table": "Cust_Bio_dirty",
+    "column": "Postal_Code",
+    "columns": [
+      "Postal_Code"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Postal_Code must be a 6-digit code",
+    "rationale": "Singapore postal codes are 6-digit numbers. The column is stored as int64 causing loss of leading zeros. Values like 6907 (4 digits) and 99999 (5 digits) are invalid lengths.",
+    "check_params": {
+      "regex": "^\\d{6}$"
+    }
+  },
+  {
+    "rule_id": 19,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Name",
+      "Gender"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "Gender must be consistent with name particles: 'Bin' or 's/o' indicates Male; 'Binte' or 'd/o' indicates Female",
+    "rationale": "Malay and Indian naming conventions use specific particles that encode gender. 'Bin' and 's/o' (son of) are male indicators; 'Binte' and 'd/o' (daughter of) are female indicators. Mismatches indicate data inconsistency.",
+    "check_params": {
+      "col_a": "Name",
+      "col_b": "Gender",
+      "logic": "(any(p in ' ' + str(row['Name']).lower() + ' ' for p in [' bin ', ' s/o ']) and str(row['Gender']).strip().lower() != 'male') or (any(p in ' ' + str(row['Name']).lower() + ' ' for p in [' binte ', ' d/o ']) and str(row['Gender']).strip().lower() != 'female')"
+    }
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stores the date a record joined, currently as a string but intended as datetime64[ns]. All 29 non‑null values are unique. The column has 1 missing value (3.3% of 30 records). Most values include a time component (\"YYYY-MM-DD HH:MM:SS\"), but one observed value is date‑only and malformed ('2025-13-01'), which cannot be parsed as a valid date.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert date‑only strings to the full datetime format by appending ' 00:00:00' – observed in ~3% of records (e.g., '2025-01-01' → '2025-01-01 00:00:00').",
+      "[CLARIFY] Determine the correct value for the unparseable entry '2025-13-01' (invalid month) or decide how to handle it.",
+      "[VALIDATE] Verify that all values conform to the ISO datetime pattern 'YYYY-MM-DD HH:MM:SS' after standardisation."
+    ]
+  }
+]

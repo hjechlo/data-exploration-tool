@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full personal name stored as free-text string. All 30 records are non‑null and unique. Values show mixed casing – some all‑uppercase (e.g., 'WANG SHI JIE'), title case (e.g., 'Danish Bin Kamaruddin'), and lowercase (e.g., 'lim wei jie') – and include cultural components such as 'Bin', 'Binte', 's/o', 'd/o'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the desired case convention and handling of cultural naming components (e.g., 'Bin', 'Binte', 's/o', 'd/o') before applying any standardisation."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal numeric values (float64). Contains 30 records with no null values and all unique amounts. Values range from -150.5 to 99999.0. Includes one negative value (-150.5) and one high outlier (99999.0) that appears sentinel-coded, exceeding the statistical upper bound of 1525.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous values: 99999.0 (appears sentinel-coded for missing/invalid data, exceeds statistical upper bound of 1525) and -150.5 (negative balance, verify if valid overdraft or data entry error)."
+    ]
+  }
+]
+```

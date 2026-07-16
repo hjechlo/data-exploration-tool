@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Ethnicity/race field stored as a categorical string with 30 records, no missing values, and 6 distinct observed values (Chinese, Indian, Malay) that exhibit case variations such as 'MALAY', 'malay', and 'indian'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Normalize case for race categories to a consistent capitalisation, e.g., 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 unique Singapore street names with no missing values. Values are predominantly in title case (96.7%), with one value ('HOLLAND ROAD', 3.3%) recorded in all-capital letters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical casing format for street names: 'HOLLAND ROAD' appears in all caps while 29 other values (96.7%) use title case (e.g., 'Pandan Loop', 'Balestier Road'). Verify whether to standardize to title case or if all-caps is the official form for specific entries."
+    ]
+  }
+]

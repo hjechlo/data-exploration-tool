@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 (technical recommendation: convert to string type). Contains 30 unique non-null values with no missing data. Values range from 4 to 6 digits in length (minimum 6907, maximum 786055), with sample values showing mixed lengths that may indicate international formats or missing leading zeros.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert storage type from int64 to string to align with intended format and preserve potential leading zeros.",
+      "[CLARIFY] Investigate the variation in postal code lengths (4, 5, and 6 digits). Confirm whether shorter codes (e.g., '6907', '99999') represent valid international formats or if they require standardization to a fixed width (e.g., left-padding with zeros to match 6-digit codes)."
+    ]
+  }
+]

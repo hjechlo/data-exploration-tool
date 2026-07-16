@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Device",
+    "description": "Device type classification indicating the platform used (Desktop, Mobile, or Tablet). Contains 3 distinct categorical values across 30 records with no missing values.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

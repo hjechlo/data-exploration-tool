@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language selection stored as categorical text. Contains 5 distinct values (English, French, German, Malay, Tamil) across 30 records with no missing values. All values appear as standard language names in title case.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

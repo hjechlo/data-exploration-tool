@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Categorical string field containing country information for 30 records with no missing values. There are 8 distinct values, all representing Singapore in various languages, abbreviations, and case forms (e.g., 'Singapore', 'singapore', 'SINGAPORE', 'SG', \"S'pore\", 'Singapura', '新加坡', 'Republic of Singapore'). The column has low cardinality but inconsistent naming.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended canonical representation for Singapore (e.g., 'Singapore') and map all observed variants ('SG', \"S'pore\", 'Singapura', '新加坡', 'Republic of Singapore', case variations) to that standard form."
+    ]
+  }
+]

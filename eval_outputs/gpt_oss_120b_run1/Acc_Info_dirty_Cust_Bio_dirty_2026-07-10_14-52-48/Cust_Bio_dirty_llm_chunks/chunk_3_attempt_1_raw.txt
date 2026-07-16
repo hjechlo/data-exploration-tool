@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full personal name field stored as free-text (string). All 30 records are non‑null and unique. Values include cultural naming conventions such as \"Bin\", \"s/o\", \"d/o\" and \"Binte\", which are normal variations. Case is inconsistent: most names are title‑cased, but some appear all‑caps (e.g., \"WANG SHI JIE\") or all‑lowercase (e.g., \"lim wei jie\").",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case‑only deviations to title case (e.g., 'WANG SHI JIE' → 'Wang Shi Jie', 'lim wei jie' → 'Lim Wei Jie')."
+    ]
+  }
+]

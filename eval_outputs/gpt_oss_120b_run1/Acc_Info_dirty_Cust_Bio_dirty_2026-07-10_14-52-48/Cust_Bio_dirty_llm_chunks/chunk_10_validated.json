@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field storing country names as free-text categorical values. All 30 records are non‑null and there are 8 distinct representations of Singapore, including English variations ('Republic of Singapore', 'Singapore', 'Singapura', 'S'pore', 'SG', 'SINGAPORE', 'singapore') and the Chinese name '新加坡'. The column has low cardinality and multiple synonymous values.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended canonical representation for Singapore and define a mapping for the observed variants ('Republic of Singapore', 'Singapore', 'Singapura', \"S'pore\", 'SG', 'SINGAPORE', 'singapore', '新加坡') to a single standard value."
+    ]
+  }
+]

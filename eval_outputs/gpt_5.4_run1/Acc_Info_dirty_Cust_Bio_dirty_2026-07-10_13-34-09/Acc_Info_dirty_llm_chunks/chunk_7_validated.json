@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Subscription plan category stored as a string categorical field. The column is complete with 0 missing values across 30 records and contains 5 distinct non-null values: Basic, Free, Gold, Platinum, and Premium. Values are repeated as expected for a low-cardinality category field, and no quality issues are evidenced.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

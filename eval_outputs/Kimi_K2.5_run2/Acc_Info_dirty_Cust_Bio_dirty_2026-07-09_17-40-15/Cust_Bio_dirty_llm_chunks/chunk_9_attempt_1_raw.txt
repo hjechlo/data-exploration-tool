@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Email",
+    "description": "Email address field stored as text. Contains 30 non-null records with 29 distinct values; 'thm@example.com' appears twice. Four records (13.3%) contain structurally malformed values: 'not-an-email' and 'useremail.com' (missing @ symbol), 'zx91 @example.com' (contains space), and 'nabilah@@example.com' (double @ symbol).",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct 4 structurally malformed email addresses (13.3% of records): 'not-an-email' (missing @), 'useremail.com' (missing @), 'zx91 @example.com' (contains space), 'nabilah@@example.com' (double @). Determine the correct values with the data owner.",
+      "[VALIDATE] Ensure all values contain exactly one @ symbol with no spaces, following the format: local-part@domain.extension — e.g., 'user@example.com'."
+    ]
+  }
+]
+```

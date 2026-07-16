@@ -1,0 +1,14 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string despite representing monetary values. Contains 2 NULL values (6.7% of 30 records) and 28 distinct non-null entries. Values predominantly represent amounts between 16.53 and 961.14, but include one non-numeric entry 'free' and one suspiciously high value '99999' that may indicate a sentinel for missing data. All non-null values are unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended numeric value for 'free' (e.g., 0.0 for complimentary subscriptions) or whether it should be treated as NULL.",
+      "[CLARIFY] Verify whether '99999' is a sentinel value for unknown/missing fees; if confirmed, replace with NULL.",
+      "[STANDARDIZE] Convert the column from string to float64 after resolving non-numeric and sentinel values.",
+      "[VALIDATE] Ensure all values represent positive monetary amounts within a reasonable business range after conversion."
+    ]
+  }
+]
+```

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score or average rating stored as float64, with values ranging from 1.0 to 5.0. Contains 29 distinct values across 30 records (96.7% cardinality) with no missing values. Values exhibit decimal precision (e.g., 4.46, 1.79, 2.65) consistent with calculated averages rather than discrete integer ratings. Note: This column shows 81.25% value resemblance to the 'FeedbackScore' column in the same table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm relationship with 'FeedbackScore' column (81.25% value resemblance) — verify if both columns serve distinct business purposes or if 'FeedbackScore1' should be removed to eliminate redundancy."
+    ]
+  }
+]

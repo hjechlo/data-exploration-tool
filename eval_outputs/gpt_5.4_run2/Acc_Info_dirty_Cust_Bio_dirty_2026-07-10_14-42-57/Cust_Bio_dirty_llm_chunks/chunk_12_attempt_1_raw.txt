@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field currently stored as int64, although the evidence indicates the intended type is string. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Observed values are numeric-only and have inconsistent lengths of 4, 5, and 6 digits, which may indicate formatting inconsistency for a postal-code identifier field.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the column from numeric to string to preserve postal code formatting and prevent loss of leading zeros.",
+      "[CLARIFY] Confirm the expected postal code format because observed values contain 4-, 5-, and 6-digit lengths (for example, '6907', '99999', and '410633').",
+      "[VALIDATE] Ensure all values follow the confirmed postal code format after conversion to string, using a plain-digit pattern with the approved length(s) — for example, a 6-digit code such as '410633' if 6 digits is the expected standard."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical field representing race or ethnicity. Contains 30 records with no missing values. Observed values include 'Chinese', 'Malay', and 'Indian', though casing inconsistencies result in 6 distinct values (e.g., 'Malay', 'MALAY', 'malay'; 'Indian', 'indian').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[VALIDATE] Verify all values match the standardised race category format after standardisation."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Categorical field indicating customer language preference. Contains 30 records with 0 missing values and 5 distinct values: English, French, German, Malay, and Tamil. All values follow standard title-case formatting for language names.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

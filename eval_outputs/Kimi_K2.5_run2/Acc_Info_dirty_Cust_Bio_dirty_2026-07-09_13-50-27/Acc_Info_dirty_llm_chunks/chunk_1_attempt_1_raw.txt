@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier stored as integer, with values ranging from 1 to 30. Contains 29 distinct values across 30 records, indicating one duplicate entry (value '3'). Serves as a one-to-one join key to Cust_Bio_dirty.S_N with 100% coverage on this table and 96.7% coverage on the target table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is intentional or erroneous; if this field is intended as a unique identifier, investigate and resolve the duplication to maintain the one-to-one relationship.",
+      "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N before joining to ensure all values exist in the target table."
+    ]
+  }
+]
+```

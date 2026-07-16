@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Personal full name field containing 30 distinct non-null values with diverse cultural naming conventions including Malay patronymics (Bin/Binte), Indian patronymics (s/o, d/o), and Chinese name structures. Four values (13.3%) exhibit casing deviations from the dominant Title Case pattern.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case deviations to Title Case: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'."
+    ]
+  }
+]

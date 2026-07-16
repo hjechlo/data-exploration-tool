@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system name stored as categorical text. All 30 records are populated with no missing values, containing 8 distinct values. Casing inconsistencies detected across brand names: 'Android' appears as both title case and lowercase, 'iOS' appears as both title case and uppercase, 'Linux' appears as both title case and uppercase, and 'macOs' uses non-standard casing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to official brand forms: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'."
+    ]
+  }
+]

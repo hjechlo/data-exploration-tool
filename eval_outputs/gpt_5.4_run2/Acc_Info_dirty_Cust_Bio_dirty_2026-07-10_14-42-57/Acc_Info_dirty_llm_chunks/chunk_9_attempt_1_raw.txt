@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Status flag stored as string, with 30 non-null records and 6 distinct values. The content represents boolean-like values but is encoded inconsistently using multiple representations: 'True', 'False', '1', '0', 'yes', and 'no'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical boolean encoding for this field before conversion, since the column mixes 6 representations of the same boolean-like concept: 'True', 'False', '1', '0', 'yes', and 'no'.",
+      "[STANDARDIZE] Standardize the inconsistent boolean-like values after the canonical form is confirmed, and convert the column from string to a boolean type.",
+      "[VALIDATE] Ensure all values use exactly one approved boolean representation after standardisation, for example a boolean field containing only True or False."
+    ]
+  }
+]

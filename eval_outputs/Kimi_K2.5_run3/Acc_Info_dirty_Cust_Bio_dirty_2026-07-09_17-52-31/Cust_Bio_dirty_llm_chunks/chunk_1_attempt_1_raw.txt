@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Integer serial number ranging from 1 to 30 with no missing values. All 30 values are unique, serving as a primary identifier for the customer biography table. Functions as a one-to-one join key with Acc_Info_dirty.S_N.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]
+```

@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Financial account balance stored as float64. Contains 30 distinct non-null values across 30 records (100% unique) with no missing entries. Value range spans -150.5 to 99999.0. Contains suspected sentinel-coded values: 99999.0 (statistical outlier, 1 record) far exceeds the expected statistical range of 1525, and -150.5 (negative value, 1 record) deviates from the otherwise positive value distribution.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business meaning of anomalous values: 99999.0 (suspected sentinel for missing/invalid data) and -150.5 (negative balance or sentinel). Determine appropriate handling (e.g., convert to NULL, preserve as overdraft, or exclude from aggregations)."
+    ]
+  }
+]
+```

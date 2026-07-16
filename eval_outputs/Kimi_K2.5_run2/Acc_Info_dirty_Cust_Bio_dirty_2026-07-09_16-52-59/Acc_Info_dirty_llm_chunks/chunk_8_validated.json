@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string despite representing numeric monetary values. Contains 28 distinct non-null values across 30 records, with 2 NULL values (6.7%). While most entries are valid decimal amounts (e.g., 16.53, 434.17), the column includes one non-numeric text value 'free' and one suspiciously high value '99999' that likely represents a missing data placeholder.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm intended encoding for anomalous values: (1) 'free' — should this be 0.0, NULL, or a categorical flag? (2) '99999' — is this a valid subscription fee or a placeholder for missing/unknown values?",
+      "[STANDARDIZE] Convert valid numeric strings to float64 type after resolving anomalous entries.",
+      "[VALIDATE] Ensure all values represent plausible subscription fee amounts (positive values within reasonable business limits) after standardization."
+    ]
+  }
+]

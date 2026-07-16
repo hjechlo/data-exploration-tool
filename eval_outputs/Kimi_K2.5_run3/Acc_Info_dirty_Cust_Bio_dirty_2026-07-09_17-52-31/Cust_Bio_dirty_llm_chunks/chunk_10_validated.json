@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country identifier stored as categorical text with 8 distinct values representing Singapore across 30 records (0% missing). Contains mixed formats including English case variants ('Singapore', 'SINGAPORE', 'singapore'), abbreviations ('S'pore', 'SG'), formal name ('Republic of Singapore'), and local language variants ('Singapura', '新加坡').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical form for non-standard variants: 'S'pore' (abbreviation), 'SG' (ISO code), 'Republic of Singapore' (formal), 'Singapura' (Malay), '新加坡' (Chinese). Determine whether to standardize to English short name ('Singapore'), ISO code ('SG'), or retain multilingual support."
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64. Contains 30 unique non-null values with 0% missing data. Values range from -150.5 to 99999.0. The maximum value 99999.0 is flagged as a statistical outlier and appears sentinel-coded, while the minimum value -150.5 represents a negative balance that may indicate an overdraft or data error.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 99999.0 represents a sentinel for missing/invalid data or a legitimate high account balance.",
+      "[CLARIFY] Confirm whether the negative value -150.5 represents a legitimate overdraft/negative balance or a data entry error."
+    ]
+  }
+]
+```

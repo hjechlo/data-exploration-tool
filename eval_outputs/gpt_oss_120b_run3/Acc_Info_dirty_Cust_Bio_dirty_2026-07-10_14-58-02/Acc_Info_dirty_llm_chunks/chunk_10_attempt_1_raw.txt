@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "AccountBalance stores monetary balances as float64. The column contains 30 records with 0% missing values and all values are unique. Observed balances range from -150.5 to 99,999.0. Most values are positive, but a negative entry (-150.5) and an extreme high entry (99,999.0) are flagged as anomalies and may be sentinel codes for missing or invalid data.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the sentinel value 99,999.0 and the negative value -150.5 represent missing or invalid data.",
+      "[VALIDATE] Ensure all AccountBalance values are non‑negative and do not exceed the statistically expected upper bound (e.g., 1525), e.g., 250.7."
+    ]
+  }
+]

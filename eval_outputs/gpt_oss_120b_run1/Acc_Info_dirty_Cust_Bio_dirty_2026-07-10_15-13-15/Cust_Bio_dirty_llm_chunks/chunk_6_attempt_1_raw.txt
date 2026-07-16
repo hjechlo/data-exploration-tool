@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender column stores categorical string values indicating gender. It contains 30 non‑null records with four distinct case variants: 'Male', 'male', 'Female', 'FEMALE'. No missing values are present.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case variations to a consistent title case: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values are exactly 'Male' or 'Female' after standardisation."
+    ]
+  }
+]

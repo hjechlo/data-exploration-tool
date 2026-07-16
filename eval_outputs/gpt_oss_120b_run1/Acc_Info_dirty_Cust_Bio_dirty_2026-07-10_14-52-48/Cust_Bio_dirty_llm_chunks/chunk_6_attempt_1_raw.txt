@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender column stores categorical string values indicating gender. It contains 30 non-null records with 4 distinct values caused by case variations ('Male', 'Female', 'male', 'FEMALE'). Observed value lengths range from 4 to 6 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case variations to title case: 'FEMALE' → 'Female', 'male' → 'Male'.",
+      "[VALIDATE] Ensure all values are limited to the two allowed categories: 'Male' or 'Female' after standardisation."
+    ]
+  }
+]

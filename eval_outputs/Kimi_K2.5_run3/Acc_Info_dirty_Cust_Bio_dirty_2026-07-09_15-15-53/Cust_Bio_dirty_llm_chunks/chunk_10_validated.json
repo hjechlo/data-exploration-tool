@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field containing 30 non-null records with 8 distinct values, all representing Singapore across multiple languages and formats including English (various casings), Malay ('Singapura'), Chinese ('新加坡'), formal name ('Republic of Singapore'), and abbreviations ('S'pore', 'SG').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all 8 observed representations to the standard English country name 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'S'pore' → 'Singapore', 'SG' → 'Singapore', 'Republic of Singapore' → 'Singapore', 'Singapura' → 'Singapore', '新加坡' → 'Singapore'.",
+      "[VALIDATE] Ensure all values conform to the standard country name format after standardization."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field stored as text with 30 unique values representing road names (e.g., 'Balestier Road', 'Ang Mo Kio Avenue 2', 'Upper Bukit Timah Road'). All records are complete with no missing values. One value appears in all-caps while the majority use Title Case formatting.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the all-caps value to Title Case to match the dominant format (3.3% of values): 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]

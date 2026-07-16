@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee stored as a string but intended to be a float. The column has 30 records, 2 NULL values (6.7% missing), and 28 distinct non‑null values. Most values are numeric strings (e.g., '152.2', '45.97'), but one value ('free') cannot be parsed as a number and the value '99999' appears as an outlier. All non‑NULL values are unique and have lengths of 4–6 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Determine the intended meaning of the non‑numeric entry 'free' and the outlier '99999' (e.g., placeholder, error, or special code).",
+      "[STANDARDIZE] Convert numeric string values to true float64 numbers, e.g., '152.2' → 152.2.",
+      "[VALIDATE] Verify that all values after conversion are numeric and follow the format: one or more digits, optional decimal point with up to two decimal places — e.g., 123.45."
+    ]
+  }
+]

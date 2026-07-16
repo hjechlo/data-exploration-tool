@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device type classification indicating the category of device used (e.g., Desktop, Mobile, Tablet). Contains 30 records with 0 missing values (0.0%) and 3 distinct categorical values. Values exhibit consistent title casing with no apparent data quality issues.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

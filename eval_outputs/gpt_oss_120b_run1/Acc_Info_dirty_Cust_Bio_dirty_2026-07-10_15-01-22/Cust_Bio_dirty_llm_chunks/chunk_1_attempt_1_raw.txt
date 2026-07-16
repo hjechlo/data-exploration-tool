@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "S_N is an integer join key ranging from 1 to 30, with 30 distinct non-null values (unique) across 30 records; no missing values.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string despite representing numeric currency values. Contains 28 distinct non-null values across 30 records, with 2 missing values (6.7%). While most values are numeric decimals in the range of approximately 16.53 to 961.14, the field includes one non-numeric categorical value ('free') and one suspicious outlier ('99999') that appears to be a sentinel value. All non-null values are unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of non-numeric value 'free' (should it be mapped to 0.0 or NULL?) and outlier '99999' (appears to be a sentinel for missing/unknown data given it is 100x larger than the next highest value). Also confirm whether the 2 missing values (6.7%) represent optional fields or data collection gaps.",
+      "[STANDARDIZE] Convert valid numeric string values to float64 data type: '16.53' → 16.53, '434.17' → 434.17, '152.2' → 152.2.",
+      "[VALIDATE] Ensure all values conform to positive decimal format within the expected business range after type conversion."
+    ]
+  }
+]
+```

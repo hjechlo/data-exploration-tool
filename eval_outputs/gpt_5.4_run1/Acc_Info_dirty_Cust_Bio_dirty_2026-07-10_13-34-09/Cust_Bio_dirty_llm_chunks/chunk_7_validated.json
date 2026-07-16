@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field intended to store numeric ages. The column has 30 records, 0 missing values, and 24 distinct non-null values. Although the technical type is int64, the observed content includes one non-numeric value ('Twenty-five', 3.3%) and two very low values (4 and -5). Observed values range from -5 to 66.",
+    "recommended_actions": [
+      "[CLARIFY] Resolve the non-numeric value in this numeric age field (3.3% of records): 'Twenty-five'. Confirm whether it should be converted to a numeric age such as 25 or treated as invalid.",
+      "[CLARIFY] Review the implausible age values 4 and -5. Confirm whether these represent data entry errors, special cases, or records that should be corrected or excluded.",
+      "[VALIDATE] Ensure all values are recorded as numeric ages only, for example 27 or 58, and reject text entries such as 'Twenty-five'."
+    ]
+  }
+]

@@ -1,0 +1,500 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must not be null",
+    "rationale": "S_N is a mandatory join key linking to Cust_Bio_dirty.S_N with one-to-one cardinality and cannot be missing",
+    "check_params": {}
+  },
+  {
+    "rule_id": 2,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "S_N must be unique across the table",
+    "rationale": "S_N is designated as a one-to-one shared key with Cust_Bio_dirty.S_N; duplicate values (e.g., '3' appearing twice) violate this cardinality",
+    "check_params": {}
+  },
+  {
+    "rule_id": 3,
+    "table": "Acc_Info_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Account_No must not be null",
+    "rationale": "Account_No is a mandatory business identifier with 0% missing values in the sample",
+    "check_params": {}
+  },
+  {
+    "rule_id": 4,
+    "table": "Acc_Info_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be a 4-digit numeric code",
+    "rationale": "All observed values are 4 characters long ranging from 1001-1028; stored as int64 but represents categorical identifiers",
+    "check_params": {
+      "regex": "^\\d{4}$",
+      "expected_length": 4
+    }
+  },
+  {
+    "rule_id": 5,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Full_Name should be in Title Case (first letter of each word capitalized) except for known lowercase particles (bin, binte, d/o, s/o)",
+    "rationale": "Sample contains lowercase deviations: 'junrong', 'irfan', 'Hui Min tan', 'Lee yixuan' that require standardization",
+    "check_params": {
+      "logic": "any(w[0].islower() or w.isupper() for w in str(row['Full_Name']).split() if w.lower() not in ('bin','binte','d/o','s/o') and len(w) > 1)"
+    }
+  },
+  {
+    "rule_id": 6,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Full_Name must not contain consecutive whitespace characters",
+    "rationale": "Evidence shows 'Ramesh s/o  Govindasamy' contains double spacing that should be standardized to single space",
+    "check_params": {
+      "logic": "'  ' in str(row['Full_Name'])"
+    }
+  },
+  {
+    "rule_id": 7,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID must follow Singapore NRIC/FIN format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter",
+    "rationale": "96.7% of values follow the 9-character structure; 3.3% (e.g., 'S123456') are truncated 7-character anomalies that deviate from the standard format",
+    "check_params": {
+      "regex": "^[STFG]\\d{7}[A-Z]$"
+    }
+  },
+  {
+    "rule_id": 8,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "JoinDate must not be null",
+    "rationale": "JoinDate has 3.3% missing values (1 out of 30) which represents incomplete temporal data for account creation",
+    "check_params": {}
+  },
+  {
+    "rule_id": 9,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "datetime_parseable",
+    "rule": "JoinDate must be parseable as a valid datetime",
+    "rationale": "Evidence shows invalid date '2025-13-01' (month 13 does not exist) that cannot be parsed as a valid calendar date",
+    "check_params": {}
+  },
+  {
+    "rule_id": 10,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "date_not_future",
+    "rule": "JoinDate must not be in the future",
+    "rationale": "JoinDate is a historical field representing account creation; sample contains future date '2027-01-15' which is invalid",
+    "check_params": {
+      "col_a": "JoinDate"
+    }
+  },
+  {
+    "rule_id": 11,
+    "table": "Acc_Info_dirty",
+    "column": "LastLogin",
+    "columns": [
+      "LastLogin"
+    ],
+    "category": "per_column",
+    "type": "datetime_parseable",
+    "rule": "LastLogin must be parseable as a valid datetime",
+    "rationale": "LastLogin is stored as string but intended as datetime64; all observed values follow 'YYYY-MM-DD HH:MM:SS' format and should be parseable",
+    "check_params": {}
+  },
+  {
+    "rule_id": 12,
+    "table": "Acc_Info_dirty",
+    "column": "LastLogin",
+    "columns": [
+      "LastLogin"
+    ],
+    "category": "per_column",
+    "type": "date_not_future",
+    "rule": "LastLogin must not be in the future",
+    "rationale": "LastLogin is a historical timestamp representing past user activity; future dates would indicate data errors",
+    "check_params": {
+      "col_a": "LastLogin"
+    }
+  },
+  {
+    "rule_id": 13,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate",
+      "LastLogin"
+    ],
+    "category": "cross_column",
+    "type": "date_ordering",
+    "rule": "JoinDate must be earlier than or equal to LastLogin",
+    "rationale": "Account creation date (JoinDate) must chronologically precede last login timestamp (LastLogin); sample shows '2027-01-15' join date with earlier last login",
+    "check_params": {
+      "col_a": "JoinDate",
+      "col_b": "LastLogin"
+    }
+  },
+  {
+    "rule_id": 14,
+    "table": "Acc_Info_dirty",
+    "column": "Subscription_Type",
+    "columns": [
+      "Subscription_Type"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Subscription_Type must be one of: Basic, Free, Gold, Platinum, Premium",
+    "rationale": "Categorical field with 5 observed distinct values representing subscription tiers; no other values expected",
+    "check_params": {
+      "values": [
+        "Basic",
+        "Free",
+        "Gold",
+        "Platinum",
+        "Premium"
+      ]
+    }
+  },
+  {
+    "rule_id": 15,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "SubscriptionFee must not be null",
+    "rationale": "SubscriptionFee has 6.7% missing values (2 out of 30) which represents incomplete billing information",
+    "check_params": {}
+  },
+  {
+    "rule_id": 16,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "numeric_parseable",
+    "rule": "SubscriptionFee must be parseable as a numeric value",
+    "rationale": "Column stored as string but intended as float64; contains non-numeric value 'free' that cannot be parsed as decimal",
+    "check_params": {}
+  },
+  {
+    "rule_id": 17,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "SubscriptionFee must not contain sentinel values '99999' or 'free'",
+    "rationale": "Evidence shows '99999' appears as a statistical outlier and likely represents sentinel-coded missing data; 'free' is a text placeholder instead of numeric zero",
+    "check_params": {
+      "sentinel_values": [
+        "99999",
+        "free"
+      ]
+    }
+  },
+  {
+    "rule_id": 18,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "SubscriptionFee must be a positive value (greater than or equal to 0)",
+    "rationale": "Subscription fees represent monetary amounts that should be non-negative; negative values would indicate credits or data errors not supported by the domain",
+    "check_params": {
+      "logic": "pd.to_numeric(row['SubscriptionFee'], errors='coerce') < 0"
+    }
+  },
+  {
+    "rule_id": 19,
+    "table": "Acc_Info_dirty",
+    "column": "Status",
+    "columns": [
+      "Status"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Status must use the dominant boolean representations True or False",
+    "rationale": "Boolean indicator stored as string with 6 observed distinct representations that need standardization to bool type",
+    "check_params": {
+      "values": [
+        "True",
+        "False"
+      ]
+    }
+  },
+  {
+    "rule_id": 20,
+    "table": "Acc_Info_dirty",
+    "column": "AccountBalance",
+    "columns": [
+      "AccountBalance"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "AccountBalance must not contain sentinel value 99999.0",
+    "rationale": "Value 99999.0 appears as a statistical outlier exceeding Q3 + 1.5×IQR and is likely sentinel-coded missing/invalid data",
+    "check_params": {
+      "sentinel_values": [
+        99999.0
+      ]
+    }
+  },
+  {
+    "rule_id": 21,
+    "table": "Acc_Info_dirty",
+    "column": "AccountBalance",
+    "columns": [
+      "AccountBalance"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "AccountBalance should not be negative (flag for review if negative balances are not supported)",
+    "rationale": "Sample contains -150.5 which may represent an overdraft or data entry error; business logic should confirm if negative balances are valid",
+    "check_params": {
+      "logic": "pd.to_numeric(row['AccountBalance'], errors='coerce') < 0"
+    }
+  },
+  {
+    "rule_id": 22,
+    "table": "Acc_Info_dirty",
+    "column": "PreferredLanguage",
+    "columns": [
+      "PreferredLanguage"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "PreferredLanguage must be one of: English, French, German, Malay, Tamil",
+    "rationale": "Categorical field with 5 observed distinct language values; all values follow consistent Title Case formatting",
+    "check_params": {
+      "values": [
+        "English",
+        "French",
+        "German",
+        "Malay",
+        "Tamil"
+      ]
+    }
+  },
+  {
+    "rule_id": 23,
+    "table": "Acc_Info_dirty",
+    "column": "Device",
+    "columns": [
+      "Device"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Device must be one of: Desktop, Mobile, Tablet",
+    "rationale": "Categorical field with 3 observed distinct device types; no missing values and consistent formatting",
+    "check_params": {
+      "values": [
+        "Desktop",
+        "Mobile",
+        "Tablet"
+      ]
+    }
+  },
+  {
+    "rule_id": 24,
+    "table": "Acc_Info_dirty",
+    "column": "OS",
+    "columns": [
+      "OS"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "OS must be one of the canonical values: Android, iOS, Linux, Windows, macOS",
+    "rationale": "Field contains case inconsistencies (Android/android, iOS/IOS, Linux/LINUX, macOs) that should be standardized to official branding",
+    "check_params": {
+      "values": [
+        "Android",
+        "iOS",
+        "Linux",
+        "Windows",
+        "macOS"
+      ]
+    }
+  },
+  {
+    "rule_id": 25,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "FeedbackScore must not contain sentinel value 7.3",
+    "rationale": "Value 7.3 appears as a statistical outlier exceeding Q3 + 1.5×IQR (6.945) and likely represents sentinel-coded invalid data, especially since FeedbackScore1 has max 5.0",
+    "check_params": {
+      "sentinel_values": [
+        7.3
+      ]
+    }
+  },
+  {
+    "rule_id": 26,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "FeedbackScore must be between 1.0 and 5.0 inclusive",
+    "rationale": "Feedback scores typically follow a 1-5 scale; values outside this range (like the 7.3 outlier) are invalid",
+    "check_params": {
+      "min": 1.0,
+      "max": 5.0
+    }
+  },
+  {
+    "rule_id": 27,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore1",
+    "columns": [
+      "FeedbackScore1"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "FeedbackScore1 must be between 1.0 and 5.0 inclusive",
+    "rationale": "Feedback scores follow a 1-5 scale as evidenced by observed min 1.0 and max 5.0",
+    "check_params": {
+      "min": 1.0,
+      "max": 5.0
+    }
+  },
+  {
+    "rule_id": 28,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore",
+      "FeedbackScore1"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "FeedbackScore and FeedbackScore1 must be equal (flag discrepancy as potential data quality issue given 81.25% value resemblance)",
+    "rationale": "Columns exhibit 81.25% value resemblance suggesting they are near-duplicates; discrepancies like 7.3 vs 2.65 indicate data quality issues",
+    "check_params": {
+      "logic": "abs(pd.to_numeric(row['FeedbackScore'], errors='coerce') - pd.to_numeric(row['FeedbackScore1'], errors='coerce')) > 0.01"
+    }
+  },
+  {
+    "rule_id": 29,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "S_N must exist in Cust_Bio_dirty.S_N (referential integrity)",
+    "rationale": "S_N is designated as a one-to-one shared key with Cust_Bio_dirty.S_N; every value must have a corresponding match in the parent table",
+    "check_params": {
+      "ref_table": "Cust_Bio_dirty",
+      "ref_column": "S_N"
+    }
+  },
+  {
+    "rule_id": 30,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID",
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "ID must match ID_No in Cust_Bio_dirty for the same S_N",
+    "rationale": "Both tables contain government identification numbers that should be consistent for the same customer record",
+    "check_params": {
+      "sibling_table": "Cust_Bio_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "ID_No",
+      "semantic_check": "ID must equal ID_No for matching S_N"
+    }
+  },
+  {
+    "rule_id": 31,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name",
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "Gender-indicating particles in Full_Name (Bin/s/o for Male, Binte/d/o for Female) must match Gender in Cust_Bio_dirty",
+    "rationale": "Malay/Indian naming conventions use Bin/s/o to indicate male and Binte/d/o to indicate female; inconsistencies with the Gender column indicate data quality issues",
+    "check_params": {
+      "sibling_table": "Cust_Bio_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Gender",
+      "semantic_check": "If Full_Name contains 'Bin' or 's/o', Gender should be 'Male'; if 'Binte' or 'd/o', Gender should be 'Female'"
+    }
+  }
+]

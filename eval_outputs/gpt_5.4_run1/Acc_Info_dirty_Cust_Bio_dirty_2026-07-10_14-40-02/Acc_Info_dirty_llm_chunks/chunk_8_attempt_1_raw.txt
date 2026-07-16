@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee stored as text in 30 records, with 28 non-null values and 2 missing values (6.7%). The column appears to represent a monetary amount, and most non-null values are numeric strings that could be converted to float64, but one observed value ('free') is non-numeric. All 28 non-null values are distinct. A high-end observed value of '99999' is present within the column's observed range.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how non-numeric fee values such as 'free' should be represented before converting the column from string to float64 (for example, whether they should remain as text, be mapped to a numeric amount such as 0, or be handled separately).",
+      "[VALIDATE] After the representation of non-numeric values is confirmed, ensure all fee values follow a consistent monetary format, such as digits with an optional decimal point and fractional part — for example, '16.53' or '152.2'."
+    ]
+  }
+]

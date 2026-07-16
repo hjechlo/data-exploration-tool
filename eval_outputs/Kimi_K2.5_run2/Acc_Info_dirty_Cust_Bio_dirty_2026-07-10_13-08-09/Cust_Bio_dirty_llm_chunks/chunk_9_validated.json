@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Email",
+    "description": "Email address field containing 30 records with no missing values. Contains 29 distinct values with one duplicate entry ('thm@example.com'). Pattern analysis indicates 86.7% of values conform to standard email format, while 4 records (13.3%) contain structural defects including missing '@' symbols, embedded spaces, and double '@' characters.",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct 4 structurally malformed email addresses: 'not-an-email' and 'useremail.com' (missing @ symbol), 'zx91 @example.com' (contains space), 'nabilah@@example.com' (contains double @). Determine the correct email addresses for incomplete entries.",
+      "[VALIDATE] Ensure all values conform to standard email format (e.g., 'username@example.com') after correction."
+    ]
+  }
+]

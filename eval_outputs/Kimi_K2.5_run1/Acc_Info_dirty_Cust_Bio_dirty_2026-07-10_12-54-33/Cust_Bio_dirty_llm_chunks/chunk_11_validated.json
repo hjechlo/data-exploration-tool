@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing Singapore street addresses. All 30 records are non-null and unique. Values predominantly follow Title Case convention (e.g., 'Balestier Road', 'Pandan Loop') with one exception in all caps ('HOLLAND ROAD').",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise the all-caps value to match the dominant Title Case convention: 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]

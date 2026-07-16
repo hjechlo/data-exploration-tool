@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier column S_N with 30 records and 0% missing values. Values range from 1 to 30, with 29 distinct values and a single duplicate value '3', making the column near‑unique. It serves as a join key to Cust_Bio_dirty.S_N.",
+    "recommended_actions": [
+      "[CLARIFY] Review the repeated value '3' to confirm whether duplicates are permissible for this join key."
+    ]
+  }
+]

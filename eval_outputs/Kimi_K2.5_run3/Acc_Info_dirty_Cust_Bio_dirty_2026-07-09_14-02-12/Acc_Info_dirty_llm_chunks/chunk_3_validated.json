@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as free-text with 30 distinct non-null values and no missing data. Values reflect diverse cultural naming conventions including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Minor case inconsistencies observed in 4 records (13.3%).",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations to title case: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'."
+    ]
+  }
+]

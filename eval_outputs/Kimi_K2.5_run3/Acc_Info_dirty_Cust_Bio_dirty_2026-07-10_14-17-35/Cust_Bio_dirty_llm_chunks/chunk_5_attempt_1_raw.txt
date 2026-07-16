@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Race",
+    "description": "Race or ethnicity classification field stored as text. Contains 30 records with no missing values. Six distinct observed values represent three semantic categories (Chinese, Malay, Indian) with inconsistent casing: 'Malay' appears as 'Malay', 'MALAY', and 'malay'; 'Indian' appears as 'Indian' and 'indian'; 'Chinese' appears consistently as 'Chinese'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to Title Case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'."
+    ]
+  }
+]
+```

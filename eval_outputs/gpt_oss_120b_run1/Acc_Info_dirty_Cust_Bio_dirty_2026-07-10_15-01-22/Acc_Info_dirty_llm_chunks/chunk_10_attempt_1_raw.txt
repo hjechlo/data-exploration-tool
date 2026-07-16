@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 numeric values. The column contains 30 non-null, unique records ranging from -150.5 to 99,999.0. While most balances are positive, one extreme high value (99,999.0) exceeds the statistically expected upper bound (1525) and appears to be a sentinel, and a single negative value (-150.5) is sign-anomalous.",
+    "recommended_actions": [
+      "[CLARIFY] Review the outlier sentinel value 99,999.0 and the negative value -150.5 to determine if they represent missing or invalid data and decide on appropriate handling."
+    ]
+  }
+]

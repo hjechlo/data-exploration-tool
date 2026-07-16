@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "S_N is an integer join key linking Acc_Info_dirty to Cust_Bio_dirty. The column has 30 non‑null records, values range from 1 to 30, and there are 29 distinct values; the value '3' appears twice. All entries are numeric with 1–2 digit lengths.",
+    "recommended_actions": [
+      "[CLARIFY] Review the duplicate value '3' to confirm whether S_N should be unique for each record.",
+      "[VALIDATE] Enforce referential integrity with Cust_Bio_dirty.S_N as indicated by the join hint."
+    ]
+  }
+]

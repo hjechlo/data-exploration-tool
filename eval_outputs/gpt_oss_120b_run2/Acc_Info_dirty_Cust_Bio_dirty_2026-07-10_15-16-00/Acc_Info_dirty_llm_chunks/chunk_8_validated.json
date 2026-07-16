@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "SubscriptionFee stores the fee amount as a string, though the intended type is float64. The column contains 30 records with 2 NULL values (6.7% missing). All 28 non‑null values are unique. Most values are numeric strings with one or two decimal places (e.g., '152.2', '45.97'), but one entry 'free' cannot be parsed as a number and the value '99999' is an unusually high outlier. Observed string lengths range from 4 to 6 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric string values to float64, e.g., '152.2' → 152.2.",
+      "[CLARIFY] Determine how to handle the non‑numeric entry 'free' and the outlier '99999' (e.g., treat as missing, correct, or retain).",
+      "[VALIDATE] Verify that all values conform to a numeric format with optional decimal point, e.g., 123.45."
+    ]
+  }
+]

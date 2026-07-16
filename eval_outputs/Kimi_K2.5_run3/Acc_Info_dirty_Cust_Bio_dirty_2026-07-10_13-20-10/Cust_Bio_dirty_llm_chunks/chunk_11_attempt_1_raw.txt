@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 distinct Singapore street names with no missing values. All entries are unique. One value appears in all-uppercase format ('HOLLAND ROAD') while the remaining 29 values follow Title Case convention.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the all-caps value to match the dominant Title Case convention: 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]
+```

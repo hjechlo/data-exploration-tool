@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "National identification number field, appearing to follow Singapore NRIC/FIN format, stored as 8-9 character strings. Contains 30 records with zero missing values and 29 distinct values (96.7% unique). The dominant pattern (93.3%) consists of one alphabetic prefix (S, T, F, or G), seven digits, and one alphabetic suffix (e.g., 'S8403757E'). Two records (6.6%) deviate from this standard: 'F212233V' contains only six digits, and '1916569C' lacks the alphabetic prefix entirely. One value ('F1011121T') appears in two records.",
+    "recommended_actions": [
+      "[CLARIFY] Review 2 records with non-standard ID formats: 'F212233V' (6 digits instead of 7) and '1916569C' (missing alphabetic prefix). Confirm with data owner whether these represent valid alternative formats or data entry errors.",
+      "[CLARIFY] Investigate duplicate value 'F1011121T' appearing in 2 records — verify if this indicates a data entry error or represents a legitimate business scenario (e.g., multiple records per individual).",
+      "[VALIDATE] Ensure all values conform to the standard format: one uppercase letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

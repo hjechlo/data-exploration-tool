@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Singapore NRIC or FIN identifier stored as string. Contains 30 records with 0 missing values and 29 distinct values (96.7% unique). One duplicate value 'F1011121T' observed. 93.3% of values follow the standard 9-character format of one prefix letter (S, T, F, or G), 7 digits, and one checksum suffix letter (e.g., 'S8403757E'). Two anomalous formats detected (6.6%): '1916569C' lacks a prefix letter (8 characters), and 'F212233V' contains only 6 digits instead of 7 (8 characters).",
+    "recommended_actions": [
+      "[CLARIFY] Review 2 records with non-standard formats: '1916569C' (missing prefix letter) and 'F212233V' (6 digits instead of 7). Confirm correct values with data owner.",
+      "[CLARIFY] Investigate duplicate value 'F1011121T' to determine if this represents a valid repeated entry or a data quality error.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field currently stored as int64, although the evidence indicates the intended type is string. The column is complete with 0 missing values out of 30 records, contains 28 distinct non-null values, and all observed values are 4-digit numeric-looking account numbers ranging from 1001 to 1028. The column is near-unique, with 2 repeated non-null records involving values such as 1001 and 1010.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the column data type from int64 to string to preserve the account number as an identifier rather than a numeric measure.",
+      "[CLARIFY] Confirm whether Account_No is expected to be unique, since 2 repeated non-null records were observed for account numbers such as '1001' and '1010'.",
+      "[VALIDATE] Ensure all values are stored as 4-digit account numbers in string form, for example '1001'."
+    ]
+  }
+]

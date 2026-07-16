@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "Numeric feedback score stored as float64 with 30 non-null records and 29 distinct values, indicating the column is nearly unique. Observed values range from 1.0 to 7.3. One value, 7.3, is flagged as a statistical outlier above the expected upper bound of 6.945 and may represent a sentinel-coded value. The column also appears near-identical to Acc_Info_dirty.FeedbackScore1 based on the provided resemblance evidence.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the outlier value '7.3' is a valid feedback score or a sentinel-coded value representing missing or invalid data.",
+      "[CLARIFY] Review whether 'FeedbackScore' and 'Acc_Info_dirty.FeedbackScore1' are duplicate columns and confirm if both should be retained."
+    ]
+  }
+]

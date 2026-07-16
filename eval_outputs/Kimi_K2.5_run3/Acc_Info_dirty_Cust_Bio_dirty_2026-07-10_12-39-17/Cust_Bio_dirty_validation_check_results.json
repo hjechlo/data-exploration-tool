@@ -1,0 +1,753 @@
+{
+  "per_rule": [
+    {
+      "rule_id": 1,
+      "column": "S_N",
+      "rule": "S_N must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 2,
+      "column": "S_N",
+      "rule": "S_N must exist in Acc_Info_dirty.S_N",
+      "type": "referential_cross_table",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "S_N": 6
+        }
+      ]
+    },
+    {
+      "rule_id": 3,
+      "column": "Account_No",
+      "rule": "Account_No must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 4,
+      "column": "Name",
+      "rule": "Name must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 5,
+      "column": "Name",
+      "rule": "Name must be in Title Case (excluding lowercase particles bin, binte, d/o, s/o)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Name": "lim wei jie"
+        },
+        {
+          "Name": "WANG SHI JIE"
+        }
+      ]
+    },
+    {
+      "rule_id": 6,
+      "column": "ID_No",
+      "rule": "ID_No must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 7,
+      "column": "ID_No",
+      "rule": "ID_No must match Singapore NRIC/FIN format: one letter (S, T, F, G), 7 digits, one uppercase letter",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "1916569C"
+        },
+        {
+          "ID_No": "F212233V"
+        }
+      ]
+    },
+    {
+      "rule_id": 8,
+      "column": "ID_No",
+      "rule": "ID_No must not contain placeholder sentinel values",
+      "type": "sentinel_check",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "F0000000X"
+        }
+      ]
+    },
+    {
+      "rule_id": 9,
+      "column": "Race",
+      "rule": "Race must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 10,
+      "column": "Race",
+      "rule": "Race must be one of: Chinese, Malay, Indian",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 3,
+      "violation_rate": 0.1,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Race": "malay"
+        },
+        {
+          "Race": "MALAY"
+        },
+        {
+          "Race": "indian"
+        }
+      ]
+    },
+    {
+      "rule_id": 11,
+      "column": "Gender",
+      "rule": "Gender must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 12,
+      "column": "Gender",
+      "rule": "Gender must be one of: Male, Female",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Gender": "male"
+        },
+        {
+          "Gender": "FEMALE"
+        }
+      ]
+    },
+    {
+      "rule_id": 13,
+      "column": "Age",
+      "rule": "Age must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 14,
+      "column": "Age",
+      "rule": "Age must be numeric parseable",
+      "type": "numeric_parseable",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "Twenty-five"
+        }
+      ]
+    },
+    {
+      "rule_id": 15,
+      "column": "Age",
+      "rule": "Age must be between 0 and 120 inclusive",
+      "type": "range",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 16,
+      "column": "Contact_No",
+      "rule": "Contact_No must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": null
+        },
+        {
+          "Contact_No": null
+        }
+      ]
+    },
+    {
+      "rule_id": 17,
+      "column": "Contact_No",
+      "rule": "Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9",
+      "type": "phone_validity",
+      "n_records_checked": 30,
+      "n_violations": 23,
+      "violation_rate": 0.767,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": "65 80742791"
+        },
+        {
+          "Contact_No": "65 89648602"
+        },
+        {
+          "Contact_No": "65 89604438"
+        },
+        {
+          "Contact_No": "65 89628434"
+        },
+        {
+          "Contact_No": "65 89600061"
+        }
+      ]
+    },
+    {
+      "rule_id": 18,
+      "column": "Email",
+      "rule": "Email must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 19,
+      "column": "Email",
+      "rule": "Email must contain exactly one @ symbol with no whitespace",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "not-an-email"
+        },
+        {
+          "Email": "zx91 @example.com"
+        },
+        {
+          "Email": "nabilah@@example.com"
+        },
+        {
+          "Email": "useremail.com"
+        }
+      ]
+    },
+    {
+      "rule_id": 20,
+      "column": "Country",
+      "rule": "Country must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 21,
+      "column": "Country",
+      "rule": "Country must be 'Singapore'",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 11,
+      "violation_rate": 0.367,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Country": "Singapura"
+        },
+        {
+          "Country": "Singapura"
+        },
+        {
+          "Country": "S'pore"
+        },
+        {
+          "Country": "SINGAPORE"
+        },
+        {
+          "Country": "S'pore"
+        }
+      ]
+    },
+    {
+      "rule_id": 22,
+      "column": "Street_Name",
+      "rule": "Street_Name must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 23,
+      "column": "Street_Name",
+      "rule": "Street_Name must be in Title Case",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Street_Name": "HOLLAND ROAD"
+        }
+      ]
+    },
+    {
+      "rule_id": 24,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 25,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must be exactly 6 digits (Singapore standard)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Postal_Code": 99999
+        },
+        {
+          "Postal_Code": 6907
+        }
+      ]
+    },
+    {
+      "rule_id": 26,
+      "column": "Name",
+      "rule": "Name particles indicating gender must match Gender column: Bin/s/o indicate Male; Binte/d/o indicate Female",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 27,
+      "column": "Name",
+      "rule": "Name must match Full_Name in Acc_Info_dirty for the same S_N",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 13,
+      "violation_rate": 0.433,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Name": "lim wei jie"
+        },
+        {
+          "Name": "Tan Hui Min"
+        },
+        {
+          "Name": "Nur Aisyah Binte Zulkifli"
+        },
+        {
+          "Name": "Ong Zhi Xuan"
+        },
+        {
+          "Name": "Chua Kai Wen"
+        }
+      ]
+    },
+    {
+      "rule_id": 28,
+      "column": "ID_No",
+      "rule": "ID_No must match ID in Acc_Info_dirty for the same S_N",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 5,
+      "violation_rate": 0.167,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "S8421753J"
+        },
+        {
+          "ID_No": "F1011121T"
+        },
+        {
+          "ID_No": "1916569C"
+        },
+        {
+          "ID_No": "F212233V"
+        },
+        {
+          "ID_No": "S1234567Z"
+        }
+      ]
+    },
+    {
+      "rule_id": 29,
+      "column": "S_N",
+      "rule": "S_N must be unique within Cust_Bio_dirty (one-to-one join key)",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 30,
+      "column": "Account_No",
+      "rule": "Account_No must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1010
+        },
+        {
+          "Account_No": 1010
+        }
+      ]
+    },
+    {
+      "rule_id": 31,
+      "column": "ID_No",
+      "rule": "ID_No must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "F1011121T"
+        },
+        {
+          "ID_No": "F1011121T"
+        }
+      ]
+    },
+    {
+      "rule_id": 32,
+      "column": "Email",
+      "rule": "Email must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "thm@example.com"
+        },
+        {
+          "Email": "thm@example.com"
+        }
+      ]
+    },
+    {
+      "rule_id": 33,
+      "column": "Account_No",
+      "rule": "Account_No must be a 4-digit code",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 34,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must be a 6-digit code",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Postal_Code": 99999
+        },
+        {
+          "Postal_Code": 6907
+        }
+      ]
+    }
+  ],
+  "violation_records": [
+    {
+      "Row": "6",
+      "Record Identifier": "S2633396B",
+      "Failed Column": "S_N, Contact_No, Country",
+      "Failed Value": "6 | 65 89639635 | SINGAPORE",
+      "Validation Rules Failed": "#2: S_N must exist in Acc_Info_dirty.S_N | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore'"
+    },
+    {
+      "Row": "1",
+      "Record Identifier": "S1234567D",
+      "Failed Column": "Name, Contact_No, Email, Account_No",
+      "Failed Value": "lim wei jie | 65 80742791 | not-an-email | 1001",
+      "Validation Rules Failed": "#5: Name must be in Title Case (excluding lowercase particles bin, binte, d/o, s/o) | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #19: Email must contain exactly one @ symbol with no whitespace | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N | #30: Account_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "28",
+      "Record Identifier": "S8403757E",
+      "Failed Column": "Name, Contact_No, Country",
+      "Failed Value": "WANG SHI JIE | 67389267 | 新加坡",
+      "Validation Rules Failed": "#5: Name must be in Title Case (excluding lowercase particles bin, binte, d/o, s/o) | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore' | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "23",
+      "Record Identifier": "1916569C",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "1916569C | 89610352",
+      "Validation Rules Failed": "#7: ID_No must match Singapore NRIC/FIN format: one letter (S, T, F, G), 7 digits, one uppercase letter | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #28: ID_No must match ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "25",
+      "Record Identifier": "F212233V",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "F212233V | 65478367",
+      "Validation Rules Failed": "#7: ID_No must match Singapore NRIC/FIN format: one letter (S, T, F, G), 7 digits, one uppercase letter | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #28: ID_No must match ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "30",
+      "Record Identifier": "F0000000X",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "F0000000X | <NA>",
+      "Validation Rules Failed": "#8: ID_No must not contain placeholder sentinel values | #16: Contact_No must not be null"
+    },
+    {
+      "Row": "4",
+      "Record Identifier": "F1122334K",
+      "Failed Column": "Race, Contact_No, Country, Name",
+      "Failed Value": "malay | 65 89628434 | Singapura | Nur Aisyah Binte Zulkifli",
+      "Validation Rules Failed": "#10: Race must be one of: Chinese, Malay, Indian | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore' | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "10",
+      "Record Identifier": "S3387002G",
+      "Failed Column": "Race, Country",
+      "Failed Value": "MALAY | S'pore",
+      "Validation Rules Failed": "#10: Race must be one of: Chinese, Malay, Indian | #21: Country must be 'Singapore'"
+    },
+    {
+      "Row": "17",
+      "Record Identifier": "F9900112R",
+      "Failed Column": "Race, Contact_No, Name",
+      "Failed Value": "indian | 65 65789456 | Ramesh s/o Govindasamy",
+      "Validation Rules Failed": "#10: Race must be one of: Chinese, Malay, Indian | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "3",
+      "Record Identifier": "S9968522J",
+      "Failed Column": "Gender, Contact_No, Country",
+      "Failed Value": "male | 65 89604438 | Singapura",
+      "Validation Rules Failed": "#12: Gender must be one of: Male, Female | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore'"
+    },
+    {
+      "Row": "13",
+      "Record Identifier": "F7788990P",
+      "Failed Column": "Gender, Contact_No, Country, Name",
+      "Failed Value": "FEMALE | 65 67865467 | SG | Lee Yi Xuan",
+      "Validation Rules Failed": "#12: Gender must be one of: Male, Female | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore' | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "20",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "Age, Contact_No, ID_No",
+      "Failed Value": "Twenty-five | 89617233 | F1011121T",
+      "Validation Rules Failed": "#14: Age must be numeric parseable | #17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #31: ID_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "8",
+      "Record Identifier": "F4455667M",
+      "Failed Column": "Age, Name",
+      "Failed Value": "-5 | Chua Kai Wen",
+      "Validation Rules Failed": "#15: Age must be between 0 and 120 inclusive | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "11",
+      "Record Identifier": "S8099150I",
+      "Failed Column": "Contact_No, Account_No, Email",
+      "Failed Value": "<NA> | 1010 | thm@example.com",
+      "Validation Rules Failed": "#16: Contact_No must not be null | #30: Account_No must be unique within Cust_Bio_dirty | #32: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "2",
+      "Record Identifier": "S7654321F",
+      "Failed Column": "Contact_No, Name, Account_No, Email",
+      "Failed Value": "65 89648602 | Tan Hui Min | 1001 | thm@example.com",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N | #30: Account_No must be unique within Cust_Bio_dirty | #32: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "5",
+      "Record Identifier": "G8765432L",
+      "Failed Column": "Contact_No, Country",
+      "Failed Value": "65 89600061 | S'pore",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore'"
+    },
+    {
+      "Row": "14",
+      "Record Identifier": "G6677889Q",
+      "Failed Column": "Contact_No, Postal_Code, Name",
+      "Failed Value": "65 67865333 | 6907 | Goh Jun Wei",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #25: Postal_Code must be exactly 6 digits (Singapore standard) | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N | #34: Postal_Code must be a 6-digit code"
+    },
+    {
+      "Row": "15",
+      "Record Identifier": "S9539727A",
+      "Failed Column": "Contact_No, Email, Name",
+      "Failed Value": "65 67945676 | nabilah@@example.com | Nabilah Binte Rahmat",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #19: Email must contain exactly one @ symbol with no whitespace | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "16",
+      "Record Identifier": "S8421753J",
+      "Failed Column": "Contact_No, Name, ID_No",
+      "Failed Value": "65 63678654 | Danish Bin Kamaruddin | S8421753J",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N | #28: ID_No must match ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "18",
+      "Record Identifier": "G2233445S",
+      "Failed Column": "Contact_No, Street_Name",
+      "Failed Value": "63648765 | HOLLAND ROAD",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #23: Street_Name must be in Title Case"
+    },
+    {
+      "Row": "19",
+      "Record Identifier": "S8705681C",
+      "Failed Column": "Contact_No, Email, Country, Name",
+      "Failed Value": "89618651 | useremail.com | SG | Teo Li Ann",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #19: Email must contain exactly one @ symbol with no whitespace | #21: Country must be 'Singapore' | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "21",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "Contact_No, Country, ID_No",
+      "Failed Value": "89649550 | Republic of Singapore | F1011121T",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore' | #28: ID_No must match ID in Acc_Info_dirty for the same S_N | #31: ID_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "22",
+      "Record Identifier": "G3344556U",
+      "Failed Column": "Contact_No",
+      "Failed Value": "89639976",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9"
+    },
+    {
+      "Row": "24",
+      "Record Identifier": "S8792459I",
+      "Failed Column": "Contact_No, Country, Name",
+      "Failed Value": "89609417 | 新加坡 | Lim Jun Rong",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #21: Country must be 'Singapore' | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "26",
+      "Record Identifier": "G4455667W",
+      "Failed Column": "Contact_No",
+      "Failed Value": "68946357",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9"
+    },
+    {
+      "Row": "27",
+      "Record Identifier": "S7516430J",
+      "Failed Column": "Contact_No",
+      "Failed Value": "62357895",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9"
+    },
+    {
+      "Row": "29",
+      "Record Identifier": "S1234567Z",
+      "Failed Column": "Contact_No, ID_No",
+      "Failed Value": "8964359 | S1234567Z",
+      "Validation Rules Failed": "#17: Contact_No must be a valid Singapore phone number: +65 prefix, 8 digits, starting with 6, 8, or 9 | #28: ID_No must match ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "7",
+      "Record Identifier": "S9136271F",
+      "Failed Column": "Email, Name",
+      "Failed Value": "zx91 @example.com | Ong Zhi Xuan",
+      "Validation Rules Failed": "#19: Email must contain exactly one @ symbol with no whitespace | #27: Name must match Full_Name in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "12",
+      "Record Identifier": "T0292156H",
+      "Failed Column": "Country, Account_No",
+      "Failed Value": "singapore | 1010",
+      "Validation Rules Failed": "#21: Country must be 'Singapore' | #30: Account_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "9",
+      "Record Identifier": "G5566778N",
+      "Failed Column": "Postal_Code",
+      "Failed Value": "99999",
+      "Validation Rules Failed": "#25: Postal_Code must be exactly 6 digits (Singapore standard) | #34: Postal_Code must be a 6-digit code"
+    }
+  ],
+  "total_failing_records": 30
+}

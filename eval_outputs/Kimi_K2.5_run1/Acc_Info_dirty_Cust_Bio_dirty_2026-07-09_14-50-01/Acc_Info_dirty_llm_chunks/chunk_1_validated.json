@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Sequential numeric identifier (serial number) ranging from 1 to 30, serving as a join key to Cust_Bio_dirty.S_N. Contains 29 distinct values across 30 records with zero missing values. One duplicate value exists ('3' appears twice), reducing uniqueness to 96.7%.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is intentional or represents a data entry error, particularly given the column's role as a join key to Cust_Bio_dirty.S_N where one-to-one cardinality is indicated."
+    ]
+  }
+]

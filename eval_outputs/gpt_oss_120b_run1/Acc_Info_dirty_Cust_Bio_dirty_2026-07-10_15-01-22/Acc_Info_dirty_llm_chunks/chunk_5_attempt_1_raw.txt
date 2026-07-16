@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stores the date and time a record was joined, currently as a string. The column has 30 records, with 1 null value (3.3%). All 29 non‑null values are unique and range from '2020-01-01 00:00:00' to '2027-01-15 00:00:00'. Most values follow the 'YYYY-MM-DD HH:MM:SS' format, but one entry ('2025-13-01') is not parseable as a valid date.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all string dates to a consistent datetime format 'YYYY-MM-DD HH:MM:SS' (e.g., '2021-03-14 00:00:00').",
+      "[VALIDATE] Verify that every value matches the pattern: four-digit year, hyphen, two-digit month (01-12), hyphen, two-digit day (01-31), space, two-digit hour (00-23), colon, two-digit minute, colon, two-digit second — e.g., 2021-03-14 00:00:00.",
+      "[CLARIFY] Determine the correct intended date for the unparseable entry '2025-13-01' and decide how to correct it."
+    ]
+  }
+]

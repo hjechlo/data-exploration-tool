@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Ethnicity column stored as free‑text strings. All 30 records are non‑null with 6 distinct values (Chinese, Indian, MALAY, Malay, indian, malay). Observed case variations and mixed capitalization; value lengths range from 5 to 7 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise case to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[CLARIFY] Confirm the official set of race categories and whether any additional values should be mapped or excluded."
+    ]
+  }
+]

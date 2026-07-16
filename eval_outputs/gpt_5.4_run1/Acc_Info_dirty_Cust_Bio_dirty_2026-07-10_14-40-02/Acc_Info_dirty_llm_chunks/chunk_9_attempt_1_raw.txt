@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Status flag stored as string with 30 non-null records and 6 distinct values. The observed values mix multiple boolean-like representations: 'True', 'False', '1', '0', 'yes', and 'no'. Column evidence indicates the intended type is boolean.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical boolean mapping for all 6 observed representations before conversion, including whether '1'/'yes' should map to true and '0'/'no' should map to false.",
+      "[STANDARDIZE] Standardize mixed boolean-like encodings after the mapping is confirmed; 100% of records are stored as strings rather than a native boolean type.",
+      "[VALIDATE] Ensure all values conform to the approved boolean representation after standardization, for example a native true/false field or one agreed text form such as 'True' and 'False'."
+    ]
+  }
+]

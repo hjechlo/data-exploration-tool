@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Subscription_Type is a string categorical column indicating the subscription tier of each account. Across 30 records it contains 5 distinct values—Basic, Free, Gold, Platinum, and Premium—with no nulls. The field is low‑cardinality and not unique per row.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier currently stored as int64 with explicit recommendation to convert to string type. All 30 records populated with unique values. Observed lengths vary across 4, 5, and 6 digits (range: 6907 to 786055), suggesting potential mixed-country formats or leading zero truncation from numeric storage.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve potential leading zeros and treat postal codes as categorical identifiers.",
+      "[CLARIFY] Verify whether the varying digit lengths (4, 5, and 6 digits) represent valid postal codes from different countries, or if shorter values (e.g., 6907, 99999) are missing leading zeros due to numeric storage conversion.",
+      "[VALIDATE] Once the expected format is confirmed, enforce validation rules to ensure all values conform to the specified postal code length and structure."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stored as a string but intended to be a datetime. The column has 30 records with 1 null value (3.3% missing). All 29 non‑null values are unique. Most values follow the full timestamp format \"YYYY-MM-DD HH:MM:SS\" ranging from 2020‑01‑01 00:00:00 to 2027‑01‑15 00:00:00. Observed string lengths are 10 and 19 characters, indicating a mix of date‑only and full datetime strings. One value ('2025-13-01') is unparseable because the month component is invalid.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert date‑only strings (e.g., '2022-07-26') to the full timestamp format by appending midnight time: '2022-07-26' → '2022-07-26 00:00:00'.",
+      "[CLARIFY] Determine the correct date for the unparseable entry '2025-13-01' (month 13 is invalid).",
+      "[VALIDATE] Ensure all values conform to the \"YYYY-MM-DD HH:MM:SS\" datetime pattern after standardisation."
+    ]
+  }
+]

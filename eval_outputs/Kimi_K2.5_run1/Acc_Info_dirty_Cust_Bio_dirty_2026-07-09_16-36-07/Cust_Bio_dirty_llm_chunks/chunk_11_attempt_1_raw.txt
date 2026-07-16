@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 distinct non-null values representing thoroughfare names (e.g., 'Ang Mo Kio Avenue 2', 'Balestier Road', 'Yishun Ring Road'). One value appears in all-uppercase format while the remaining 29 values use Title Case.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize the all-uppercase value (3.3% of records) to match the dominant Title Case format: 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]
+```

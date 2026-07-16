@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as free-text (string). All 30 records are non‑null and unique. Values include a variety of cultural naming conventions (e.g., \"d/o\", \"s/o\", \"Bin\", \"Binte\") and exhibit expected length and word‑count variation. A few entries are all lower‑case (\"junrong\", \"irfan\") or mixed case (\"Lee yixuan\"), deviating from the dominant title‑case style.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert deterministic case‑only deviations to title case, e.g., 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan'."
+    ]
+  }
+]

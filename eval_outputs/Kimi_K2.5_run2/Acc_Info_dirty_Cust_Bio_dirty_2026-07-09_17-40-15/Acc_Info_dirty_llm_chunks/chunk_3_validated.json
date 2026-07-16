@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name stored as free-text with 30 distinct non-null values and no missing data. Contains diverse cultural naming patterns including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Minor casing inconsistencies observed with 4 values (13.3%) deviating from the dominant Title Case convention, and 1 value (3.3%) containing extra internal whitespace.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert 4 values (13.3%) with lowercase or mixed-case components to Title Case: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'.",
+      "[STANDARDIZE] Remove extra whitespace from 1 value (3.3%): 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]

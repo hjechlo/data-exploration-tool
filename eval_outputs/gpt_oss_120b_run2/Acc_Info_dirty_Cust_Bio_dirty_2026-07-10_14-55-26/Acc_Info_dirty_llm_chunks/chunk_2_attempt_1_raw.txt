@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field with 30 records, no missing values. Stored as int64 but intended as a 4‑character numeric string (range 1001–1028). Contains 28 distinct values; two account numbers appear twice.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert integer values to 4‑character string representations, e.g., 1026 → '1026'.",
+      "[VALIDATE] Ensure all values are 4‑digit numeric strings within the range 1001–1028, e.g., '1026'.",
+      "[CLARIFY] Confirm whether duplicate account numbers (e.g., '1001', '1010') are permissible or indicate a data quality issue."
+    ]
+  }
+]

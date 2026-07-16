@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as text containing 30 distinct values with no missing records. Includes diverse cultural naming conventions such as Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Minor case inconsistencies observed with some values in lowercase or mixed case.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case-only deviations using the dominant title-like convention: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Hui Min tan' → 'Hui Min Tan', 'Lee yixuan' → 'Lee Yixuan'."
+    ]
+  }
+]
+```

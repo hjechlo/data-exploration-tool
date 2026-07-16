@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal values (float64). Contains 30 records with no missing values, all values unique. Observed range spans -150.5 to 99999.0. Statistical analysis flags 99999.0 as a potential sentinel-coded value for missing/invalid data, and -150.5 as the sole negative value which may represent an overdraft or data error.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business meaning of flagged anomalous values: 99999.0 (sentinel-coded outlier) and -150.5 (negative balance). Determine if these represent valid data states (e.g., credit limits, overdrafts) or should be treated as missing/invalid."
+    ]
+  }
+]

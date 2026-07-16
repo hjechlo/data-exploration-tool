@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier storing integer values from 1 to 30. All 30 records contain unique non-null values with no missing data. Acts as a one-to-one join key with Acc_Info_dirty.S_N.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]
+```

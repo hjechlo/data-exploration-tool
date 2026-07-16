@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "National identification number field, appearing to follow Singapore NRIC/FIN format (observed prefixes S, T, F, G indicate citizenship status and issuance period). Stored as string with 30 records and no missing values. Contains 29 distinct values with one duplicate ('F1011121T'). While 93.3% of values conform to the standard 9-character structure (prefix letter + 7 digits + checksum letter), 6.6% show format deviations: '1916569C' appears to be missing the alphabetic prefix, and 'F212233V' contains only 6 digits instead of the expected 7.",
+    "recommended_actions": [
+      "[CLARIFY] Review 2 records with format deviations to determine correct values: '1916569C' (missing prefix letter—verify whether it should be S, T, F, or G) and 'F212233V' (contains only 6 digits—verify the correct 7-digit number).",
+      "[CLARIFY] Investigate the duplicate value 'F1011121T' to determine if it represents a legitimate repeated record or a data entry error requiring deduplication.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

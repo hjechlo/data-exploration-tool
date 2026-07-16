@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country identifier stored as string with 0 missing values (0/30 records). Contains 8 distinct representations of Singapore including English variants ('Singapore', 'SINGAPORE', 'singapore', 'Republic of Singapore'), abbreviations ('SG', 'S'pore'), and local language forms ('Singapura', '新加坡').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical representation for remaining variants: 'Republic of Singapore', 'S'pore', 'SG', 'Singapura', '新加坡'. Determine whether to standardize all values to 'Singapore' or if multilingual/abbreviated forms are required for specific business contexts."
+    ]
+  }
+]
+```

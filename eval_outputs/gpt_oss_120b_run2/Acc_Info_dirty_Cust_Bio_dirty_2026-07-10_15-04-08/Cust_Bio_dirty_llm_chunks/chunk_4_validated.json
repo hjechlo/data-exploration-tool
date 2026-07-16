@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field storing customer IDs as strings. 93.3% of values follow the nine‑character pattern: a leading letter, seven digits, and a trailing letter (e.g., S8403757E). 3.3% use a letter‑six‑digit‑letter pattern (e.g., F212233V) and another 3.3% lack the leading letter (e.g., 1916569C). No null values; 29 distinct values with one duplicate (F1011121T).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm with the data owner how to treat the 6.6% of IDs that use the shorter or missing‑prefix formats and whether they should be converted to the dominant aXXXXXXXa pattern.",
+      "[VALIDATE] Ensure all ID_No values conform to the dominant pattern: one letter, seven digits, one letter — e.g., S8403757E."
+    ]
+  }
+]

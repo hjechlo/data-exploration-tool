@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field intended to store numeric ages. The column has 30 records, no missing values, and 24 distinct non-null values. It is stored as int64, but the observed content is not fully consistent: 1 value (3.3%) is non-numeric ('Twenty-five'). Observed values range from -5 to 66, and 2 values fall below 13 (4 and -5), which are flagged as potentially unrealistic for this dataset.",
+    "recommended_actions": [
+      "[CLARIFY] Review the non-numeric value 'Twenty-five' (3.3% of records) and confirm whether it should be converted to a numeric age such as 25 or treated as invalid.",
+      "[CLARIFY] Confirm whether ages below 13 are valid for this dataset. Specifically review the flagged values 4 and -5, as -5 is invalid for age and 4 may be implausible depending on business context.",
+      "[VALIDATE] Ensure all values are stored as numeric ages only, for example 27 or 58, and reject text-form entries such as 'Twenty-five'."
+    ]
+  }
+]

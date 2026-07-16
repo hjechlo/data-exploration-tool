@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Customer contact phone numbers stored as text. Contains 2 NULL values (6.7% of 30 records). Values appear in three main formats: international with '+65 ' prefix (17.9% of values), domestic with '65 ' prefix (~39%), and local 8-digit numbers without prefix (~39%). One anomalous value ('8964359') contains only 7 digits. All non-null values are unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats to international standard with +65 prefix: convert '65 XXXXXXXX' → '+65 XXXXXXXX' and 'XXXXXXXX' → '+65 XXXXXXXX'.",
+      "[CLARIFY] Verify the 7-digit value '8964359' — confirm whether this represents a valid short code or if a leading digit is missing.",
+      "[VALIDATE] Ensure all values follow the format: +65 followed by exactly 8 digits (e.g., '+65 80734991')."
+    ]
+  }
+]

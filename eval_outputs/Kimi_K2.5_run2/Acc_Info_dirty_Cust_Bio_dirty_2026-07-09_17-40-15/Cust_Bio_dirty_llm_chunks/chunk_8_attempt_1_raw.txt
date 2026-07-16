@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number stored as variable-length text (7-12 characters). Contains 2 missing values (6.7% of 30 records). Only 17.9% of values follow international format with '+65' prefix; remaining values use inconsistent domestic formats with or without the '65' country code prefix. One value ('8964359') contains 7 digits, differing from the 8-digit standard observed in other entries. All 28 non-null values are unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether missing contact numbers (2 records, 6.7%) are expected or if the field is mandatory for downstream use.",
+      "[CLARIFY] Verify the 7-digit value '8964359' — confirm if this represents a valid shortened format or if a digit is missing compared to the 8-digit standard.",
+      "[CLARIFY] Determine the canonical phone number format given the mixed patterns observed: '+65 XXXXXXXX' (17.9%), '65 XXXXXXXX', and 'XXXXXXXX' (8 digits)."
+    ]
+  }
+]
+```

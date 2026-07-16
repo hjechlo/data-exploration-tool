@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status indicator stored as string with heterogeneous representations. Contains 30 records with no missing values. Values encode true/false states using 6 distinct formats: 'True'/'False', '1'/'0', and 'yes'/'no'. Column is intended to be boolean type but currently stored as string.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify heterogeneous boolean representations into consistent format: '0' → 'False', '1' → 'True', 'no' → 'False', 'yes' → 'True'.",
+      "[VALIDATE] Verify all values conform to standard boolean format ('True' or 'False') after standardization, or convert column to boolean data type."
+    ]
+  }
+]

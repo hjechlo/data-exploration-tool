@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Email",
+    "description": "Email column stores contact email addresses as free-text strings. It contains 30 records with 0 missing values (0%). There are 29 distinct non‑null values; one email ('thm@example.com') is duplicated. About 86.7% of the entries follow a standard email pattern, while four values are structurally malformed: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'.",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct the malformed email entries: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'.",
+      "[VALIDATE] Ensure all values conform to a standard email format such as local-part@domain.tld after correction."
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country field stored as text with 30 non-null records containing 8 distinct values. All values represent Singapore but appear in inconsistent formats including English (various casings), Chinese characters (新加坡), Malay (Singapura), formal name (Republic of Singapore), abbreviation (SG), and colloquial form (S'pore).",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all country representations to the standard English form 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'S'pore' → 'Singapore', 'SG' → 'Singapore', 'Republic of Singapore' → 'Singapore', 'Singapura' → 'Singapore', '新加坡' → 'Singapore'.",
+      "[VALIDATE] Ensure all values conform to the standardized country name format after conversion."
+    ]
+  }
+]
+```

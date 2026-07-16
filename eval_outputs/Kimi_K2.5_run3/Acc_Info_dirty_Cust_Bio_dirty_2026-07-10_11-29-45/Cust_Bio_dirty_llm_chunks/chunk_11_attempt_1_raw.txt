@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 distinct Singapore street names with no missing values. Values include road types such as 'Road', 'Avenue', 'Crescent', and 'Loop'. One value appears in all caps ('HOLLAND ROAD') while the remainder follow Title Case convention.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic casing deviations for 1 record (3.3%): 'HOLLAND ROAD' → 'Holland Road'."
+    ]
+  }
+]
+```

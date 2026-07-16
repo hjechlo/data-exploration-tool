@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Race",
+    "description": "Ethnic group classification stored as categorical string. Contains 30 records with no missing values. Represents three semantic categories (Chinese, Indian, Malay) appearing as six distinct values due to casing inconsistencies: 'Malay' appears as 'Malay', 'MALAY', and 'malay'; 'Indian' appears as 'Indian' and 'indian'; 'Chinese' is consistently formatted.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to Title Case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[CLARIFY] Confirm the official reference list of valid ethnic categories and canonical spellings, as the observed values are explicitly noted to not constitute an approved reference list."
+    ]
+  }
+]
+```

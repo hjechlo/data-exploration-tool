@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score stored as float64 ranging from 1.0 to 5.0. All 30 records are non‑null; 29 distinct values with a single repeated value ('1.78'). Values show typical decimal representation (e.g., 4.46, 5.0).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether FeedbackScore1 is redundant with the existing FeedbackScore column and should be removed or retained."
+    ]
+  }
+]

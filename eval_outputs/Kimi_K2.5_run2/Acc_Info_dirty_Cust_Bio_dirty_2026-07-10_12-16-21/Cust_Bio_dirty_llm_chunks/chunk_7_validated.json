@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age stored with mixed data types (numeric and text). Contains 30 records with no missing values and 24 distinct values, ranging from -5 to 66. One value (3.3%) appears as text ('Twenty-five', 11 characters) while others are 1-2 digit integers. Two values (-5 and 4) fall below typical service account age thresholds.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → 25.",
+      "[CLARIFY] Review 2 implausible age values (-5 and 4) to confirm if they represent data entry errors, test records, or require minimum age business rules.",
+      "[VALIDATE] Ensure all values are positive integers within a reasonable age range (e.g., 13 to 120) — e.g., 25."
+    ]
+  }
+]

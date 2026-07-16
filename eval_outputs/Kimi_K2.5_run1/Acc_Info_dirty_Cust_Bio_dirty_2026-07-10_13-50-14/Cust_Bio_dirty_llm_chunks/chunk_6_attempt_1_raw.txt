@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification field stored as string. Contains 30 records with no missing values. Four distinct values observed representing two biological categories with case inconsistencies: 'Male'/'male' and 'Female'/'FEMALE'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise case inconsistencies using title case convention: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Verify all values match either 'Male' or 'Female' after standardisation."
+    ]
+  }
+]
+```

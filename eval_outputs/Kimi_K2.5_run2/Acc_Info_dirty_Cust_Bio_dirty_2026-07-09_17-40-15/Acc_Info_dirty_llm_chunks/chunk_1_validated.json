@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric serial number identifier with integer values ranging from 1 to 30. Contains 30 records with 0 missing values and 29 distinct values, indicating one duplicate entry (value '3'). Serves as a join key to Cust_Bio_dirty.S_N with 100% referential coverage.",
+    "recommended_actions": [
+      "[CLARIFY] Review the duplicate value '3' which appears twice despite the column serving as a one-to-one join key with Cust_Bio_dirty.S_N. Confirm whether this represents valid data or a data entry error.",
+      "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N before joining or loading new records."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status indicator stored as string with inconsistent textual representations for true/false states. Contains 30 non-null records with 6 distinct categorical values representing two logical states: affirmative ('True', '1', 'yes') and negative ('False', '0', 'no'). No missing values detected. Column is technically stored as string but intended to be boolean.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all affirmative representations to boolean True: 'True' → True, '1' → True, 'yes' → True. Convert all negative representations to boolean False: 'False' → False, '0' → False, 'no' → False.",
+      "[VALIDATE] Ensure all values conform to boolean format (True/False) after standardization."
+    ]
+  }
+]

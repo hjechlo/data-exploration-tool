@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device type or platform classification (e.g., Desktop, Mobile, Tablet). Contains 3 distinct categorical values across 30 records with no missing values. Values exhibit natural length variation (6-7 characters) consistent with the category names.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

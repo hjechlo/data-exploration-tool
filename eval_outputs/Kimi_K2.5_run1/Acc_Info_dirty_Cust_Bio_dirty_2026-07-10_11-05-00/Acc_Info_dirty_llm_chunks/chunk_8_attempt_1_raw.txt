@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as text requiring conversion to numeric format. Contains 28 distinct non-null values across 30 records with 2 missing values (6.7%). Values are predominantly decimal amounts ranging from 16.53 to 961.14, with two anomalies requiring clarification: the text value 'free' (potentially indicating no charge) and the suspiciously high value '99999' (likely a sentinel marker for missing data).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether 'free' represents a $0 fee or a distinct category, and whether '99999' is a sentinel value for missing/unknown data. Also verify if 6.7% missing values are expected for this field.",
+      "[STANDARDIZE] Convert valid numeric strings to float64. Replace 'free' with 0 or NULL (pending clarification), and replace '99999' with NULL (if confirmed as sentinel).",
+      "[VALIDATE] Ensure all values conform to positive decimal format with up to 2 decimal places (e.g., 434.17) after standardization."
+    ]
+  }
+]
+```

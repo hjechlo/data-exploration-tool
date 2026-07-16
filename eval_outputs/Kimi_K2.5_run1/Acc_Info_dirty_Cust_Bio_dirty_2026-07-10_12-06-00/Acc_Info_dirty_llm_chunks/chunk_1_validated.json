@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number or sequence identifier stored as integer (int64). Contains 30 non-null values ranging from 1 to 30, with 29 distinct values indicating one duplicate entry (value '3'). Serves as a one-to-one join key to Cust_Bio_dirty.S_N with 100% coverage on this table and 96.7% coverage on the target table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is intentional, as the column is identified as a one-to-one shared key but contains one repeated record."
+    ]
+  }
+]

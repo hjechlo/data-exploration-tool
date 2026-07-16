@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric serial or record identifier stored as int64. The column is complete with 0 missing values across 30 records and is near-unique, with 29 distinct non-null values and one repeated value ('3'). Observed values range from 1 to 30. It also appears to function as a join key, with a one-to-one shared key relationship to 'Cust_Bio_dirty.S_N' at 100.0% / 96.7% coverage.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether S_N is intended to be a unique record identifier, since 1 value is repeated ('3') despite the column behaving like a near-unique join key.",
+      "[VALIDATE] Enforce numeric whole-number values within the observed range of 1 to 30 for this field, for example 1, 16, or 30.",
+      "[VALIDATE] Verify join-key integrity against 'Cust_Bio_dirty.S_N' before loading or joining new records."
+    ]
+  }
+]

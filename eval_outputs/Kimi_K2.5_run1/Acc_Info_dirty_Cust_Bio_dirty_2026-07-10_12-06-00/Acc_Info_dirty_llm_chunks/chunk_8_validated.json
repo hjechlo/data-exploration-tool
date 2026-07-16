@@ -1,0 +1,12 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string values requiring numeric conversion for analytical use. Contains 2 missing records (6.7%) and 28 distinct non-null values. One text entry 'free' cannot be parsed as numeric, and one value '99999' appears to be a placeholder significantly exceeding typical fee ranges (16.53–961.14).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert column data type from string to float64. Transform non-numeric value 'free' → '0.0'.",
+      "[CLARIFY] Confirm whether '99999' is a sentinel value representing missing/unknown subscription fees and should be converted to NULL.",
+      "[CLARIFY] Assess whether the 2 missing values (6.7%) indicate optional fields, complimentary accounts, or data collection gaps.",
+      "[VALIDATE] Ensure all values are positive decimal numbers within reasonable subscription fee ranges after standardization."
+    ]
+  }
+]

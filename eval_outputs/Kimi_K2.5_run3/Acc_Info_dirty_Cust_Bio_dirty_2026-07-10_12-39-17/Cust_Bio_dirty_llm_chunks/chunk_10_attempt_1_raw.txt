@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country field containing 8 distinct textual representations of Singapore across 30 records, including English case variants (Singapore, SINGAPORE, singapore), abbreviations (S'pore, SG), formal name (Republic of Singapore), and local language variants (Singapura, 新加坡). No missing values detected.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all country name variants to the standard English form 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'S'pore' → 'Singapore', 'SG' → 'Singapore', 'Republic of Singapore' → 'Singapore', 'Singapura' → 'Singapore', '新加坡' → 'Singapore'."
+    ]
+  }
+]
+```

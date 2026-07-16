@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identification number field, appearing to store Singapore NRIC/FIN numbers. Contains 30 records with 0 missing values and 29 distinct values. 93.3% of values follow the standard 9-character format consisting of one prefix letter (S, T, F, or G), 7 digits, and one checksum letter (e.g., 'S8403757E'). Two records (6.6%) deviate with 8-character formats: '1916569C' (missing prefix letter) and 'F212233V' (contains only 6 digits). One value ('F1011121T') appears twice.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct values for the 2 records with incompatible 8-character formats: '1916569C' (missing prefix letter) and 'F212233V' (6 digits instead of 7).",
+      "[CLARIFY] Verify whether the duplicate value 'F1011121T' represents a legitimate repeated entry or a data entry error.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

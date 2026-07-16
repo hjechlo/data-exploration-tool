@@ -1,0 +1,12 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string values. Contains 2 NULL values (6.7% of 30 records) and 28 distinct non-null entries, all unique. Most values are numeric strings representing amounts between 16.53 and 961.14, but the column includes one non-numeric value 'free' and one suspiciously high value '99999' that appears to be a sentinel or placeholder for missing/invalid data. The column is technically stored as string but intended to represent decimal monetary values.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how to handle the non-numeric value 'free' — should it be converted to 0.00, NULL, or preserved as a categorical indicator requiring a separate flag column?",
+      "[CLARIFY] Verify whether '99999' is a sentinel value representing missing/invalid data and determine the correct replacement value (e.g., NULL or the actual subscription fee).",
+      "[STANDARDIZE] Convert the column data type from string to float64 after resolving non-numeric and sentinel values.",
+      "[VALIDATE] Ensure all values are positive decimal numbers representing subscription fees (e.g., 37.13, 434.17) with no alphabetic characters or sentinel values remaining after cleaning."
+    ]
+  }
+]

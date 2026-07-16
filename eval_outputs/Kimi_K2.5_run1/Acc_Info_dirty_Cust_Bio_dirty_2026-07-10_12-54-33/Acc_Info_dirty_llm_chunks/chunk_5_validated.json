@@ -1,0 +1,12 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as string (intended as datetime64[ns]). Contains 29 distinct non-null values spanning 2020-01-01 to 2027-01-15. One record (3.3%) has a NULL value. One value ('2025-13-01') is unparseable due to invalid month 13. One value ('2027-01-15') is dated in the future relative to the majority of records (2020-2022), suggesting potential data entry error. Observed value lengths vary between 10 and 19 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert column from string to datetime64[ns] format.",
+      "[CLARIFY] Verify the correct value for the unparseable date '2025-13-01' (invalid month 13).",
+      "[CLARIFY] Confirm whether the future date '2027-01-15' is accurate or should be corrected (e.g., to 2017 or 2021).",
+      "[VALIDATE] Ensure all values follow the format: four-digit year, two-digit month, two-digit day, followed by time components (hours, minutes, seconds) — e.g., '2021-03-14 00:00:00'."
+    ]
+  }
+]

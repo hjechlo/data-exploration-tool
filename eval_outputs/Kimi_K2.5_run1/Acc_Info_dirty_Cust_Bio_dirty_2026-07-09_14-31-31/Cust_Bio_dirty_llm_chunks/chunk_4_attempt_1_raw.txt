@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "National or foreign identification number appearing to follow Singapore NRIC/FIN format, stored as 8-9 character strings. All 30 records are populated with 29 distinct values; one value ('F1011121T') is duplicated. While 93.3% of values follow the standard 9-character format (one letter prefix, 7 digits, one checksum letter), two records deviate: '1916569C' lacks the alphabetic prefix and 'F212233V' contains only 6 digits instead of 7.",
+    "recommended_actions": [
+      "[CLARIFY] Verify two records with malformed formats: '1916569C' appears to be missing the alphabetic prefix (S, T, F, or G), and 'F212233V' appears to have only 6 digits instead of the standard 7. Confirm correct values with the data owner.",
+      "[CLARIFY] Investigate the duplicate value 'F1011121T' which appears twice in the dataset. Determine whether this represents a data entry error or if one record should be removed.",
+      "[VALIDATE] Ensure all values conform to the standard format: one letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S8403757E."
+    ]
+  }
+]
+```

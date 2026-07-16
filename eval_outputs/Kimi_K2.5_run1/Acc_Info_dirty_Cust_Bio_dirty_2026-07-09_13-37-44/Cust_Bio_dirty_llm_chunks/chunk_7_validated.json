@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age stored as integers (int64). Contains 30 non-null records with values ranging from -5 to 66. Data quality issues include one text representation ('Twenty-five', 3.3% of records) that cannot be parsed as numeric, and two values (-5 and 4) flagged as potentially unrealistic for a service account.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to integer format: 'Twenty-five' → '25'.",
+      "[CLARIFY] Confirm with data owners whether the negative age (-5) and child age (4) represent valid business scenarios (e.g., child accounts) or require correction.",
+      "[VALIDATE] Ensure all values are non-negative integers within a reasonable human age range after standardization."
+    ]
+  }
+]

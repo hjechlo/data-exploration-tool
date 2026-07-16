@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 with 30 distinct values across 30 records (0% missing). Values range from 6907 to 786055 with observed lengths of 4, 5, and 6 digits. Current numeric storage risks losing leading zeros and enables inappropriate mathematical operations; conversion to string is recommended for this categorical identifier.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve formatting and treat as categorical identifiers: 410633 → '410633', 99999 → '99999', 6907 → '6907'.",
+      "[CLARIFY] Investigate length inconsistency (4, 5, and 6 digits observed). Confirm whether shorter codes such as 6907 (4 digits) and 99999 (5 digits) represent valid entries from different postal systems or are missing leading zeros."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee stored as a string but intended as a float64. The column has 30 records with 2 NULL values (6.7% missing). All 28 non‑NULL values are unique; most are numeric strings (e.g., '152.2', '45.97'), one value is non‑numeric ('free'), and one numeric outlier ('99999') is flagged as suspicious. A type conversion to numeric is required.",
+    "recommended_actions": [
+      "[CLARIFY] Determine appropriate handling for the non‑numeric entry 'free' in SubscriptionFee.",
+      "[CLARIFY] Verify whether the outlier value '99999' is a valid fee or should be corrected/removed.",
+      "[VALIDATE] Ensure all values conform to a numeric format (digits with optional decimal point, e.g., 123.45) after conversion to float."
+    ]
+  }
+]

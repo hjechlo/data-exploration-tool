@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language field stored as text. The column is complete with 0 missing values out of 30 records and contains 5 distinct non-null values: English, French, German, Malay, and Tamil. Values are low-cardinality categorical entries and are not unique, which is expected for a preference field.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

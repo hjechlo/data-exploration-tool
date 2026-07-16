@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical field indicating the type of device used (Desktop, Mobile, or Tablet). Contains 30 records with 0 missing values and 3 distinct standardized categories. No data quality issues detected.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

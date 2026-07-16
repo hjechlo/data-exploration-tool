@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier field containing 4-digit numeric codes ranging from 1001 to 1028. Contains 28 distinct values across 30 records, with 2 account numbers (1001 and 1010) appearing twice each. No missing values. Currently stored as int64 but intended to be stored as string to preserve the 4-character format.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended format: values should be stored as 4-character strings (e.g., 1026 → '1026').",
+      "[CLARIFY] Confirm whether the 2 duplicate account numbers (1001, 1010) represent valid repeated entries or data quality issues, as the field is described as near-unique."
+    ]
+  }
+]

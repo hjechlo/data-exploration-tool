@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal values (float64) across 30 records with no missing values. All 30 values are distinct. Observed range spans -150.5 to 99,999.0, with 99,999.0 appearing as a potential sentinel-coded outlier (exceeding statistical upper bound of 1,525) and -150.5 as the sole negative entry.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 99,999.0 represents a sentinel/missing data indicator or a legitimate account balance.",
+      "[CLARIFY] Confirm whether the negative value -150.5 represents a valid overdraft/negative balance or a data entry error."
+    ]
+  }
+]
+```

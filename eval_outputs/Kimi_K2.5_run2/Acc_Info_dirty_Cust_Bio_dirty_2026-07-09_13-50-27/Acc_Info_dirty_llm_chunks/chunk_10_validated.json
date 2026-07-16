@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 with all 30 records populated (no missing values). Contains 30 distinct values ranging from -150.5 to 99,999.0. Includes one sentinel value (99,999.0) flagged as a statistical outlier that may represent missing or invalid data, and one negative value (-150.5) that may indicate an overdraft or data quality issue.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business meaning of two anomalous values: (1) 99,999.0 appears sentinel-coded and may represent missing/invalid data rather than a legitimate balance; (2) -150.5 is the only negative value and may represent an overdraft or data entry error."
+    ]
+  }
+]

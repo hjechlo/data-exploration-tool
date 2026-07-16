@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as int64 with 30 unique values across 30 records (no missing data). Values range from 6907 to 786055 with observed lengths of 4, 5, and 6 digits. Currently stored as integer but intended as string format, risking loss of leading zeros for postal codes that require them.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve leading zeros and support alphanumeric postal code formats."
+    ]
+  }
+]

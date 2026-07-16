@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stores the date and time a record was joined, currently as a string. All 29 non‑null values are unique and follow the 'YYYY‑MM‑DD HH:MM:SS' format, ranging from 2020‑01‑01 00:00:00 to 2027‑01‑15 00:00:00. The column has 1 missing value (3.3% of 30 records) and one unparseable entry '2025-13-01' (invalid month). The field should be converted to datetime64[ns].",
+    "recommended_actions": [
+      "[CLARIFY] Determine the correct value for the unparseable date '2025-13-01' and decide whether it should be corrected, removed, or set to NULL.",
+      "[VALIDATE] Ensure all non‑null values conform to the 'YYYY‑MM‑DD HH:MM:SS' datetime format after conversion."
+    ]
+  }
+]

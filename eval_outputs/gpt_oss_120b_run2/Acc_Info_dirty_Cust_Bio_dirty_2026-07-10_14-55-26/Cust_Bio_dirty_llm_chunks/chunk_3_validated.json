@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full personal name field stored as free‑text. Contains 30 distinct, non‑null values. Mix of all‑caps (e.g., \"WANG SHI JIE\"), title case (e.g., \"Danish Bin Kamaruddin\"), and a single lower‑case entry. Includes cultural relationship markers such as \"Bin\", \"Binte\", \"d/o\", and \"s/o\".",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the lower‑case entry 'lim wei jie' → 'Lim Wei Jie' (1 of 30 values, ~3%)."
+    ]
+  }
+]

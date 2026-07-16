@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Age",
+    "description": "Age field with 30 records and no missing values. Stored as int64 but contains mixed data types, including 1 text representation ('Twenty-five', 3.3% of records). Observed numeric range spans -5 to 66 years, with 2 values (-5 and 4) appearing implausibly low for typical age data.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → '25'.",
+      "[CLARIFY] Confirm validity of 2 implausible age values: -5 and 4. Verify if these represent data entry errors, placeholder values, or have specific business meaning (e.g., default values for unknown ages).",
+      "[VALIDATE] Ensure all values are non-negative integers within a reasonable age range (e.g., 0 to 120 years) after standardization."
+    ]
+  }
+]
+```

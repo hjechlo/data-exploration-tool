@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field containing 30 non-null values with 29 distinct entries. 93.3% of values follow a consistent 9-character alphanumeric pattern consisting of one uppercase letter, seven digits, and one uppercase letter (e.g., 'S8403757E'). Two records (6.6%) deviate from this pattern: '1916569C' (7 digits followed by letter, missing prefix) and 'F212233V' (letter, 6 digits, letter). One value ('F1011121T') is duplicated across 2 records.",
+    "recommended_actions": [
+      "[CLARIFY] Review 2 records with incompatible ID formats (6.6% of data): '1916569C' (missing prefix letter) and 'F212233V' (6 digits instead of 7). Verify if these are valid alternative formats or data entry errors requiring correction.",
+      "[CLARIFY] Investigate duplicate value 'F1011121T' appearing in 2 records to determine if this represents a valid business scenario or erroneous duplication.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567A."
+    ]
+  }
+]
+```

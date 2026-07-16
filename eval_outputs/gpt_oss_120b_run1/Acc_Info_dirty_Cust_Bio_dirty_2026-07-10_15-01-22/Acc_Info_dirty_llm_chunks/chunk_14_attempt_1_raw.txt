@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "FeedbackScore is a numeric rating field stored as float64. It contains 30 non‑null records with values ranging from 1.0 to 7.3, 29 distinct values (near‑unique) and a single duplicated value (1.78). One record has a value of 7.3, which exceeds the statistical upper bound (6.945) and may be a sentinel for missing or invalid data.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the outlier value 7.3 is a valid score or a sentinel representing missing/invalid data.",
+      "[CLARIFY] Determine if FeedbackScore is redundant with FeedbackScore1 and whether one of the columns should be removed."
+    ]
+  }
+]

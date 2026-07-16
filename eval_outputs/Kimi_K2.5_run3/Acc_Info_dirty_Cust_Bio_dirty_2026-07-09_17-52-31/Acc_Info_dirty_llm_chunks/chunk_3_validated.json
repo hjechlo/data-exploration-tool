@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name stored as free-text reflecting diverse cultural naming conventions, including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). All 30 values are non-null and unique. Case analysis reveals four deviations from Title Case convention: two fully lowercase entries ('junrong', 'irfan') and two with lowercase surname components ('Lee yixuan', 'Hui Min tan'). One entry contains double spacing between components.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations using the dominant Title Case convention: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'. Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]

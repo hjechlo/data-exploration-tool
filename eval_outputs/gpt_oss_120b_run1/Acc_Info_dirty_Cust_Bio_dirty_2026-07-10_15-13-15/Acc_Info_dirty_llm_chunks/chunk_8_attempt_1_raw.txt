@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "SubscriptionFee stores the fee amount for a subscription. Although stored as a string, the values represent monetary amounts and should be float64. The column has 30 records, with 2 NULLs (6.7% missing). All 28 non‑null values are unique; most are numeric strings such as '152.2' or '45.97', but one value 'free' cannot be parsed as a number and the value '99999' appears as an unusually high fee. Observed value lengths range from 4 to 6 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended numeric representation for the non‑numeric entry 'free' and verify whether the outlier value '99999' is valid or should be treated as an error.",
+      "[VALIDATE] After resolving non‑numeric entries, enforce that all values can be parsed as float64 numbers."
+    ]
+  }
+]

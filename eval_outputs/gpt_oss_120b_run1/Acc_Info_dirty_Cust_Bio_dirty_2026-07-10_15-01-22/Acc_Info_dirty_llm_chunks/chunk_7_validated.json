@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Subscription_Type column stores the subscription tier for each account as a categorical string. It contains 30 non‑null records with 5 distinct values (Basic, Free, Gold, Platinum, Premium) and no missing values.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

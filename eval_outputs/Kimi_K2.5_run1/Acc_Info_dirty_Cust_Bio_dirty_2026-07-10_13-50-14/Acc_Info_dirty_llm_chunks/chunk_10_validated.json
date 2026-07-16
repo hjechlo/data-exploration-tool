@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance amounts stored as decimal numbers (float64). Contains 30 records with no missing values, all of which are unique. Values range from -150.5 to 99999.0. Contains one statistical outlier at 99999.0 which appears sentinel-coded, and one negative value (-150.5) flagged as sign-anomalous.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 99999.0 represents a sentinel value for missing or invalid account balances.",
+      "[CLARIFY] Confirm whether the negative value -150.5 represents a valid overdraft or an invalid data entry."
+    ]
+  }
+]

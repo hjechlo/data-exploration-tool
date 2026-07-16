@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as string (intended as datetime64[ns]). Contains 29 non-null values (96.7%) with 1 missing (3.3%). Twenty-eight values conform to ISO datetime format 'YYYY-MM-DD 00:00:00' (19 characters), while one value '2025-13-01' is unparseable due to invalid month 13. All non-null values are unique. Observed valid date range spans 2020-01-01 to 2027-01-15.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert column data type from string to datetime64[ns], parsing standard 'YYYY-MM-DD HH:MM:SS' formats.",
+      "[CLARIFY] Verify the correct value for the unparseable date '2025-13-01' (invalid month 13) and confirm whether the single missing value (3.3%) is expected or indicates a data collection issue.",
+      "[VALIDATE] Ensure all values represent valid calendar dates (e.g., months 1-12, appropriate days per month) after type conversion."
+    ]
+  }
+]
+```

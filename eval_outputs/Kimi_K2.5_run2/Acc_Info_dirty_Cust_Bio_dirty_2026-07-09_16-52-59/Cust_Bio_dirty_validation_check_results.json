@@ -1,0 +1,818 @@
+{
+  "per_rule": [
+    {
+      "rule_id": 1,
+      "column": "S_N",
+      "rule": "S_N must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 2,
+      "column": "S_N",
+      "rule": "S_N must be unique across all records",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 3,
+      "column": "S_N",
+      "rule": "S_N must exist in Acc_Info_dirty.S_N (one-to-one consistency)",
+      "type": "referential_cross_table",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "S_N": 6
+        }
+      ]
+    },
+    {
+      "rule_id": 4,
+      "column": "Account_No",
+      "rule": "Account_No must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 5,
+      "column": "Account_No",
+      "rule": "Account_No must be a 4-digit numeric code",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 6,
+      "column": "Account_No",
+      "rule": "Account_No must not be duplicated (flag for business review)",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1010
+        },
+        {
+          "Account_No": 1010
+        }
+      ]
+    },
+    {
+      "rule_id": 7,
+      "column": "Name",
+      "rule": "Name must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 8,
+      "column": "Name",
+      "rule": "Name must be in Title Case (flag all-uppercase or all-lowercase values)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Name": "lim wei jie"
+        },
+        {
+          "Name": "WANG SHI JIE"
+        }
+      ]
+    },
+    {
+      "rule_id": 9,
+      "column": "Name",
+      "rule": "Name cultural particles must be consistent with Gender (Bin/s/o indicate Male; Binte/d/o indicate Female)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 10,
+      "column": "ID_No",
+      "rule": "ID_No must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 11,
+      "column": "ID_No",
+      "rule": "ID_No must conform to Singapore NRIC/FIN format: one uppercase letter (S,T,F,G), 7 digits, one uppercase checksum letter",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "1916569C"
+        },
+        {
+          "ID_No": "F212233V"
+        }
+      ]
+    },
+    {
+      "rule_id": 12,
+      "column": "Race",
+      "rule": "Race must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 13,
+      "column": "Race",
+      "rule": "Race must be one of the standard Singapore ethnic categories",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 3,
+      "violation_rate": 0.1,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Race": "malay"
+        },
+        {
+          "Race": "MALAY"
+        },
+        {
+          "Race": "indian"
+        }
+      ]
+    },
+    {
+      "rule_id": 14,
+      "column": "Race",
+      "rule": "Race must be standardized to Title Case (flag MALAY, malay, indian)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 3,
+      "violation_rate": 0.1,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Race": "malay"
+        },
+        {
+          "Race": "MALAY"
+        },
+        {
+          "Race": "indian"
+        }
+      ]
+    },
+    {
+      "rule_id": 15,
+      "column": "Gender",
+      "rule": "Gender must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 16,
+      "column": "Gender",
+      "rule": "Gender must be Male or Female",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Gender": "male"
+        },
+        {
+          "Gender": "FEMALE"
+        }
+      ]
+    },
+    {
+      "rule_id": 17,
+      "column": "Gender",
+      "rule": "Gender must be standardized to Title Case (flag male, FEMALE)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Gender": "male"
+        },
+        {
+          "Gender": "FEMALE"
+        }
+      ]
+    },
+    {
+      "rule_id": 18,
+      "column": "Age",
+      "rule": "Age must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 19,
+      "column": "Age",
+      "rule": "Age must be numeric (flag non-numeric text like 'Twenty-five')",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "Twenty-five"
+        }
+      ]
+    },
+    {
+      "rule_id": 20,
+      "column": "Age",
+      "rule": "Age must be between 0 and 120 years (inclusive)",
+      "type": "range",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 21,
+      "column": "Age",
+      "rule": "Age must not be negative",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 22,
+      "column": "Age",
+      "rule": "Age should be at least 13 years for service account validity",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "4"
+        },
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 23,
+      "column": "Contact_No",
+      "rule": "Contact_No must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": null
+        },
+        {
+          "Contact_No": null
+        }
+      ]
+    },
+    {
+      "rule_id": 24,
+      "column": "Contact_No",
+      "rule": "Contact_No must be a valid Singapore phone number",
+      "type": "phone_validity",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": "8964359"
+        }
+      ]
+    },
+    {
+      "rule_id": 25,
+      "column": "Contact_No",
+      "rule": "Contact_No local number must contain exactly 8 digits",
+      "type": "phone_validity",
+      "n_records_checked": 30,
+      "n_violations": 23,
+      "violation_rate": 0.767,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": "65 80742791"
+        },
+        {
+          "Contact_No": "65 89648602"
+        },
+        {
+          "Contact_No": "65 89604438"
+        },
+        {
+          "Contact_No": "65 89628434"
+        },
+        {
+          "Contact_No": "65 89600061"
+        }
+      ]
+    },
+    {
+      "rule_id": 26,
+      "column": "Email",
+      "rule": "Email must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 27,
+      "column": "Email",
+      "rule": "Email must contain exactly one @ symbol with no whitespace",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "not-an-email"
+        },
+        {
+          "Email": "zx91 @example.com"
+        },
+        {
+          "Email": "nabilah@@example.com"
+        },
+        {
+          "Email": "useremail.com"
+        }
+      ]
+    },
+    {
+      "rule_id": 28,
+      "column": "Email",
+      "rule": "Email must be lowercase (flag mixed or uppercase characters)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 29,
+      "column": "Country",
+      "rule": "Country must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 30,
+      "column": "Country",
+      "rule": "Country must use the canonical values: Republic of Singapore, S'pore, SG, Singapore, Singapura, 新加坡",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Country": "SINGAPORE"
+        },
+        {
+          "Country": "singapore"
+        }
+      ]
+    },
+    {
+      "rule_id": 31,
+      "column": "Street_Name",
+      "rule": "Street_Name must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 32,
+      "column": "Street_Name",
+      "rule": "Street_Name must be in Title Case (flag all-uppercase values)",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Street_Name": "HOLLAND ROAD"
+        }
+      ]
+    },
+    {
+      "rule_id": 33,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must not be null",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 34,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must be a 6-digit code",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Postal_Code": 99999
+        },
+        {
+          "Postal_Code": 6907
+        }
+      ]
+    },
+    {
+      "rule_id": 35,
+      "column": "Account_No",
+      "rule": "Account_No must match the corresponding Account_No in Acc_Info_dirty for the same S_N",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 36,
+      "column": "ID_No",
+      "rule": "ID_No must match the corresponding ID in Acc_Info_dirty for the same S_N",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 5,
+      "violation_rate": 0.167,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "S8421753J"
+        },
+        {
+          "ID_No": "F1011121T"
+        },
+        {
+          "ID_No": "1916569C"
+        },
+        {
+          "ID_No": "F212233V"
+        },
+        {
+          "ID_No": "S1234567Z"
+        }
+      ]
+    },
+    {
+      "rule_id": 37,
+      "column": "Name",
+      "rule": "Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)",
+      "type": "cross_table_semantic",
+      "n_records_checked": 30,
+      "n_violations": 12,
+      "violation_rate": 0.4,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Name": "lim wei jie"
+        },
+        {
+          "Name": "Tan Hui Min"
+        },
+        {
+          "Name": "Nur Aisyah Binte Zulkifli"
+        },
+        {
+          "Name": "Ong Zhi Xuan"
+        },
+        {
+          "Name": "Chua Kai Wen"
+        }
+      ]
+    },
+    {
+      "rule_id": 38,
+      "column": "ID_No",
+      "rule": "ID_No must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "F1011121T"
+        },
+        {
+          "ID_No": "F1011121T"
+        }
+      ]
+    },
+    {
+      "rule_id": 39,
+      "column": "Email",
+      "rule": "Email must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "thm@example.com"
+        },
+        {
+          "Email": "thm@example.com"
+        }
+      ]
+    }
+  ],
+  "violation_records": [
+    {
+      "Row": "6",
+      "Record Identifier": "S2633396B",
+      "Failed Column": "S_N, Contact_No, Country",
+      "Failed Value": "6 | 65 89639635 | SINGAPORE",
+      "Validation Rules Failed": "#3: S_N must exist in Acc_Info_dirty.S_N (one-to-one consistency) | #25: Contact_No local number must contain exactly 8 digits | #30: Country must use the canonical values: Republic of Singapore, S'pore, SG, Singapore, Singapura, 新加坡"
+    },
+    {
+      "Row": "1",
+      "Record Identifier": "S1234567D",
+      "Failed Column": "Account_No, Name, Contact_No, Email",
+      "Failed Value": "1001 | lim wei jie | 65 80742791 | not-an-email",
+      "Validation Rules Failed": "#6: Account_No must not be duplicated (flag for business review) | #8: Name must be in Title Case (flag all-uppercase or all-lowercase values) | #25: Contact_No local number must contain exactly 8 digits | #27: Email must contain exactly one @ symbol with no whitespace | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "2",
+      "Record Identifier": "S7654321F",
+      "Failed Column": "Account_No, Age, Contact_No, Name, Email",
+      "Failed Value": "1001 | 4 | 65 89648602 | Tan Hui Min | thm@example.com",
+      "Validation Rules Failed": "#6: Account_No must not be duplicated (flag for business review) | #22: Age should be at least 13 years for service account validity | #25: Contact_No local number must contain exactly 8 digits | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences) | #39: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "11",
+      "Record Identifier": "S8099150I",
+      "Failed Column": "Account_No, Contact_No, Email",
+      "Failed Value": "1010 | <NA> | thm@example.com",
+      "Validation Rules Failed": "#6: Account_No must not be duplicated (flag for business review) | #23: Contact_No must not be null | #39: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "12",
+      "Record Identifier": "T0292156H",
+      "Failed Column": "Account_No, Country",
+      "Failed Value": "1010 | singapore",
+      "Validation Rules Failed": "#6: Account_No must not be duplicated (flag for business review) | #30: Country must use the canonical values: Republic of Singapore, S'pore, SG, Singapore, Singapura, 新加坡"
+    },
+    {
+      "Row": "28",
+      "Record Identifier": "S8403757E",
+      "Failed Column": "Name, Contact_No",
+      "Failed Value": "WANG SHI JIE | 67389267",
+      "Validation Rules Failed": "#8: Name must be in Title Case (flag all-uppercase or all-lowercase values) | #25: Contact_No local number must contain exactly 8 digits"
+    },
+    {
+      "Row": "23",
+      "Record Identifier": "1916569C",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "1916569C | 89610352",
+      "Validation Rules Failed": "#11: ID_No must conform to Singapore NRIC/FIN format: one uppercase letter (S,T,F,G), 7 digits, one uppercase checksum letter | #25: Contact_No local number must contain exactly 8 digits | #36: ID_No must match the corresponding ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "25",
+      "Record Identifier": "F212233V",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "F212233V | 65478367",
+      "Validation Rules Failed": "#11: ID_No must conform to Singapore NRIC/FIN format: one uppercase letter (S,T,F,G), 7 digits, one uppercase checksum letter | #25: Contact_No local number must contain exactly 8 digits | #36: ID_No must match the corresponding ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "4",
+      "Record Identifier": "F1122334K",
+      "Failed Column": "Race, Contact_No, Name",
+      "Failed Value": "malay | 65 89628434 | Nur Aisyah Binte Zulkifli",
+      "Validation Rules Failed": "#13: Race must be one of the standard Singapore ethnic categories | #14: Race must be standardized to Title Case (flag MALAY, malay, indian) | #25: Contact_No local number must contain exactly 8 digits | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "10",
+      "Record Identifier": "S3387002G",
+      "Failed Column": "Race",
+      "Failed Value": "MALAY",
+      "Validation Rules Failed": "#13: Race must be one of the standard Singapore ethnic categories | #14: Race must be standardized to Title Case (flag MALAY, malay, indian)"
+    },
+    {
+      "Row": "17",
+      "Record Identifier": "F9900112R",
+      "Failed Column": "Race, Contact_No, Name",
+      "Failed Value": "indian | 65 65789456 | Ramesh s/o Govindasamy",
+      "Validation Rules Failed": "#13: Race must be one of the standard Singapore ethnic categories | #14: Race must be standardized to Title Case (flag MALAY, malay, indian) | #25: Contact_No local number must contain exactly 8 digits | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "3",
+      "Record Identifier": "S9968522J",
+      "Failed Column": "Gender, Contact_No",
+      "Failed Value": "male | 65 89604438",
+      "Validation Rules Failed": "#16: Gender must be Male or Female | #17: Gender must be standardized to Title Case (flag male, FEMALE) | #25: Contact_No local number must contain exactly 8 digits"
+    },
+    {
+      "Row": "13",
+      "Record Identifier": "F7788990P",
+      "Failed Column": "Gender, Contact_No, Name",
+      "Failed Value": "FEMALE | 65 67865467 | Lee Yi Xuan",
+      "Validation Rules Failed": "#16: Gender must be Male or Female | #17: Gender must be standardized to Title Case (flag male, FEMALE) | #25: Contact_No local number must contain exactly 8 digits | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "20",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "Age, Contact_No, ID_No",
+      "Failed Value": "Twenty-five | 89617233 | F1011121T",
+      "Validation Rules Failed": "#19: Age must be numeric (flag non-numeric text like 'Twenty-five') | #25: Contact_No local number must contain exactly 8 digits | #38: ID_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "8",
+      "Record Identifier": "F4455667M",
+      "Failed Column": "Age, Name",
+      "Failed Value": "-5 | Chua Kai Wen",
+      "Validation Rules Failed": "#20: Age must be between 0 and 120 years (inclusive) | #21: Age must not be negative | #22: Age should be at least 13 years for service account validity | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "30",
+      "Record Identifier": "F0000000X",
+      "Failed Column": "Contact_No",
+      "Failed Value": "<NA>",
+      "Validation Rules Failed": "#23: Contact_No must not be null"
+    },
+    {
+      "Row": "29",
+      "Record Identifier": "S1234567Z",
+      "Failed Column": "Contact_No, ID_No",
+      "Failed Value": "8964359 | S1234567Z",
+      "Validation Rules Failed": "#24: Contact_No must be a valid Singapore phone number | #25: Contact_No local number must contain exactly 8 digits | #36: ID_No must match the corresponding ID in Acc_Info_dirty for the same S_N"
+    },
+    {
+      "Row": "5",
+      "Record Identifier": "G8765432L",
+      "Failed Column": "Contact_No",
+      "Failed Value": "65 89600061",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits"
+    },
+    {
+      "Row": "14",
+      "Record Identifier": "G6677889Q",
+      "Failed Column": "Contact_No, Postal_Code, Name",
+      "Failed Value": "65 67865333 | 6907 | Goh Jun Wei",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #34: Postal_Code must be a 6-digit code | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "15",
+      "Record Identifier": "S9539727A",
+      "Failed Column": "Contact_No, Email, Name",
+      "Failed Value": "65 67945676 | nabilah@@example.com | Nabilah Binte Rahmat",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #27: Email must contain exactly one @ symbol with no whitespace | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "16",
+      "Record Identifier": "S8421753J",
+      "Failed Column": "Contact_No, ID_No, Name",
+      "Failed Value": "65 63678654 | S8421753J | Danish Bin Kamaruddin",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #36: ID_No must match the corresponding ID in Acc_Info_dirty for the same S_N | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "18",
+      "Record Identifier": "G2233445S",
+      "Failed Column": "Contact_No, Street_Name",
+      "Failed Value": "63648765 | HOLLAND ROAD",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #32: Street_Name must be in Title Case (flag all-uppercase values)"
+    },
+    {
+      "Row": "19",
+      "Record Identifier": "S8705681C",
+      "Failed Column": "Contact_No, Email, Name",
+      "Failed Value": "89618651 | useremail.com | Teo Li Ann",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #27: Email must contain exactly one @ symbol with no whitespace | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "21",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "Contact_No, ID_No",
+      "Failed Value": "89649550 | F1011121T",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #36: ID_No must match the corresponding ID in Acc_Info_dirty for the same S_N | #38: ID_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "22",
+      "Record Identifier": "G3344556U",
+      "Failed Column": "Contact_No",
+      "Failed Value": "89639976",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits"
+    },
+    {
+      "Row": "24",
+      "Record Identifier": "S8792459I",
+      "Failed Column": "Contact_No, Name",
+      "Failed Value": "89609417 | Lim Jun Rong",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "26",
+      "Record Identifier": "G4455667W",
+      "Failed Column": "Contact_No",
+      "Failed Value": "68946357",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits"
+    },
+    {
+      "Row": "27",
+      "Record Identifier": "S7516430J",
+      "Failed Column": "Contact_No",
+      "Failed Value": "62357895",
+      "Validation Rules Failed": "#25: Contact_No local number must contain exactly 8 digits"
+    },
+    {
+      "Row": "7",
+      "Record Identifier": "S9136271F",
+      "Failed Column": "Email, Name",
+      "Failed Value": "zx91 @example.com | Ong Zhi Xuan",
+      "Validation Rules Failed": "#27: Email must contain exactly one @ symbol with no whitespace | #37: Name must match the corresponding Full_Name in Acc_Info_dirty for the same S_N (allowing for case differences)"
+    },
+    {
+      "Row": "9",
+      "Record Identifier": "G5566778N",
+      "Failed Column": "Postal_Code",
+      "Failed Value": "99999",
+      "Validation Rules Failed": "#34: Postal_Code must be a 6-digit code"
+    }
+  ],
+  "total_failing_records": 30
+}

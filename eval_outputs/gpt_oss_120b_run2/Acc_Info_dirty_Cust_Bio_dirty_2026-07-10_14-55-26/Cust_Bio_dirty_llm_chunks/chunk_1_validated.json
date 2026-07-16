@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier field with int64 type, containing 30 distinct non-null values ranging from 1 to 30; each value is unique and there are no missing entries. Serves as a one-to-one join key with Acc_Info_dirty.S_N.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]

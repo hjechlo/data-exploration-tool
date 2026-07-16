@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical field indicating the type of device used, with 30 records and no missing values. Contains 3 distinct values: Desktop, Mobile, and Tablet.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

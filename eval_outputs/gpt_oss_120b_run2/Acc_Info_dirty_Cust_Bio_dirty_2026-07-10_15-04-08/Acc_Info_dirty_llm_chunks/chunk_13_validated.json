@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system field stored as short text strings (3‑7 characters). Contains 30 non‑null records with 8 distinct values. Observed case variations include 'android' vs 'Android', 'IOS' vs 'iOS', 'LINUX' vs 'Linux', and mixed‑case 'macOs'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case variants to canonical forms: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS' (approximately 37.5% of distinct values).",
+      "[VALIDATE] Verify all values belong to the approved OS list (e.g., Android, iOS, Linux, Windows, macOS)."
+    ]
+  }
+]

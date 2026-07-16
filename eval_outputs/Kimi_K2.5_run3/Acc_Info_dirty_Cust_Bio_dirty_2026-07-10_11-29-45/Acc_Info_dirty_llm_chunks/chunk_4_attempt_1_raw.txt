@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field following the Singapore NRIC/FIN pattern (prefix letters S/T/F/G, 7 digits, checksum letter). Contains 30 distinct unique values with no missing records. 96.7% of values use the standard 9-character format, while 3.3% (1 record) uses a truncated 7-character format lacking the checksum suffix.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the malformed ID 'S123456' which appears truncated (7 characters vs standard 9). Verify whether this represents a data entry error, requires exclusion, or follows an alternative ID format.",
+      "[VALIDATE] Ensure all values conform to the Singapore NRIC/FIN format: one letter prefix (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase checksum letter — e.g., S8403757E."
+    ]
+  }
+]
+```

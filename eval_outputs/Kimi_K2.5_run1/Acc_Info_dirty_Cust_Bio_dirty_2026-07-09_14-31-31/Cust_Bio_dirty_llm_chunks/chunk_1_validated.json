@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64 with values ranging from 1 to 30. All 30 records contain unique non-null values (0% missing). Serves as a one-to-one join key to Acc_Info_dirty.S_N with 100% coverage from this table and 96.7% coverage from the referenced table.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before performing joins to ensure the one-to-one relationship is maintained."
+    ]
+  }
+]

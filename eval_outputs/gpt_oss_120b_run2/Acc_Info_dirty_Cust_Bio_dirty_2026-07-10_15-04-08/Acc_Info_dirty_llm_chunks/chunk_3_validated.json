@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full_Name stores personal full names as free‑text strings. The column contains 30 distinct, non‑null values (0% missing) and each value is unique. Names reflect diverse cultural conventions, including Malay patronymic markers (d/o, s/o, Bin, Binte) and show varied capitalization; a few entries are entirely lower‑case or mixed case (e.g., 'junrong', 'irfan', 'Lee yixuan', 'Hui Min tan').",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert lower‑case or mixed‑case names to title case for name components, e.g., 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan' (affects ~13% of records).",
+      "[CLARIFY] Confirm whether relationship tokens (d/o, s/o, Bin, Binte) should be retained within the Full_Name field or split into separate relationship/parent fields."
+    ]
+  }
+]

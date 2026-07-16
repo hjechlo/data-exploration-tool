@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Observed values are numeric and range from -150.5 to 99999.0. One high-end value (99999.0) is a statistical outlier and is flagged in the evidence as potentially sentinel-coded, and one value (-150.5) is negative in an otherwise almost entirely positive column.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether '99999.0' is a valid account balance or a sentinel value representing missing or invalid data; 1 record (3.3%) is affected.",
+      "[CLARIFY] Confirm whether the negative balance '-150.5' is valid for this field or indicates invalid data; 1 record (3.3%) is affected."
+    ]
+  }
+]

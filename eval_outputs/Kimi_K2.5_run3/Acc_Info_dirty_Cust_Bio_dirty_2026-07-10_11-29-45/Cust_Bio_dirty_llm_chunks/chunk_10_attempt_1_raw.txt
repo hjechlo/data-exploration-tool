@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country identifier field containing 30 non-null records with 8 distinct values, all representing Singapore across multiple languages and formats including English (various casings), Malay ('Singapura'), Chinese ('新加坡'), abbreviation ('SG'), colloquial short form ('S'pore'), and formal long form ('Republic of Singapore').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all country name variations to the canonical English form 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'S'pore' → 'Singapore', 'SG' → 'Singapore', 'Republic of Singapore' → 'Singapore', 'Singapura' → 'Singapore', '新加坡' → 'Singapore'.",
+      "[VALIDATE] Ensure all future values conform to the standardized country name 'Singapore'."
+    ]
+  }
+]
+```

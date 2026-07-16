@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Sequential numeric identifier with values ranging from 1 to 30. All 30 records contain unique non-null values. Serves as a one-to-one shared join key with Acc_Info_dirty.S_N, exhibiting complete coverage on this table (100%) and partial coverage on the referenced table (96.7%).",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining to ensure all values exist in the referenced table."
+    ]
+  }
+]
+```

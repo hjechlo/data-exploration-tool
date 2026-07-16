@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field stored as integers with values ranging from -5 to 66 across 30 records (no missing values). Contains 24 distinct values. One record (3.3%) contains a non-numeric text value 'Twenty-five'. Two records (6.7%) contain ages below 13 (-5 and 4), which may be unrealistic for a service account.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → 25 (3.3% of records).",
+      "[CLARIFY] Confirm validity of ages below 13: -5 and 4 years (6.7% of records). Determine if these represent data entry errors, test accounts, or legitimate business cases."
+    ]
+  }
+]

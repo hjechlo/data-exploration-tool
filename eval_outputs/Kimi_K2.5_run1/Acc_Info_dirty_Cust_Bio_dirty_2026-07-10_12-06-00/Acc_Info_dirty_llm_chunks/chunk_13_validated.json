@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system identifier stored as categorical text. Contains 30 records with no missing values, representing 5 distinct operating systems (Android, iOS, Linux, Windows, macOS) across 8 observed values due to casing inconsistencies.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to match official product names: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values conform to the standard set: Android, iOS, Linux, Windows, macOS."
+    ]
+  }
+]

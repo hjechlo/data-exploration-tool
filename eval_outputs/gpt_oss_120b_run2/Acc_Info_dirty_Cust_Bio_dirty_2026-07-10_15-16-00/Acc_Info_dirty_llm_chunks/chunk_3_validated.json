@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as free-text string; 30 records, 0 nulls, all values unique. Includes multicultural naming conventions with prefixes such as \"d/o\", \"s/o\", \"Bin\", \"Binte\" indicating family relationships.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

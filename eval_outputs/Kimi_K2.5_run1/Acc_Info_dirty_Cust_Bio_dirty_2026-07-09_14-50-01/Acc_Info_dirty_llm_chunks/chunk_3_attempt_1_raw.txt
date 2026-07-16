@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Personal full names stored as free-text. All 30 records are non-null and unique. Contains diverse cultural naming conventions including Malay patronymics (Bin/Binte), Indian patronymics (s/o, d/o), and Chinese names. Minor casing inconsistencies present in 4 values (13.3%), and one instance of double-spacing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case-only deviations using the dominant title-like convention: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'.",
+      "[STANDARDIZE] Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]
+```

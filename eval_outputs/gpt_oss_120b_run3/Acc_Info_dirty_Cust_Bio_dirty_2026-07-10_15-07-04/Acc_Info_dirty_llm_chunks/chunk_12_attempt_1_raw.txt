@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device type of user access, stored as a string categorical field with three distinct values (Desktop, Mobile, Tablet) and no missing values across 30 records.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

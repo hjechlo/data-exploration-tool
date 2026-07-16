@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device column records the type of device used, with three distinct categorical values ('Desktop', 'Mobile', 'Tablet') observed across 30 records. There are no missing values and all entries conform to these observed categories.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

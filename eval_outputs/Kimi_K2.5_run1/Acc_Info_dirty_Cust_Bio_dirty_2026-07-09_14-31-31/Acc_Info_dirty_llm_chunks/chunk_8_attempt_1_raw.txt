@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string with 2 missing values (6.7% of 30 records). Contains 28 distinct non-null values, predominantly representing monetary amounts between 16.53 and 961.14, but includes one text value 'free' and one suspicious outlier '99999'. Currently stored as string type but intended to be float64.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business rules for anomalous values before type conversion: (1) 'free' — should this be converted to 0.0 or does it represent a distinct subscription tier? (2) '99999' — is this a placeholder for missing/unknown values that should be converted to NULL? (3) Assess whether the 6.7% missing rate is expected for optional fields.",
+      "[STANDARDIZE] Convert valid numeric strings to float64 data type after resolving special values ('free' and '99999')."
+    ]
+  }
+]
+```

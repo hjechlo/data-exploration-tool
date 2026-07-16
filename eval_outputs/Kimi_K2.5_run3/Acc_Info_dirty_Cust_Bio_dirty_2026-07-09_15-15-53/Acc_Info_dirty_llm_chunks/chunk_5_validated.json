@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as string (intended type is datetime64[ns]). Contains 29 distinct non-null values across 30 records, with 1 missing value (3.3%). Values span from '2020-01-01 00:00:00' to '2027-01-15 00:00:00', with most following ISO datetime format. Data quality issues identified: one unparseable value ('2025-13-01' with invalid month 13) and one future date ('2027-01-15 00:00:00'). Value lengths vary between 10 and 19 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Investigate data quality issues: confirm whether the 1 missing value (3.3%) is expected; verify the correct value for '2025-13-01' (invalid month 13); confirm if '2027-01-15 00:00:00' is a valid future join date or a data entry error.",
+      "[STANDARDIZE] Convert valid date strings from string type to datetime64[ns] format once data quality issues are resolved.",
+      "[VALIDATE] Ensure all values represent valid calendar dates within a reasonable business range (not in the future) and conform to consistent ISO datetime formatting (YYYY-MM-DD HH:MM:SS)."
+    ]
+  }
+]

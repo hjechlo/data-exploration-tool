@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score or rating ranging from 1.0 to 5.0. All 30 records are non-null, containing 29 distinct values (near-unique; only value '1.78' appears twice). Note: Column exhibits 81.25% value resemblance to 'FeedbackScore' in the same table, suggesting potential duplication.",
+    "recommended_actions": [
+      "[CLARIFY] Assess relationship with 'FeedbackScore' column (81.25% value resemblance) — confirm if both columns are required or if 'FeedbackScore1' should be removed to eliminate redundancy."
+    ]
+  }
+]
+```

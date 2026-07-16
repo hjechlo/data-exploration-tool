@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number field storing Singapore phone numbers with inconsistent formatting. Contains 2 missing values (6.7% of 30 records). Values appear in three main formats: international (+65 XXXXXXXX), local prefix (65 XXXXXXXX), and plain 8-digit numbers. One value ('8964359') contains only 7 digits. All 28 non-null values are unique. Observed lengths range from 7 to 12 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats for the 82.1% of values not in international format: '65 80742791' → '+65 80742791', '62357895' → '+65 62357895', '89610352' → '+65 89610352'.",
+      "[CLARIFY] Verify whether the 7-digit value '8964359' is complete or missing a digit, and confirm if the 2 missing values (6.7%) are expected or require population.",
+      "[VALIDATE] Ensure all values conform to the Singapore phone number format: '+65' followed by 8 digits (e.g., '+65 12345678')."
+    ]
+  }
+]
+```

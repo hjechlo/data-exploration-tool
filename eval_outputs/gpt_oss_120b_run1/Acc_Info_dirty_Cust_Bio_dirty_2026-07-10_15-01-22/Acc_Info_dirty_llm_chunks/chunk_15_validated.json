@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score field (float64) with values between 1.0 and 5.0. Contains 30 records, no missing values, and 29 distinct values; the value '1.78' appears twice. All entries are numeric and appear well‑formed.",
+    "recommended_actions": [
+      "[CLARIFY] Determine whether FeedbackScore1 is redundant with the similar column FeedbackScore and if one of them should be removed."
+    ]
+  }
+]

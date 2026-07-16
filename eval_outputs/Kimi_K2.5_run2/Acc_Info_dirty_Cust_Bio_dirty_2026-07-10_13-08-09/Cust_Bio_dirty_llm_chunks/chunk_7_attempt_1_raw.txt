@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Age",
+    "description": "Age field stored as int64 with 30 records and no missing values. Values range from -5 to 66 years. Contains 1 non-numeric text value (3.3%): 'Twenty-five'. Includes 2 potentially implausible values for a service account context: -5 and 4.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert textual number to numeric format (3.3% of records): 'Twenty-five' → '25'.",
+      "[CLARIFY] Review 2 implausible age values (-5 and 4) to confirm validity. Determine if these represent data entry errors, placeholder values, or legitimate edge cases (e.g., child accounts, test data).",
+      "[VALIDATE] Ensure all values are non-negative integers within realistic age bounds (e.g., 0-120) after standardization."
+    ]
+  }
+]
+```

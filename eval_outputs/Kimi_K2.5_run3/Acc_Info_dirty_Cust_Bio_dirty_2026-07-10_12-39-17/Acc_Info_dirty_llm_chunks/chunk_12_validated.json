@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical field indicating the type of device used, containing 30 records with no missing values. The column contains 3 distinct values: 'Desktop', 'Mobile', and 'Tablet', representing standard device categories with consistent title-case formatting.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

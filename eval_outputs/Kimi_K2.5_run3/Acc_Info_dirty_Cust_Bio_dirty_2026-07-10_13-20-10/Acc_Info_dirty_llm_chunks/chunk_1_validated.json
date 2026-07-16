@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier storing integer values ranging from 1 to 30. Contains 30 records with no missing values. Near-unique with 29 distinct values; the value '3' appears twice (6.7% of records). Serves as a join key to Cust_Bio_dirty.S_N with 100% coverage on this table and 96.7% coverage on the referenced table.",
+    "recommended_actions": [
+      "[CLARIFY] Investigate the duplicate value '3' which appears in 2 records, conflicting with the indicated one-to-one relationship with Cust_Bio_dirty.S_N. Confirm whether this represents a data quality issue or if the relationship should be reclassified as one-to-many.",
+      "[VALIDATE] Ensure referential integrity with Cust_Bio_dirty.S_N before joining, confirming all values match existing records in the referenced table."
+    ]
+  }
+]

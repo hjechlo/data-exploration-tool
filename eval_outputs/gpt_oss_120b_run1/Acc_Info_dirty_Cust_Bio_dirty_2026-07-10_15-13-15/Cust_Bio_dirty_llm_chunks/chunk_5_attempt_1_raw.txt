@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical string field describing customer race. Contains 30 non‑null records with 6 distinct values (Chinese, Indian, Malay, MALAY, indian, malay). Observed case inconsistencies (e.g., 'MALAY' vs 'Malay', 'indian' vs 'Indian') indicate non‑standardized entries. No missing values; values are not unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Normalize case to title case (e.g., 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian') – observed in roughly 50% of distinct values.",
+      "[CLARIFY] Confirm the official list of allowed race categories and whether case‑insensitive matching is acceptable."
+    ]
+  }
+]

@@ -1,0 +1,430 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must never be null because it is the primary join key for this table.",
+    "rationale": "The column is documented as a unique join key and the evidence shows 0 % missing values. A not‑null rule guarantees the key is always present.",
+    "check_params": {},
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 2,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "All S_N values must be unique within Cust_Bio_dirty.",
+    "rationale": "Evidence states that every S_N value is distinct (30 distinct values for 30 rows). Uniqueness is required for a one‑to‑one join.",
+    "check_params": {},
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 3,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "Every S_N must exist in Acc_Info_dirty.S_N (one‑to‑one relationship).",
+    "rationale": "Join hints declare S_N as a one‑to‑one key with Acc_Info_dirty.S_N; referential integrity prevents orphan records.",
+    "check_params": {
+      "col_a": "S_N",
+      "pk_table": "Acc_Info_dirty",
+      "pk_col": "S_N",
+      "pk_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30"
+      ]
+    },
+    "failing_record_indices": [
+      5
+    ]
+  },
+  {
+    "rule_id": 4,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be exactly four numeric characters.",
+    "rationale": "The intended datatype is string and the evidence shows all values are four‑digit numbers.",
+    "check_params": {
+      "regex": "^[0-9]{4}$"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 5,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Flag names that are not in title case (all‑upper or all‑lower) for words longer than one character, ignoring known particles.",
+    "rationale": "Sample data contains mixed casing (e.g., 'WANG SHI JIE', 'lim wei jie') and the business wants a consistent case style.",
+    "check_params": {
+      "logic": "any((w.isupper() or w.islower()) for w in str(row['Name']).split() if w.lower() not in ('bin','bine','bint','binte','s/o','d/o') and len(w)>1)"
+    },
+    "failing_record_indices": [
+      0,
+      27
+    ]
+  },
+  {
+    "rule_id": 6,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Name",
+      "Gender"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "If a name contains the male particle ('Bin' or 's/o') the Gender must be Male; if it contains the female particle ('Binte' or 'd/o') the Gender must be Female.",
+    "rationale": "Cultural naming particles encode gender in the dataset; mismatches indicate data quality issues.",
+    "check_params": {
+      "logic": "(re.search(r'\\bBin\\b', row['Name'], flags=re.IGNORECASE) and row['Gender'].lower()!='male') or (re.search(r'\\bBinte\\b', row['Name'], flags=re.IGNORECASE) and row['Gender'].lower()!='female')"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 7,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID_No must follow the standard pattern: a single capital letter, seven digits, then a capital letter (e.g., S1234567D).",
+    "rationale": "93 % of records conform to this pattern; the remaining formats are flagged for clarification.",
+    "check_params": {
+      "regex": "^[A-Z]\\d{7}[A-Z]$"
+    },
+    "failing_record_indices": [
+      22,
+      24
+    ]
+  },
+  {
+    "rule_id": 8,
+    "table": "Cust_Bio_dirty",
+    "column": "Race",
+    "columns": [
+      "Race"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Race values must be one of the canonical categories: Chinese, Malay, Indian.",
+    "rationale": "Observed values are these three categories with case variations; standardising to title case removes inconsistency.",
+    "check_params": {
+      "values": [
+        "Chinese",
+        "Malay",
+        "Indian"
+      ]
+    },
+    "failing_record_indices": [
+      3,
+      9,
+      16
+    ]
+  },
+  {
+    "rule_id": 9,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Gender"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Gender must be exactly 'Male' or 'Female'.",
+    "rationale": "Four case‑variant values are observed; after standardisation only two canonical values are valid.",
+    "check_params": {
+      "values": [
+        "Male",
+        "Female"
+      ]
+    },
+    "failing_record_indices": [
+      2,
+      12
+    ]
+  },
+  {
+    "rule_id": 10,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be parseable as a numeric value.",
+    "rationale": "One record contains the literal string 'Twenty-five', which cannot be interpreted as a number.",
+    "check_params": {
+      "logic": "pd.isna(pd.to_numeric(row['Age'], errors='coerce'))"
+    },
+    "failing_record_indices": [
+      19
+    ]
+  },
+  {
+    "rule_id": 11,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be non‑negative.",
+    "rationale": "A negative age (-5) appears in the sample and is logically impossible.",
+    "check_params": {
+      "logic": "pd.to_numeric(row['Age'], errors='coerce') < 0"
+    },
+    "failing_record_indices": [
+      7
+    ]
+  },
+  {
+    "rule_id": 12,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be at least 13 (service is intended for adults).",
+    "rationale": "Two records have ages 4 and -5, which are below the realistic adult threshold.",
+    "check_params": {
+      "logic": "pd.to_numeric(row['Age'], errors='coerce') < 13"
+    },
+    "failing_record_indices": [
+      1,
+      7
+    ]
+  },
+  {
+    "rule_id": 13,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Contact_No must not be null because a phone number is required for contact.",
+    "rationale": "6.7 % of rows have NULL values; the business treats the phone number as a required field.",
+    "check_params": {},
+    "failing_record_indices": [
+      10,
+      29
+    ]
+  },
+  {
+    "rule_id": 14,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Contact_No must match the Singapore international format '+65' followed by a space and eight digits.",
+    "rationale": "Standardisation recommendation specifies this exact pattern; other observed formats are considered invalid.",
+    "check_params": {
+      "regex": "^\\+65 \\d{8}$"
+    },
+    "failing_record_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ]
+  },
+  {
+    "rule_id": 15,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Email must contain exactly one '@' and no whitespace characters.",
+    "rationale": "Four records are malformed (missing '@' or containing spaces). The simple regex captures the required structure without being overly strict.",
+    "check_params": {
+      "regex": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    },
+    "failing_record_indices": [
+      0,
+      6,
+      14,
+      18
+    ]
+  },
+  {
+    "rule_id": 16,
+    "table": "Cust_Bio_dirty",
+    "column": "Country",
+    "columns": [
+      "Country"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Country must be the canonical value 'Singapore'.",
+    "rationale": "All observed variants refer to Singapore; standardisation to a single representation is required.",
+    "check_params": {
+      "values": [
+        "Singapore"
+      ]
+    },
+    "failing_record_indices": [
+      2,
+      3,
+      4,
+      5,
+      9,
+      11,
+      12,
+      18,
+      20,
+      23,
+      27
+    ]
+  },
+  {
+    "rule_id": 17,
+    "table": "Cust_Bio_dirty",
+    "column": "Postal_Code",
+    "columns": [
+      "Postal_Code"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Postal_Code must be a string of 4 to 6 digits.",
+    "rationale": "The column is stored as int64 but should be a string; observed lengths vary from 4‑6 digits.",
+    "check_params": {
+      "regex": "^\\d{4,6}$"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 18,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Account_No must be unique within Cust_Bio_dirty",
+    "rationale": "Column is 93.3% distinct with duplicate value(s) [1001, 1010] observed; treated as a candidate identifier — duplicates flagged for review.",
+    "check_params": {},
+    "failing_record_indices": [
+      0,
+      1,
+      10,
+      11
+    ]
+  },
+  {
+    "rule_id": 19,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "ID_No must be unique within Cust_Bio_dirty",
+    "rationale": "Column is 96.7% distinct with duplicate value(s) ['F1011121T'] observed; treated as a candidate identifier — duplicates flagged for review.",
+    "check_params": {},
+    "failing_record_indices": [
+      19,
+      20
+    ]
+  },
+  {
+    "rule_id": 20,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Email must be unique within Cust_Bio_dirty",
+    "rationale": "Column is 96.7% distinct with duplicate value(s) ['thm@example.com'] observed; treated as a candidate identifier — duplicates flagged for review.",
+    "check_params": {},
+    "failing_record_indices": [
+      1,
+      10
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field stored as free-text strings. All 30 records are non‑null and unique. Values show typical street naming patterns (e.g., \"Pandan Loop\", \"Upper Bukit Timah Road\") with a mix of title case and an all‑uppercase entry.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the all‑uppercase entry to title case: 'HOLLAND ROAD' → 'Holland Road' (observed in 1 of 30 rows, ~3.3%)."
+    ]
+  }
+]

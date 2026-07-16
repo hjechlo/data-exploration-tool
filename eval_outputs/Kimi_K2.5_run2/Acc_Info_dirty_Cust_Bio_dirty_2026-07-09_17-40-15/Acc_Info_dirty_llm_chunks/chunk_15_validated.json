@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score ranging from 1.0 to 5.0. Contains 30 records with no missing values and high cardinality (29 distinct values, 96.7% unique). One value (1.78) appears twice. Column exhibits 81.25% value resemblance with 'FeedbackScore', suggesting potential duplication.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether this column duplicates 'FeedbackScore' (81.25% value resemblance) and whether one column should be removed or if both serve distinct business purposes."
+    ]
+  }
+]

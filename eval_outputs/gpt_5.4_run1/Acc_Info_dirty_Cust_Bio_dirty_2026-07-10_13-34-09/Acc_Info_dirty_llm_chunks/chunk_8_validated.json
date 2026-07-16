@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee field stored as string, although the values appear intended to be numeric amounts. It contains 28 non-null values out of 30 records, with 2 missing values (6.7%). Of the 28 non-null values, 27 are numeric-looking fee amounts and 1 value ('free') is non-numeric, preventing direct conversion to float64. All non-null values are unique. Observed numeric formatting is inconsistent, with some values using one decimal place (for example, '152.2') and others using two decimal places (for example, '16.53'). A high-end observed value of '99999' is present.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize numeric formatting before type conversion; 21.4% of non-null values use one decimal place and should be aligned to the dominant two-decimal format where appropriate, for example '152.2' → '152.20', '232.6' → '232.60', '304.6' → '304.60', '540.3' → '540.30'.",
+      "[CLARIFY] Confirm how the non-numeric value 'free' should be represented in this fee field before converting the column from string to float64.",
+      "[VALIDATE] Ensure all populated values follow a numeric currency-like format, for example digits with an optional decimal point and one or two decimal places such as '16.53' or '152.20', unless an approved non-numeric status value such as 'free' is intentionally allowed."
+    ]
+  }
+]

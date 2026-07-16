@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 distinct Singapore street names (e.g., Balestier Road, Ang Mo Kio Avenue 2, Upper Bukit Timah Road) with no missing values. All values are unique. One value appears in all caps ('HOLLAND ROAD') while the remaining 29 values use title case.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize casing for the all-caps outlier: 'HOLLAND ROAD' → 'Holland Road' (3.3% of values)."
+    ]
+  }
+]

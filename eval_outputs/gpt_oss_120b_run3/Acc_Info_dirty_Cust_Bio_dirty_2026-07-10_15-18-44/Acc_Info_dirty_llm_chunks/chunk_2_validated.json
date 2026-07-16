@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field stored as int64 (numeric) but intended to be a string identifier. Contains 30 records with no missing values, 28 distinct values, and two duplicated numbers ('1001', '1010'). All values are four‑digit numbers ranging from 1001 to 1028.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric Account_No values to string type, e.g., 1026 → \"1026\".",
+      "[CLARIFY] Verify whether Account_No must be unique and investigate the two duplicate values ('1001', '1010') to determine if they are valid or indicate a data quality issue."
+    ]
+  }
+]

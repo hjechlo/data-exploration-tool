@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical gender identifier with 30 records and no missing values. Contains inconsistent casing with four observed variants ('Male', 'male', 'Female', 'FEMALE') representing two semantic categories.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

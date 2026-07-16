@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64 with values ranging from 1 to 30 across 30 records. No missing values. Near‑unique: 29 distinct values with a single duplicate value '3'. Serves as a join key linking to Cust_Bio_dirty.S_N (one‑to‑one shared key).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is acceptable for a join key or if the column should be enforced as unique."
+    ]
+  }
+]

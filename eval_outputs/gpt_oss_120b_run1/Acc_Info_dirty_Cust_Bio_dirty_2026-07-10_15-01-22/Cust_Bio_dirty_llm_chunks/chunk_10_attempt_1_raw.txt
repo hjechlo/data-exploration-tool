@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field storing the customer's country as a categorical string. Contains 30 non‑null records with 8 distinct values, showing multiple language, abbreviation, and casing variants such as 'Singapore', 'singapore', 'SINGAPORE', 'Singapura', \"S'pore\", 'SG', and the Chinese '新加坡'. No missing values; low cardinality but inconsistent representations.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the canonical representation for country values and define a standard mapping (e.g., 'SG', \"S'pore\", 'Singapura', '新加坡' → 'Singapore') to ensure consistent usage."
+    ]
+  }
+]

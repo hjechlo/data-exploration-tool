@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system category stored as text. The column is complete with 0 missing values across 30 records and contains 8 distinct non-null values. Observed values indicate inconsistent casing for the same apparent categories, including 'Android'/'android', 'iOS'/'IOS', and 'Linux'/'LINUX'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case-only variations affecting 16.7% of distinct observed values: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux'."
+    ]
+  }
+]

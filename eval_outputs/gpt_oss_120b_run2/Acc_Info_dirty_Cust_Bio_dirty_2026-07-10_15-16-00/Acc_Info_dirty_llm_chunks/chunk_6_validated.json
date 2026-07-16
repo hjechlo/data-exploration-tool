@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "LastLogin stores the timestamp of the user's most recent login. It is currently a string of fixed length 19 characters representing a datetime in the format 'YYYY-MM-DD HH:MM:SS' (e.g., '2023-03-30 00:00:00'). All 30 records are non‑null; 28 distinct values with two dates appearing twice. The intended data type is datetime64[ns].",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert string timestamps to native datetime type, e.g., '2023-03-30 00:00:00' → 2023-03-30 00:00:00 (datetime).",
+      "[VALIDATE] Verify all values conform to the 'YYYY-MM-DD HH:MM:SS' format after conversion."
+    ]
+  }
+]

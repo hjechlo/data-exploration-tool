@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical text field representing race/ethnicity values. The column is complete with 0 missing values out of 30 records and contains 6 distinct non-null values. Observed values show case-based inconsistencies for the same categories, including 'Malay', 'MALAY', 'malay' and 'Indian', 'indian'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case-only variations affecting 50.0% of records to a single agreed label format: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'."
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name stored as variable-length text with 30 distinct values across 30 records (100% complete, no missing values). Contains diverse cultural naming conventions including Malay patronymics ('Bin', 'Binte'), Indian relational suffixes ('s/o', 'd/o'), and Chinese names. Four values (13.3%) show case deviations from the dominant Title Case pattern, and one value contains double-spacing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations using the dominant Title Case convention: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'.",
+      "[STANDARDIZE] Remove extra whitespace between name components: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]
+```

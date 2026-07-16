@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "AccountBalance stores monetary balances as float64. All 30 records are non‑null and unique, with values ranging from -150.5 to 99,999.0. The maximum value (99,999.0) is a statistical outlier and appears to be a sentinel code, while the single negative value (-150.5) is sign‑anomalous in an otherwise positive column.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended meaning of the sentinel outlier 99,999.0 and the negative value -150.5 to determine whether they represent missing, invalid, or legitimate data."
+    ]
+  }
+]

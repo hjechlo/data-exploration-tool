@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "SubscriptionFee stores the fee amount as a string. All 28 non‑null values are unique. The column has 2 nulls (6.7% of 30 records). Most values are numeric strings representing decimal amounts (e.g., '16.53'), but one value 'free' cannot be parsed as a number and the value '99999' appears as an unusually high outlier. The intended type is float64, so a type conversion is required.",
+    "recommended_actions": [
+      "[CLARIFY] Determine handling for the non‑numeric entry 'free' (e.g., convert to null, assign a numeric code, or treat as a special category).",
+      "[CLARIFY] Confirm whether the outlier value '99999' is valid or should be corrected/removed.",
+      "[VALIDATE] Ensure all values conform to a numeric format with up to two decimal places after cleaning (e.g., 123.45)."
+    ]
+  }
+]

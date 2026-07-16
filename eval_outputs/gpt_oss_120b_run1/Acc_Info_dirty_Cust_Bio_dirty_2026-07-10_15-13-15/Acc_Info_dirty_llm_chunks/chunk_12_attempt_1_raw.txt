@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Device",
+    "description": "Device column records the type of device (categorical string) with three distinct values—'Desktop', 'Mobile', and 'Tablet'—observed across 30 records. There are no missing values, and value lengths range from 6 to 7 characters. The field is low‑cardinality and not unique (3 distinct values for 30 rows).",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

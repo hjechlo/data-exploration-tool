@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical string field representing gender for 30 records; no missing values. Contains 4 distinct case‑variant values ('Male', 'Female', 'male', 'FEMALE'), indicating inconsistent capitalization while the underlying categories are Male and Female.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise case to title case: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values belong to the allowed set: 'Male' or 'Female'."
+    ]
+  }
+]

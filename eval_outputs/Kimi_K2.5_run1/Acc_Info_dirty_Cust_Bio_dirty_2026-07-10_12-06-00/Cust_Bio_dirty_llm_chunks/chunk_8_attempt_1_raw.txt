@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number stored as text with 2 missing values (6.7% of 30 records). Values appear in multiple formats: '+65 ' international prefix (17.9%), '65 ' prefix without plus sign, and 8-digit local numbers. One anomalous value ('8964359') contains only 7 digits. All 28 non-null values are unique with observed lengths of 7, 8, 11, and 12 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all values to international format '+65 XXXXXXXX': transform '65 XXXXXXXX' → '+65 XXXXXXXX' and 'XXXXXXXX' → '+65 XXXXXXXX'.",
+      "[CLARIFY] Verify the 7-digit value '8964359' — confirm if this is a truncated entry or a valid legacy number, as Singapore phone numbers typically require 8 digits.",
+      "[VALIDATE] Ensure all values conform to the format: '+65 ' followed by exactly 8 digits — e.g., '+65 80734991'."
+    ]
+  }
+]
+```

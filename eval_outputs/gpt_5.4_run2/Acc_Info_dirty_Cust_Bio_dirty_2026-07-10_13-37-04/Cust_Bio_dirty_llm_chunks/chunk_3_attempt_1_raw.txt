@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Customer name field stored as text. All 30 records are non-null and all 30 non-null values are distinct. Values appear to contain full personal names with expected cultural naming variation, including forms such as 'Bin', 'Binte', 's/o', and 'd/o'. One observed value is fully uppercase ('WANG SHI JIE') and one is fully lowercase ('lim wei jie'), while most others use title-like casing.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the preferred casing standard for personal names before standardisation. Observed case variation includes fully uppercase 'WANG SHI JIE' and fully lowercase 'lim wei jie' alongside mostly title-like values."
+    ]
+  }
+]

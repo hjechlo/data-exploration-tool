@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Categorical string field representing a boolean status. Contains 30 non‑null records with 6 distinct values ('0', '1', 'False', 'True', 'no', 'yes'), indicating multiple textual and numeric encodings of true/false. Intended data type is boolean, so a type conversion is recommended.",
+    "recommended_actions": [
+      "[STANDARDIZE] Map all boolean representations to a single canonical form, e.g., 'True'/'False': '1' → 'True', '0' → 'False', 'yes' → 'True', 'no' → 'False'.",
+      "[VALIDATE] Verify that all values conform to the boolean format after standardisation."
+    ]
+  }
+]

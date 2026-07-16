@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as string. All 30 values are non‑null and unique. 96.7% follow a nine‑character pattern letter‑7‑digits‑letter (e.g., S8403757E); 1 record (3.3%) uses a shorter six‑digit pattern letter‑6‑digits (e.g., S123456).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of the 3.3% records using the shorter 'aXXXXXX' format (e.g., 'S123456') and decide whether they should be padded or transformed to match the dominant 'aXXXXXXXa' pattern."
+    ]
+  }
+]

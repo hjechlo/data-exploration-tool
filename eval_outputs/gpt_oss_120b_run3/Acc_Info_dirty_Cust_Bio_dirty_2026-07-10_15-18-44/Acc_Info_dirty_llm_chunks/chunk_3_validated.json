@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full_Name stores personal full names as free-text strings. The column contains 30 distinct, non‑null values with no missing entries. Observed names include various cultural naming conventions such as \"d/o\", \"s/o\", \"Binte\", and \"Bin\". All values are unique.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

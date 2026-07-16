@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field stored as int64 in the target schema, with 30 records, no missing values, and 24 distinct non-null values. The column is mostly numeric, but 1 value (3.3%) is non-numeric ('Twenty-five'). Observed values range from -5 to 66, and 2 values are below 13 (4 and -5), which are flagged as potentially unrealistic for this dataset.",
+    "recommended_actions": [
+      "[CLARIFY] Review the non-numeric value 'Twenty-five' (3.3% of records) and confirm the intended numeric age before conversion.",
+      "[CLARIFY] Investigate the potentially unrealistic age values 4 and -5 and confirm whether they are valid records, data entry errors, or require correction.",
+      "[VALIDATE] Ensure all values are stored as numeric ages, for example whole numbers such as 27, 41, or 58."
+    ]
+  }
+]

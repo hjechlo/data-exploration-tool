@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Singapore contact phone numbers stored as text with inconsistent formatting. Contains 2 missing values (6.7% of 30 records). Observed formats include international format with '+65 ' prefix (17.9%), partial international format with '65 ' prefix (39.3%), and 8-digit local numbers without prefix (39.3%). One anomalous value ('8964359') contains only 7 digits. All non-null values are unique with lengths ranging from 7 to 12 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats to the international standard with '+65 ' prefix: convert '65 80742791' → '+65 80742791' and '62357895' → '+65 62357895'.",
+      "[CLARIFY] Verify the 7-digit value '8964359' which appears incomplete compared to the standard 8-digit Singapore phone number format.",
+      "[VALIDATE] Ensure all values follow the format: '+65 ' followed by 8 digits (e.g., '+65 80734991') after standardization."
+    ]
+  }
+]

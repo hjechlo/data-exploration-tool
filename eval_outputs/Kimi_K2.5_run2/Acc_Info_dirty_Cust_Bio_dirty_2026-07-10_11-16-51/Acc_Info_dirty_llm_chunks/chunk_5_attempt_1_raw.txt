@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as string with intended type datetime64[ns]. Contains 29 distinct non-null values across 30 records, with 1 missing value (3.3%). Values span from 2020-01-01 to 2027-01-15, with most following 'YYYY-MM-DD 00:00:00' format. One unparseable value exists ('2025-13-01') containing an invalid month component.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the unparseable date '2025-13-01' (invalid month 13) and verify whether the 1 missing value (3.3%) is expected or if the field is required for downstream use.",
+      "[STANDARDIZE] Convert valid date strings to datetime64[ns] type, parsing from 'YYYY-MM-DD 00:00:00' format.",
+      "[VALIDATE] Ensure all values represent valid calendar dates with months between 1-12 and appropriate days for each month."
+    ]
+  }
+]
+```

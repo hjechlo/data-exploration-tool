@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field stored as free-text string; contains 30 distinct non‑null values with expected variation in naming and casing, e.g., 'Pandan Loop', 'HOLLAND ROAD'. No missing values observed.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

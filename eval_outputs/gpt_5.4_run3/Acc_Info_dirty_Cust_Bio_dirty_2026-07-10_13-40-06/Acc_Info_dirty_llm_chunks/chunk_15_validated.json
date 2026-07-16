@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score stored as float64 with 30 non-null records and 29 distinct values, ranging from 1.0 to 5.0. Values appear consistently numeric, and the column is near-unique with one repeated value ('1.78'). Evidence indicates it may be a near-duplicate of the column 'Acc_Info_dirty.FeedbackScore'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether 'FeedbackScore1' and 'Acc_Info_dirty.FeedbackScore' are intended to store the same metric, since the evidence indicates near-identical values and a likely duplicate column. If redundant, decide which column should be retained."
+    ]
+  }
+]

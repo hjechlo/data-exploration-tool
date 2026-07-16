@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "Numeric feedback score stored as float64 across 30 records with 0% missing values and 96.7% uniqueness (29 distinct values, with 1.78 appearing twice). Values range from 1.0 to 7.3. Statistical analysis identifies 7.3 as an upper outlier exceeding the expected range (Q3 + 1.5×IQR = 6.945), potentially representing a sentinel-coded value for missing or invalid data. Column shows 81.25% value resemblance to 'FeedbackScore1', indicating potential duplication.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 7.3 represents a valid feedback score or a sentinel-coded missing/invalid value.",
+      "[CLARIFY] Assess relationship with column 'FeedbackScore1' (81.25% value resemblance) — confirm if both columns are required or if one is redundant and should be removed."
+    ]
+  }
+]
+```

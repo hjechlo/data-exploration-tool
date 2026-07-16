@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field stored as text with 8 distinct representations of Singapore across 30 records. Values exhibit multilingual variation (English full names, Malay 'Singapura', Chinese '新加坡'), abbreviations ('SG', 'S'pore'), and inconsistent casing ('SINGAPORE', 'singapore'). No missing values.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all observed variations to the canonical English format 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'Republic of Singapore' → 'Singapore', 'Singapura' → 'Singapore', '新加坡' → 'Singapore', 'SG' → 'Singapore', 'S'pore' → 'Singapore'.",
+      "[VALIDATE] Ensure all future values conform to the standard format 'Singapore' or implement a controlled vocabulary to map common multilingual variations and abbreviations."
+    ]
+  }
+]

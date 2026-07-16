@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "National identification number (Singapore NRIC/FIN format) stored as uppercase alphanumeric string. All 30 records populated with no missing values. Contains 29 distinct values with one duplicate instance of 'F1011121T'. Format analysis reveals 93.3% conform to the standard pattern of one alphabetic prefix (S, T, F, or G), seven digits, and one alphabetic suffix (e.g., 'S8403757E'). Two anomalous formats detected: 'F212233V' (six digits only) and '1916569C' (missing alphabetic prefix).",
+    "recommended_actions": [
+      "[CLARIFY] Review 2 records with non-standard formats: 'F212233V' (only 6 digits vs expected 7) and '1916569C' (missing alphabetic prefix). Verify if these represent valid alternative ID types or require correction.",
+      "[CLARIFY] Investigate duplicate value 'F1011121T' appearing in 2 records to determine if this indicates a data entry error or represents a legitimate relationship (e.g., multiple records per individual).",
+      "[VALIDATE] Ensure all values follow the format: one uppercase letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

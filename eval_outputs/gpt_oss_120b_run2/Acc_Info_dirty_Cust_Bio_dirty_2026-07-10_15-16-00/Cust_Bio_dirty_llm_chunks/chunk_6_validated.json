@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical string field representing gender. Contains 30 non‑null records with four distinct case‑variant values: 'Male', 'male', 'Female', 'FEMALE'. No missing values. Low‑cardinality categorical column.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the preferred canonical case representation for gender values (e.g., 'Male' and 'Female') and decide on standardisation rules."
+    ]
+  }
+]

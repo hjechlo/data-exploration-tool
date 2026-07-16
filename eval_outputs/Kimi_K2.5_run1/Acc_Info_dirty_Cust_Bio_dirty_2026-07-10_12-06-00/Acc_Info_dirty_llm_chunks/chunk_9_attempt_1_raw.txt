@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status indicator stored as string with inconsistent representations across 30 records (no missing values). Contains 6 distinct string values representing two logical states: positive values ('True', '1', 'yes') and negative values ('False', '0', 'no').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify boolean representations by mapping: 'True' → True, '1' → True, 'yes' → True, 'False' → False, '0' → False, 'no' → False. Then convert column from string to boolean data type.",
+      "[VALIDATE] Ensure all values conform to boolean True/False after standardization."
+    ]
+  }
+]
+```

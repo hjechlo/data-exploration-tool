@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identity document number field containing 30 non-null values with 29 distinct entries (96.7% unique). 93.3% of values follow a consistent 9-character alphanumeric pattern consisting of one letter prefix, seven digits, and one letter suffix (e.g., 'S8403757E'). Two records (6.6%) deviate from this structure: '1916569C' (8 characters, missing prefix letter) and 'F212233V' (8 characters, only six digits). One value ('F1011121T') appears twice in the dataset.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 2 records (6.6%) with non-standard formats: '1916569C' (missing prefix letter) and 'F212233V' (only 6 digits instead of 7). Confirm whether these are data entry errors requiring correction or represent valid alternative ID formats.",
+      "[CLARIFY] Investigate the duplicate value 'F1011121T' (appears twice) to determine if this represents a legitimate repeated entry or a data quality issue requiring deduplication.",
+      "[VALIDATE] Ensure all values follow the format: one uppercase letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

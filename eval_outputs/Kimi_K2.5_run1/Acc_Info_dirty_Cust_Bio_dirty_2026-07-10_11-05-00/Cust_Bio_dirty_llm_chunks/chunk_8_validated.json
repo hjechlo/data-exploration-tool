@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Customer contact phone number stored as text with 2 missing values (6.7% of 30 records). Contains mixed formats: international format with '+65' prefix (17.9% of values), local format with '65' prefix, and plain 8-digit numbers. One value ('8964359') appears truncated with only 7 digits. All 28 non-null values are unique with observed lengths of 7, 8, 11, and 12 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats: convert '+65 80734991' → '80734991' and '65 80742791' → '80742791' to standardize as 8-digit numbers, or alternatively standardize all to '+65 XXXXXXXX' format.",
+      "[CLARIFY] Verify the 7-digit value '8964359' which appears to be truncated (standard Singapore phone numbers are 8 digits).",
+      "[VALIDATE] Ensure all values conform to the standardized 8-digit phone number format after cleaning."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number stored as text with 2 missing values (6.7% of 30 records). Contains 28 distinct non-null values with inconsistent formatting: 17.9% use international format '+65 XXXXXXXX' (12 characters), 39.3% use local format '65 XXXXXXXX' (11 characters), 39.3% are plain 8-digit numbers, and one value has only 7 digits. All non-null values are unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert phone numbers to consistent 8-digit local format by removing country code prefixes and spaces: '+65 80734991' → '80734991', '65 80742791' → '80742791'. This affects approximately 57.2% of non-null values.",
+      "[CLARIFY] Verify whether the 7-digit value '8964359' is complete or if a digit is missing, as standard Singapore phone numbers contain 8 digits.",
+      "[VALIDATE] Ensure all values contain exactly 8 numeric digits after standardization (e.g., '80734991')."
+    ]
+  }
+]

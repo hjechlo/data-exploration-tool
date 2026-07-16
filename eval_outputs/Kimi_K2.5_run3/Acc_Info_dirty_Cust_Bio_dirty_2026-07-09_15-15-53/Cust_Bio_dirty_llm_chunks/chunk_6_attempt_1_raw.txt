@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender category field stored as string with 30 non-null records (100% complete). Contains 4 distinct values representing 2 semantic categories (Male and Female) with case inconsistencies observed across the dataset (Title Case, uppercase, and lowercase variants present).",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case inconsistencies to Title Case convention: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values conform to the standardized set: 'Male' or 'Female'."
+    ]
+  }
+]
+```

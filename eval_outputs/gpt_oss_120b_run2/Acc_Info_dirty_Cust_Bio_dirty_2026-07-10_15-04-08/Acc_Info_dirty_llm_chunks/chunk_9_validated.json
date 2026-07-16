@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean flag stored as a string. All 30 records are non‑null and contain six distinct values ('True', 'False', '1', '0', 'yes', 'no'), indicating multiple textual representations of true/false. The intended data type is boolean.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all non‑standard representations to a single boolean string, e.g., '1' → 'True', '0' → 'False', 'yes' → 'True', 'no' → 'False' (100% of rows require conversion).",
+      "[VALIDATE] Ensure the column contains only the standardized boolean strings 'True' or 'False' after conversion."
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+[{"column_name":"Device","description":"Categorical device-type field stored as text. It contains 30 non-null records with 3 distinct observed values: 'Desktop', 'Mobile', and 'Tablet'. Values appear complete and consistently represented in a low-cardinality set.","recommended_actions":["[No Immediate Action]"]}]

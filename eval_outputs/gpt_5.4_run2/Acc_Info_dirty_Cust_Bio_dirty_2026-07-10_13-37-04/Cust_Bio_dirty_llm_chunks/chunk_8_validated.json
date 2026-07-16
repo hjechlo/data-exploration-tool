@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number stored as text. The column has 28 non-null values out of 30 records, with 2 missing values (6.7%). All non-null values are unique. Observed values appear in multiple phone-number formats, including numbers with a '+65' prefix, a '65' prefix, and local numbers without a country prefix; observed lengths are 7, 8, 11, and 12 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether contact numbers should be stored in a single standard format, since observed values use multiple representations such as '+65 80734991', '65 80742791', and '89610352'."
+    ]
+  }
+]

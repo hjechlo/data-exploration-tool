@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field containing 4‑digit numeric codes. Stored as int64 but the intended type is string. No missing values in 30 records. There are 28 distinct values with two values repeated (1001, 1010). All values are uniformly 4 characters long and consist only of digits.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric values to their string representation, e.g., 1001 → '1001' (100% of rows).",
+      "[VALIDATE] Ensure all values follow a 4‑digit numeric string format, e.g., '1234'.",
+      "[CLARIFY] Confirm whether duplicate account numbers (e.g., '1001', '1010') are permissible or indicate a data quality issue."
+    ]
+  }
+]

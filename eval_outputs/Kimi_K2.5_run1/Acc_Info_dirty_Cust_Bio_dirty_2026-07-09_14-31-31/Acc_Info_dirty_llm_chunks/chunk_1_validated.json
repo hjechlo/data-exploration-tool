@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier (likely serial number) stored as int64, with values ranging sequentially from 1 to 30. Near-unique column containing 29 distinct values across 30 records; value '3' appears twice. No missing values. Serves as a join key to Cust_Bio_dirty.S_N with 100% coverage on this table and 96.7% coverage on the target table.",
+    "recommended_actions": [
+      "[CLARIFY] Investigate the duplicate occurrence of value '3' to determine if it represents a valid business scenario or a data entry error, particularly given the column's intended role as a shared key.",
+      "[VALIDATE] Confirm referential integrity with Cust_Bio_dirty.S_N before performing join operations."
+    ]
+  }
+]

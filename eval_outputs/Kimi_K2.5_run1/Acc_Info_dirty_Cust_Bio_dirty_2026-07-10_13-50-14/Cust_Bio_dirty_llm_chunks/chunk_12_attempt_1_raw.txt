@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as integer (int64) despite representing categorical location identifiers. Contains 30 records with 0 missing values (0.0%), all of which are unique. Values range from 4 to 6 digits in length (minimum '6907', maximum '786055'), suggesting potential mixed formats or missing leading zeros.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve any leading zeros and prevent mathematical operations on postal codes.",
+      "[CLARIFY] Confirm whether the varying value lengths (4, 5, and 6 digits) represent valid international postal code formats or if shorter values (e.g., '6907', '99999') are missing leading zeros relative to a standard 6-digit format."
+    ]
+  }
+]
+```

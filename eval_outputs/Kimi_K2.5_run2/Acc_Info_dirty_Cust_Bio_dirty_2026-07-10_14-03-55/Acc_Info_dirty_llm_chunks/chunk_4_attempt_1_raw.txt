@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as string with 30 unique, non-null values. 96.7% of values follow a consistent 9-character format consisting of one alphabetic prefix, seven digits, and one alphabetic suffix (e.g., 'S8403757E'). One record (3.3%) uses an incompatible 7-character format 'S123456' appearing truncated.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the anomalous record 'S123456' which appears truncated (7 characters vs. standard 9). Verify whether it should be corrected to a specific 9-character ID, removed, or if it represents a different identifier type.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

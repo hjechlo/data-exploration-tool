@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Personal identification number appearing to follow Singapore NRIC/FIN format, stored as string. Contains 30 distinct unique values with no missing records. 96.7% of values follow the standard 9-character pattern of one alphabetic prefix (S, T, F, or G), 7 digits, and one alphabetic suffix (e.g., 'S8403757E'), while 3.3% (1 record) uses a truncated 7-character format lacking the suffix and one digit ('S123456').",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the malformed entry 'S123456' which appears truncated (6 digits instead of 7, missing checksum letter). Verify whether this should follow the standard 9-character format and obtain the correct complete value from the data owner.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

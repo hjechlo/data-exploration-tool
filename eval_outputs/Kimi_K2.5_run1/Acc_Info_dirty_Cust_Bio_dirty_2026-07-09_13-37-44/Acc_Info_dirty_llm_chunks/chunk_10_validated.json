@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal values (float64). All 30 records are non-null with unique values. Range spans from -150.5 to 99,999.0. Contains one sentinel value (99,999.0) that significantly exceeds the statistically expected range and may represent missing or invalid data, and one negative value (-150.5) that may indicate an overdraft or credit balance.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous values: (1) 99,999.0 appears sentinel-coded and exceeds the statistical upper bound—verify if this represents missing/invalid data; (2) -150.5 is the sole negative value—verify if negative balances (overdrafts) are permitted or if this is a data entry error."
+    ]
+  }
+]

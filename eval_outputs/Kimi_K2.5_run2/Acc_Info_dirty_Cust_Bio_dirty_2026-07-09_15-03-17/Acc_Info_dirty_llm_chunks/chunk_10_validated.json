@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal values. Contains 30 distinct non-null values across 30 records (100% unique). Values range from -150.5 to 99999.0. Contains a high-end sentinel value (99999.0) that exceeds statistical norms (Q3 + 1.5×IQR) and a negative value (-150.5); both require validation to confirm whether they represent valid business states (e.g., overdraft, credit balance) or sentinel-coded missing/invalid data.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous boundary values: 99999.0 (potential sentinel for missing/unknown data) and -150.5 (potential overdraft or data entry error)."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Categorical string field with 30 non‑null records and 8 distinct values representing the same country (Singapore) in various languages, abbreviations, and casings (e.g., 'Singapore', 'Singapura', \"S'pore\", 'SG', 'SINGAPORE', 'singapore', '新加坡', 'Republic of Singapore'). No missing values.",
+    "recommended_actions": [
+      "[CLARIFY] Review the multiple representations of Singapore (e.g., 'Singapore', 'Singapura', \"S'pore\", 'SG', 'SINGAPORE', 'singapore', '新加坡', 'Republic of Singapore') and define a single canonical value for the Country column before any standardisation."
+    ]
+  }
+]

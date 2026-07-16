@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field storing the country name as a free‑text string. The column has 30 non‑null records and 8 distinct values, all representing Singapore in various forms (e.g., 'Singapore', 'Singapura', 'S'pore', 'SG', 'SINGAPORE', 'singapore', '新加坡', 'Republic of Singapore'). The values show inconsistent language, abbreviations, and casing, indicating low‑cardinality but poor standardisation.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the official representation for Singapore (e.g., 'Singapore') and define a mapping for all observed variants ('S'pore', 'SG', 'SINGAPORE', 'singapore', '新加坡', 'Republic of Singapore', 'Singapura').",
+      "[VALIDATE] After standardisation, enforce that values belong to the approved list of country names."
+    ]
+  }
+]

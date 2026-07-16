@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier with integer values ranging from 1001 to 1028. All 30 records are non-null with 28 distinct values; Account_Nos 1001 and 1010 each appear twice. Values are consistently 4 digits in length. Currently stored as int64 but intended to be string type to prevent unintended mathematical operations.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with the intended storage format.",
+      "[CLARIFY] Confirm whether the 2 duplicate Account_Nos (1001 and 1010) represent valid business scenarios (e.g., joint accounts, multiple customers per account) or data quality issues requiring deduplication."
+    ]
+  }
+]

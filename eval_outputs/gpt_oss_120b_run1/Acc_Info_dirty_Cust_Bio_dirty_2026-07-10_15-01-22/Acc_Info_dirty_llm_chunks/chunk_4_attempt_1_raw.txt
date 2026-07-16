@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "String identifier field with 30 distinct, non-null values. 96.7% of records follow a 9‑character pattern (letter, 7 digits, letter, e.g., S8403757E) while 3.3% use a shorter 7‑character pattern (letter, 6 digits, e.g., S123456). Observed lengths are 7 and 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of the 3.3% records using the shorter 'aXXXXXX' format and determine if they should be transformed to the standard 'aXXXXXXXa' pattern or treated as valid exceptions."
+    ]
+  }
+]

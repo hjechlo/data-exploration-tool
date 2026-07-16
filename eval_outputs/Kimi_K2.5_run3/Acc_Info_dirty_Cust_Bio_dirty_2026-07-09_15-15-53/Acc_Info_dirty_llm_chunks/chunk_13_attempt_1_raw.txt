@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system identifier stored as categorical text. Contains 30 records with no missing values, representing 5 OS types across 8 distinct values due to casing inconsistencies (e.g., lowercase 'android', all-caps 'IOS' and 'LINUX', mixed-case 'macOs').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to official brand forms: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux'.",
+      "[CLARIFY] Confirm the correct canonical form for 'macOs' (expected: 'macOS') and verify it represents Apple's desktop operating system.",
+      "[VALIDATE] Ensure all values match one of the standardized operating system names: 'Android', 'iOS', 'Linux', 'Windows', or 'macOS'."
+    ]
+  }
+]
+```

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical gender field stored as text with 30 non-null records and 4 observed distinct values. The values represent two categories but are recorded with inconsistent casing, including 'Female'/'FEMALE' and 'Male'/'male'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize case-only variations affecting 66.7% of records to a single convention: 'FEMALE' → 'Female', 'male' → 'Male'."
+    ]
+  }
+]

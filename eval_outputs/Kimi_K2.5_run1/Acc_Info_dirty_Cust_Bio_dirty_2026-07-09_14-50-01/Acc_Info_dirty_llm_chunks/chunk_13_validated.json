@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system name field containing 30 non-null records (100% populated). Represents 5 distinct platforms (Android, iOS, Linux, Windows, macOS) across 8 observed values with casing inconsistencies, including lowercase variants ('android'), all-caps variants ('IOS', 'LINUX'), and mixed-case deviations ('macOs').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to official OS brand conventions: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values conform to standardized OS name formats after conversion: title case for Android, Linux, and Windows; 'iOS' for Apple mobile; 'macOS' for Apple desktop."
+    ]
+  }
+]

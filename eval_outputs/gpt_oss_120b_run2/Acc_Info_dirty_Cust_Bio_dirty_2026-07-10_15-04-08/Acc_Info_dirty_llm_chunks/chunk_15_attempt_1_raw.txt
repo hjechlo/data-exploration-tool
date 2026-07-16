@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "FeedbackScore1 stores numeric rating scores (float) ranging from 1.0 to 5.0. The column has 30 non‑null records, 29 distinct values, with a single repeated value '1.78', indicating near‑uniqueness. It appears to be a near‑duplicate of the column FeedbackScore in the same table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether FeedbackScore1 is redundant with FeedbackScore and decide if one should be removed."
+    ]
+  }
+]

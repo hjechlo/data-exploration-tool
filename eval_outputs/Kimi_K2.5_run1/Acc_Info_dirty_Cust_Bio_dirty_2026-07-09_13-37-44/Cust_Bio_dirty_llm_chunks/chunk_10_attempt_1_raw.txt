@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country identifier storing 8 distinct textual representations of Singapore across 30 records, exhibiting multilingual forms (English, Malay, Chinese), casing variations (uppercase, lowercase, title case), and format inconsistencies including abbreviations ('SG'), colloquialisms ('S'pore'), and formal names ('Republic of Singapore'). No missing values.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify English casing and format variations to the canonical form 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'S'pore' → 'Singapore', 'SG' → 'Singapore', 'Republic of Singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm whether non-English values 'Singapura' (Malay) and '新加坡' (Chinese) should be standardized to English or preserved as valid multilingual entries."
+    ]
+  }
+]
+```

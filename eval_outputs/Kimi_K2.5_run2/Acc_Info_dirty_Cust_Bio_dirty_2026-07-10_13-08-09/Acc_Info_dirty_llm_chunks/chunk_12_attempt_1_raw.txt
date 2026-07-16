@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Device",
+    "description": "Device type classification containing 3 distinct categorical values (Desktop, Mobile, Tablet) across 30 records with no missing values. String field storing standard device category labels.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

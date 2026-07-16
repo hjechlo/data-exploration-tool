@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical field indicating the type of device used, containing 30 records with no missing values. The column stores 3 distinct standardized values: 'Desktop', 'Mobile', and 'Tablet', representing the complete observed domain for this field.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

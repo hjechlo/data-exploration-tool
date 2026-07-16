@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Race",
+    "description": "Customer race or ethnicity stored as categorical text. All 30 records are populated with 6 distinct observed values representing three categories: Chinese, Indian, and Malay. Casing inconsistencies detected for Indian and Malay entries, with values appearing in lowercase ('indian', 'malay') and uppercase ('MALAY') variants.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to title case for ethnic group names: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'."
+    ]
+  }
+]
+```

@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Categorical field indicating the subscription tier or plan type. Contains 30 records with no missing values (100% complete). Observed values include 5 distinct categories: Basic, Free, Gold, Platinum, and Premium. Stored as variable-length text (4-8 characters).",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

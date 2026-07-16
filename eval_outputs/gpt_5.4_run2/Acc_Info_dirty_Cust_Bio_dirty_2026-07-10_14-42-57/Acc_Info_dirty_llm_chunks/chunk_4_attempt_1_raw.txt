@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as text. All 30 records are non-null and all values are unique. Most values (29 of 30, 96.7%) follow a consistent format of one leading letter, 7 digits, and one trailing letter, for example 'S8403757E'. One value (3.3%), 'S123456', uses an incompatible shorter format with one leading letter and 6 digits only.",
+    "recommended_actions": [
+      "[CLARIFY] Review the incompatible value 'S123456' (3.3% of records) with the data owner to confirm whether it is incomplete, miscoded, or a valid exception; do not strip alphabetic prefixes or suffixes without confirming their meaning.",
+      "[VALIDATE] Ensure all values follow the dominant format: one leading letter, followed by 7 digits, ending with one trailing letter — for example, 'S8403757E'."
+    ]
+  }
+]

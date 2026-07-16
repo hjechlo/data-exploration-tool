@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status indicator stored as string with mixed representations including 'True'/'False', '1'/'0', and 'yes'/'no'. Contains 30 non-null records with 6 distinct categorical values representing binary true/false states.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify mixed boolean representations to consistent 'True'/'False' strings: '1' → 'True', 'yes' → 'True', '0' → 'False', 'no' → 'False'.",
+      "[VALIDATE] Verify all values conform to standardized boolean format and convert to native boolean type as intended."
+    ]
+  }
+]
+```

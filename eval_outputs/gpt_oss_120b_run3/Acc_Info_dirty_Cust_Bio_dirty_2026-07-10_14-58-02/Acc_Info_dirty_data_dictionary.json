@@ -1,0 +1,1903 @@
+[
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "S_N",
+    "data_type": "int64",
+    "intended_data_type": "int64",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "28",
+      "16",
+      "24",
+      "18",
+      "9"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 29,
+      "min": 1.0,
+      "max": 30.0
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: S_N\nTotal values: 30",
+      "Column S_N has 0 NULL values out of 30 records.",
+      "There are 29 distinct non-null values.",
+      "The technical data type is int64.",
+      "The minimum value is '1' and the maximum value is '30'.",
+      "Most common non-NULL column values are '3', '1', '17', '29', '28', '27', '26', '25', '24', '23', '22', '21', '20', '19', '18', '16', '2', '15', '14', '13'.",
+      "Near-unique column with 1 repeated non-null record(s); examples of repeated values: ['3'].",
+      "Observed value lengths are [1, 2].",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "XX",
+            "count": 21,
+            "percentage": 70.0,
+            "examples": [
+              "28",
+              "16",
+              "24"
+            ]
+          },
+          {
+            "pattern": "X",
+            "count": 9,
+            "percentage": 30.0,
+            "examples": [
+              "9",
+              "1",
+              "5"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XX",
+          "count": 21,
+          "percentage": 70.0,
+          "examples": [
+            "28",
+            "16",
+            "24"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 1.0,
+        "col_max": 30.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Numeric precision variation only — not a format issue"
+      },
+      "uniformity_score": 0.7
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13a3d1390>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c5f7850>",
+    "relationship_role": "join_key",
+    "join_hints": [
+      "one-to-one shared key with 'Cust_Bio_dirty.S_N' (coverage 100.0% / 96.7%)"
+    ],
+    "description": "Numeric identifier stored as int64 with values ranging from 1 to 30 across 30 records. No missing values. Near‑unique: 29 distinct values with a single duplicate value '3'. Serves as a join key linking to Cust_Bio_dirty.S_N (one‑to‑one shared key).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is acceptable for a join key or if the column should be enforced as unique."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "Account_No",
+    "data_type": "int64",
+    "intended_data_type": "string",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "1026",
+      "1014",
+      "1022",
+      "1016",
+      "1008"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 28,
+      "min": 1001.0,
+      "max": 1028.0
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Account_No\nTotal values: 30",
+      "Column Account_No has 0 NULL values out of 30 records.",
+      "There are 28 distinct non-null values.",
+      "The technical data type is int64.",
+      "Column is stored as int64 but the intended type is string — a type conversion is recommended.",
+      "The minimum value is '1001' and the maximum value is '1028'.",
+      "Most common non-NULL column values are '1001', '1010', '1016', '1027', '1026', '1025', '1024', '1023', '1022', '1021', '1020', '1019', '1018', '1017', '1015', '1002', '1014', '1013', '1012', '1011'.",
+      "Near-unique column with 2 repeated non-null record(s); examples of repeated values: ['1001', '1010'].",
+      "The values are always 4 characters long.",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 1,
+        "top_formats": [
+          {
+            "pattern": "XXXX",
+            "count": 30,
+            "percentage": 100.0,
+            "examples": [
+              "1026",
+              "1014",
+              "1022"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXXX",
+          "count": 30,
+          "percentage": 100.0,
+          "examples": [
+            "1026",
+            "1014",
+            "1022"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 1001.0,
+        "col_max": 1028.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Single format already"
+      },
+      "uniformity_score": 1.0
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c7edc10>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c7a5d10>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Account number field stored as int64 but intended to be a 4‑character string. Contains 30 records with no missing values, values range from 1001 to 1028, and is near‑unique with two duplicate values (1001, 1010).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert integer values to 4‑character string representations, e.g., 1026 → \"1026\" (applies to 100% of rows).",
+      "[VALIDATE] Ensure all values conform to a 4‑digit numeric string format, e.g., \"1026\".",
+      "[CLARIFY] Verify whether duplicate account numbers (\"1001\", \"1010\") are permissible or should be unique."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "Full_Name",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "Wang Shi Jie",
+      "Danish",
+      "junrong",
+      "Shalini d/o Krishnan",
+      "Farah Binte Hassan"
+    ],
+    "permissible_values": [
+      "Ahmad Firdaus Bin Salleh",
+      "Aishah Binte Yusof",
+      "Aisyah",
+      "Ann",
+      "Arvind s/o Maniam",
+      "Danish",
+      "Faizal Bin Hamzah",
+      "Farah Binte Hassan",
+      "Hariharan s/o Suresh",
+      "Hui Min tan",
+      "Iskandar Bin Ahmad",
+      "Jun Wei",
+      "Kai Wen",
+      "Kavitha d/o Muthusamy",
+      "Koh Ming Hao",
+      "Lau Pei Ling",
+      "Lee yixuan",
+      "Manoj s/o Raghavan",
+      "Nabilah",
+      "Priya d/o Rajan",
+      "Ramesh s/o  Govindasamy",
+      "Revathi d/o Venkatesan",
+      "Shalini d/o Krishnan",
+      "Siti Ameerah Binte Aziz",
+      "Tan Li Wei",
+      "Wang Shi Jie",
+      "Wei Jie",
+      "Zhi Xuan Ong",
+      "irfan",
+      "junrong"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Full_Name\nTotal values: 30",
+      "Column Full_Name has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Ahmad Firdaus Bin Salleh' and the maximum value is 'junrong'.",
+      "Example observed values include 'Wei Jie', 'Hui Min tan', 'irfan', 'Aisyah', 'Priya d/o Rajan'.",
+      "Most common non-NULL column values are 'Wei Jie', 'Hui Min tan', 'Lau Pei Ling', 'Wang Shi Jie', 'Revathi d/o Venkatesan', 'Manoj s/o Raghavan', 'Aishah Binte Yusof', 'junrong', 'Tan Li Wei', 'Faizal Bin Hamzah', 'Siti Ameerah Binte Aziz', 'Koh Ming Hao', 'Ann', 'Shalini d/o Krishnan', 'Ramesh s/o  Govindasamy', 'Danish', 'Nabilah', 'Jun Wei', 'Lee yixuan', 'Hariharan s/o Suresh'.",
+      "All non-NULL values are unique.",
+      "Observed distinct low-cardinality values include 'Ahmad Firdaus Bin Salleh', 'Aishah Binte Yusof', 'Aisyah', 'Ann', 'Arvind s/o Maniam', 'Danish', 'Faizal Bin Hamzah', 'Farah Binte Hassan', 'Hariharan s/o Suresh', 'Hui Min tan'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "other",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 25,
+        "top_formats": [
+          {
+            "pattern": "aaa aaa",
+            "count": 3,
+            "percentage": 10.0,
+            "examples": [
+              "Wei Jie",
+              "Jun Wei",
+              "Kai Wen"
+            ]
+          },
+          {
+            "pattern": "aaaaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Danish",
+              "Aisyah"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "junrong",
+              "Nabilah"
+            ]
+          },
+          {
+            "pattern": "aaa aaaa aaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Koh Ming Hao",
+              "Zhi Xuan Ong"
+            ]
+          },
+          {
+            "pattern": "aaaa aaa aaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Wang Shi Jie"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa a/a aaaaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Shalini d/o Krishnan"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaaa aaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Farah Binte Hassan"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaaaaa aaa aaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Ahmad Firdaus Bin Salleh"
+            ]
+          },
+          {
+            "pattern": "aaa aaa aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Lau Pei Ling"
+            ]
+          },
+          {
+            "pattern": "aaaaaa aaaaa aaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Aishah Binte Yusof"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaa aaa",
+          "count": 3,
+          "percentage": 10.0,
+          "examples": [
+            "Wei Jie",
+            "Jun Wei",
+            "Kai Wen"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.1
+    },
+    "_flagged_indices": [],
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Full_Name stores a person's full name as a free‑text string. All 30 records are non‑null and unique. The column mixes Western name order with South/Southeast Asian patronymic markers such as \"d/o\", \"s/o\", \"Binte\", and \"Bin\". A few entries appear in all lower‑case (e.g., \"junrong\", \"irfan\"), showing inconsistent capitalization.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case‑only deviations to title case, e.g., 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan'.",
+      "[CLARIFY] Confirm how patronymic suffixes (d/o, s/o, Binte, Bin) should be handled—whether they remain in the full name field or need to be parsed into separate relationship fields."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "ID",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "S8403757E",
+      "S8421753X",
+      "S8792459I",
+      "G2233445S",
+      "G5566778N"
+    ],
+    "permissible_values": [
+      "F0000000X",
+      "F1011121T",
+      "F1122334K",
+      "F2122233V",
+      "F4455667M",
+      "F7788990P",
+      "F9900112R",
+      "G2233445S",
+      "G3344556U",
+      "G4455667W",
+      "G5566778N",
+      "G6677889Q",
+      "G8765432L",
+      "S123456",
+      "S1234567D",
+      "S2633396B",
+      "S3387002G",
+      "S7516430J",
+      "S7654321F",
+      "S8099150I",
+      "S8403757E",
+      "S8421753X",
+      "S8705681C",
+      "S8792459I",
+      "S9136271F",
+      "S9203906D",
+      "S9539727A",
+      "S9916569C",
+      "S9968522J",
+      "T0292156H"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: ID\nTotal values: 30\n\nFormat Distribution:\n  - 96.7%: aXXXXXXXa (e.g., S8403757E)\n  - 3.3%: aXXXXXX (e.g., S123456)\n\nFormat Uniformity: 96.7%\n\nFormat Analysis: Clarify with data owner: 3.3% use incompatible format aXXXXXX",
+      "Column ID has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'F0000000X' and the maximum value is 'T0292156H'.",
+      "Example observed values include 'S1234567D', 'S7654321F', 'S9968522J', 'F1122334K', 'G8765432L'.",
+      "Most common non-NULL column values are 'S1234567D', 'S7654321F', 'S123456', 'S8403757E', 'S7516430J', 'G4455667W', 'F2122233V', 'S8792459I', 'S9916569C', 'G3344556U', 'S9203906D', 'F1011121T', 'S8705681C', 'G2233445S', 'F9900112R', 'S8421753X', 'S9539727A', 'G6677889Q', 'F7788990P', 'T0292156H'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [7, 9].",
+      "Observed distinct low-cardinality values include 'F0000000X', 'F1011121T', 'F1122334K', 'F2122233V', 'F4455667M', 'F7788990P', 'F9900112R', 'G2233445S', 'G3344556U', 'G4455667W'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "key_like",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "aXXXXXXXa",
+            "count": 29,
+            "percentage": 96.7,
+            "examples": [
+              "S8403757E",
+              "S8421753X",
+              "S8792459I"
+            ]
+          },
+          {
+            "pattern": "aXXXXXX",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "S123456"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aXXXXXXXa",
+          "count": 29,
+          "percentage": 96.7,
+          "examples": [
+            "S8403757E",
+            "S8421753X",
+            "S8792459I"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [
+          {
+            "pattern": "aXXXXXX",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "S123456"
+            ]
+          }
+        ],
+        "target_format": "aXXXXXXXa",
+        "recommendation": "Clarify with data owner: 3.3% use incompatible format aXXXXXX"
+      },
+      "uniformity_score": 0.967
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c8013d0>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Identifier field stored as string. All 30 values are non‑null and unique. 96.7% follow a nine‑character pattern letter‑7‑digits‑letter (e.g., S8403757E); 1 record (3.3%) uses a shorter six‑digit pattern letter‑6‑digits (e.g., S123456).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of the 3.3% records using the shorter 'aXXXXXX' format (e.g., 'S123456') and decide whether they should be padded or transformed to match the dominant 'aXXXXXXXa' pattern."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "JoinDate",
+    "data_type": "string",
+    "intended_data_type": "datetime64[ns]",
+    "profile_type": "DateTime",
+    "sample_values": [
+      "2021-03-14 00:00:00",
+      "2027-01-15 00:00:00",
+      "2022-06-18 00:00:00",
+      "2022-09-17 00:00:00",
+      "2021-07-18 00:00:00"
+    ],
+    "permissible_values": [
+      "2020-01-01 00:00:00",
+      "2020-02-17 00:00:00",
+      "2020-05-12 00:00:00",
+      "2020-06-04 00:00:00",
+      "2020-06-22 00:00:00",
+      "2020-07-26 00:00:00",
+      "2020-11-02 00:00:00",
+      "2021-01-07 00:00:00",
+      "2021-01-12 00:00:00",
+      "2021-02-18 00:00:00",
+      "2021-03-14 00:00:00",
+      "2021-05-19 00:00:00",
+      "2021-05-26 00:00:00",
+      "2021-06-28 00:00:00",
+      "2021-07-18 00:00:00",
+      "2021-08-23 00:00:00",
+      "2021-12-05 00:00:00",
+      "2022-04-03 00:00:00",
+      "2022-06-07 00:00:00",
+      "2022-06-18 00:00:00",
+      "2022-07-23 00:00:00",
+      "2022-07-26 00:00:00",
+      "2022-07-27 00:00:00",
+      "2022-08-09 00:00:00",
+      "2022-08-19 00:00:00",
+      "2022-09-17 00:00:00",
+      "2022-11-29 00:00:00",
+      "2025-13-01",
+      "2027-01-15 00:00:00"
+    ],
+    "profile": {
+      "missing_count": 1,
+      "missing_pct": 0.03333333333333333,
+      "n_total": 30,
+      "n_distinct": 29
+    },
+    "errors": [
+      "1 NULL values (3.3% of 30 records)",
+      "1 unparseable date-like values; examples: ['2025-13-01']"
+    ],
+    "column_facts": [
+      "Column: JoinDate\nTotal values: 29\n\nDetected Patterns:\n  - date_iso: 3.4%",
+      "Column JoinDate has 1 NULL values out of 30 records.",
+      "There are 29 distinct non-null values.",
+      "The technical data type is string.",
+      "Column is stored as string but the intended type is datetime64[ns] — a type conversion is recommended.",
+      "The minimum value is '2020-01-01 00:00:00' and the maximum value is '2027-01-15 00:00:00'.",
+      "Example observed values include '2020-05-12 00:00:00', '2022-07-26 00:00:00', '2020-01-01 00:00:00', '2021-12-05 00:00:00', '2021-05-19 00:00:00'.",
+      "Most common non-NULL column values are '2020-05-12 00:00:00', '2022-11-29 00:00:00', '2021-03-14 00:00:00', '2021-08-23 00:00:00', '2021-01-12 00:00:00', '2022-07-23 00:00:00', '2022-08-19 00:00:00', '2022-09-17 00:00:00', '2020-02-17 00:00:00', '2025-13-01', '2021-05-26 00:00:00', '2020-11-02 00:00:00', '2020-06-22 00:00:00', '2027-01-15 00:00:00', '2020-07-26 00:00:00', '2022-07-26 00:00:00', '2021-06-28 00:00:00', '2022-06-18 00:00:00', '2022-08-09 00:00:00', '2022-07-27 00:00:00'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [10, 19].",
+      "Observed distinct low-cardinality values include '2020-01-01 00:00:00', '2020-02-17 00:00:00', '2020-05-12 00:00:00', '2020-06-04 00:00:00', '2020-06-22 00:00:00', '2020-07-26 00:00:00', '2020-11-02 00:00:00', '2021-01-07 00:00:00', '2021-01-12 00:00:00', '2021-02-18 00:00:00'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "other",
+    "_format_analysis": {
+      "total_values": 29,
+      "sample_size": 29,
+      "known_patterns": {
+        "date_iso": {
+          "count": 1,
+          "percentage": 3.4,
+          "examples": [
+            "2025-13-01"
+          ]
+        }
+      },
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "XXXX-XX-XX XX:XX:XX",
+            "count": 28,
+            "percentage": 96.6,
+            "examples": [
+              "2021-03-14 00:00:00",
+              "2027-01-15 00:00:00",
+              "2022-06-18 00:00:00"
+            ]
+          },
+          {
+            "pattern": "XXXX-XX-XX",
+            "count": 1,
+            "percentage": 3.4,
+            "examples": [
+              "2025-13-01"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXXX-XX-XX XX:XX:XX",
+          "count": 28,
+          "percentage": 96.6,
+          "examples": [
+            "2021-03-14 00:00:00",
+            "2027-01-15 00:00:00",
+            "2022-06-18 00:00:00"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [],
+        "target_format": "XXXX-XX-XX XX:XX:XX",
+        "recommendation": "No action needed - format already uniform"
+      },
+      "uniformity_score": 0.966
+    },
+    "_flagged_indices": [
+      4,
+      21
+    ],
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "JoinDate stores the date and time a record was joined. The column is a string containing datetime values in the format 'YYYY-MM-DD HH:MM:SS'; 29 non‑null values are unique, ranging from 2020-01-01 00:00:00 to 2027-01-15 00:00:00. There is 1 missing value (3.3% of rows). One value ('2025-13-01') cannot be parsed as a valid date (month 13) and has a shorter length (10 characters) compared with the typical 19‑character datetime strings.",
+    "recommended_actions": [
+      "[CLARIFY] Determine the correct value for the unparseable date '2025-13-01'.",
+      "[VALIDATE] Ensure all non‑null values conform to the 'YYYY-MM-DD HH:MM:SS' datetime format, e.g., '2021-03-14 00:00:00'."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "LastLogin",
+    "data_type": "string",
+    "intended_data_type": "datetime64[ns]",
+    "profile_type": "Text",
+    "sample_values": [
+      "2023-03-30 00:00:00",
+      "2023-10-17 00:00:00",
+      "2023-07-29 00:00:00",
+      "2023-06-15 00:00:00",
+      "2024-05-12 00:00:00"
+    ],
+    "permissible_values": [
+      "2019-01-01 00:00:00",
+      "2022-05-19 00:00:00",
+      "2023-01-27 00:00:00",
+      "2023-03-12 00:00:00",
+      "2023-03-30 00:00:00",
+      "2023-04-04 00:00:00",
+      "2023-04-13 00:00:00",
+      "2023-05-19 00:00:00",
+      "2023-06-14 00:00:00",
+      "2023-06-15 00:00:00",
+      "2023-07-10 00:00:00",
+      "2023-07-16 00:00:00",
+      "2023-07-18 00:00:00",
+      "2023-07-29 00:00:00",
+      "2023-08-17 00:00:00",
+      "2023-09-16 00:00:00",
+      "2023-09-30 00:00:00",
+      "2023-10-17 00:00:00",
+      "2023-11-17 00:00:00",
+      "2023-11-22 00:00:00",
+      "2024-01-11 00:00:00",
+      "2024-01-17 00:00:00",
+      "2024-02-08 00:00:00",
+      "2024-02-15 00:00:00",
+      "2024-02-16 00:00:00",
+      "2024-04-22 00:00:00",
+      "2024-05-10 00:00:00",
+      "2024-05-12 00:00:00"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 28
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: LastLogin\nTotal values: 30",
+      "Column LastLogin has 0 NULL values out of 30 records.",
+      "There are 28 distinct non-null values.",
+      "The technical data type is string.",
+      "Column is stored as string but the intended type is datetime64[ns] — a type conversion is recommended.",
+      "The minimum value is '2019-01-01 00:00:00' and the maximum value is '2024-05-12 00:00:00'.",
+      "Example observed values include '2023-03-12 00:00:00', '2023-11-17 00:00:00', '2023-04-04 00:00:00', '2024-02-08 00:00:00', '2023-06-14 00:00:00'.",
+      "Most common non-NULL column values are '2023-11-17 00:00:00', '2023-07-10 00:00:00', '2023-03-12 00:00:00', '2023-05-19 00:00:00', '2023-03-30 00:00:00', '2023-09-30 00:00:00', '2023-07-29 00:00:00', '2023-09-16 00:00:00', '2023-07-18 00:00:00', '2023-11-22 00:00:00', '2019-01-01 00:00:00', '2024-04-22 00:00:00', '2023-06-15 00:00:00', '2024-01-11 00:00:00', '2023-10-17 00:00:00', '2023-07-16 00:00:00', '2024-02-15 00:00:00', '2024-05-10 00:00:00', '2023-08-17 00:00:00', '2023-01-27 00:00:00'.",
+      "Near-unique column with 2 repeated non-null record(s); examples of repeated values: ['2023-11-17 00:00:00', '2023-07-10 00:00:00'].",
+      "The values are always 19 characters long.",
+      "Observed distinct low-cardinality values include '2019-01-01 00:00:00', '2022-05-19 00:00:00', '2023-01-27 00:00:00', '2023-03-12 00:00:00', '2023-03-30 00:00:00', '2023-04-04 00:00:00', '2023-04-13 00:00:00', '2023-05-19 00:00:00', '2023-06-14 00:00:00', '2023-06-15 00:00:00'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "discrete_code",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 1,
+        "top_formats": [
+          {
+            "pattern": "XXXX-XX-XX XX:XX:XX",
+            "count": 30,
+            "percentage": 100.0,
+            "examples": [
+              "2023-03-30 00:00:00",
+              "2023-10-17 00:00:00",
+              "2023-07-29 00:00:00"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXXX-XX-XX XX:XX:XX",
+          "count": 30,
+          "percentage": 100.0,
+          "examples": [
+            "2023-03-30 00:00:00",
+            "2023-10-17 00:00:00",
+            "2023-07-29 00:00:00"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Single format already"
+      },
+      "uniformity_score": 1.0
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c7dd8d0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c7e0610>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "LastLogin stores the timestamp of the user's last login as a string. All 30 records are non‑null, with 28 distinct values and 2 repeated timestamps. Values are uniformly 19 characters long and follow the 'YYYY-MM-DD HH:MM:SS' pattern. The intended data type is datetime64[ns].",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert string timestamps to datetime64[ns] format, e.g., '2023-03-30 00:00:00' → 2023-03-30 00:00:00 (datetime).",
+      "[VALIDATE] Verify that all values conform to the 'YYYY-MM-DD HH:MM:SS' pattern after conversion."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "Subscription_Type",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "Premium",
+      "Basic",
+      "Free",
+      "Gold",
+      "Platinum"
+    ],
+    "permissible_values": [
+      "Basic",
+      "Free",
+      "Gold",
+      "Platinum",
+      "Premium"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 5
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Subscription_Type\nTotal values: 30",
+      "Column Subscription_Type has 0 NULL values out of 30 records.",
+      "There are 5 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Basic' and the maximum value is 'Premium'.",
+      "Example observed values include 'Basic', 'Premium', 'Free', 'Platinum', 'Gold'.",
+      "Most common non-NULL column values are 'Basic', 'Premium', 'Free', 'Platinum', 'Gold'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 5 distinct values.",
+      "Observed value lengths are [4, 5, 7, 8].",
+      "Observed distinct low-cardinality values include 'Basic', 'Free', 'Gold', 'Platinum', 'Premium'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 4,
+        "top_formats": [
+          {
+            "pattern": "aaaaa",
+            "count": 11,
+            "percentage": 36.7,
+            "examples": [
+              "Basic",
+              "Basic",
+              "Basic"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa",
+            "count": 9,
+            "percentage": 30.0,
+            "examples": [
+              "Premium",
+              "Premium",
+              "Premium"
+            ]
+          },
+          {
+            "pattern": "aaaa",
+            "count": 9,
+            "percentage": 30.0,
+            "examples": [
+              "Free",
+              "Free",
+              "Free"
+            ]
+          },
+          {
+            "pattern": "aaaaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Platinum"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaa",
+          "count": 11,
+          "percentage": 36.7,
+          "examples": [
+            "Basic",
+            "Basic",
+            "Basic"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.367
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c856310>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c7dc590>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Subscription type field storing categorical subscription tier. Contains 30 non-null records with 5 distinct values: Basic, Free, Gold, Platinum, Premium. No missing values.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "SubscriptionFee",
+    "data_type": "string",
+    "intended_data_type": "float64",
+    "profile_type": "Text",
+    "sample_values": [
+      "16.53",
+      "434.17",
+      "961.14",
+      "99999",
+      "152.2"
+    ],
+    "permissible_values": [
+      "152.2",
+      "16.53",
+      "232.6",
+      "250.85",
+      "251.93",
+      "304.6",
+      "37.13",
+      "434.17",
+      "45.97",
+      "464.85",
+      "470.09",
+      "476.92",
+      "540.3",
+      "617.72",
+      "651.79",
+      "692.92",
+      "728.27",
+      "737.49",
+      "764.98",
+      "768.38",
+      "878.06",
+      "902.43",
+      "917.46",
+      "944.34",
+      "958.92",
+      "961.14",
+      "99999",
+      "free"
+    ],
+    "profile": {
+      "missing_count": 2,
+      "missing_pct": 0.06666666666666667,
+      "n_total": 30,
+      "n_distinct": 28,
+      "upper_fence": 1640.6525,
+      "lower_fence": -539.1675
+    },
+    "errors": [
+      "2 NULL values (6.7% of 30 records)"
+    ],
+    "column_facts": [
+      "Column: SubscriptionFee\nTotal values: 28\n\nAnomalies Found: 1",
+      "Column SubscriptionFee has 2 NULL values out of 30 records.",
+      "There are 28 distinct non-null values.",
+      "The technical data type is string.",
+      "Column is stored as string but the intended type is float64 — a type conversion is recommended.",
+      "The minimum value is '152.2' and the maximum value is 'free'.",
+      "Example observed values include '152.2', '45.97', '692.92', '878.06', '540.3'.",
+      "Most common non-NULL column values are '152.2', '45.97', '464.85', '434.17', '617.72', '944.34', '251.93', '99999', '958.92', '304.6', '250.85', '476.92', '37.13', '768.38', '764.98', '651.79', '728.27', '232.6', '902.43', '16.53'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [4, 5, 6].",
+      "Most values look numeric, but 1 value(s) cannot be parsed as numbers: ['free'].",
+      "Observed distinct low-cardinality values include '152.2', '16.53', '232.6', '250.85', '251.93', '304.6', '37.13', '434.17', '45.97', '464.85'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "other",
+    "_format_analysis": {
+      "total_values": 28,
+      "sample_size": 28,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 5,
+        "top_formats": [
+          {
+            "pattern": "XXX.XX",
+            "count": 19,
+            "percentage": 67.9,
+            "examples": [
+              "434.17",
+              "961.14",
+              "728.27"
+            ]
+          },
+          {
+            "pattern": "XXX.X",
+            "count": 4,
+            "percentage": 14.3,
+            "examples": [
+              "152.2",
+              "232.6",
+              "540.3"
+            ]
+          },
+          {
+            "pattern": "XX.XX",
+            "count": 3,
+            "percentage": 10.7,
+            "examples": [
+              "16.53",
+              "45.97",
+              "37.13"
+            ]
+          },
+          {
+            "pattern": "XXXXX",
+            "count": 1,
+            "percentage": 3.6,
+            "examples": [
+              "99999"
+            ]
+          },
+          {
+            "pattern": "aaaa",
+            "count": 1,
+            "percentage": 3.6,
+            "examples": [
+              "free"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXX.XX",
+          "count": 19,
+          "percentage": 67.9,
+          "examples": [
+            "434.17",
+            "961.14",
+            "728.27"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [
+          "99999"
+        ],
+        "total_anomaly_count": 1
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [
+          {
+            "pattern": "aaaa",
+            "count": 1,
+            "percentage": 3.6,
+            "examples": [
+              "free"
+            ]
+          }
+        ],
+        "target_format": "XXX.XX",
+        "recommendation": "Clarify with data owner: 3.6% use incompatible format aaaa"
+      },
+      "uniformity_score": 0.679
+    },
+    "_flagged_indices": [
+      4,
+      22
+    ],
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "SubscriptionFee stores the fee amount as a string. All 28 non‑null values are unique. The column has 2 nulls (6.7% of 30 records). Most values are numeric strings representing decimal amounts (e.g., '16.53'), but one value 'free' cannot be parsed as a number and the value '99999' appears as an unusually high outlier. The intended type is float64, so a type conversion is required.",
+    "recommended_actions": [
+      "[CLARIFY] Determine handling for the non‑numeric entry 'free' (e.g., convert to null, assign a numeric code, or treat as a special category).",
+      "[CLARIFY] Confirm whether the outlier value '99999' is valid or should be corrected/removed.",
+      "[VALIDATE] Ensure all values conform to a numeric format with up to two decimal places after cleaning (e.g., 123.45)."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "Status",
+    "data_type": "string",
+    "intended_data_type": "bool",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "True",
+      "False",
+      "1",
+      "0",
+      "yes"
+    ],
+    "permissible_values": [
+      "0",
+      "1",
+      "False",
+      "True",
+      "no",
+      "yes"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 6
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Status\nTotal values: 30",
+      "Column Status has 0 NULL values out of 30 records.",
+      "There are 6 distinct non-null values.",
+      "The technical data type is string.",
+      "Column is stored as string but the intended type is bool — a type conversion is recommended.",
+      "The minimum value is '0' and the maximum value is 'yes'.",
+      "Example observed values include 'False', 'True', 'no', 'yes', '1'.",
+      "Most common non-NULL column values are 'False', 'True', 'no', 'yes', '1', '0'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 6 distinct values.",
+      "Observed value lengths are [1, 2, 3, 4, 5].",
+      "Observed distinct low-cardinality values include '0', '1', 'False', 'True', 'no', 'yes'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 5,
+        "top_formats": [
+          {
+            "pattern": "aaaaa",
+            "count": 16,
+            "percentage": 53.3,
+            "examples": [
+              "False",
+              "False",
+              "False"
+            ]
+          },
+          {
+            "pattern": "aaaa",
+            "count": 10,
+            "percentage": 33.3,
+            "examples": [
+              "True",
+              "True",
+              "True"
+            ]
+          },
+          {
+            "pattern": "X",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "1",
+              "0"
+            ]
+          },
+          {
+            "pattern": "aaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "yes"
+            ]
+          },
+          {
+            "pattern": "aa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "no"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaa",
+          "count": 16,
+          "percentage": 53.3,
+          "examples": [
+            "False",
+            "False",
+            "False"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [
+          {
+            "pattern": "aaaa",
+            "count": 10,
+            "percentage": 33.3,
+            "examples": [
+              "True",
+              "True",
+              "True"
+            ]
+          },
+          {
+            "pattern": "X",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "1",
+              "0"
+            ]
+          },
+          {
+            "pattern": "aaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "yes"
+            ]
+          },
+          {
+            "pattern": "aa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "no"
+            ]
+          }
+        ],
+        "target_format": "aaaaa",
+        "recommendation": "Clarify with data owner: 46.6% use incompatible format aaaa"
+      },
+      "uniformity_score": 0.533
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c803210>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c7ab510>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Status field stored as string with six distinct values representing boolean states ('True', 'False', '1', '0', 'yes', 'no'). No nulls in 30 records. Intended type is boolean but currently encoded as mixed string representations.",
+    "recommended_actions": [
+      "[STANDARDIZE] Map all representations to a consistent boolean form, e.g., '1' → 'True', '0' → 'False', 'yes' → 'True', 'no' → 'False', and standardize casing to title case.",
+      "[VALIDATE] Verify that after standardization all values conform to the boolean format (True/False)."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "AccountBalance",
+    "data_type": "float64",
+    "intended_data_type": "float64",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "99999.0",
+      "250.7",
+      "979.25",
+      "124.56",
+      "600.35"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30,
+      "min": -150.5,
+      "max": 99999.0,
+      "upper_fence": 1525.0725,
+      "lower_fence": -512.1875
+    },
+    "errors": [
+      "1 value(s) exceed the statistically expected upper bound of 1525 (Q3 + 1.5×IQR): [99999.0]",
+      "[99999.0] is a statistical outlier (above expected range 1525) and appears sentinel-coded (1 record(s) share this exact value) — confirm if this represents missing or invalid data",
+      "[-150.5] is sign-anomalous (negative value in an almost-entirely-positive column) — confirm if this represents missing or invalid data"
+    ],
+    "column_facts": [
+      "Column: AccountBalance\nTotal values: 30\n\nAnomalies Found: 1",
+      "Column AccountBalance has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is float64.",
+      "The minimum value is '-150.5' and the maximum value is '99999.0'.",
+      "Most common non-NULL column values are '408.2', '391.09', '571.48', '99999.0', '101.83', '352.35', '755.07', '979.25', '50.59', '177.16', '892.5', '777.48', '309.03', '124.56', '324.4', '250.7', '476.89', '334.34', '244.42', '341.12'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [4, 5, 6, 7].",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "discrete_code",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 6,
+        "top_formats": [
+          {
+            "pattern": "XXX.XX",
+            "count": 22,
+            "percentage": 73.3,
+            "examples": [
+              "979.25",
+              "124.56",
+              "600.35"
+            ]
+          },
+          {
+            "pattern": "XXX.X",
+            "count": 4,
+            "percentage": 13.3,
+            "examples": [
+              "250.7",
+              "408.2",
+              "324.4"
+            ]
+          },
+          {
+            "pattern": "XXXXX.X",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "99999.0"
+            ]
+          },
+          {
+            "pattern": "XX.XX",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "50.59"
+            ]
+          },
+          {
+            "pattern": "-XXX.X",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "-150.5"
+            ]
+          },
+          {
+            "pattern": "XX.X",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "10.0"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXX.XX",
+          "count": 22,
+          "percentage": 73.3,
+          "examples": [
+            "979.25",
+            "124.56",
+            "600.35"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [
+          "99999.0"
+        ],
+        "total_anomaly_count": 1,
+        "col_min": -150.5,
+        "col_max": 99999.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [],
+        "target_format": "XXX.XX",
+        "recommendation": "No action needed - format already uniform"
+      },
+      "uniformity_score": 0.733
+    },
+    "_flagged_indices": [
+      2,
+      27
+    ],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c5f60d0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c7ed750>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "AccountBalance stores monetary balances as float64. The column contains 30 records with 0% missing values and all values are unique. Observed balances range from -150.5 to 99,999.0. Most values are positive, but a negative entry (-150.5) and an extreme high entry (99,999.0) are flagged as anomalies and may be sentinel codes for missing or invalid data.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the sentinel value 99,999.0 and the negative value -150.5 represent missing or invalid data.",
+      "[VALIDATE] Ensure all AccountBalance values are non‑negative and do not exceed the statistically expected upper bound (e.g., 1525), e.g., 250.7."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "PreferredLanguage",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "German",
+      "English",
+      "French",
+      "Malay",
+      "Tamil"
+    ],
+    "permissible_values": [
+      "English",
+      "French",
+      "German",
+      "Malay",
+      "Tamil"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 5
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: PreferredLanguage\nTotal values: 30",
+      "Column PreferredLanguage has 0 NULL values out of 30 records.",
+      "There are 5 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'English' and the maximum value is 'Tamil'.",
+      "Example observed values include 'German', 'English', 'French', 'Malay', 'Tamil'.",
+      "Most common non-NULL column values are 'French', 'German', 'English', 'Malay', 'Tamil'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 5 distinct values.",
+      "Observed value lengths are [5, 6, 7].",
+      "Observed distinct low-cardinality values include 'English', 'French', 'German', 'Malay', 'Tamil'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 3,
+        "top_formats": [
+          {
+            "pattern": "aaaaaa",
+            "count": 20,
+            "percentage": 66.7,
+            "examples": [
+              "German",
+              "French",
+              "German"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa",
+            "count": 8,
+            "percentage": 26.7,
+            "examples": [
+              "English",
+              "English",
+              "English"
+            ]
+          },
+          {
+            "pattern": "aaaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Malay",
+              "Tamil"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaaa",
+          "count": 20,
+          "percentage": 66.7,
+          "examples": [
+            "German",
+            "French",
+            "German"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.667
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c824bd0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c1bc1d0>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Preferred language field storing language names as text. Contains 30 non-null records with 5 distinct values (English, French, German, Malay, Tamil). No missing values; low-cardinality categorical column.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "Device",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "Mobile",
+      "Desktop",
+      "Tablet"
+    ],
+    "permissible_values": [
+      "Desktop",
+      "Mobile",
+      "Tablet"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 3
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Device\nTotal values: 30",
+      "Column Device has 0 NULL values out of 30 records.",
+      "There are 3 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Desktop' and the maximum value is 'Tablet'.",
+      "Example observed values include 'Mobile', 'Desktop', 'Tablet'.",
+      "Most common non-NULL column values are 'Mobile', 'Desktop', 'Tablet'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 3 distinct values.",
+      "Observed value lengths are [6, 7].",
+      "Observed distinct low-cardinality values include 'Desktop', 'Mobile', 'Tablet'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "aaaaaa",
+            "count": 21,
+            "percentage": 70.0,
+            "examples": [
+              "Mobile",
+              "Mobile",
+              "Mobile"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa",
+            "count": 9,
+            "percentage": 30.0,
+            "examples": [
+              "Desktop",
+              "Desktop",
+              "Desktop"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaaa",
+          "count": 21,
+          "percentage": 70.0,
+          "examples": [
+            "Mobile",
+            "Mobile",
+            "Mobile"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.7
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c845a50>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c83a850>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Device column records the type of device (Desktop, Mobile, Tablet) as a categorical string. All 30 records are non‑null, with three distinct low‑cardinality values and consistent length (6‑7 characters). No data quality issues observed.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "OS",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "Windows",
+      "iOS",
+      "Android",
+      "Linux",
+      "macOs"
+    ],
+    "permissible_values": [
+      "Android",
+      "IOS",
+      "LINUX",
+      "Linux",
+      "Windows",
+      "android",
+      "iOS",
+      "macOs"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 8
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: OS\nTotal values: 30",
+      "Column OS has 0 NULL values out of 30 records.",
+      "There are 8 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Android' and the maximum value is 'macOs'.",
+      "Example observed values include 'Android', 'android', 'Windows', 'iOS', 'macOs'.",
+      "Most common non-NULL column values are 'Android', 'Windows', 'iOS', 'macOs', 'Linux', 'android', 'LINUX', 'IOS'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 8 distinct values.",
+      "Observed value lengths are [3, 5, 7].",
+      "Observed distinct low-cardinality values include 'Android', 'IOS', 'LINUX', 'Linux', 'Windows', 'android', 'iOS', 'macOs'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 3,
+        "top_formats": [
+          {
+            "pattern": "aaaaaaa",
+            "count": 15,
+            "percentage": 50.0,
+            "examples": [
+              "Windows",
+              "Android",
+              "Android"
+            ]
+          },
+          {
+            "pattern": "aaaaa",
+            "count": 9,
+            "percentage": 30.0,
+            "examples": [
+              "Linux",
+              "macOs",
+              "macOs"
+            ]
+          },
+          {
+            "pattern": "aaa",
+            "count": 6,
+            "percentage": 20.0,
+            "examples": [
+              "iOS",
+              "iOS",
+              "iOS"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaaaa",
+          "count": 15,
+          "percentage": 50.0,
+          "examples": [
+            "Windows",
+            "Android",
+            "Android"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.5
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c5f42d0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c8709d0>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Operating system field stored as a low‑cardinality string. Contains 30 non‑null records with 8 distinct values. Observed values include casing variations such as 'android', 'IOS', 'LINUX', and 'macOs' alongside the correctly cased forms 'Android', 'iOS', 'Linux', 'macOS', and 'Windows'. No missing values.",
+    "recommended_actions": [
+      "[STANDARDIZE] Resolve casing inconsistencies: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values belong to the approved set of OS names: Android, iOS, Linux, macOS, Windows."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "FeedbackScore",
+    "data_type": "float64",
+    "intended_data_type": "float64",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "4.46",
+      "5.0",
+      "1.79",
+      "4.01",
+      "7.3"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 29,
+      "min": 1.0,
+      "max": 7.3,
+      "upper_fence": 6.945,
+      "lower_fence": -1.275
+    },
+    "errors": [
+      "1 value(s) exceed the statistically expected upper bound of 6.945 (Q3 + 1.5×IQR): [7.3]",
+      "[7.3] is a statistical outlier (above expected range 6.945) and appears sentinel-coded (1 record(s) share this exact value) — confirm if this represents missing or invalid data",
+      "column appears to be a near-duplicate of another column in this table — confirm if both are needed or if one should be removed"
+    ],
+    "column_facts": [
+      "Column: FeedbackScore\nTotal values: 30",
+      "Column FeedbackScore has 0 NULL values out of 30 records.",
+      "There are 29 distinct non-null values.",
+      "The technical data type is float64.",
+      "The minimum value is '1.0' and the maximum value is '7.3'.",
+      "Most common non-NULL column values are '1.78', '3.38', '5.0', '1.0', '4.46', '1.96', '1.1', '4.92', '1.79', '3.3', '3.75', '2.33', '4.89', '4.01', '4.95', '2.87', '1.45', '2.28', '3.73', '2.27'.",
+      "Near-unique column with 1 repeated non-null record(s); examples of repeated values: ['1.78'].",
+      "Observed value lengths are [3, 4].",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "discrete_code",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "X.XX",
+            "count": 23,
+            "percentage": 76.7,
+            "examples": [
+              "4.46",
+              "1.79",
+              "4.01"
+            ]
+          },
+          {
+            "pattern": "X.X",
+            "count": 7,
+            "percentage": 23.3,
+            "examples": [
+              "5.0",
+              "7.3",
+              "1.0"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "X.XX",
+          "count": 23,
+          "percentage": 76.7,
+          "examples": [
+            "4.46",
+            "1.79",
+            "4.01"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 1.0,
+        "col_max": 7.3
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Numeric precision variation only — not a format issue"
+      },
+      "uniformity_score": 0.767
+    },
+    "_flagged_indices": [
+      8
+    ],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c5aa750>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c845e10>",
+    "relationship_role": "",
+    "join_hints": [
+      "near-identical values to 'Acc_Info_dirty.FeedbackScore1' (resemblance=0.8125) — likely duplicate column"
+    ],
+    "description": "Numeric score stored as float64. Contains 30 records, 0% missing, 29 distinct values with one repeat (1.78). Observed range is 1.0‑7.3; the maximum value 7.3 is flagged as a statistical outlier and may be a sentinel for missing/invalid data. The column is near‑duplicate of FeedbackScore1 in the same table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the outlier value 7.3 is a sentinel for missing or invalid data and decide on appropriate handling.",
+      "[CLARIFY] Determine if FeedbackScore is redundant with the near‑duplicate column FeedbackScore1 and whether one should be removed."
+    ]
+  },
+  {
+    "table_name": "Acc_Info_dirty",
+    "column_name": "FeedbackScore1",
+    "data_type": "float64",
+    "intended_data_type": "float64",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "4.46",
+      "5.0",
+      "1.79",
+      "4.01",
+      "2.65"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 29,
+      "min": 1.0,
+      "max": 5.0,
+      "upper_fence": 6.945,
+      "lower_fence": -1.275
+    },
+    "errors": [
+      "column appears to be a near-duplicate of another column in this table — confirm if both are needed or if one should be removed"
+    ],
+    "column_facts": [
+      "Column: FeedbackScore1\nTotal values: 30",
+      "Column FeedbackScore1 has 0 NULL values out of 30 records.",
+      "There are 29 distinct non-null values.",
+      "The technical data type is float64.",
+      "The minimum value is '1.0' and the maximum value is '5.0'.",
+      "Most common non-NULL column values are '1.78', '3.38', '5.0', '1.0', '4.46', '1.96', '1.1', '4.92', '1.79', '3.3', '3.75', '2.33', '4.89', '4.01', '4.95', '4.11', '1.45', '2.28', '3.73', '2.27'.",
+      "Near-unique column with 1 repeated non-null record(s); examples of repeated values: ['1.78'].",
+      "Observed value lengths are [3, 4].",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "discrete_code",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "X.XX",
+            "count": 24,
+            "percentage": 80.0,
+            "examples": [
+              "4.46",
+              "1.79",
+              "4.01"
+            ]
+          },
+          {
+            "pattern": "X.X",
+            "count": 6,
+            "percentage": 20.0,
+            "examples": [
+              "5.0",
+              "1.0",
+              "3.3"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "X.XX",
+          "count": 24,
+          "percentage": 80.0,
+          "examples": [
+            "4.46",
+            "1.79",
+            "4.01"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 1.0,
+        "col_max": 5.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Numeric precision variation only — not a format issue"
+      },
+      "uniformity_score": 0.8
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c865d50>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13c856210>",
+    "relationship_role": "",
+    "join_hints": [
+      "near-identical values to 'Acc_Info_dirty.FeedbackScore' (resemblance=0.8125) — likely duplicate column"
+    ],
+    "description": "Numeric feedback score field (float64) with values ranging from 1.0 to 5.0 across 30 records. No missing values. Contains 29 distinct values and one repeated value (1.78). All entries appear as numbers. Evidence suggests this column is a near-duplicate of another column (FeedbackScore) in the same table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether FeedbackScore1 is redundant with the similar column FeedbackScore and should be removed or retained."
+    ]
+  }
+]

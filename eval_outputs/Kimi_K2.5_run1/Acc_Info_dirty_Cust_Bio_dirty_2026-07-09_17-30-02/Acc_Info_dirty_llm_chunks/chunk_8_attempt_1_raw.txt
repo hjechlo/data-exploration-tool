@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string despite representing monetary values. Contains 28 distinct non-null values across 30 records, with 2 missing values (6.7%). While most values are numeric decimals ranging from 16.53 to 961.14, the column includes one non-numeric entry 'free' and one suspiciously high value '99999' that may indicate a missing data placeholder.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert valid numeric strings to float64 format (e.g., '16.53' → 16.53, '434.17' → 434.17).",
+      "[CLARIFY] Confirm handling of anomalous values before conversion: (1) 'free' — determine if this represents 0.00 or should be treated as NULL; (2) '99999' — verify if this is a valid subscription fee or a placeholder for missing/unknown data (noting it is ~100× larger than the next highest observed value of ~961).",
+      "[VALIDATE] Ensure all values are non-negative decimals within reasonable business bounds after standardization."
+    ]
+  }
+]
+```

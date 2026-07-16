@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 with 30 unique non-null values and no missing data. Values range from -150.5 to 99999.0. Contains one statistical outlier at 99999.0 (3.3% of records) that appears sentinel-coded, significantly exceeding the expected upper bound of 1525. Also contains one negative value at -150.5 (3.3% of records), which may represent an overdraft or data error.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous boundary values: 99999.0 (potential sentinel for missing/invalid data) and -150.5 (negative balance, potentially valid overdraft or error)."
+    ]
+  }
+]

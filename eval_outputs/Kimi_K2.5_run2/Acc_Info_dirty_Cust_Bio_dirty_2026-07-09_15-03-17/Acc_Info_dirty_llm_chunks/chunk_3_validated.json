@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as text with 30 distinct non-null values and no missing data. Observed naming conventions include Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Minor case inconsistencies detected with 4 values in lowercase or mixed case, and one instance of double spacing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Hui Min tan' → 'Hui Min Tan', 'Lee yixuan' → 'Lee Yixuan'.",
+      "[STANDARDIZE] Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]

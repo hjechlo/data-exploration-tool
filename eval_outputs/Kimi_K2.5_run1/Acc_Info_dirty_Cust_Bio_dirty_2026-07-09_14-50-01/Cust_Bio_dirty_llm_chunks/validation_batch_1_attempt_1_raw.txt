@@ -1,0 +1,20 @@
+```json
+[
+  {
+    "rule_id": 31,
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 32,
+    "failing_record_indices": [15, 20, 22, 24, 28]
+  },
+  {
+    "rule_id": 33,
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 34,
+    "failing_record_indices": [0, 3, 7, 13, 14, 15, 18, 23]
+  }
+]
+```

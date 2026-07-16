@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age column stores customer age as integer (int64). Across 30 records there are no missing values, with values ranging from -5 to 66 and 24 distinct entries. Most values are numeric, but one entry is the string 'Twenty-five', and two values (4 and -5) are below the typical minimum age of 13 for a service account.",
+    "recommended_actions": [
+      "[CLARIFY] Review non-numeric entry 'Twenty-five' and unrealistic ages 4 and -5 to determine correct values or handling."
+    ]
+  }
+]

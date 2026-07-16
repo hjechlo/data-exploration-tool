@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "LastLogin stores the timestamp of the most recent login as a 19‑character string in the format 'YYYY-MM-DD HH:MM:SS'. The column contains 30 records, has 0% missing values, and is near‑unique with 28 distinct timestamps and two repeated values. Although the format is consistent, the column is stored as a string while the intended type is datetime64[ns], so a type conversion is recommended.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert all string timestamps to proper datetime type (100% of values), e.g., '2023-03-30 00:00:00' → 2023-03-30 00:00:00 (datetime64).",
+      "[VALIDATE] Verify that every value matches the pattern 'YYYY-MM-DD HH:MM:SS', for example 2023-03-30 00:00:00."
+    ]
+  }
+]

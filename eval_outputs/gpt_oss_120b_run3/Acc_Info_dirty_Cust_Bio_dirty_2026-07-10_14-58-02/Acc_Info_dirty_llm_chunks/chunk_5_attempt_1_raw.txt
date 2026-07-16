@@ -1,0 +1,8 @@
+[{
+  "column_name": "JoinDate",
+  "description": "JoinDate stores the date and time a record was joined. The column is a string containing datetime values in the format 'YYYY-MM-DD HH:MM:SS'; 29 non‑null values are unique, ranging from 2020-01-01 00:00:00 to 2027-01-15 00:00:00. There is 1 missing value (3.3% of rows). One value ('2025-13-01') cannot be parsed as a valid date (month 13) and has a shorter length (10 characters) compared with the typical 19‑character datetime strings.",
+  "recommended_actions": [
+    "[CLARIFY] Determine the correct value for the unparseable date '2025-13-01'.",
+    "[VALIDATE] Ensure all non‑null values conform to the 'YYYY-MM-DD HH:MM:SS' datetime format, e.g., '2021-03-14 00:00:00'."
+  ]
+}]

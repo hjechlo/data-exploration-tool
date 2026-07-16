@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race column stores ethnicity as a categorical string. All 30 records are non‑null with 6 distinct values. Observed case inconsistencies include 'MALAY'/'malay' versus 'Malay' and 'indian' versus 'Indian'; value lengths range from 5 to 7 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case variations to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[CLARIFY] Confirm the official set of race categories and whether any additional standardization (e.g., handling of spelling variants) is required."
+    ]
+  }
+]

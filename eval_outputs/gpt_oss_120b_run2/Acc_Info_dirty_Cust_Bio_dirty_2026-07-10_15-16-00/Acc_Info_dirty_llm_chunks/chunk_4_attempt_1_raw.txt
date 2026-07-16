@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as string. All 30 records are non‑null and unique. 96.7% of values follow a nine‑character pattern of a leading letter, seven alphanumeric characters, and a trailing letter (e.g., 'S8403757E'); 3.3% are six‑character IDs lacking the trailing letter (e.g., 'S123456'). Observed lengths are 7 and 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 3.3% of IDs using the short 'aXXXXXX' format (e.g., 'S123456') to determine the correct canonical representation or whether they should be padded/converted to the dominant nine‑character pattern.",
+      "[VALIDATE] Ensure all IDs conform to the 'letter + 7 alphanumeric characters + letter' pattern (e.g., 'S8403757E') after any standardisation."
+    ]
+  }
+]

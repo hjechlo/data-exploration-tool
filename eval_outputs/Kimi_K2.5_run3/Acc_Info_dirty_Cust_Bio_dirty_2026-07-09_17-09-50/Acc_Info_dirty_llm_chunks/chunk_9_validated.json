@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status flag stored as string with inconsistent formatting across 30 records (0% missing). Contains six distinct string values representing two logical states: affirmative indicators ('True', '1', 'yes') and negative indicators ('False', '0', 'no'). The column is technically stored as string but intended to be boolean type, with values encoded in three different formats (capitalized strings, numeric strings, and lowercase word strings).",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify mixed boolean representations by converting to consistent boolean type: '1' → True, 'yes' → True, '0' → False, 'no' → False, while casting existing 'True' and 'False' strings to boolean values.",
+      "[VALIDATE] Ensure all values are proper boolean type (True/False) after standardization, with no remaining string representations."
+    ]
+  }
+]

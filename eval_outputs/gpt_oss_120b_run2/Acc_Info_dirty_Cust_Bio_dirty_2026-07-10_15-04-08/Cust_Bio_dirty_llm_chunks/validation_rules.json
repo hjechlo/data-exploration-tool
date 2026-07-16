@@ -1,0 +1,343 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "S_N must be unique across all records (join key).",
+    "rationale": "Column is defined as a join key and evidence shows 30 distinct values for 30 rows.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 2,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must not be null because it is a mandatory identifier.",
+    "rationale": "S_N is the primary join key; missing identifiers would break joins.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 3,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Account_No must not be null because it identifies a customer account.",
+    "rationale": "Evidence shows 0 % missing values and the column is required for downstream processes.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 4,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must consist of exactly four digits.",
+    "rationale": "The column stores a 4‑digit identifier; evidence shows all values are four characters long and numeric.",
+    "check_params": {
+      "regex": "^\\d{4}$"
+    }
+  },
+  {
+    "rule_id": 5,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Name should be in title case (first letter capitalised) except for known name particles.",
+    "rationale": "Sample contains mixed‑case entries such as 'lim wei jie' and 'WANG SHI JIE'; recommended action is to standardise case.",
+    "check_params": {
+      "logic": "any(w != w.title() for w in str(row['Name']).split() if w.lower() not in ('bin','bint','binte','s/o','d/o'))"
+    }
+  },
+  {
+    "rule_id": 6,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "ID_No must not be null because it uniquely identifies a customer.",
+    "rationale": "Evidence shows 0 % missing values and the column is a primary identifier.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 7,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID_No must match the dominant pattern: one letter, seven digits, one letter (e.g., S8403757E).",
+    "rationale": "93.3 % of values follow this pattern; the remaining formats are flagged for clarification.",
+    "check_params": {
+      "regex": "^[A-Z]\\d{7}[A-Z]$"
+    }
+  },
+  {
+    "rule_id": 8,
+    "table": "Cust_Bio_dirty",
+    "column": "Race",
+    "columns": [
+      "Race"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Race must be one of the canonical values: Chinese, Malay, Indian.",
+    "rationale": "Observed distinct values are only these three races with case variations; enumeration enforces a clean domain.",
+    "check_params": {
+      "values": [
+        "Chinese",
+        "Malay",
+        "Indian"
+      ]
+    }
+  },
+  {
+    "rule_id": 9,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Gender"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Gender must be either 'Male' or 'Female'.",
+    "rationale": "Only two gender categories appear in the data; case variations are normalised by this rule.",
+    "check_params": {
+      "values": [
+        "Male",
+        "Female"
+      ]
+    }
+  },
+  {
+    "rule_id": 10,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Age must not be null because it is required for demographic analysis.",
+    "rationale": "Evidence shows 0 % missing values; age is a core attribute.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 11,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be parseable as a numeric value.",
+    "rationale": "One record contains the word 'Twenty-five', which cannot be parsed as a number.",
+    "check_params": {
+      "logic": "pd.isna(pd.to_numeric(row['Age'], errors='coerce'))"
+    }
+  },
+  {
+    "rule_id": 12,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "Age must be between 13 and 120 (realistic human age range).",
+    "rationale": "Evidence flags ages 4 and -5 as unrealistic for a service account; domain knowledge sets 13‑120 as plausible.",
+    "check_params": {
+      "min": 13,
+      "max": 120
+    }
+  },
+  {
+    "rule_id": 13,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Contact_No must not be null because a phone number is required for contact.",
+    "rationale": "6.7 % of rows have NULL values; business logic expects a reachable phone number.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 14,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Contact_No must follow the Singapore E.164 style: '+65' followed by a space and eight digits.",
+    "rationale": "Standardisation recommendation specifies this exact format; sample shows mixed representations.",
+    "check_params": {
+      "regex": "^\\+65 \\d{8}$",
+      "country_code": "65"
+    }
+  },
+  {
+    "rule_id": 15,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Email must match the simple email pattern: local-part@domain with no spaces.",
+    "rationale": "Four records are malformed (missing '@' or containing spaces).",
+    "check_params": {
+      "regex": "^[^@\\s]+@[^@\\s]+$"
+    }
+  },
+  {
+    "rule_id": 16,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Email must not be null because it is used for electronic communication.",
+    "rationale": "Evidence shows 0 % missing values; a missing email would break downstream outreach.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 17,
+    "table": "Cust_Bio_dirty",
+    "column": "Country",
+    "columns": [
+      "Country"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Country must be the canonical value 'Singapore'.",
+    "rationale": "All observed variants refer to Singapore; enforcing a single canonical representation simplifies downstream processing.",
+    "check_params": {
+      "values": [
+        "Singapore"
+      ]
+    }
+  },
+  {
+    "rule_id": 18,
+    "table": "Cust_Bio_dirty",
+    "column": "Country",
+    "columns": [
+      "Country"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Country must not be null because geographic information is required.",
+    "rationale": "No missing values observed, but the field is mandatory for reporting.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 19,
+    "table": "Cust_Bio_dirty",
+    "column": "Street_Name",
+    "columns": [
+      "Street_Name"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Street_Name must not be null because address information is required.",
+    "rationale": "All rows contain a street name; the column is essential for location-based analytics.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 20,
+    "table": "Cust_Bio_dirty",
+    "column": "Postal_Code",
+    "columns": [
+      "Postal_Code"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Postal_Code must not be null because it is needed for mailing and location validation.",
+    "rationale": "Evidence shows 0 % missing values; postal code is a required address component.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 21,
+    "table": "Cust_Bio_dirty",
+    "column": "Postal_Code",
+    "columns": [
+      "Postal_Code"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Postal_Code must consist of 4 to 6 digits.",
+    "rationale": "Column is intended as a string of digits; observed lengths range from 4 to 6.",
+    "check_params": {
+      "regex": "^\\d{4,6}$"
+    }
+  },
+  {
+    "rule_id": 22,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Gender",
+      "Name"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "If Name contains male particles ('Bin', 's/o') gender must be Male; if it contains female particles ('Binte', 'd/o') gender must be Female.",
+    "rationale": "Cultural naming conventions encode gender; mismatches indicate data quality issues.",
+    "check_params": {
+      "logic": "(bool(re.search(r'(?<![a-z0-9])(?:\\ bin\\ |\\ s/o\\ )(?![a-z0-9])', str(str(row['Name'])).lower())) and row['Gender'].lower() != 'male') or (bool(re.search(r'(?<![a-z0-9])(?:\\ binte\\ |\\ d/o\\ )(?![a-z0-9])', str(str(row['Name'])).lower())) and row['Gender'].lower() != 'female')"
+    }
+  },
+  {
+    "rule_id": 23,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "For each customer, JoinDate must not be later than LastLogin in the Acc_Info_dirty table.",
+    "rationale": "Logical temporal ordering: a customer cannot log in before their account is created.",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "JoinDate",
+      "semantic_check": "JoinDate <= LastLogin"
+    }
+  }
+]

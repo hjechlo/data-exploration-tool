@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "ID",
+    "description": "Unique identifier field storing what appears to be Singapore NRIC/FIN numbers (S/T/F/G series). All 30 records are non-null and distinct. While 96.7% of values follow the standard 9-character format (one letter prefix, seven digits, one checksum letter), one value ('S123456') appears truncated to 7 characters lacking the checksum suffix.",
+    "recommended_actions": [
+      "[CLARIFY] Review the value 'S123456' which appears truncated or malformed compared to the dominant 9-character format (e.g., 'S8403757E'). Confirm whether this is a data entry error requiring correction or if it represents a different ID type.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S8403757E."
+    ]
+  }
+]
+```

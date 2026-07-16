@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field stored as int64 numeric values ranging from 1001 to 1028. All 30 records are non‑null; 28 distinct values with two duplicates (1001, 1010). Values are uniformly four‑digit numbers. Intended datatype appears to be string, indicating a type conversion may be required.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric Account_No values to string type while preserving the four‑digit format, e.g., 1026 → '1026'.",
+      "[CLARIFY] Verify whether the observed duplicate Account_No values ('1001', '1010') are intentional or represent a data quality issue."
+    ]
+  }
+]

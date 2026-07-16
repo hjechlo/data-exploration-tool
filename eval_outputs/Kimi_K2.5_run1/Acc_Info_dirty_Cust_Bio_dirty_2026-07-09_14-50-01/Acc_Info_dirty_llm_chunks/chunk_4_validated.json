@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Unique identifier field storing national identification numbers (Singapore NRIC/FIN format). Contains 30 distinct non-null values. 96.7% follow the standard 9-character format: one letter (S, T, F, or G), followed by 7 digits, ending with one checksum letter (e.g., 'S8403757E'). One record (3.3%) uses an incompatible 7-character format 'S123456' missing digits and the checksum suffix.",
+    "recommended_actions": [
+      "[CLARIFY] Review the malformed value 'S123456' which appears truncated compared to the dominant format. Confirm the correct complete ID with the data owner.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S8403757E."
+    ]
+  }
+]

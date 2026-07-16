@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee stored as a string column with 28 non-null values out of 30 records, including 2 missing values (6.7%). Most observed values are numeric-looking fee amounts with decimal precision, but the column also contains one non-numeric value ('free'), so it is not consistently typed. All 28 non-null values are distinct. The evidence indicates the intended type is float64.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how non-numeric fee values should be represented before type conversion. The column is intended to be float64, but contains 'free', which cannot be parsed as a number.",
+      "[VALIDATE] Ensure values follow a consistent fee format after clarification and conversion, such as a numeric amount with optional decimal places (for example, '16.53' or '152.2')."
+    ]
+  }
+]

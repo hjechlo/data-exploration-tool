@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field stored as integer (int64) for 30 records with no missing values. Contains 24 distinct values ranging from -5 to 66. One entry is non-numeric ('Twenty-five'), and two values (4 and -5) fall below the typical minimum age of 13 for a service account.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the non-numeric word age to its numeric form: 'Twenty-five' → '25'.",
+      "[CLARIFY] Verify whether ages below 13 (e.g., 4, -5) are valid for this dataset or should be corrected/removed.",
+      "[VALIDATE] Ensure all ages are integers within a realistic range, such as 13 to 120, e.g., 25."
+    ]
+  }
+]

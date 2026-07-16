@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 despite intended string format. Contains 30 unique values across 30 records with no missing data. Observed value lengths vary from 4 to 6 digits (range: 6907–786055).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended format and prevent leading zero loss. Affects 100% of records.",
+      "[VALIDATE] Ensure all values contain 4 to 6 digits after conversion (e.g., '6907', '99999', '410633')."
+    ]
+  }
+]
+```

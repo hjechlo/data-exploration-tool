@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Email",
+    "description": "Email address field stored as string. It contains 30 values with 0 missing values and 29 distinct non-null values, making it near-unique with one repeated value ('thm@example.com'). Most values (86.7%) match an email pattern, but 4 of 30 values (13.3%) are structurally malformed: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', and 'useremail.com'.",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct 4 malformed email values (13.3%) that do not have a deterministically inferable valid form: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'.",
+      "[VALIDATE] Ensure all values follow a standard email structure with one local part, a single '@' symbol, and a domain name with no spaces — for example, 'wsj@example.com'."
+    ]
+  }
+]

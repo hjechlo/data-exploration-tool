@@ -1,0 +1,1673 @@
+[
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "S_N",
+    "data_type": "int64",
+    "intended_data_type": "int64",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "28",
+      "16",
+      "24",
+      "18",
+      "9"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30,
+      "min": 1.0,
+      "max": 30.0
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: S_N\nTotal values: 30",
+      "Column S_N has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is int64.",
+      "The minimum value is '1' and the maximum value is '30'.",
+      "Most common non-NULL column values are '1', '2', '29', '28', '27', '26', '25', '24', '23', '22', '21', '20', '19', '18', '17', '16', '15', '14', '13', '12'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [1, 2].",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "XX",
+            "count": 21,
+            "percentage": 70.0,
+            "examples": [
+              "28",
+              "16",
+              "24"
+            ]
+          },
+          {
+            "pattern": "X",
+            "count": 9,
+            "percentage": 30.0,
+            "examples": [
+              "9",
+              "1",
+              "5"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XX",
+          "count": 21,
+          "percentage": 70.0,
+          "examples": [
+            "28",
+            "16",
+            "24"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 1.0,
+        "col_max": 30.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Numeric precision variation only — not a format issue"
+      },
+      "uniformity_score": 0.7
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x1384be710>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d7dc890>",
+    "relationship_role": "join_key",
+    "join_hints": [
+      "one-to-one shared key with 'Acc_Info_dirty.S_N' (coverage 100.0% / 96.7%)"
+    ],
+    "description": "Numeric serial/key field stored as int64. It contains 30 non-null values across 30 records, with 30 distinct values, so all values are unique. Observed values range from 1 to 30, and the column appears to function as a one-to-one join key to Acc_Info_dirty.S_N.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce numeric uniqueness and non-nullness for this key field, and confirm values continue to support the one-to-one join with Acc_Info_dirty.S_N."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Account_No",
+    "data_type": "int64",
+    "intended_data_type": "string",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "1026",
+      "1014",
+      "1022",
+      "1016",
+      "1008"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 28,
+      "min": 1001.0,
+      "max": 1028.0
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Account_No\nTotal values: 30",
+      "Column Account_No has 0 NULL values out of 30 records.",
+      "There are 28 distinct non-null values.",
+      "The technical data type is int64.",
+      "Column is stored as int64 but the intended type is string — a type conversion is recommended.",
+      "The minimum value is '1001' and the maximum value is '1028'.",
+      "Most common non-NULL column values are '1001', '1010', '1016', '1027', '1026', '1025', '1024', '1023', '1022', '1021', '1020', '1019', '1018', '1017', '1015', '1002', '1014', '1013', '1012', '1011'.",
+      "Near-unique column with 2 repeated non-null record(s); examples of repeated values: ['1001', '1010'].",
+      "The values are always 4 characters long.",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 1,
+        "top_formats": [
+          {
+            "pattern": "XXXX",
+            "count": 30,
+            "percentage": 100.0,
+            "examples": [
+              "1026",
+              "1014",
+              "1022"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXXX",
+          "count": 30,
+          "percentage": 100.0,
+          "examples": [
+            "1026",
+            "1014",
+            "1022"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 1001.0,
+        "col_max": 1028.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Single format already"
+      },
+      "uniformity_score": 1.0
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13d795ed0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d988fd0>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Account number field with 30 non-null records, stored as int64 although the evidence indicates the intended type is string. Values are consistently 4 digits long, range from 1001 to 1028, and there are 28 distinct non-null values, making the column near-unique with 2 repeated values ('1001' and '1010').",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the column from numeric to string to preserve the account number as a 4-character identifier.",
+      "[VALIDATE] Ensure all values follow the format: exactly 4 digits stored as text — for example, '1026'.",
+      "[CLARIFY] Confirm whether repeated account numbers are expected, since the column is near-unique but contains 2 repeated values ('1001' and '1010')."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Name",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "WANG SHI JIE",
+      "Danish Bin Kamaruddin",
+      "Lim Jun Rong",
+      "Shalini d/o Krishnan",
+      "Farah Binte Hassan"
+    ],
+    "permissible_values": [
+      "Ahmad Firdaus Bin Salleh",
+      "Aishah Binte Yusof",
+      "Arvind s/o Maniam",
+      "Chua Kai Wen",
+      "Danish Bin Kamaruddin",
+      "Faizal Bin Hamzah",
+      "Farah Binte Hassan",
+      "Goh Jun Wei",
+      "Hariharan s/o Suresh",
+      "Iskandar Bin Ahmad",
+      "Kavitha d/o Muthusamy",
+      "Koh Ming Hao",
+      "Lau Pei Ling",
+      "Lee Yi Xuan",
+      "Lim Jun Rong",
+      "Manoj s/o Raghavan",
+      "Muhammad Irfan Bin Rahman",
+      "Nabilah Binte Rahmat",
+      "Nur Aisyah Binte Zulkifli",
+      "Ong Zhi Xuan",
+      "Priya d/o Rajan",
+      "Ramesh s/o Govindasamy",
+      "Revathi d/o Venkatesan",
+      "Shalini d/o Krishnan",
+      "Siti Ameerah Binte Aziz",
+      "Tan Hui Min",
+      "Tan Li Wei",
+      "Teo Li Ann",
+      "WANG SHI JIE",
+      "lim wei jie"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Name\nTotal values: 30",
+      "Column Name has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Ahmad Firdaus Bin Salleh' and the maximum value is 'lim wei jie'.",
+      "Example observed values include 'lim wei jie', 'Tan Hui Min', 'Muhammad Irfan Bin Rahman', 'Nur Aisyah Binte Zulkifli', 'Priya d/o Rajan'.",
+      "Most common non-NULL column values are 'lim wei jie', 'Tan Hui Min', 'Lau Pei Ling', 'WANG SHI JIE', 'Revathi d/o Venkatesan', 'Manoj s/o Raghavan', 'Aishah Binte Yusof', 'Lim Jun Rong', 'Tan Li Wei', 'Faizal Bin Hamzah', 'Siti Ameerah Binte Aziz', 'Koh Ming Hao', 'Teo Li Ann', 'Shalini d/o Krishnan', 'Ramesh s/o Govindasamy', 'Danish Bin Kamaruddin', 'Nabilah Binte Rahmat', 'Goh Jun Wei', 'Lee Yi Xuan', 'Hariharan s/o Suresh'.",
+      "All non-NULL values are unique.",
+      "Observed distinct low-cardinality values include 'Ahmad Firdaus Bin Salleh', 'Aishah Binte Yusof', 'Arvind s/o Maniam', 'Chua Kai Wen', 'Danish Bin Kamaruddin', 'Faizal Bin Hamzah', 'Farah Binte Hassan', 'Goh Jun Wei', 'Hariharan s/o Suresh', 'Iskandar Bin Ahmad'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "other",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 24,
+        "top_formats": [
+          {
+            "pattern": "aaa aaa aaaa",
+            "count": 3,
+            "percentage": 10.0,
+            "examples": [
+              "Lim Jun Rong",
+              "Lau Pei Ling",
+              "Ong Zhi Xuan"
+            ]
+          },
+          {
+            "pattern": "aaa aaa aaa",
+            "count": 3,
+            "percentage": 10.0,
+            "examples": [
+              "lim wei jie",
+              "Goh Jun Wei",
+              "Tan Hui Min"
+            ]
+          },
+          {
+            "pattern": "aaaa aaa aaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "WANG SHI JIE",
+              "Chua Kai Wen"
+            ]
+          },
+          {
+            "pattern": "aaa aa aaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Tan Li Wei",
+              "Teo Li Ann"
+            ]
+          },
+          {
+            "pattern": "aaaaaa aaa aaaaaaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Danish Bin Kamaruddin"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa a/a aaaaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Shalini d/o Krishnan"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaaa aaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Farah Binte Hassan"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaaaaa aaa aaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Ahmad Firdaus Bin Salleh"
+            ]
+          },
+          {
+            "pattern": "aaaaaa aaaaa aaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Aishah Binte Yusof"
+            ]
+          },
+          {
+            "pattern": "aaa aa aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Lee Yi Xuan"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaa aaa aaaa",
+          "count": 3,
+          "percentage": 10.0,
+          "examples": [
+            "Lim Jun Rong",
+            "Lau Pei Ling",
+            "Ong Zhi Xuan"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.1
+    },
+    "_flagged_indices": [],
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Customer name field stored as text. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Values appear to contain personal names with expected structural variation, including multi-word names and cultural relational markers such as 'Bin', 'Binte', 's/o', and 'd/o'. Case usage is mostly title case or uppercase, with at least one lowercase value ('lim wei jie') indicating a case consistency issue.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the preferred name-casing standard before standardisation. At least 3.3% of values show a lowercase deviation ('lim wei jie'), while other records use title case or uppercase; because personal names are proper nouns and the official form cannot be inferred with certainty, verify the canonical form with the data owner."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "ID_No",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "S8403757E",
+      "S8421753J",
+      "S8792459I",
+      "G2233445S",
+      "G5566778N"
+    ],
+    "permissible_values": [
+      "1916569C",
+      "F0000000X",
+      "F1011121T",
+      "F1122334K",
+      "F212233V",
+      "F4455667M",
+      "F7788990P",
+      "F9900112R",
+      "G2233445S",
+      "G3344556U",
+      "G4455667W",
+      "G5566778N",
+      "G6677889Q",
+      "G8765432L",
+      "S1234567D",
+      "S1234567Z",
+      "S2633396B",
+      "S3387002G",
+      "S7516430J",
+      "S7654321F",
+      "S8099150I",
+      "S8403757E",
+      "S8421753J",
+      "S8705681C",
+      "S8792459I",
+      "S9136271F",
+      "S9539727A",
+      "S9968522J",
+      "T0292156H"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 29
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: ID_No\nTotal values: 30\n\nFormat Distribution:\n  - 93.3%: aXXXXXXXa (e.g., S8403757E)\n  - 3.3%: aXXXXXXa (e.g., F212233V)\n  - 3.3%: XXXXXXXa (e.g., 1916569C)\n\nFormat Uniformity: 93.3%\n\nFormat Analysis: Clarify with data owner: 6.6% use incompatible format aXXXXXXa",
+      "Column ID_No has 0 NULL values out of 30 records.",
+      "There are 29 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is '1916569C' and the maximum value is 'T0292156H'.",
+      "Example observed values include 'S1234567D', 'S7654321F', 'S9968522J', 'F1122334K', 'G8765432L'.",
+      "Most common non-NULL column values are 'F1011121T', 'S1234567D', 'S8421753J', 'S1234567Z', 'S8403757E', 'S7516430J', 'G4455667W', 'F212233V', 'S8792459I', '1916569C', 'G3344556U', 'S8705681C', 'G2233445S', 'F9900112R', 'S9539727A', 'S7654321F', 'G6677889Q', 'F7788990P', 'T0292156H', 'S8099150I'.",
+      "Near-unique column with 1 repeated non-null record(s); examples of repeated values: ['F1011121T'].",
+      "Observed value lengths are [8, 9].",
+      "Observed distinct low-cardinality values include '1916569C', 'F0000000X', 'F1011121T', 'F1122334K', 'F212233V', 'F4455667M', 'F7788990P', 'F9900112R', 'G2233445S', 'G3344556U'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "key_like",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 3,
+        "top_formats": [
+          {
+            "pattern": "aXXXXXXXa",
+            "count": 28,
+            "percentage": 93.3,
+            "examples": [
+              "S8403757E",
+              "S8421753J",
+              "S8792459I"
+            ]
+          },
+          {
+            "pattern": "aXXXXXXa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "F212233V"
+            ]
+          },
+          {
+            "pattern": "XXXXXXXa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "1916569C"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aXXXXXXXa",
+          "count": 28,
+          "percentage": 93.3,
+          "examples": [
+            "S8403757E",
+            "S8421753J",
+            "S8792459I"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [
+          {
+            "pattern": "aXXXXXXa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "F212233V"
+            ]
+          },
+          {
+            "pattern": "XXXXXXXa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "1916569C"
+            ]
+          }
+        ],
+        "target_format": "aXXXXXXXa",
+        "recommendation": "Clarify with data owner: 6.6% use incompatible format aXXXXXXa"
+      },
+      "uniformity_score": 0.933
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x138153a50>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Identity number stored as text. The column is complete with 0 missing values out of 30 records and is near-unique with 29 distinct non-null values, including 1 repeated value ('F1011121T'). Most values (28 records, 93.3%) follow a one-letter, seven-digit, one-letter format such as 'S8403757E'. Two records (6.6%) use incompatible shorter formats: 'F212233V' and '1916569C'.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 2 incompatible ID formats (6.6%) with the data owner before standardisation: 'F212233V' uses one letter, 6 digits, and one letter, while '1916569C' is missing the leading letter. Confirm whether these are valid exceptions, data entry errors, or truncated values.",
+      "[VALIDATE] Ensure all values follow the dominant format: one leading letter, followed by 7 digits, ending with one letter — for example, 'S8403757E'."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Race",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "Chinese",
+      "Malay",
+      "Indian",
+      "MALAY",
+      "indian"
+    ],
+    "permissible_values": [
+      "Chinese",
+      "Indian",
+      "MALAY",
+      "Malay",
+      "indian",
+      "malay"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 6
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Race\nTotal values: 30",
+      "Column Race has 0 NULL values out of 30 records.",
+      "There are 6 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Chinese' and the maximum value is 'malay'.",
+      "Example observed values include 'Chinese', 'Malay', 'malay', 'Indian', 'MALAY'.",
+      "Most common non-NULL column values are 'Chinese', 'Malay', 'Indian', 'malay', 'MALAY', 'indian'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 6 distinct values.",
+      "Observed value lengths are [5, 6, 7].",
+      "Observed distinct low-cardinality values include 'Chinese', 'Indian', 'MALAY', 'Malay', 'indian', 'malay'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 3,
+        "top_formats": [
+          {
+            "pattern": "aaaaaaa",
+            "count": 12,
+            "percentage": 40.0,
+            "examples": [
+              "Chinese",
+              "Chinese",
+              "Chinese"
+            ]
+          },
+          {
+            "pattern": "aaaaa",
+            "count": 10,
+            "percentage": 33.3,
+            "examples": [
+              "Malay",
+              "Malay",
+              "MALAY"
+            ]
+          },
+          {
+            "pattern": "aaaaaa",
+            "count": 8,
+            "percentage": 26.7,
+            "examples": [
+              "Indian",
+              "Indian",
+              "indian"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaaaa",
+          "count": 12,
+          "percentage": 40.0,
+          "examples": [
+            "Chinese",
+            "Chinese",
+            "Chinese"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.4
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13d949e10>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d71b310>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Categorical text field storing race values. The column is complete with 0 missing values out of 30 records and contains 6 distinct non-null values. Observed values indicate inconsistent casing for the same categories, including 'Malay', 'MALAY', 'malay', 'Indian', and 'indian'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case-only variations affecting observed categories: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'. This affects 13.3% of records based on the shown sample of distinct variants."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Gender",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "Male",
+      "Female",
+      "FEMALE",
+      "male"
+    ],
+    "permissible_values": [
+      "FEMALE",
+      "Female",
+      "Male",
+      "male"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 4
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Gender\nTotal values: 30",
+      "Column Gender has 0 NULL values out of 30 records.",
+      "There are 4 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'FEMALE' and the maximum value is 'male'.",
+      "Example observed values include 'Male', 'Female', 'male', 'FEMALE'.",
+      "Most common non-NULL column values are 'Male', 'Female', 'male', 'FEMALE'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 4 distinct values.",
+      "Observed value lengths are [4, 6].",
+      "Observed distinct low-cardinality values include 'FEMALE', 'Female', 'Male', 'male'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 2,
+        "top_formats": [
+          {
+            "pattern": "aaaa",
+            "count": 15,
+            "percentage": 50.0,
+            "examples": [
+              "Male",
+              "Male",
+              "Male"
+            ]
+          },
+          {
+            "pattern": "aaaaaa",
+            "count": 15,
+            "percentage": 50.0,
+            "examples": [
+              "Female",
+              "Female",
+              "Female"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaa",
+          "count": 15,
+          "percentage": 50.0,
+          "examples": [
+            "Male",
+            "Male",
+            "Male"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.5
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13d795cd0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d3c2cd0>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Categorical gender field stored as text with 30 non-null records and 4 observed distinct values. The values represent two categories but are recorded with inconsistent casing, including 'Male'/'male' and 'Female'/'FEMALE'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case-only variations affecting 66.7% of records to a single convention: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values use the approved gender labels in the selected casing convention, for example 'Male' or 'Female'."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Age",
+    "data_type": "int64",
+    "intended_data_type": "int64",
+    "profile_type": "Text",
+    "sample_values": [
+      "41",
+      "38",
+      "36",
+      "27",
+      "58"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 24,
+      "upper_fence": 90.0,
+      "lower_fence": -6.0
+    },
+    "errors": [
+      "1 non-numeric value(s) (3.3% of 30 records) found in numeric-like column; examples: ['Twenty-five']",
+      "2 age value(s) below 13 — may be unrealistic for a service account: [4.0, -5.0]"
+    ],
+    "column_facts": [
+      "Column: Age\nTotal values: 30",
+      "Column Age has 0 NULL values out of 30 records.",
+      "There are 24 distinct non-null values.",
+      "The technical data type is int64.",
+      "The minimum value is '-5' and the maximum value is '66'.",
+      "Most common non-NULL column values are '26', '54', '50', '33', '38', '41', '66', '30', '56', '18', 'Twenty-five', '36', '64', '46', '4', '23', '45', '58', '27', '-5'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 24 distinct values.",
+      "Observed value lengths are [1, 2, 4, 11].",
+      "Most values look numeric, but 1 value(s) cannot be parsed as numbers: ['Twenty-five']."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 6,
+        "top_formats": [
+          {
+            "pattern": "XX",
+            "count": 25,
+            "percentage": 83.3,
+            "examples": [
+              "41",
+              "38",
+              "36"
+            ]
+          },
+          {
+            "pattern": " XX ",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              " 41 "
+            ]
+          },
+          {
+            "pattern": "XX.X",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "60.0"
+            ]
+          },
+          {
+            "pattern": "X",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "4"
+            ]
+          },
+          {
+            "pattern": "-X",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "-5"
+            ]
+          },
+          {
+            "pattern": "aaaaaa-aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Twenty-five"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XX",
+          "count": 25,
+          "percentage": 83.3,
+          "examples": [
+            "41",
+            "38",
+            "36"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "coercible_percentage": 0,
+        "coercible_formats": [],
+        "non_coercible_formats": [
+          {
+            "pattern": "aaaaaa-aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Twenty-five"
+            ]
+          }
+        ],
+        "target_format": "XX",
+        "recommendation": "Clarify with data owner: 3.3% use incompatible format aaaaaa-aaaa"
+      },
+      "uniformity_score": 0.833
+    },
+    "_flagged_indices": [
+      1,
+      19,
+      7
+    ],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13c383950>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x1380ee9d0>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Age field intended to store numeric ages. The column has 30 records, 0 missing values, and 24 distinct non-null values. Although the technical type is int64, the observed content includes one non-numeric value ('Twenty-five', 3.3%) and two very low values (4 and -5). Observed values range from -5 to 66.",
+    "recommended_actions": [
+      "[CLARIFY] Resolve the non-numeric value in this numeric age field (3.3% of records): 'Twenty-five'. Confirm whether it should be converted to a numeric age such as 25 or treated as invalid.",
+      "[CLARIFY] Review the implausible age values 4 and -5. Confirm whether these represent data entry errors, special cases, or records that should be corrected or excluded.",
+      "[VALIDATE] Ensure all values are recorded as numeric ages only, for example 27 or 58, and reject text entries such as 'Twenty-five'."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Contact_No",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "+65 80734991",
+      "62357895",
+      "+65 80925315",
+      "89610352",
+      "65 80742791"
+    ],
+    "permissible_values": [
+      "+65 80734991",
+      "+65 80925315",
+      "+65 88552024",
+      "+65 89644090",
+      "+65 98657005",
+      "62357895",
+      "63648765",
+      "65 63678654",
+      "65 65789456",
+      "65 67865333",
+      "65 67865467",
+      "65 67945676",
+      "65 80742791",
+      "65 89600061",
+      "65 89604438",
+      "65 89628434",
+      "65 89639635",
+      "65 89648602",
+      "65478367",
+      "67389267",
+      "68946357",
+      "89609417",
+      "89610352",
+      "89617233",
+      "89618651",
+      "89639976",
+      "8964359",
+      "89649550"
+    ],
+    "profile": {
+      "missing_count": 2,
+      "missing_pct": 0.06666666666666667,
+      "n_total": 30,
+      "n_distinct": 28
+    },
+    "errors": [
+      "2 NULL values (6.7% of 30 records)"
+    ],
+    "column_facts": [
+      "Column: Contact_No\nTotal values: 28\n\nDetected Patterns:\n  - phone_intl: 17.9%",
+      "Column Contact_No has 2 NULL values out of 30 records.",
+      "There are 28 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is '+65 80734991' and the maximum value is '89649550'.",
+      "Example observed values include '65 80742791', '65 89648602', '65 89604438', '65 89628434', '65 89600061'.",
+      "Most common non-NULL column values are '65 80742791', '65 89648602', '67389267', '62357895', '68946357', '65478367', '89609417', '89610352', '89639976', '89649550', '89617233', '89618651', '63648765', '65 65789456', '65 63678654', '65 67945676', '65 67865333', '65 67865467', '+65 98657005', '+65 80734991'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [7, 8, 11, 12].",
+      "Observed distinct low-cardinality values include '+65 80734991', '+65 80925315', '+65 88552024', '+65 89644090', '+65 98657005', '62357895', '63648765', '65 63678654', '65 65789456', '65 67865333'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "other",
+    "_format_analysis": {
+      "total_values": 28,
+      "sample_size": 28,
+      "known_patterns": {
+        "phone_intl": {
+          "count": 5,
+          "percentage": 17.9,
+          "examples": [
+            "+65 80734991",
+            "+65 80925315",
+            "+65 88552024"
+          ]
+        }
+      },
+      "format_fingerprints": {
+        "total_unique_formats": 4,
+        "top_formats": [
+          {
+            "pattern": "XXXXXXXX",
+            "count": 11,
+            "percentage": 39.3,
+            "examples": [
+              "62357895",
+              "89610352",
+              "89618651"
+            ]
+          },
+          {
+            "pattern": "XX XXXXXXXX",
+            "count": 11,
+            "percentage": 39.3,
+            "examples": [
+              "65 80742791",
+              "65 67865333",
+              "65 67865467"
+            ]
+          },
+          {
+            "pattern": "+XX XXXXXXXX",
+            "count": 5,
+            "percentage": 17.9,
+            "examples": [
+              "+65 80734991",
+              "+65 80925315",
+              "+65 88552024"
+            ]
+          },
+          {
+            "pattern": "XXXXXXX",
+            "count": 1,
+            "percentage": 3.6,
+            "examples": [
+              "8964359"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXXXXXXX",
+          "count": 11,
+          "percentage": 39.3,
+          "examples": [
+            "62357895",
+            "89610352",
+            "89618651"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false
+      },
+      "uniformity_score": 0.393
+    },
+    "_flagged_indices": [
+      10,
+      29
+    ],
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Contact phone number stored as text. The column has 28 non-null values out of 30 records, with 2 missing values (6.7%). All non-null values are unique. Observed values appear in multiple phone-number formats, including numbers with a '+65 ' prefix, a '65 ' prefix, and local numbers without a country code; observed lengths are 7, 8, 11, and 12 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the 2 missing values (6.7% of 30 records) are expected for this contact field or whether Contact_No is required for downstream use.",
+      "[CLARIFY] Confirm the intended canonical phone-number format, since observed values use multiple structures such as '+65 80734991', '65 80742791', and '89610352', and at least one value ('8964359') is shorter than the other observed local numbers."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Email",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "wsj@example.com",
+      "dandan@example.com",
+      "rongrong@example.com",
+      "shasha@example.com",
+      "farah@example.com"
+    ],
+    "permissible_values": [
+      "aishah@example.com",
+      "arvind@example.com",
+      "dandan@example.com",
+      "farah@example.com",
+      "fir338@example.com",
+      "gjw@example.com",
+      "hao@example.com",
+      "hariiii@example.com",
+      "irfan@example.com",
+      "iskandar@example.com",
+      "kaiwen@example.com",
+      "liwei@example.com",
+      "lyx@example.com",
+      "meshy@example.com",
+      "nabilah@@example.com",
+      "nono@example.com",
+      "not-an-email",
+      "peiling@example.com",
+      "priya@example.com",
+      "reva@example.com",
+      "rongrong@example.com",
+      "shasha@example.com",
+      "siti@example.com",
+      "thm@example.com",
+      "useremail.com",
+      "wsj@example.com",
+      "yah@example.com",
+      "zal@example.com",
+      "zx91 @example.com"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 29
+    },
+    "errors": [
+      "structurally malformed email values (missing @ or contains spaces): ['not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com']"
+    ],
+    "column_facts": [
+      "Column: Email\nTotal values: 30\n\nDetected Patterns:\n  - email: 86.7%",
+      "Column Email has 0 NULL values out of 30 records.",
+      "There are 29 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'aishah@example.com' and the maximum value is 'zx91 @example.com'.",
+      "Example observed values include 'not-an-email', 'thm@example.com', 'irfan@example.com', 'yah@example.com', 'priya@example.com'.",
+      "Most common non-NULL column values are 'thm@example.com', 'not-an-email', 'meshy@example.com', 'peiling@example.com', 'wsj@example.com', 'reva@example.com', 'nono@example.com', 'aishah@example.com', 'rongrong@example.com', 'liwei@example.com', 'zal@example.com', 'siti@example.com', 'hao@example.com', 'useremail.com', 'shasha@example.com', 'dandan@example.com', 'nabilah@@example.com', 'gjw@example.com', 'lyx@example.com', 'hariiii@example.com'.",
+      "Near-unique column with 1 repeated non-null record(s); examples of repeated values: ['thm@example.com'].",
+      "Observed distinct low-cardinality values include 'aishah@example.com', 'arvind@example.com', 'dandan@example.com', 'farah@example.com', 'fir338@example.com', 'gjw@example.com', 'hao@example.com', 'hariiii@example.com', 'irfan@example.com', 'iskandar@example.com'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "discrete_code",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {
+        "email": {
+          "count": 26,
+          "percentage": 86.7,
+          "examples": [
+            "wsj@example.com",
+            "dandan@example.com",
+            "rongrong@example.com"
+          ]
+        }
+      },
+      "format_fingerprints": {
+        "total_unique_formats": 11,
+        "top_formats": [
+          {
+            "pattern": "aaa@aaaaaaa.aaa",
+            "count": 8,
+            "percentage": 26.7,
+            "examples": [
+              "wsj@example.com",
+              "lyx@example.com",
+              "gjw@example.com"
+            ]
+          },
+          {
+            "pattern": "aaaaaa@aaaaaaa.aaa",
+            "count": 5,
+            "percentage": 16.7,
+            "examples": [
+              "dandan@example.com",
+              "shasha@example.com",
+              "aishah@example.com"
+            ]
+          },
+          {
+            "pattern": "aaaaa@aaaaaaa.aaa",
+            "count": 5,
+            "percentage": 16.7,
+            "examples": [
+              "farah@example.com",
+              "priya@example.com",
+              "meshy@example.com"
+            ]
+          },
+          {
+            "pattern": "aaaa@aaaaaaa.aaa",
+            "count": 3,
+            "percentage": 10.0,
+            "examples": [
+              "nono@example.com",
+              "reva@example.com",
+              "siti@example.com"
+            ]
+          },
+          {
+            "pattern": "aaaaaaaa@aaaaaaa.aaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "rongrong@example.com",
+              "iskandar@example.com"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa@aaaaaaa.aaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "peiling@example.com",
+              "hariiii@example.com"
+            ]
+          },
+          {
+            "pattern": "aaaXXX@aaaaaaa.aaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "fir338@example.com"
+            ]
+          },
+          {
+            "pattern": "aaa-aa-aaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "not-an-email"
+            ]
+          },
+          {
+            "pattern": "aaaaaaaaa.aaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "useremail.com"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa@@aaaaaaa.aaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "nabilah@@example.com"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaa@aaaaaaa.aaa",
+          "count": 8,
+          "percentage": 26.7,
+          "examples": [
+            "wsj@example.com",
+            "lyx@example.com",
+            "gjw@example.com"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false
+      },
+      "uniformity_score": 0.267
+    },
+    "_flagged_indices": [
+      0,
+      18,
+      6,
+      14
+    ],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13d94bed0>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d91be50>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Email address field stored as text. It contains 30 values with 0 missing values and 29 distinct non-null values, making it near-unique with 1 repeated non-null value ('thm@example.com'). Most values (86.7%) match an email pattern, but 4 values are structurally malformed: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', and 'useremail.com'.",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct 4 structurally malformed email values (13.3%) that cannot be deterministically standardised: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', and 'useremail.com'.",
+      "[VALIDATE] Ensure all values follow a standard email address structure, for example 'name@example.com', with exactly one '@' symbol, no embedded spaces, and a domain portion after '@'."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Country",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Categorical",
+    "sample_values": [
+      "新加坡",
+      "Singapore",
+      "S'pore",
+      "SG",
+      "SINGAPORE"
+    ],
+    "permissible_values": [
+      "Republic of Singapore",
+      "S'pore",
+      "SG",
+      "SINGAPORE",
+      "Singapore",
+      "Singapura",
+      "singapore",
+      "新加坡"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 8
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Country\nTotal values: 30",
+      "Column Country has 0 NULL values out of 30 records.",
+      "There are 8 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Republic of Singapore' and the maximum value is '新加坡'.",
+      "Example observed values include 'Singapore', 'Singapura', 'S'pore', 'SINGAPORE', 'singapore'.",
+      "Most common non-NULL column values are 'Singapore', 'Singapura', 'S'pore', 'SG', '新加坡', 'SINGAPORE', 'singapore', 'Republic of Singapore'.",
+      "Not all non-NULL values are unique: 30 non-null records contain 8 distinct values.",
+      "Observed value lengths are [2, 3, 6, 9, 21].",
+      "Observed distinct low-cardinality values include 'Republic of Singapore', 'S'pore', 'SG', 'SINGAPORE', 'Singapore', 'Singapura', 'singapore', '新加坡'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 5,
+        "top_formats": [
+          {
+            "pattern": "aaaaaaaaa",
+            "count": 23,
+            "percentage": 76.7,
+            "examples": [
+              "Singapore",
+              "Singapore",
+              "Singapore"
+            ]
+          },
+          {
+            "pattern": "aaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "新加坡",
+              "新加坡"
+            ]
+          },
+          {
+            "pattern": "a'aaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "S'pore",
+              "S'pore"
+            ]
+          },
+          {
+            "pattern": "aa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "SG",
+              "SG"
+            ]
+          },
+          {
+            "pattern": "aaaaaaaa aa aaaaaaaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Republic of Singapore"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaaaaaa",
+          "count": 23,
+          "percentage": 76.7,
+          "examples": [
+            "Singapore",
+            "Singapore",
+            "Singapore"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.767
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x138177110>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d98a990>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Country field stored as text with 30 non-null records and 8 distinct observed values. All records appear to refer to Singapore, but the column contains multiple representations including abbreviations, case variants, alternate language forms, and longer official-style names such as 'SG', 'S'pore', 'Singapore', 'SINGAPORE', 'singapore', 'Singapura', 'Republic of Singapore', and '新加坡'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the required canonical representation for this country field before standardisation, since 100% of observed values refer to Singapore but appear in multiple forms: 'SG', 'S'pore', 'Singapore', 'SINGAPORE', 'singapore', 'Singapura', 'Republic of Singapore', and '新加坡'."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Street_Name",
+    "data_type": "string",
+    "intended_data_type": "string",
+    "profile_type": "Text",
+    "sample_values": [
+      "Pandan Loop",
+      "Balestier Road",
+      "Upper Bukit Timah Road",
+      "HOLLAND ROAD",
+      "Yishun Ring Road"
+    ],
+    "permissible_values": [
+      "Ang Mo Kio Avenue 2",
+      "Balestier Road",
+      "Bedok Reservoir Road",
+      "Bedok Road",
+      "Cashew Crescent",
+      "East Coast Road",
+      "Emerald Hill Road",
+      "HOLLAND ROAD",
+      "Joo Chiat Place",
+      "Kovan Road",
+      "Macpherson Road",
+      "North Bridge Road",
+      "Pandan Loop",
+      "Pasir Panjang Road",
+      "Paya Lebar Crescent",
+      "River Valley Road",
+      "Sembawang Road",
+      "Sims Avenue",
+      "Sixth Avenue",
+      "Springside View",
+      "Tai Keng Gardens",
+      "Tanjong Katong Road",
+      "Upper Bukit Timah Road",
+      "Upper Changi Road",
+      "Upper Serangoon Road",
+      "West Coast Road",
+      "Westwood Avenue",
+      "Westwood Crescent",
+      "Yishun Ring Road",
+      "Yuk Tong Avenue"
+    ],
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Street_Name\nTotal values: 30",
+      "Column Street_Name has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is string.",
+      "The minimum value is 'Ang Mo Kio Avenue 2' and the maximum value is 'Yuk Tong Avenue'.",
+      "Example observed values include 'East Coast Road', 'Pasir Panjang Road', 'Joo Chiat Place', 'Westwood Avenue', 'Ang Mo Kio Avenue 2'.",
+      "Most common non-NULL column values are 'East Coast Road', 'Pasir Panjang Road', 'Bedok Road', 'Pandan Loop', 'Bedok Reservoir Road', 'Paya Lebar Crescent', 'Macpherson Road', 'Upper Bukit Timah Road', 'Emerald Hill Road', 'River Valley Road', 'Cashew Crescent', 'Kovan Road', 'Tanjong Katong Road', 'HOLLAND ROAD', 'Sembawang Road', 'Balestier Road', 'Sims Avenue', 'Upper Serangoon Road', 'Upper Changi Road', 'Springside View'.",
+      "All non-NULL values are unique.",
+      "Observed distinct low-cardinality values include 'Ang Mo Kio Avenue 2', 'Balestier Road', 'Bedok Reservoir Road', 'Bedok Road', 'Cashew Crescent', 'East Coast Road', 'Emerald Hill Road', 'HOLLAND ROAD', 'Joo Chiat Place', 'Kovan Road'. These are observed values only, not an official approved reference list."
+    ],
+    "similarity_kind": "other",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 23,
+        "top_formats": [
+          {
+            "pattern": "aaaaa aaaaaa aaaa",
+            "count": 3,
+            "percentage": 10.0,
+            "examples": [
+              "Upper Changi Road",
+              "River Valley Road",
+              "North Bridge Road"
+            ]
+          },
+          {
+            "pattern": "aaaaaaaaa aaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Balestier Road",
+              "Sembawang Road"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Bedok Road",
+              "Kovan Road"
+            ]
+          },
+          {
+            "pattern": "aaaaaaaaaa aaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Macpherson Road",
+              "Springside View"
+            ]
+          },
+          {
+            "pattern": "aaaa aaaaa aaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "East Coast Road",
+              "West Coast Road"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaaaaaaa aaaa",
+            "count": 2,
+            "percentage": 6.7,
+            "examples": [
+              "Upper Serangoon Road",
+              "Bedok Reservoir Road"
+            ]
+          },
+          {
+            "pattern": "aaaaaa aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Pandan Loop"
+            ]
+          },
+          {
+            "pattern": "aaaaa aaaaa aaaaa aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Upper Bukit Timah Road"
+            ]
+          },
+          {
+            "pattern": "aaaaaaa aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "HOLLAND ROAD"
+            ]
+          },
+          {
+            "pattern": "aaaaaa aaaa aaaa",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "Yishun Ring Road"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "aaaaa aaaaaa aaaa",
+          "count": 3,
+          "percentage": 10.0,
+          "examples": [
+            "Upper Changi Road",
+            "River Valley Road",
+            "North Bridge Road"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Text length/word-count variation only — not a format issue"
+      },
+      "uniformity_score": 0.1
+    },
+    "_flagged_indices": [],
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Street name stored as text. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are distinct. Observed values are street names, with one visible casing variation such as 'HOLLAND ROAD' alongside title-case street names.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended casing standard for street names before standardisation. One observed value uses uppercase ('HOLLAND ROAD') while the other observed street names use title case."
+    ]
+  },
+  {
+    "table_name": "Cust_Bio_dirty",
+    "column_name": "Postal_Code",
+    "data_type": "int64",
+    "intended_data_type": "string",
+    "profile_type": "Numeric",
+    "sample_values": [
+      "410633",
+      "387405",
+      "229287",
+      "756957",
+      "99999"
+    ],
+    "permissible_values": null,
+    "profile": {
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "n_total": 30,
+      "n_distinct": 30,
+      "min": 6907.0,
+      "max": 786055.0
+    },
+    "errors": [],
+    "column_facts": [
+      "Column: Postal_Code\nTotal values: 30",
+      "Column Postal_Code has 0 NULL values out of 30 records.",
+      "There are 30 distinct non-null values.",
+      "The technical data type is int64.",
+      "Column is stored as int64 but the intended type is string — a type conversion is recommended.",
+      "The minimum value is '6907' and the maximum value is '786055'.",
+      "Most common non-NULL column values are '596200', '423371', '126888', '410633', '533759', '348469', '588166', '229287', '179020', '677656', '544694', '436950', '258849', '756957', '320002', '387405', '347694', '6907', '786055', '179094'.",
+      "All non-NULL values are unique.",
+      "Observed value lengths are [4, 5, 6].",
+      "Every column value looks like a number."
+    ],
+    "similarity_kind": "categorical",
+    "_format_analysis": {
+      "total_values": 30,
+      "sample_size": 30,
+      "known_patterns": {},
+      "format_fingerprints": {
+        "total_unique_formats": 3,
+        "top_formats": [
+          {
+            "pattern": "XXXXXX",
+            "count": 28,
+            "percentage": 93.3,
+            "examples": [
+              "410633",
+              "387405",
+              "229287"
+            ]
+          },
+          {
+            "pattern": "XXXXX",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "99999"
+            ]
+          },
+          {
+            "pattern": "XXXX",
+            "count": 1,
+            "percentage": 3.3,
+            "examples": [
+              "6907"
+            ]
+          }
+        ],
+        "dominant_format": {
+          "pattern": "XXXXXX",
+          "count": 28,
+          "percentage": 93.3,
+          "examples": [
+            "410633",
+            "387405",
+            "229287"
+          ]
+        }
+      },
+      "anomalies": {
+        "placeholder_values": [],
+        "suspicious_values": [],
+        "total_anomaly_count": 0,
+        "col_min": 6907.0,
+        "col_max": 786055.0
+      },
+      "coercibility": {
+        "is_coercible": false,
+        "reason": "Numeric precision variation only — not a format issue"
+      },
+      "uniformity_score": 0.933
+    },
+    "_flagged_indices": [],
+    "_minhash": "<datasketch.minhash.MinHash object at 0x13d575910>",
+    "_minhash_shingle": "<datasketch.minhash.MinHash object at 0x13d94ab90>",
+    "relationship_role": "",
+    "join_hints": [],
+    "description": "Postal code field currently stored as int64, although the evidence indicates the intended type is string. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Observed values are numeric and have inconsistent lengths of 4, 5, and 6 digits, which may indicate leading-zero loss or mixed postal code formats.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the column from numeric to string to preserve postal code formatting and prevent loss of leading zeros.",
+      "[CLARIFY] Confirm whether postal codes in this dataset are expected to have a single standard length, since observed values span 4, 5, and 6 digits."
+    ]
+  }
+]

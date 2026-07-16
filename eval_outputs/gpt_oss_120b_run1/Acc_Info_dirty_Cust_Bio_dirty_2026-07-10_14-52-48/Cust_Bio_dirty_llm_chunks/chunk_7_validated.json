@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age column stores integer ages for 30 records; data type int64, no missing values, 24 distinct values, observed range from -5 to 66. One entry is non-numeric ('Twenty-five'), and two values (4 and -5) fall below the typical minimum age of 13 for a service account.",
+    "recommended_actions": [
+      "[CLARIFY] Determine the correct numeric value for the non-numeric entry 'Twenty-five' and confirm whether ages below 13 (4, -5) are valid or should be corrected."
+    ]
+  }
+]

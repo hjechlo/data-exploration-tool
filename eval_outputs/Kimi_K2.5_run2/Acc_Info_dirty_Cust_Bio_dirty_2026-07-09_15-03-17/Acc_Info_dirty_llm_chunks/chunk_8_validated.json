@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string despite representing monetary values. Contains 28 distinct non-null values across 30 records, with 2 missing values (6.7%). Predominantly numeric strings (e.g., '16.53', '961.14') but includes one text value 'free' and one suspiciously high value '99999' that likely represents a sentinel placeholder. Observed numeric range is approximately 16.53 to 961.14, excluding anomalies.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of anomalous non-numeric values: 'free' (representing $0 or promotional status?) and '99999' (sentinel for missing data or entry error?), and assess whether the 2 missing values (6.7%) are expected or require imputation.",
+      "[STANDARDIZE] Convert valid numeric strings to float64 data type: '16.53' → 16.53, '434.17' → 434.17, etc.",
+      "[VALIDATE] Verify all values represent positive monetary amounts within reasonable business limits after type conversion."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric serial number identifier with values ranging sequentially from 1 to 30. All 30 records are populated with no missing values, and the column maintains 100% uniqueness (30 distinct values). Serves as a one-to-one join key to Acc_Info_dirty.S_N.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]

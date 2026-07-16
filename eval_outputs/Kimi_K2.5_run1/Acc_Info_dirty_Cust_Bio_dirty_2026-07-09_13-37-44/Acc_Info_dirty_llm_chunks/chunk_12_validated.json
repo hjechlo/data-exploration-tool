@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device type classification field indicating the type of device used (Desktop, Mobile, or Tablet). Contains 30 records with 0 missing values (0%) and 3 distinct categorical values. Values exhibit consistent title-case formatting with natural length variation between 6-7 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

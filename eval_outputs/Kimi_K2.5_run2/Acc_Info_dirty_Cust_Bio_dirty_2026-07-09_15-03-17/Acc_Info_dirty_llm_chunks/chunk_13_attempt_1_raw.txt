@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system identifier stored as categorical text with 8 distinct values across 30 records and no missing values. Contains case inconsistencies including 'Android'/'android', 'iOS'/'IOS', 'Linux'/'LINUX', and 'macOs' (non-standard casing for macOS).",
+    "recommended_actions": [
+      "[STANDARDIZE] Correct case deviations to match official OS branding: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Verify all values match the standardized operating system names after correction."
+    ]
+  }
+]
+```

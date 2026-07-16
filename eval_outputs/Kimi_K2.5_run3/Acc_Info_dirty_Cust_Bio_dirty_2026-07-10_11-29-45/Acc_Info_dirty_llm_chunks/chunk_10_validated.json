@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64. Contains 30 distinct non-null values across 30 records (0% missing), with 100% uniqueness. Observed range spans from -150.5 to 99999.0. Contains two anomalous values requiring validation: 99999.0 appears as a statistical outlier and potential sentinel-coded placeholder for missing/invalid data, while -150.5 is the sole negative value which may represent an overdraft or data entry error.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous values: (1) verify whether 99999.0 is a sentinel-coded missing value or a legitimate high balance, and (2) confirm whether -150.5 represents a valid overdraft/negative balance or a data error requiring correction."
+    ]
+  }
+]

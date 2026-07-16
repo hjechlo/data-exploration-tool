@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language field storing language names as text. Contains 30 non-null records with 5 distinct values (English, French, German, Malay, Tamil). No missing values; low-cardinality categorical column.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

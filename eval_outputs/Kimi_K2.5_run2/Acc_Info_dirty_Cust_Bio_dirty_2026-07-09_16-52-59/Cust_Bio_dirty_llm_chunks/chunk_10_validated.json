@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field stored as text representing Singapore across multiple formats, languages, and casing conventions. Contains 8 distinct values across 30 records with no missing values (0%), including standard English ('Singapore'), uppercase/lowercase variants ('SINGAPORE', 'singapore'), abbreviations ('S'pore', 'SG'), formal name ('Republic of Singapore'), and local language variants ('Singapura', '新加坡').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify deterministic case deviations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm canonical standard for multilingual and abbreviated values: 'S'pore', 'SG', 'Republic of Singapore', 'Singapura', '新加坡'. Determine whether to standardize all entries to 'Singapore' (English), convert to ISO 3166-1 alpha-2 codes ('SG'), or retain multilingual representations for specific business contexts."
+    ]
+  }
+]

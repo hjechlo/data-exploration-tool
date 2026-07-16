@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as integer (int64) with 30 distinct values across 30 records (no missing values). Values range from 6907 to 786055 with observed lengths of 4, 5, and 6 digits. The column is currently stored as int64 but represents categorical postal code data, risking loss of leading zeros.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve potential leading zeros and treat postal codes as categorical identifiers rather than numeric values.",
+      "[CLARIFY] Confirm whether 4-digit and 5-digit values (e.g., 6907, 99999) may have lost leading zeros during integer storage, given the presence of 6-digit codes in the dataset."
+    ]
+  }
+]

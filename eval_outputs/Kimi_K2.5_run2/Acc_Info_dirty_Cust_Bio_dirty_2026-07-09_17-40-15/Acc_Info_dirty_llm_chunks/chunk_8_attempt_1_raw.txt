@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amount stored as string despite representing monetary values. Contains 28 distinct non-null values across 30 records, with 2 NULL values (6.7%). Normal values range from 16.53 to 961.14, with two exceptions: 'free' (non-numeric text) and '99999' (suspicious outlier approximately 100x larger than the next highest value, likely a sentinel for missing data).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of '99999' (missing data sentinel?) and 'free' (zero fee or NULL?). Also confirm whether the 6.7% missing values are expected or indicate data collection issues.",
+      "[STANDARDIZE] Convert string values to float64: map 'free' to 0.00 (if confirmed as zero fee) or NULL, map '99999' to NULL (if confirmed as sentinel), and parse standard numeric strings (e.g., '16.53' → 16.53, '434.17' → 434.17).",
+      "[VALIDATE] Ensure all values are non-negative decimal numbers with reasonable maximum bounds (e.g., less than 5,000) to prevent future sentinel values from entering analyses."
+    ]
+  }
+]
+```

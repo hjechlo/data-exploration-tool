@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as free-text with 30 distinct values and no missing entries. Contains multicultural naming conventions including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Four values (13.3%) show case deviations from the dominant Title Case pattern: two fully lowercase ('junrong', 'irfan') and two with lowercase surnames ('Lee yixuan', 'Hui Min tan'). One entry contains double spacing after the patronymic marker.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise case deviations to Title Case: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'.",
+      "[STANDARDIZE] Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]
+```

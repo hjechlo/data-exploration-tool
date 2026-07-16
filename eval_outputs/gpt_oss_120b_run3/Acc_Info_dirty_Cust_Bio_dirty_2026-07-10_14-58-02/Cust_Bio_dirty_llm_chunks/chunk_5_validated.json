@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race column stores self‑identified ethnic group as a categorical string. All 30 records are non‑null with 6 distinct values. Observed values include 'Chinese', 'Indian', 'Malay' in various capitalisations (e.g., 'MALAY', 'malay', 'indian'), indicating inconsistent casing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise case to title case for race categories: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[CLARIFY] Confirm the official list of allowed race categories and whether any additional standardisation (e.g., handling of synonyms) is required."
+    ]
+  }
+]

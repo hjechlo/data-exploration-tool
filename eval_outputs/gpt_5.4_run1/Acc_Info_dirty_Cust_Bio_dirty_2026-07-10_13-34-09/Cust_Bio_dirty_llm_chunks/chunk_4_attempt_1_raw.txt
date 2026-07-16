@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identity number stored as text. The column is complete with 0 missing values out of 30 records and is near-unique with 29 distinct non-null values, including 1 repeated value ('F1011121T'). Most values (28 records, 93.3%) follow a one-letter, seven-digit, one-letter format such as 'S8403757E'. Two records (6.6%) use incompatible shorter formats: 'F212233V' and '1916569C'.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 2 incompatible ID formats (6.6%) with the data owner before standardisation: 'F212233V' uses one letter, 6 digits, and one letter, while '1916569C' is missing the leading letter. Confirm whether these are valid exceptions, data entry errors, or truncated values.",
+      "[VALIDATE] Ensure all values follow the dominant format: one leading letter, followed by 7 digits, ending with one letter — for example, 'S8403757E'."
+    ]
+  }
+]

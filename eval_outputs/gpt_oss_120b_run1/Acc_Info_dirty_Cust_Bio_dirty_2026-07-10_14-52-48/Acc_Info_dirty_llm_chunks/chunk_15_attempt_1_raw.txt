@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "FeedbackScore1 stores numeric feedback scores as float64, ranging from 1.0 to 5.0 across 30 records with no missing values. Values are near-unique with one duplicate (1.78) and observed lengths of 3–4 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether FeedbackScore1 is redundant with the similar column FeedbackScore and determine if one should be removed."
+    ]
+  }
+]

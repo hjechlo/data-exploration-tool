@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "Numeric feedback score stored as float64 across 30 records with no missing values. Values range from 1.0 to 7.3; 29 distinct values with one repeat (1.78). One value (7.3) exceeds the statistically expected upper bound of 6.945 and appears to be a sentinel‑coded outlier.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the outlier value 7.3 is a valid score or a sentinel representing missing/invalid data.",
+      "[CLARIFY] Determine if FeedbackScore is redundant with the near‑duplicate column FeedbackScore1 and decide whether one should be removed."
+    ]
+  }
+]

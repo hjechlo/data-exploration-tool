@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 distinct values representing Singapore street addresses, with no missing data. All values are unique. One record (3.3%) uses all-caps formatting while the remaining 29 records follow title case convention.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the all-caps value to title case to match the dominant format: 'HOLLAND ROAD' → 'Holland Road' (3.3% of records)."
+    ]
+  }
+]

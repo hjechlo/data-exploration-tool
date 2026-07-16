@@ -1,0 +1,7 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Subscription_Type is a categorical string field with 30 records, no missing values, and 5 distinct values (Basic, Free, Gold, Platinum, Premium). Low-cardinality with observed value lengths ranging from 4 to 8 characters.",
+    "recommended_actions": ["[No Immediate Action]"]
+  }
+]

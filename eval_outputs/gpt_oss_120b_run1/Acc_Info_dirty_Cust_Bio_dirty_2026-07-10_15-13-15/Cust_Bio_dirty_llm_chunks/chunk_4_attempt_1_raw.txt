@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Customer identification numbers stored as strings. All 30 records are non‑null; 29 distinct values with one duplicate ('F1011121T'). 93.3% follow the pattern letter‑7 digits‑letter (e.g., S8403757E), while 6.6% use alternative formats (aXXXXXXa like 'F212233V' and XXXXXXXa like '1916569C'). Observed lengths are 8 or 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of the 2 records with non‑standard ID formats ('F212233V' and '1916569C') and determine whether the duplicate value 'F1011121T' is permissible or requires deduplication."
+    ]
+  }
+]

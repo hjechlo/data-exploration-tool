@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64 with 30 total records and no missing values. Values range from 1 to 30, with 29 distinct values; the value '3' appears twice, making the column near‑unique. It is used as a one‑to‑one join key with Cust_Bio_dirty.S_N (100% coverage).",
+    "recommended_actions": [
+      "[CLARIFY] Review duplicate value '3' to confirm whether the column should be unique for join‑key purposes."
+    ]
+  }
+]

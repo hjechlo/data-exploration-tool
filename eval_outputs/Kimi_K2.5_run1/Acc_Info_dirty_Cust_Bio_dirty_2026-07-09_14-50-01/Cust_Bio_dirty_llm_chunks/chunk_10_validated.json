@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country name field storing 30 non-null records with 8 distinct textual representations of Singapore, including English standard ('Singapore'), uppercase ('SINGAPORE'), lowercase ('singapore'), abbreviation ('S'pore'), ISO code ('SG'), formal name ('Republic of Singapore'), Malay ('Singapura'), and Chinese ('新加坡').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all variations to the canonical English form 'Singapore': 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore', 'S'pore' → 'Singapore', 'SG' → 'Singapore', 'Republic of Singapore' → 'Singapore', 'Singapura' → 'Singapore', '新加坡' → 'Singapore'.",
+      "[VALIDATE] Ensure all values follow the standard country name format: full English name with title case (e.g., 'Singapore')."
+    ]
+  }
+]

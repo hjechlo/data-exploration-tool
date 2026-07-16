@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical gender field stored as text. The column is complete with 0 missing values across 30 records and contains 4 observed distinct values: 'Male', 'Female', 'male', and 'FEMALE'. The values indicate case-only variation for the same categories rather than additional categories.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize case-only variations affecting 66.7% of observed distinct values to a consistent title-case format: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

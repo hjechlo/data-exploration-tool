@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stores the join date as a string. All 29 non‑null values are unique and the column has 1 missing value (3.3%). Values appear in two formats: full timestamp 'YYYY-MM-DD HH:MM:SS' (length 19) and date‑only 'YYYY-MM-DD' (length 10). One value '2025-13-01' is not a valid date (month 13). Observed range is from '2020-01-01 00:00:00' to '2027-01-15 00:00:00'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert date‑only values (e.g., '2022-07-26') to the dominant datetime format by appending ' 00:00:00', resulting in '2022-07-26 00:00:00'.",
+      "[CLARIFY] Determine the correct intended date for the unparseable value '2025-13-01' (invalid month) before conversion.",
+      "[VALIDATE] Verify that all values conform to the format 'YYYY-MM-DD HH:MM:SS', e.g., '2021-03-14 00:00:00'."
+    ]
+  }
+]

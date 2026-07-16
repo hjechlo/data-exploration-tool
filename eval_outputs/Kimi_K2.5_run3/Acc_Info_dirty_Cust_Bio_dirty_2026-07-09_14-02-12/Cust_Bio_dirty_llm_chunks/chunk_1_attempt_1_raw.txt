@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier (likely 'Serial Number') containing sequential integers from 1 to 30. All 30 records have unique, non-null values. Serves as a one-to-one join key with Acc_Info_dirty.S_N, with 100% of values in this table matching records in the referenced table.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

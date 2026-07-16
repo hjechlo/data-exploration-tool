@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name field stored as text with 30 distinct non-null values across 30 records (100% unique, no missing values). Content reflects diverse cultural naming conventions including Chinese names, Malay patronymics ('Bin', 'Binte'), and Indian patronymics ('s/o', 'd/o'). Casing inconsistencies present with fully lowercase values ('junrong', 'irfan') and mixed-case surnames ('tan'). One record contains a double-space artifact.",
+    "recommended_actions": [
+      "[STANDARDIZE] Correct deterministic casing errors: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'tan' → 'Tan'.",
+      "[STANDARDIZE] Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'.",
+      "[CLARIFY] Confirm correct capitalization for 'Lee yixuan' — verify whether the given name should be 'Yixuan' or 'Yi Xuan' to align with the multi-word given name pattern observed in other Chinese names (e.g., 'Wei Jie', 'Kai Wen')."
+    ]
+  }
+]

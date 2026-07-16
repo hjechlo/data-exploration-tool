@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification stored as string. Complete data with 30 non-null records. Contains 4 distinct values representing male and female categories with inconsistent casing ('Male'/'male', 'Female'/'FEMALE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

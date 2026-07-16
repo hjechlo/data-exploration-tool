@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Personal name field stored as free-text. Contains 30 distinct non‑null values with no missing entries. Observed values show mixed casing (e.g., 'WANG SHI JIE' in all caps, 'Danish Bin Kamaruddin' in title case, 'lim wei jie' in lowercase) and include cultural components such as 'Bin', 'Binte', 'd/o', and 's/o'. All values are unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the expected naming convention and case handling for personal names, including how to treat prefixes like 'Bin', 'Binte', 'd/o', 's/o' and all‑caps entries."
+    ]
+  }
+]

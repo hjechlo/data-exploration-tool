@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score field (float64) with values ranging from 1.0 to 5.0 across 30 records. No missing values. Contains 29 distinct values and one repeated value (1.78). All entries appear as numbers. Evidence suggests this column is a near-duplicate of another column (FeedbackScore) in the same table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether FeedbackScore1 is redundant with the similar column FeedbackScore and should be removed or retained."
+    ]
+  }
+]

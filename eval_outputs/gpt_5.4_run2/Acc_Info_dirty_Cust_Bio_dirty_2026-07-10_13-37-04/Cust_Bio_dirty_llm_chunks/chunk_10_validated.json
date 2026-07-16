@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field stored as text with 30 non-null records and 8 distinct observed values. All records appear to refer to Singapore, but the column contains multiple representations including abbreviations, case variants, alternate language forms, and longer formal names such as 'SG', 'S'pore', 'Singapore', 'singapore', 'SINGAPORE', 'Republic of Singapore', 'Singapura', and '新加坡'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the required canonical representation for this country field before standardisation, since all 8 observed values appear to refer to Singapore but include abbreviations, case variants, alternate language forms, and formal names: 'SG', 'S'pore', 'Singapore', 'singapore', 'SINGAPORE', 'Republic of Singapore', 'Singapura', '新加坡'.",
+      "[VALIDATE] After the canonical representation is confirmed, ensure all values follow the approved country naming convention for this field, for example a single standard such as 'Singapore'."
+    ]
+  }
+]

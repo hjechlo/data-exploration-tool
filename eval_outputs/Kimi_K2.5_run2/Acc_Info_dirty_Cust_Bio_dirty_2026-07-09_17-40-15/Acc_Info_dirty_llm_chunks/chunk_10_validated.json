@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64. All 30 records (100%) contain non-null values with complete uniqueness (30 distinct values). Observed range spans from -150.5 to 99999.0, with 99999.0 appearing as a suspected sentinel-coded value and -150.5 representing a sign-anomalous negative entry.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the business meaning of anomalous boundary values: 99999.0 (suspected sentinel/missing data indicator) and -150.5 (potential overdraft or invalid negative balance)."
+    ]
+  }
+]

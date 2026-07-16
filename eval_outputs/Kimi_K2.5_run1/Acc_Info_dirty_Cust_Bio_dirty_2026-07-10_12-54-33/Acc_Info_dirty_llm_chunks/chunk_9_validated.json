@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status indicator stored as string with 6 distinct representations of binary true/false values ('True', 'False', 'yes', 'no', '1', '0') across 30 records. No missing values detected. The column is intended to store boolean data but currently uses inconsistent string encodings.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify mixed boolean representations to a consistent format: '1' → 'True', 'yes' → 'True', '0' → 'False', 'no' → 'False'.",
+      "[VALIDATE] Ensure all values conform to the selected boolean representation (e.g., 'True'/'False') after standardization."
+    ]
+  }
+]

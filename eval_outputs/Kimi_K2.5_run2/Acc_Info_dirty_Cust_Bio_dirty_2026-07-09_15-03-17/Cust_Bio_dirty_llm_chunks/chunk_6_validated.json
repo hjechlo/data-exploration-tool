@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification field stored as categorical string. Contains 30 records with no missing values, representing 2 semantic categories (Male/Female) across 4 observed distinct values due to case inconsistencies ('Male'/'male', 'Female'/'FEMALE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values conform to the standardized categories 'Male' or 'Female'."
+    ]
+  }
+]

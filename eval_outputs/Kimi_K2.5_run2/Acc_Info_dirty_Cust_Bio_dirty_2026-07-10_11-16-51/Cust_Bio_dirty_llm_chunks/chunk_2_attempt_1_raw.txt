@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier represented as 4-digit numeric codes ranging from 1001 to 1028. All 30 records are populated with no missing values, containing 28 distinct values indicating 2 duplicates (Account_Nos 1001 and 1010 each appear twice). Currently stored as int64 but intended to represent categorical identifiers.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve identifier semantics and prevent unintended mathematical operations.",
+      "[CLARIFY] Confirm whether the 2 duplicate account numbers (1001 and 1010) represent valid business scenarios (e.g., multiple customers per account) or data entry errors requiring deduplication."
+    ]
+  }
+]
+```

@@ -1,0 +1,11 @@
+```json
+[
+    {
+        "column_name": "S_N",
+        "description": "Numeric identifier storing sequential values from 1 to 30. Contains 29 distinct values across 30 records with one duplicate occurrence (value '3'). Functions as a one-to-one join key with Cust_Bio_dirty.S_N, exhibiting 100% coverage on this table and 96.7% coverage on the target table. No missing values.",
+        "recommended_actions": [
+            "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N before joining or loading new records."
+        ]
+    }
+]
+```

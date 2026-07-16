@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "ID",
+    "description": "Personal identification number consistent with Singapore NRIC/FIN format, stored as string. 29 of 30 records (96.7%) follow the standard 9-character structure: one prefix letter (S, T, F, or G), seven digits, and one checksum letter (e.g., 'S8403757E'). One record (3.3%) contains a 7-character value ('S123456') that appears truncated, lacking the seventh digit and checksum letter. All values are unique with no missing entries.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the non-conforming entry 'S123456' (3.3% of data), which appears truncated compared to the dominant 9-character format. Verify whether it should be padded with a leading zero and checksum letter or corrected based on source documentation.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

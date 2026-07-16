@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64, ranging from 1 to 30. Contains 30 records with no missing values and 29 distinct values; one value (3) appears twice, making it near‑unique. Serves as a join key linked to Cust_Bio_dirty.S_N.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity with Cust_Bio_dirty.S_N and ensure values stay within the observed range 1–30."
+    ]
+  }
+]

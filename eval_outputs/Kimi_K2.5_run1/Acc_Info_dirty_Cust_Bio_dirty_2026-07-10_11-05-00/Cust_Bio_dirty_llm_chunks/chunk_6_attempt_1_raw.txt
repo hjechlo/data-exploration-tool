@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification stored as text. All 30 records (100%) are populated with no missing values. Contains 4 distinct values representing two categories ('Male', 'Female') with inconsistent casing across the dataset.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize casing to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]
+```

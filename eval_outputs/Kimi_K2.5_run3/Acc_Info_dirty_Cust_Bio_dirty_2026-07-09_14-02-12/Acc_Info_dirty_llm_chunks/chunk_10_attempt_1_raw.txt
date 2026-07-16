@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance measurements stored as decimal numbers (float64). Contains 30 records with no missing values, all of which are unique. Values range from -150.5 to 99,999.0. Contains a high-end sentinel value (99,999.0) that exceeds the statistically expected upper bound of 1,525 (Q3 + 1.5×IQR) and one negative value (-150.5).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 99,999.0 represents a missing/invalid data sentinel (as suggested by statistical outlier analysis) or a legitimate account balance.",
+      "[CLARIFY] Confirm whether the negative value -150.5 represents a legitimate overdraft or a data entry error."
+    ]
+  }
+]
+```

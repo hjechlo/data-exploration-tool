@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Customer or account holder full name stored as text. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Values show expected personal-name variation, including single names, multi-part names, and relational components such as 'Bin', 'Binte', 's/o', and 'd/o'. A few values show inconsistent capitalization, such as 'junrong', 'irfan', 'Hui Min tan', and 'Lee yixuan'.",
+    "recommended_actions": [
+      "[CLARIFY] Review inconsistent capitalization in personal names before standardisation, including 'junrong', 'irfan', 'Hui Min tan', and 'Lee yixuan'. Confirm each person's official name formatting with the data owner, since proper-name casing cannot be corrected deterministically."
+    ]
+  }
+]

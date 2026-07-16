@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Monetary balance stored as float64. Contains 30 distinct non-null values with no missing entries. Observed range is -150.5 to 99,999.0. All values are numeric; however, the maximum value 99,999.0 is a statistical outlier and appears to be a sentinel code, and the minimum value -150.5 is negative in an otherwise positive column.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the sentinel value 99,999.0 and the negative value -150.5 represent missing or invalid data, and define appropriate handling (e.g., null replacement, exclusion, or correction)."
+    ]
+  }
+]

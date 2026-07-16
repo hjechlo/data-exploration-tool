@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical field representing gender classification, with 0 missing values (0%) across 30 records. Contains case inconsistencies resulting in 4 distinct string values ('Male', 'male', 'Female', 'FEMALE') representing two semantic categories.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

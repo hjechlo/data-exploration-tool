@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Name field stores personal full names as free-text strings. All 30 records are non‑null and unique. The column contains a mix of capitalization styles: most entries use title case (e.g., 'Danish Bin Kamaruddin'), some are all uppercase ('WANG SHI JIE'), and one is all lowercase ('lim wei jie'). It also includes cultural naming prefixes such as 'Bin', 'Binte', 's/o', and 'd/o'.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm desired case formatting for personal names, especially handling of prefixes like 'Bin', 'Binte', 's/o', 'd/o' and all‑uppercase or all‑lowercase entries."
+    ]
+  }
+]

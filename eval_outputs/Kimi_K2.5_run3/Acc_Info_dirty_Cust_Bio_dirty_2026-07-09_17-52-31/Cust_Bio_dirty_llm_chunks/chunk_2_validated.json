@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier currently stored as int64 but intended as string type. Contains 30 records with no missing values, representing 28 distinct account numbers. Two account numbers (1001 and 1010) each appear twice. Values range from 1001 to 1028 and consistently follow a 4-digit numeric format.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve identifier semantics and prevent unintended mathematical operations: 1026 → '1026', 1014 → '1014'.",
+      "[CLARIFY] Confirm whether the 2 duplicate account numbers (1001, 1010) represent valid repeated entries (e.g., multiple records per account) or data quality issues requiring deduplication.",
+      "[VALIDATE] Ensure all values follow the format: exactly 4 digits (e.g., '1026')."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as decimal values (float64). Contains 30 records with no missing values, all of which are unique. Values range from -150.5 to 99999.0. Contains one negative value (-150.5, 3.3%) and one high-value sentinel (99999.0, 3.3%) that exceeds the statistically expected upper bound of 1525.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 99999.0 (statistical outlier exceeding expected range) represents a sentinel for missing/invalid data or a valid balance. Also confirm whether the negative value -150.5 represents a valid overdraft/credit balance or an error."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Unique identifier field, likely representing Singapore NRIC or FIN numbers. 29 of 30 records (96.7%) follow the standard 9-character format comprising one alphabetic prefix (S, T, F, or G), 7 digits, and a checksum suffix letter. One record (3.3%) contains a 7-character value ('S123456') that appears truncated, missing one digit and the checksum letter. All values are non-null and unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for the malformed entry 'S123456' which appears truncated compared to the dominant 9-character format (e.g., 'S1234567D').",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]

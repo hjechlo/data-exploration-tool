@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier (likely 'Serial Number') stored as int64 with values ranging from 1 to 30. Contains 29 distinct values across 30 records, with one duplicate occurrence (value '3'). No missing values. Serves as a one-to-one shared join key with Cust_Bio_dirty.S_N, though the duplicate value results in 96.7% coverage on the referenced side.",
+    "recommended_actions": [
+      "[CLARIFY] Verify whether the duplicate value '3' is intentional or a data entry error, given the column is designated as a one-to-one shared key with Cust_Bio_dirty.S_N."
+    ]
+  }
+]
+```

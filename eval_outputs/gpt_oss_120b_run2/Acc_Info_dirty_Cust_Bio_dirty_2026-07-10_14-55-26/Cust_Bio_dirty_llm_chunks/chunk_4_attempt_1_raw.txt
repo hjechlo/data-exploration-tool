@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field stored as string. All 30 records are non‑null; 29 distinct values with one duplicate ('F1011121T'). 93.3% follow the pattern letter‑seven‑digits‑letter (e.g., S8403757E), while 6.6% use alternative formats (letter‑six‑digits‑letter or seven‑digits‑letter). Observed lengths are 8 or 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of values with non‑standard formats aXXXXXXa and XXXXXXXa (e.g., 'F212233V', '1916569C') and determine the correct canonical form.",
+      "[VALIDATE] Ensure all ID_No values conform to the dominant pattern: one leading letter, seven digits, and a trailing letter — e.g., S8403757E."
+    ]
+  }
+]

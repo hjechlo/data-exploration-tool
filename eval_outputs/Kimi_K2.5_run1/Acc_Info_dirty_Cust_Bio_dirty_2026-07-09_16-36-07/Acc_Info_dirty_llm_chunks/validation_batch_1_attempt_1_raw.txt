@@ -1,0 +1,16 @@
+```json
+[
+  {
+    "rule_id": 40,
+    "failing_record_indices": [5, 15, 20, 22, 24, 28]
+  },
+  {
+    "rule_id": 41,
+    "failing_record_indices": [0, 1, 2, 3, 5, 6, 7, 12, 13, 14, 15, 18, 23]
+  },
+  {
+    "rule_id": 42,
+    "failing_record_indices": []
+  }
+]
+```

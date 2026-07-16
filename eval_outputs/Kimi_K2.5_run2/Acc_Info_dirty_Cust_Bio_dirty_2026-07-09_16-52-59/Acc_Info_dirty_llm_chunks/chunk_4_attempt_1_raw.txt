@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as string, with 96.7% of values following a 9-character format (one letter prefix, seven digits, one letter suffix) and 3.3% (1 record) following a truncated 7-character format lacking the checksum suffix (e.g., 'S123456'). All 30 records are non-null and contain unique values. Observed prefixes include S, T, F, and G.",
+    "recommended_actions": [
+      "[CLARIFY] Verify the correct value for the malformed entry 'S123456' — confirm whether it requires a seventh digit and checksum suffix to align with the dominant 9-character format, or if it represents a different identifier type.",
+      "[VALIDATE] Ensure all values follow the format: one letter, followed by 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

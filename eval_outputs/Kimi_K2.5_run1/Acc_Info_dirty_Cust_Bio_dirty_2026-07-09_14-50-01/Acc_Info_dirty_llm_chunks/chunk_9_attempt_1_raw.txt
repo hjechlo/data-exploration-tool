@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status flag stored as string with inconsistent representations across 30 records with no missing values. Contains 6 distinct values representing binary states using mixed formats: boolean strings ('True', 'False'), numeric strings ('1', '0'), and affirmative strings ('yes', 'no').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify all boolean representations to consistent true/false values: 'True' → true, '1' → true, 'yes' → true, 'False' → false, '0' → false, 'no' → false.",
+      "[VALIDATE] Ensure all values conform to boolean format (true/false) after standardization."
+    ]
+  }
+]
+```

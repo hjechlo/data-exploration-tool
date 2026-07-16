@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age column stores customer age as an integer. It contains 30 records with no missing values and 24 distinct values, ranging from -5 to 66. One record is a non-numeric string ('Twenty-five'), and two records have ages below 13 (4 and -5), which may be unrealistic for a service account.",
+    "recommended_actions": [
+      "[CLARIFY] Determine the correct numeric value for the non-numeric entry 'Twenty-five'.",
+      "[VALIDATE] Ensure all ages are integer values within a realistic range (e.g., 13 to 120), such as 45."
+    ]
+  }
+]

@@ -1,0 +1,8 @@
+[{
+  "column_name": "Status",
+  "description": "Status field stored as string with 30 non‑null records. Intended as a boolean flag but contains six distinct textual representations ('0','1','False','True','no','yes'), indicating inconsistent encoding of true/false values.",
+  "recommended_actions": [
+    "[STANDARDIZE] Map all variants to a single boolean representation, e.g., '0' → 'False', '1' → 'True', 'no' → 'False', 'yes' → 'True', while preserving existing 'True'/'False' values.",
+    "[VALIDATE] Ensure after standardisation that only the two canonical values ('True' and 'False') remain."
+  ]
+}]

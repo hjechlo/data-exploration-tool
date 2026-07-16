@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system field stored as low‑cardinality categorical text. All 30 records are non‑null with 8 distinct values observed. Casing variations appear (e.g., 'Android' vs 'android', 'iOS' vs 'IOS', 'Linux' vs 'LINUX', 'macOs'), indicating inconsistent representation of the same OS names.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the official canonical spelling and casing for each operating system (e.g., 'Android', 'iOS', 'Linux', 'Windows', 'macOS') before applying any standardisation.",
+      "[VALIDATE] After standardisation, enforce that values belong to the approved OS list."
+    ]
+  }
+]

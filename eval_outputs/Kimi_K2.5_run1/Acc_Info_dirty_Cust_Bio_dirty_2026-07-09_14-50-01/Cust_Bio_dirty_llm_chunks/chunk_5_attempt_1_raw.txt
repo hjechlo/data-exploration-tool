@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical field representing customer race or ethnicity. Contains 30 records with no missing values across 6 distinct string values representing 3 semantic categories (Chinese, Malay, Indian) with casing inconsistencies.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to Title Case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'."
+    ]
+  }
+]
+```

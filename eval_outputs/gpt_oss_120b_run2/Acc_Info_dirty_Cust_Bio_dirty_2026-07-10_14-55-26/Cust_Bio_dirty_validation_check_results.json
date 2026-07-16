@@ -1,0 +1,576 @@
+{
+  "per_rule": [
+    {
+      "rule_id": 1,
+      "column": "S_N",
+      "rule": "S_N must never be null because it is the primary row‑level identifier.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 2,
+      "column": "S_N",
+      "rule": "All S_N values must be unique.",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 3,
+      "column": "S_N",
+      "rule": "Every S_N must exist in Acc_Info_dirty.S_N to preserve referential integrity.",
+      "type": "referential_cross_table",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "S_N": 6
+        }
+      ]
+    },
+    {
+      "rule_id": 4,
+      "column": "Account_No",
+      "rule": "Account_No must not be null because it identifies a customer account.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 5,
+      "column": "Account_No",
+      "rule": "Account_No must be exactly four digits after conversion to a string.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 6,
+      "column": "Account_No",
+      "rule": "Account_No values should be unique; duplicates may indicate data quality issues.",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1010
+        },
+        {
+          "Account_No": 1010
+        }
+      ]
+    },
+    {
+      "rule_id": 7,
+      "column": "Name",
+      "rule": "Flag names that are entirely lower‑case because they deviate from the expected title‑case or upper‑case style.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Name": "lim wei jie"
+        }
+      ]
+    },
+    {
+      "rule_id": 8,
+      "column": "Name",
+      "rule": "If a name contains the male particles \"bin\" or \"s/o\" (case‑insensitive) the Gender must be Male; if it contains the female particles \"binte\" or \"d/o\" the Gender must be Female.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 9,
+      "column": "ID_No",
+      "rule": "ID_No must follow the dominant pattern: a leading letter, seven digits, and a trailing letter (e.g., S8403757E).",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "1916569C"
+        },
+        {
+          "ID_No": "F212233V"
+        }
+      ]
+    },
+    {
+      "rule_id": 10,
+      "column": "ID_No",
+      "rule": "ID_No values should be unique; duplicates may indicate identity duplication.",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "F1011121T"
+        },
+        {
+          "ID_No": "F1011121T"
+        }
+      ]
+    },
+    {
+      "rule_id": 11,
+      "column": "Race",
+      "rule": "Race must be one of the canonical categories: Chinese, Malay, Indian.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 3,
+      "violation_rate": 0.1,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Race": "malay"
+        },
+        {
+          "Race": "MALAY"
+        },
+        {
+          "Race": "indian"
+        }
+      ]
+    },
+    {
+      "rule_id": 12,
+      "column": "Gender",
+      "rule": "Gender must be either 'Male' or 'Female'.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Gender": "male"
+        },
+        {
+          "Gender": "FEMALE"
+        }
+      ]
+    },
+    {
+      "rule_id": 13,
+      "column": "Age",
+      "rule": "Age must not be null because every record should have an age.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 14,
+      "column": "Age",
+      "rule": "Flag ages that cannot be parsed as numeric values.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "Twenty-five"
+        }
+      ]
+    },
+    {
+      "rule_id": 15,
+      "column": "Age",
+      "rule": "Age must be between 13 and 120 inclusive, reflecting realistic human ages for the service.",
+      "type": "range",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "4"
+        },
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 16,
+      "column": "Contact_No",
+      "rule": "Contact_No must not be null because a phone number is required for customer contact.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": null
+        },
+        {
+          "Contact_No": null
+        }
+      ]
+    },
+    {
+      "rule_id": 17,
+      "column": "Contact_No",
+      "rule": "Contact_No must follow Singapore international format '+65' followed by a space and eight digits.",
+      "type": "phone_validity",
+      "n_records_checked": 30,
+      "n_violations": 25,
+      "violation_rate": 0.833,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": "65 80742791"
+        },
+        {
+          "Contact_No": "65 89648602"
+        },
+        {
+          "Contact_No": "65 89604438"
+        },
+        {
+          "Contact_No": "65 89628434"
+        },
+        {
+          "Contact_No": "65 89600061"
+        }
+      ]
+    },
+    {
+      "rule_id": 18,
+      "column": "Email",
+      "rule": "Email must match the simple email pattern: one or more non‑@/space characters, an '@', then one or more non‑@/space characters.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "not-an-email"
+        },
+        {
+          "Email": "zx91 @example.com"
+        },
+        {
+          "Email": "nabilah@@example.com"
+        },
+        {
+          "Email": "useremail.com"
+        }
+      ]
+    },
+    {
+      "rule_id": 19,
+      "column": "Country",
+      "rule": "Country must be the canonical value 'Singapore'.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 11,
+      "violation_rate": 0.367,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Country": "Singapura"
+        },
+        {
+          "Country": "Singapura"
+        },
+        {
+          "Country": "S'pore"
+        },
+        {
+          "Country": "SINGAPORE"
+        },
+        {
+          "Country": "S'pore"
+        }
+      ]
+    },
+    {
+      "rule_id": 20,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must not be null because every address requires a postal code.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 21,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must be a numeric string of 4 to 6 digits.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 22,
+      "column": "Street_Name",
+      "rule": "No validation rule generated because the column contains free‑text street names with no observed quality issues.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 23,
+      "column": "Email",
+      "rule": "Email must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "thm@example.com"
+        },
+        {
+          "Email": "thm@example.com"
+        }
+      ]
+    }
+  ],
+  "violation_records": [
+    {
+      "Row": "6",
+      "Record Identifier": "S2633396B",
+      "Failed Column": "S_N, Contact_No, Country",
+      "Failed Value": "6 | 65 89639635 | SINGAPORE",
+      "Validation Rules Failed": "#3: Every S_N must exist in Acc_Info_dirty.S_N to preserve referential integrity. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "1",
+      "Record Identifier": "S1234567D",
+      "Failed Column": "Account_No, Name, Contact_No, Email",
+      "Failed Value": "1001 | lim wei jie | 65 80742791 | not-an-email",
+      "Validation Rules Failed": "#6: Account_No values should be unique; duplicates may indicate data quality issues. | #7: Flag names that are entirely lower‑case because they deviate from the expected title‑case or upper‑case style. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #18: Email must match the simple email pattern: one or more non‑@/space characters, an '@', then one or more non‑@/space characters."
+    },
+    {
+      "Row": "2",
+      "Record Identifier": "S7654321F",
+      "Failed Column": "Account_No, Age, Contact_No, Email",
+      "Failed Value": "1001 | 4 | 65 89648602 | thm@example.com",
+      "Validation Rules Failed": "#6: Account_No values should be unique; duplicates may indicate data quality issues. | #15: Age must be between 13 and 120 inclusive, reflecting realistic human ages for the service. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #23: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "11",
+      "Record Identifier": "S8099150I",
+      "Failed Column": "Account_No, Contact_No, Email",
+      "Failed Value": "1010 | <NA> | thm@example.com",
+      "Validation Rules Failed": "#6: Account_No values should be unique; duplicates may indicate data quality issues. | #16: Contact_No must not be null because a phone number is required for customer contact. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #23: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "12",
+      "Record Identifier": "T0292156H",
+      "Failed Column": "Account_No, Country",
+      "Failed Value": "1010 | singapore",
+      "Validation Rules Failed": "#6: Account_No values should be unique; duplicates may indicate data quality issues. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "23",
+      "Record Identifier": "1916569C",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "1916569C | 89610352",
+      "Validation Rules Failed": "#9: ID_No must follow the dominant pattern: a leading letter, seven digits, and a trailing letter (e.g., S8403757E). | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "25",
+      "Record Identifier": "F212233V",
+      "Failed Column": "ID_No, Contact_No",
+      "Failed Value": "F212233V | 65478367",
+      "Validation Rules Failed": "#9: ID_No must follow the dominant pattern: a leading letter, seven digits, and a trailing letter (e.g., S8403757E). | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "20",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "ID_No, Age, Contact_No",
+      "Failed Value": "F1011121T | Twenty-five | 89617233",
+      "Validation Rules Failed": "#10: ID_No values should be unique; duplicates may indicate identity duplication. | #14: Flag ages that cannot be parsed as numeric values. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "21",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "ID_No, Contact_No, Country",
+      "Failed Value": "F1011121T | 89649550 | Republic of Singapore",
+      "Validation Rules Failed": "#10: ID_No values should be unique; duplicates may indicate identity duplication. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "4",
+      "Record Identifier": "F1122334K",
+      "Failed Column": "Race, Contact_No, Country",
+      "Failed Value": "malay | 65 89628434 | Singapura",
+      "Validation Rules Failed": "#11: Race must be one of the canonical categories: Chinese, Malay, Indian. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "10",
+      "Record Identifier": "S3387002G",
+      "Failed Column": "Race, Country",
+      "Failed Value": "MALAY | S'pore",
+      "Validation Rules Failed": "#11: Race must be one of the canonical categories: Chinese, Malay, Indian. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "17",
+      "Record Identifier": "F9900112R",
+      "Failed Column": "Race, Contact_No",
+      "Failed Value": "indian | 65 65789456",
+      "Validation Rules Failed": "#11: Race must be one of the canonical categories: Chinese, Malay, Indian. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "3",
+      "Record Identifier": "S9968522J",
+      "Failed Column": "Gender, Contact_No, Country",
+      "Failed Value": "male | 65 89604438 | Singapura",
+      "Validation Rules Failed": "#12: Gender must be either 'Male' or 'Female'. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "13",
+      "Record Identifier": "F7788990P",
+      "Failed Column": "Gender, Contact_No, Country",
+      "Failed Value": "FEMALE | 65 67865467 | SG",
+      "Validation Rules Failed": "#12: Gender must be either 'Male' or 'Female'. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "8",
+      "Record Identifier": "F4455667M",
+      "Failed Column": "Age",
+      "Failed Value": "-5",
+      "Validation Rules Failed": "#15: Age must be between 13 and 120 inclusive, reflecting realistic human ages for the service."
+    },
+    {
+      "Row": "30",
+      "Record Identifier": "F0000000X",
+      "Failed Column": "Contact_No",
+      "Failed Value": "<NA>",
+      "Validation Rules Failed": "#16: Contact_No must not be null because a phone number is required for customer contact. | #17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "5",
+      "Record Identifier": "G8765432L",
+      "Failed Column": "Contact_No, Country",
+      "Failed Value": "65 89600061 | S'pore",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "14",
+      "Record Identifier": "G6677889Q",
+      "Failed Column": "Contact_No",
+      "Failed Value": "65 67865333",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "15",
+      "Record Identifier": "S9539727A",
+      "Failed Column": "Contact_No, Email",
+      "Failed Value": "65 67945676 | nabilah@@example.com",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #18: Email must match the simple email pattern: one or more non‑@/space characters, an '@', then one or more non‑@/space characters."
+    },
+    {
+      "Row": "16",
+      "Record Identifier": "S8421753J",
+      "Failed Column": "Contact_No",
+      "Failed Value": "65 63678654",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "18",
+      "Record Identifier": "G2233445S",
+      "Failed Column": "Contact_No",
+      "Failed Value": "63648765",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "19",
+      "Record Identifier": "S8705681C",
+      "Failed Column": "Contact_No, Email, Country",
+      "Failed Value": "89618651 | useremail.com | SG",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #18: Email must match the simple email pattern: one or more non‑@/space characters, an '@', then one or more non‑@/space characters. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "22",
+      "Record Identifier": "G3344556U",
+      "Failed Column": "Contact_No",
+      "Failed Value": "89639976",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "24",
+      "Record Identifier": "S8792459I",
+      "Failed Column": "Contact_No, Country",
+      "Failed Value": "89609417 | 新加坡",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "26",
+      "Record Identifier": "G4455667W",
+      "Failed Column": "Contact_No",
+      "Failed Value": "68946357",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "27",
+      "Record Identifier": "S7516430J",
+      "Failed Column": "Contact_No",
+      "Failed Value": "62357895",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "28",
+      "Record Identifier": "S8403757E",
+      "Failed Column": "Contact_No, Country",
+      "Failed Value": "67389267 | 新加坡",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits. | #19: Country must be the canonical value 'Singapore'."
+    },
+    {
+      "Row": "29",
+      "Record Identifier": "S1234567Z",
+      "Failed Column": "Contact_No",
+      "Failed Value": "8964359",
+      "Validation Rules Failed": "#17: Contact_No must follow Singapore international format '+65' followed by a space and eight digits."
+    },
+    {
+      "Row": "7",
+      "Record Identifier": "S9136271F",
+      "Failed Column": "Email",
+      "Failed Value": "zx91 @example.com",
+      "Validation Rules Failed": "#18: Email must match the simple email pattern: one or more non‑@/space characters, an '@', then one or more non‑@/space characters."
+    }
+  ],
+  "total_failing_records": 29
+}

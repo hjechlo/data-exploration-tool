@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field stored as int64 numeric values ranging from 1001 to 1028, always four characters long. No missing values. Intended to be a string identifier; currently numeric type may cause downstream compatibility issues. Near‑unique with 28 distinct values among 30 records, with two duplicate values (1001, 1010).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric values to string identifiers, e.g., 1026 → '1026', preserving the four‑digit format.",
+      "[VALIDATE] Verify all values conform to a four‑digit numeric string format, e.g., '1026'.",
+      "[CLARIFY] Confirm whether duplicate account numbers (e.g., '1001', '1010') are permissible or indicate a data quality issue."
+    ]
+  }
+]

@@ -217,8 +217,9 @@ Each entry follows the same structure: **Flag**, **Sentinel**, **Standardise**, 
 - Always: when evidence shows a country dialing prefix (e.g. '+65', '65', '+1'),
   set `country_code` in check_params to the digits only without '+' (e.g. '65', '1').
   Never leave `country_code` empty when a prefix is visible in the sample values.
-- Never: flag a number that includes a valid country code prefix as an error — treat
-  "country code + local number" as valid.
+- Always: when `country_code` is set, the only valid format is `+<country_code> <local_number>`.
+  Variants without the `+` (e.g. `65 XXXXXXXX`) or bare local numbers (e.g. `XXXXXXXX`)
+  must be flagged as violations.
  
 **POSTAL CODE**
 - Flag: wrong digit/character count; non-alphanumeric characters; values outside the

@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string (intended as float64). Contains 28 distinct non-null values (all unique) across 30 records, with 2 missing values (6.7%). Legitimate numeric entries range from 16.53 to 961.14, but the column includes the literal value 'free' and a sentinel value '99999' (likely a placeholder for missing or uncaptured data).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm business meaning and standardization rules for: (1) literal 'free' (representing $0 or complimentary subscription?), (2) sentinel '99999' (placeholder for missing/unknown?), and (3) whether 6.7% missing indicates optional field or data quality gap.",
+      "[STANDARDIZE] Convert valid numeric strings to float64 data type after resolving special values ('free' and '99999') per clarification above.",
+      "[VALIDATE] Ensure all post-conversion values are positive decimals within reasonable subscription fee range."
+    ]
+  }
+]
+```

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Categorical string field indicating the customer's country. Contains 30 non‑null records with 8 distinct values, all variations of Singapore (e.g., 'Singapore', 'Singapura', 'S'pore', 'SG', 'SINGAPORE', 'singapore', '新加坡', 'Republic of Singapore'). No missing values; low cardinality but inconsistent representations.",
+    "recommended_actions": [
+      "[STANDARDIZE] Consolidate the multiple representations to a single canonical value (e.g., 'Singapore'), covering observed variants such as '新加坡', 'S'pore', 'SG', 'SINGAPORE', 'singapore', 'Singapura', and 'Republic of Singapore' (approximately up to 23% of records are non‑canonical).",
+      "[VALIDATE] Verify that all values after standardisation belong to the approved country list, e.g., they match the format: the exact word 'Singapore'."
+    ]
+  }
+]

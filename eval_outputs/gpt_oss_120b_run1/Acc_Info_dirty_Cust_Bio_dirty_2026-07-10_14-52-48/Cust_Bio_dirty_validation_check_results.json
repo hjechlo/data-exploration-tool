@@ -1,0 +1,511 @@
+{
+  "per_rule": [
+    {
+      "rule_id": 1,
+      "column": "S_N",
+      "rule": "S_N must not contain null values.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 2,
+      "column": "S_N",
+      "rule": "All S_N values must be unique.",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 3,
+      "column": "Account_No",
+      "rule": "Account_No must be a four‑digit numeric string.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 4,
+      "column": "ID_No",
+      "rule": "ID_No should follow the dominant pattern: a leading letter, seven digits, and a trailing letter (e.g., S1234567D).",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "1916569C"
+        },
+        {
+          "ID_No": "F212233V"
+        }
+      ]
+    },
+    {
+      "rule_id": 5,
+      "column": "Race",
+      "rule": "Race must be one of the canonical categories: Chinese, Malay, Indian.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 3,
+      "violation_rate": 0.1,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Race": "malay"
+        },
+        {
+          "Race": "MALAY"
+        },
+        {
+          "Race": "indian"
+        }
+      ]
+    },
+    {
+      "rule_id": 6,
+      "column": "Gender",
+      "rule": "Gender must be either 'Male' or 'Female'.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Gender": "male"
+        },
+        {
+          "Gender": "FEMALE"
+        }
+      ]
+    },
+    {
+      "rule_id": 7,
+      "column": "Age",
+      "rule": "Age must be between 0 and 120 inclusive.",
+      "type": "range",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 8,
+      "column": "Age",
+      "rule": "Flag records where Age cannot be parsed as a numeric value.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "Twenty-five"
+        }
+      ]
+    },
+    {
+      "rule_id": 9,
+      "column": "Age",
+      "rule": "Flag ages that are less than 13, which are unlikely for a consumer‑service account.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Age": "4"
+        },
+        {
+          "Age": "-5"
+        }
+      ]
+    },
+    {
+      "rule_id": 10,
+      "column": "Email",
+      "rule": "Email must match the simple email pattern: local-part@domain.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "not-an-email"
+        },
+        {
+          "Email": "zx91 @example.com"
+        },
+        {
+          "Email": "nabilah@@example.com"
+        },
+        {
+          "Email": "useremail.com"
+        }
+      ]
+    },
+    {
+      "rule_id": 11,
+      "column": "Contact_No",
+      "rule": "Contact_No must not be null.",
+      "type": "not_null",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": null
+        },
+        {
+          "Contact_No": null
+        }
+      ]
+    },
+    {
+      "rule_id": 12,
+      "column": "Contact_No",
+      "rule": "Contact_No must follow a Singapore phone format: '+65 12345678', '65 12345678' or an 8‑digit local number.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Contact_No": "8964359"
+        }
+      ]
+    },
+    {
+      "rule_id": 13,
+      "column": "Country",
+      "rule": "Country must be one of the observed Singapore representations.",
+      "type": "enumeration",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 14,
+      "column": "Name",
+      "rule": "Flag names that are not in title case (e.g., all‑upper or all‑lower).",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Name": "lim wei jie"
+        },
+        {
+          "Name": "WANG SHI JIE"
+        }
+      ]
+    },
+    {
+      "rule_id": 15,
+      "column": "Gender",
+      "rule": "Gender must be consistent with name particles: 'Bin' or 's/o' imply Male; 'Binte' or 'd/o' imply Female.",
+      "type": "custom",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 16,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must be a numeric string of length 4 to 6.",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 17,
+      "column": "Postal_Code",
+      "rule": "Postal_Code must be a 6-digit code",
+      "type": "format",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Postal_Code": 99999
+        },
+        {
+          "Postal_Code": 6907
+        }
+      ]
+    },
+    {
+      "rule_id": 18,
+      "column": "S_N",
+      "rule": "Every S_N in Cust_Bio_dirty must exist in Acc_Info_dirty.S_N.",
+      "type": "referential_cross_table",
+      "n_records_checked": 30,
+      "n_violations": 1,
+      "violation_rate": 0.033,
+      "passed": false,
+      "sample_violations": [
+        {
+          "S_N": 6
+        }
+      ]
+    },
+    {
+      "rule_id": 19,
+      "column": "JoinDate",
+      "rule": "JoinDate must not be later than LastLogin.",
+      "type": "date_ordering",
+      "n_records_checked": 30,
+      "n_violations": 0,
+      "violation_rate": 0.0,
+      "passed": true
+    },
+    {
+      "rule_id": 20,
+      "column": "Account_No",
+      "rule": "Account_No must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 4,
+      "violation_rate": 0.133,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1001
+        },
+        {
+          "Account_No": 1010
+        },
+        {
+          "Account_No": 1010
+        }
+      ]
+    },
+    {
+      "rule_id": 21,
+      "column": "ID_No",
+      "rule": "ID_No must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "ID_No": "F1011121T"
+        },
+        {
+          "ID_No": "F1011121T"
+        }
+      ]
+    },
+    {
+      "rule_id": 22,
+      "column": "Email",
+      "rule": "Email must be unique within Cust_Bio_dirty",
+      "type": "uniqueness",
+      "n_records_checked": 30,
+      "n_violations": 2,
+      "violation_rate": 0.067,
+      "passed": false,
+      "sample_violations": [
+        {
+          "Email": "thm@example.com"
+        },
+        {
+          "Email": "thm@example.com"
+        }
+      ]
+    }
+  ],
+  "violation_records": [
+    {
+      "Row": "23",
+      "Record Identifier": "1916569C",
+      "Failed Column": "ID_No",
+      "Failed Value": "1916569C",
+      "Validation Rules Failed": "#4: ID_No should follow the dominant pattern: a leading letter, seven digits, and a trailing letter (e.g., S1234567D)."
+    },
+    {
+      "Row": "25",
+      "Record Identifier": "F212233V",
+      "Failed Column": "ID_No",
+      "Failed Value": "F212233V",
+      "Validation Rules Failed": "#4: ID_No should follow the dominant pattern: a leading letter, seven digits, and a trailing letter (e.g., S1234567D)."
+    },
+    {
+      "Row": "4",
+      "Record Identifier": "F1122334K",
+      "Failed Column": "Race",
+      "Failed Value": "malay",
+      "Validation Rules Failed": "#5: Race must be one of the canonical categories: Chinese, Malay, Indian."
+    },
+    {
+      "Row": "10",
+      "Record Identifier": "S3387002G",
+      "Failed Column": "Race",
+      "Failed Value": "MALAY",
+      "Validation Rules Failed": "#5: Race must be one of the canonical categories: Chinese, Malay, Indian."
+    },
+    {
+      "Row": "17",
+      "Record Identifier": "F9900112R",
+      "Failed Column": "Race",
+      "Failed Value": "indian",
+      "Validation Rules Failed": "#5: Race must be one of the canonical categories: Chinese, Malay, Indian."
+    },
+    {
+      "Row": "3",
+      "Record Identifier": "S9968522J",
+      "Failed Column": "Gender",
+      "Failed Value": "male",
+      "Validation Rules Failed": "#6: Gender must be either 'Male' or 'Female'."
+    },
+    {
+      "Row": "13",
+      "Record Identifier": "F7788990P",
+      "Failed Column": "Gender",
+      "Failed Value": "FEMALE",
+      "Validation Rules Failed": "#6: Gender must be either 'Male' or 'Female'."
+    },
+    {
+      "Row": "8",
+      "Record Identifier": "F4455667M",
+      "Failed Column": "Age",
+      "Failed Value": "-5",
+      "Validation Rules Failed": "#7: Age must be between 0 and 120 inclusive. | #9: Flag ages that are less than 13, which are unlikely for a consumer‑service account."
+    },
+    {
+      "Row": "20",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "Age, ID_No",
+      "Failed Value": "Twenty-five | F1011121T",
+      "Validation Rules Failed": "#8: Flag records where Age cannot be parsed as a numeric value. | #21: ID_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "2",
+      "Record Identifier": "S7654321F",
+      "Failed Column": "Age, Account_No, Email",
+      "Failed Value": "4 | 1001 | thm@example.com",
+      "Validation Rules Failed": "#9: Flag ages that are less than 13, which are unlikely for a consumer‑service account. | #20: Account_No must be unique within Cust_Bio_dirty | #22: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "1",
+      "Record Identifier": "S1234567D",
+      "Failed Column": "Email, Name, Account_No",
+      "Failed Value": "not-an-email | lim wei jie | 1001",
+      "Validation Rules Failed": "#10: Email must match the simple email pattern: local-part@domain. | #14: Flag names that are not in title case (e.g., all‑upper or all‑lower). | #20: Account_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "7",
+      "Record Identifier": "S9136271F",
+      "Failed Column": "Email",
+      "Failed Value": "zx91 @example.com",
+      "Validation Rules Failed": "#10: Email must match the simple email pattern: local-part@domain."
+    },
+    {
+      "Row": "15",
+      "Record Identifier": "S9539727A",
+      "Failed Column": "Email",
+      "Failed Value": "nabilah@@example.com",
+      "Validation Rules Failed": "#10: Email must match the simple email pattern: local-part@domain."
+    },
+    {
+      "Row": "19",
+      "Record Identifier": "S8705681C",
+      "Failed Column": "Email",
+      "Failed Value": "useremail.com",
+      "Validation Rules Failed": "#10: Email must match the simple email pattern: local-part@domain."
+    },
+    {
+      "Row": "11",
+      "Record Identifier": "S8099150I",
+      "Failed Column": "Contact_No, Account_No, Email",
+      "Failed Value": "<NA> | 1010 | thm@example.com",
+      "Validation Rules Failed": "#11: Contact_No must not be null. | #20: Account_No must be unique within Cust_Bio_dirty | #22: Email must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "30",
+      "Record Identifier": "F0000000X",
+      "Failed Column": "Contact_No",
+      "Failed Value": "<NA>",
+      "Validation Rules Failed": "#11: Contact_No must not be null."
+    },
+    {
+      "Row": "29",
+      "Record Identifier": "S1234567Z",
+      "Failed Column": "Contact_No",
+      "Failed Value": "8964359",
+      "Validation Rules Failed": "#12: Contact_No must follow a Singapore phone format: '+65 12345678', '65 12345678' or an 8‑digit local number."
+    },
+    {
+      "Row": "28",
+      "Record Identifier": "S8403757E",
+      "Failed Column": "Name",
+      "Failed Value": "WANG SHI JIE",
+      "Validation Rules Failed": "#14: Flag names that are not in title case (e.g., all‑upper or all‑lower)."
+    },
+    {
+      "Row": "9",
+      "Record Identifier": "G5566778N",
+      "Failed Column": "Postal_Code",
+      "Failed Value": "99999",
+      "Validation Rules Failed": "#17: Postal_Code must be a 6-digit code"
+    },
+    {
+      "Row": "14",
+      "Record Identifier": "G6677889Q",
+      "Failed Column": "Postal_Code",
+      "Failed Value": "6907",
+      "Validation Rules Failed": "#17: Postal_Code must be a 6-digit code"
+    },
+    {
+      "Row": "6",
+      "Record Identifier": "S2633396B",
+      "Failed Column": "S_N",
+      "Failed Value": "6",
+      "Validation Rules Failed": "#18: Every S_N in Cust_Bio_dirty must exist in Acc_Info_dirty.S_N."
+    },
+    {
+      "Row": "12",
+      "Record Identifier": "T0292156H",
+      "Failed Column": "Account_No",
+      "Failed Value": "1010",
+      "Validation Rules Failed": "#20: Account_No must be unique within Cust_Bio_dirty"
+    },
+    {
+      "Row": "21",
+      "Record Identifier": "F1011121T",
+      "Failed Column": "ID_No",
+      "Failed Value": "F1011121T",
+      "Validation Rules Failed": "#21: ID_No must be unique within Cust_Bio_dirty"
+    }
+  ],
+  "total_failing_records": 23
+}

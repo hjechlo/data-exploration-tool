@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender category stored as string with 0 missing values (0%) across 30 records. Observed values show inconsistent casing with four distinct string variants ('Male', 'male', 'Female', 'FEMALE') representing two semantic categories.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to Title Case: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

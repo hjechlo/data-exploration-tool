@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier column storing customer IDs as strings. Values are 8 or 9 characters long. 93.3% follow the pattern letter‑7 digits‑letter (e.g., S8403757E); 3.3% use a six‑digit variant (letter‑6 digits‑letter) and another 3.3% lack the leading letter (7 digits‑letter). No missing values; 29 distinct values with one duplicate, making it near‑unique.",
+    "recommended_actions": [
+      "[CLARIFY] Determine the intended format for the 6.6% of records that deviate (aXXXXXXa and XXXXXXXa) and decide whether they should be padded or otherwise transformed to the dominant aXXXXXXXa pattern."
+    ]
+  }
+]

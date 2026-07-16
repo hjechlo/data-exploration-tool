@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Personal full name field stored as string. Contains 30 distinct, non‑null values (0% missing). All values are unique. Observed names include various cultural naming conventions such as \"Bin\", \"Binte\", \"s/o\", and \"d/o\". The dataset shows mixed casing (e.g., \"WANG SHI JIE\" vs \"lim wei jie\").",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended casing convention for personal names, as values include all caps (e.g., 'WANG SHI JIE') and all lower case (e.g., 'lim wei jie')."
+    ]
+  }
+]

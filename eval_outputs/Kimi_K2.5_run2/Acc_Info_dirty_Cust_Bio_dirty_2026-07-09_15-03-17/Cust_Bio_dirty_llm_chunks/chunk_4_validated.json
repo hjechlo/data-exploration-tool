@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identification number field stored as string. 30 records with 0 missing values and 29 distinct values (96.7% unique), with one duplicate occurrence of 'F1011121T'. 93.3% of values follow the pattern [Letter][7 digits][Letter] (e.g., 'S8403757E'), while 6.6% deviate from this structure: '1916569C' lacks the leading alphabetic character and 'F212233V' contains only 6 digits.",
+    "recommended_actions": [
+      "[CLARIFY] Verify the 6.6% of records with incompatible formats: '1916569C' (missing prefix letter) and 'F212233V' (6 digits instead of 7). Confirm if these represent valid alternative ID formats or data entry errors requiring correction.",
+      "[CLARIFY] Investigate the duplicate value 'F1011121T' to determine if it represents a legitimate data relationship or a data quality issue requiring deduplication.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S8403757E."
+    ]
+  }
+]

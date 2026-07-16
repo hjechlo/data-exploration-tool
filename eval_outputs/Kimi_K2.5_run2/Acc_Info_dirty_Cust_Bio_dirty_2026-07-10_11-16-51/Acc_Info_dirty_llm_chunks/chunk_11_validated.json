@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language selection stored as categorical text. Contains 5 distinct language values (English, French, German, Malay, Tamil) across 30 records with no missing values. All values follow standard title-case formatting with observed lengths between 5 and 7 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

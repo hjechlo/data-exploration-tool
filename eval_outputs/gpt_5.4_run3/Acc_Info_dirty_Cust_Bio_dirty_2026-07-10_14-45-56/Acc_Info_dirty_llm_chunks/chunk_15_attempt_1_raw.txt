@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "FeedbackScore1",
+    "description": "Numeric feedback score stored as float64. The column is complete with 0 missing values out of 30 records and contains 29 distinct non-null values, making it near-unique with one repeated value ('1.78'). Observed values range from 1.0 to 5.0.",
+    "recommended_actions": [
+      "[CLARIFY] This column appears to be a near-duplicate of Acc_Info_dirty.FeedbackScore based on near-identical values (resemblance=0.8125). Confirm whether both columns are required or whether one should be removed."
+    ]
+  }
+]

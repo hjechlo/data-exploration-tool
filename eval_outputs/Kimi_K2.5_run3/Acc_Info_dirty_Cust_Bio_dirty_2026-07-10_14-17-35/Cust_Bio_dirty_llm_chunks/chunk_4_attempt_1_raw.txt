@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "National identification number field (consistent with Singapore NRIC/FIN format) containing 30 records with 0 missing values and 29 distinct values (96.7% unique). One duplicate value observed: 'F1011121T'. The dominant format (93.3% of values) consists of one alphabetic prefix (S, T, F, or G), followed by 7 digits, and ending with one checksum letter (e.g., 'S8403757E', 'G2233445S'). Two records (6.6%) deviate from this pattern: 'F212233V' contains only 6 digits, and '1916569C' lacks the alphabetic prefix entirely.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct values for 2 records with non-standard formats: 'F212233V' (6 digits instead of 7) and '1916569C' (missing prefix letter). Verify whether these represent data entry errors or valid alternative ID formats.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567D.",
+      "[CLARIFY] Review the duplicate value 'F1011121T' to determine if this represents a legitimate repeated entry or a data quality issue requiring deduplication."
+    ]
+  }
+]
+```

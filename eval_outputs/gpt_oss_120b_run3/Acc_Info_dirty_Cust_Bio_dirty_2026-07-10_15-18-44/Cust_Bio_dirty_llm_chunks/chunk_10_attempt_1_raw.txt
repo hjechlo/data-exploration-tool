@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Country",
+    "description": "Country field storing the customer's country as a categorical string. All 30 records are non‑null and contain 8 distinct representations of Singapore, including full name, abbreviations, different capitalizations and a Chinese name, indicating inconsistent labeling of the same country.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the intended canonical representation for country values and define mapping rules for variants such as \"Republic of Singapore\", \"S'pore\", \"SG\", \"Singapura\", \"SINGAPORE\", \"singapore\" and \"新加坡\" to the chosen standard."
+    ]
+  }
+]

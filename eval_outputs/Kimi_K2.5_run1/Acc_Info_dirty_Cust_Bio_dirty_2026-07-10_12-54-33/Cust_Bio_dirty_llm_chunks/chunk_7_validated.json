@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age field stored as int64 with 30 records and no missing values. Contains 24 distinct values ranging from -5 to 66. Data quality issues include 1 non-numeric text value ('Twenty-five', 3.3% of records) and 2 values (-5 and 4) that fall below 13 and may be unrealistic for a service account.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric (3.3% of records): 'Twenty-five' → '25'.",
+      "[CLARIFY] Review 2 unrealistic age values (-5 and 4) to confirm if they are data entry errors, placeholder values, or require special handling.",
+      "[VALIDATE] Ensure all values are positive integers within a realistic age range (e.g., 0-120) after standardization."
+    ]
+  }
+]

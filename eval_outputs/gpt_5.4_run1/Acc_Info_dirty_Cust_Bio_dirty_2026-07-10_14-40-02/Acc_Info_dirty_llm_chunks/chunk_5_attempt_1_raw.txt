@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as a string, intended to represent datetime values. The column has 29 distinct non-null values across 30 records, with all non-null values unique. There is 1 missing value (3.3%). Most observed values use a timestamp-like format such as '2021-03-14 00:00:00', but one value is unparseable: '2025-13-01'. The field is stored as string even though the intended type is datetime64[ns].",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize mixed date representations by converting date-only values to the dominant timestamp format where valid, for 3.4% of observed values: 'YYYY-MM-DD' → 'YYYY-MM-DD 00:00:00'.",
+      "[CLARIFY] Review the unparseable date value '2025-13-01' and confirm the correct date before type conversion.",
+      "[VALIDATE] Ensure all values follow a valid date or datetime format, for example '2021-03-14 00:00:00', and can be successfully converted to datetime64[ns]."
+    ]
+  }
+]

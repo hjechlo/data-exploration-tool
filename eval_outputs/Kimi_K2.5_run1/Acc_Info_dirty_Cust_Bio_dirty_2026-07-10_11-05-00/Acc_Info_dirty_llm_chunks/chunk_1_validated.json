@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier storing integer values ranging from 1 to 30. Contains 29 distinct values across 30 records (96.7% unique) with one duplicate occurrence of value '3'. No missing values. Serves as a one-to-one shared key with Cust_Bio_dirty.S_N, with 100.0% coverage on this side and 96.7% coverage on the target side.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicate value '3' is expected or if this column should enforce uniqueness constraints given its designation as a one-to-one shared key with Cust_Bio_dirty.S_N."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Unique identifier field containing 30 distinct alphanumeric codes with no missing values. Values consist of an alphabetic prefix (S, F, G, or T) followed by digits and a trailing alphabetic character. 96.7% of records follow a 9-character format with 7 digits (e.g., 'S8403757E'), while 1 record (3.3%) uses a truncated 7-character format with 6 digits and no trailing letter ('S123456').",
+    "recommended_actions": [
+      "[CLARIFY] Review the malformed entry 'S123456' (3.3%) which appears truncated compared to the dominant 9-character format. Confirm the correct value with the data owner.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S8403757E."
+    ]
+  }
+]

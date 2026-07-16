@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification field stored as string. Contains 30 non-null records with 4 distinct values representing 'Male' and 'Female' categories, but with inconsistent casing (e.g., 'Male'/'male', 'Female'/'FEMALE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify case variations using Title Case convention: 'male' → 'Male', 'FEMALE' → 'Female'.",
+      "[VALIDATE] Ensure all values conform to the standardized categories 'Male' or 'Female' after cleaning."
+    ]
+  }
+]

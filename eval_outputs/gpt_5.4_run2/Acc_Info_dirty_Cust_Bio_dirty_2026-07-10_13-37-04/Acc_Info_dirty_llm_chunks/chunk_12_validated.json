@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical device-type field stored as text, with 30 non-null records and 3 distinct observed values: 'Desktop', 'Mobile', and 'Tablet'. No missing values or quality issues are evident from the provided sample and profiling.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

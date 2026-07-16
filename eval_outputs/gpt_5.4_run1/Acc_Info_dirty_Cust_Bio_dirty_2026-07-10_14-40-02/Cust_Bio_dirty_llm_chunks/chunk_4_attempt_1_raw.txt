@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identity number stored as text. The column is complete with 0 missing values out of 30 records and is near-unique with 29 distinct non-null values, including 1 repeated value. Most values (28 records, 93.3%) follow a consistent pattern of one letter, 7 digits, and one trailing letter, for example 'S8403757E'. Two records (6.6%) use incompatible formats: one value has one fewer digit ('F212233V') and one value is missing the leading letter prefix ('1916569C'). Observed value lengths are 8 and 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 6.6% of values that do not match the dominant identity-number structure before standardisation: 'F212233V' uses one letter, 6 digits, and one trailing letter, while '1916569C' uses 7 digits and one trailing letter with no leading prefix. Confirm the correct official values with the data owner.",
+      "[VALIDATE] Ensure all values follow the dominant format: one leading letter, followed by 7 digits, ending with one uppercase letter — for example, 'S8403757E'."
+    ]
+  }
+]

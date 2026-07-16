@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric identifier stored as int64, with values ranging sequentially from 1 to 30. Contains 30 unique non-null values across 30 records (0% missing). Serves as a one-to-one shared join key with Acc_Info_dirty.S_N, with 100% of records in this table having corresponding matches in the referenced table.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining operations. Note that while 100% of records in this table have matches, only 96.7% of records in the referenced table are represented, indicating potential orphaned records in Acc_Info_dirty."
+    ]
+  }
+]
+```

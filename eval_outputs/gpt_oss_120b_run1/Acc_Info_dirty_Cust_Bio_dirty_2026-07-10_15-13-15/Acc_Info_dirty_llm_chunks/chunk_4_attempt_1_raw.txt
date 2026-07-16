@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as string. All 30 values are non‑null and unique. 96.7% follow a 9‑character pattern of a leading letter, seven digits, and a trailing letter (e.g., 'S8403757E'), while 3.3% are 7‑character IDs with a leading letter and six digits (e.g., 'S123456'). Observed value lengths are 7 and 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the 7‑character IDs (e.g., 'S123456') should be converted to the standard 9‑character format or are valid as‑is."
+    ]
+  }
+]

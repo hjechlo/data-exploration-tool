@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full_Name stores a person's full name as a free‑text string. All 30 records are non‑null and unique. The column mixes Western name order with South/Southeast Asian patronymic markers such as \"d/o\", \"s/o\", \"Binte\", and \"Bin\". A few entries appear in all lower‑case (e.g., \"junrong\", \"irfan\"), showing inconsistent capitalization.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case‑only deviations to title case, e.g., 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan'.",
+      "[CLARIFY] Confirm how patronymic suffixes (d/o, s/o, Binte, Bin) should be handled—whether they remain in the full name field or need to be parsed into separate relationship fields."
+    ]
+  }
+]

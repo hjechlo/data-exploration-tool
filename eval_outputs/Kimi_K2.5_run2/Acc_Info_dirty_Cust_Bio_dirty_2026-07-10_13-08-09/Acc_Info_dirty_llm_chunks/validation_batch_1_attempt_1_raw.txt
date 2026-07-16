@@ -1,0 +1,8 @@
+```json
+[
+  {
+    "rule_id": 7,
+    "failing_record_indices": [0, 5, 7, 13, 18, 23]
+  }
+]
+```

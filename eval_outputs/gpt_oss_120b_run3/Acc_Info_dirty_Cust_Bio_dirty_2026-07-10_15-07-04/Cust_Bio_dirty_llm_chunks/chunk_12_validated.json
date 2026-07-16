@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal_Code column contains 30 distinct postal code values stored as int64. There are no null values. Observed values range from 6907 to 786055 and have digit lengths of 4, 5, or 6. Although stored as numeric, the intended type is string, so leading zeros may be lost.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert integer postal codes to string values, e.g., 410633 → \"410633\".",
+      "[VALIDATE] Ensure all values are numeric strings of 4 to 6 digits, e.g., \"12345\"."
+    ]
+  }
+]

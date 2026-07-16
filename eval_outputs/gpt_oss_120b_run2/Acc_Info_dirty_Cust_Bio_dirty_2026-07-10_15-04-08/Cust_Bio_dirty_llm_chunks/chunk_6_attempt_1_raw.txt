@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Gender",
+    "description": "Categorical string field indicating gender. Contains 30 non‑null records with four distinct values ('Male', 'Female', 'male', 'FEMALE'), showing case inconsistencies but no missing data.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case‑only deviations to title case: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal_Code stores postal codes as int64 values; all 30 records are non‑null, unique, and numeric, with observed string lengths of 4, 5, or 6 digits. The column is typed as integer but should be a string to preserve leading zeros and variable length.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert integer values to string representations (e.g., 12345 → \"12345\").",
+      "[VALIDATE] Ensure all values are numeric strings of length 4‑6 characters — e.g., \"12345\"."
+    ]
+  }
+]

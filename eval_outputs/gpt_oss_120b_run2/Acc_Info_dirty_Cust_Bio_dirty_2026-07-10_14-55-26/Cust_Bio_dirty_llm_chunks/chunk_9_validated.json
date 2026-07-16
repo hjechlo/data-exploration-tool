@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Email",
+    "description": "String column containing 30 email values with 0 nulls. 86.7% match a standard email pattern, but four entries are structurally malformed ('not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'). One email ('thm@example.com') appears twice, giving 29 distinct values.",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct the malformed email values: 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'. Verify whether the duplicate 'thm@example.com' is intentional."
+    ]
+  }
+]

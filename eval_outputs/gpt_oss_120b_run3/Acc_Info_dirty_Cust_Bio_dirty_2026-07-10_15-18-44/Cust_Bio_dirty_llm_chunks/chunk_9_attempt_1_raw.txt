@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Email",
+    "description": "String column storing email addresses (30 total, 0 nulls). 86.7% of values match a valid email pattern; 4 values (13.3%) are structurally malformed (missing @ or containing spaces). The column is near‑unique with one duplicated email ('thm@example.com').",
+    "recommended_actions": [
+      "[STANDARDIZE] Correct deterministic formatting issues in 6.7% of records (2 out of 30): 'zx91 @example.com' → 'zx91@example.com', 'nabilah@@example.com' → 'nabilah@example.com'.",
+      "[CLARIFY] Determine the intended correct values for the remaining malformed emails: 'not-an-email', 'useremail.com'.",
+      "[VALIDATE] Verify all values conform to a standard email format, e.g., local-part@domain.tld."
+    ]
+  }
+]

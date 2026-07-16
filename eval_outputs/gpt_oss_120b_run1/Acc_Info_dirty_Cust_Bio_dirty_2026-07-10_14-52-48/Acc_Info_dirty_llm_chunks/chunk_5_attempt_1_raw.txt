@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "JoinDate stores datetime information as a string, intended to be datetime64[ns]. All 29 non-null values are unique, ranging from '2020-01-01 00:00:00' to '2027-01-15 00:00:00'. The column has 1 null value (3.3% missing). Most entries follow the 'YYYY-MM-DD HH:MM:SS' format, but one record uses a date-only format and another is unparseable ('2025-13-01').",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert date-only entries to full datetime, e.g., '2022-07-26' → '2022-07-26 00:00:00' (≈3% of records).",
+      "[VALIDATE] Ensure all values conform to the 'YYYY-MM-DD HH:MM:SS' datetime format, e.g., '2021-03-14 00:00:00'.",
+      "[CLARIFY] Determine the correct handling for the unparseable date '2025-13-01' (month 13) and decide whether to correct, drop, or flag it."
+    ]
+  }
+]

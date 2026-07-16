@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full name stored as free-text with 30 distinct values and no missing entries (0% null). Contains cultural naming conventions including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Minor formatting inconsistencies observed: two entries are fully lowercase ('junrong', 'irfan'), two entries have lowercase name components ('Lee yixuan', 'Hui Min tan'), and one entry contains double-spacing ('Ramesh s/o  Govindasamy').",
+    "recommended_actions": [
+      "[STANDARDIZE] Apply Title Case to correct lowercase entries: 'junrong' → 'Junrong', 'irfan' → 'Irfan', 'Lee yixuan' → 'Lee Yixuan', 'Hui Min tan' → 'Hui Min Tan'. Remove extra whitespace: 'Ramesh s/o  Govindasamy' → 'Ramesh s/o Govindasamy'."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as string. All 30 values are non-null and unique. 96.7% follow a nine-character pattern of a letter, seven digits, and a trailing letter (e.g., S8403757E); 3.3% use a shorter seven-character pattern of a letter followed by six digits (e.g., S123456). Observed lengths are 7 and 9 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of the 3.3% values that use the shorter 'aXXXXXX' format; determine whether they should be padded, transformed, or treated as valid exceptions."
+    ]
+  }
+]

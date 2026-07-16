@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 with values ranging from -150.5 to 99999.0. All 30 records are non-null with 100% uniqueness (30 distinct values). Contains one statistical outlier at 99999.0 (potentially sentinel-coded) and one negative value (-150.5) that may indicate an overdraft or data quality issue.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value 99999.0 represents a sentinel/missing value or a valid balance, and verify if -150.5 represents a valid overdraft or a data entry error."
+    ]
+  }
+]
+```

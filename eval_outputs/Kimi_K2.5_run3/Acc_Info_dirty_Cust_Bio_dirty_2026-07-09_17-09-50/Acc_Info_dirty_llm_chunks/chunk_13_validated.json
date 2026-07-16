@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system identifier stored as categorical text. Contains 30 records with no missing values. Eight distinct values are observed due to casing inconsistencies across five platform categories: 'Android' (including lowercase 'android'), 'iOS' (including uppercase 'IOS'), 'Linux' (including uppercase 'LINUX'), 'Windows', and 'macOS' (observed as 'macOs').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing to match official brand names: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values match the expected set of operating system names: Android, iOS, Linux, Windows, macOS."
+    ]
+  }
+]

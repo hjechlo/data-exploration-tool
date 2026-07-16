@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "S_N is an integer join key linking account information to customer biography records; values range from 1 to 30, with no missing entries and 29 distinct values across 30 rows, indicating a near‑unique identifier with a single duplicate value (3).",
+    "recommended_actions": [
+      "[CLARIFY] Review the duplicate value '3' to confirm whether it is valid or represents a data quality issue.",
+      "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N to ensure a one‑to‑one relationship before loading new records."
+    ]
+  }
+]

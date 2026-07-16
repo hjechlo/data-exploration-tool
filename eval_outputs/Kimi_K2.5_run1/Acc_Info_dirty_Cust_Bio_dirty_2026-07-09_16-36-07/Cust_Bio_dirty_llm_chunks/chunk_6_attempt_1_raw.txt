@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Gender",
+    "description": "Gender classification field stored as categorical text with 30 non-null records (100% complete). Contains 4 distinct values representing male and female categories with inconsistent casing (e.g., 'Male' vs 'male', 'Female' vs 'FEMALE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations using Title Case convention: 'male' → 'Male', 'FEMALE' → 'Female'."
+    ]
+  }
+]
+```

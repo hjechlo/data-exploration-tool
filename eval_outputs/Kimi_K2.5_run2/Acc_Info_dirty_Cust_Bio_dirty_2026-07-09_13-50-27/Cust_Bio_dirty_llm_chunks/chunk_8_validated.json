@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact phone number field storing Singapore numbers as text. Contains 2 missing values (6.7% of 30 records). Formatting is inconsistent: approximately 18% use the '+65 ' international prefix, 39% use '65 ' without the plus sign, and 43% lack the country code entirely. One value ('8964359') appears truncated with only 7 digits (standard Singapore numbers have 8 digits). All 28 non-null values are unique.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats: convert '65 ' → '+65 ' and standardize bare 8-digit numbers to include the '+65 ' prefix (or alternatively, strip all prefixes to store as local 8-digit numbers). Current distribution: ~18% '+65 ', ~39% '65 ', ~43% no prefix.",
+      "[CLARIFY] Verify the 7-digit value '8964359' which appears truncated (Singapore phone numbers typically have 8 digits).",
+      "[VALIDATE] Ensure all values conform to the standard 8-digit Singapore phone number format after standardization."
+    ]
+  }
+]

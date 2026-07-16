@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Categorical field indicating subscription tier or plan type. Contains 30 records with no missing values and 5 distinct observed values: Basic, Free, Gold, Platinum, and Premium.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

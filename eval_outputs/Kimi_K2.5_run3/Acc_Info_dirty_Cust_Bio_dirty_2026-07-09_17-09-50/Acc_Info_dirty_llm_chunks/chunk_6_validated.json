@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as string (intended type: datetime64[ns]). Contains 30 non-null values with 28 distinct timestamps ranging from 2019-01-01 to 2024-05-12. All values consistently show midnight time (00:00:00), suggesting date-level precision only. Two timestamps are shared across multiple records.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert string representations to datetime64[ns] type: '2023-03-30 00:00:00' → 2023-03-30 00:00:00 (datetime)."
+    ]
+  }
+]

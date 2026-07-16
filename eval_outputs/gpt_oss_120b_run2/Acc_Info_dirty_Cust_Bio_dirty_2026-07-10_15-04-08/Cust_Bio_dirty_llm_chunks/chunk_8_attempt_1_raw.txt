@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact_No stores phone numbers as free‑text strings. The column has 30 records, with 2 NULL values (6.7% missing). All 28 non‑null values are unique. Observed formats include an international style with a '+65' prefix (≈18% of records) and local styles without the prefix or with a leading '65' and optional spaces, resulting in value lengths ranging from 7 to 12 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Add the missing country code prefix and unify spacing so every value follows the same pattern, e.g., '62357895' → '+65 62357895', '65 80742791' → '+65 80742791', while values already in the correct form remain unchanged.",
+      "[VALIDATE] Verify all values match the format: a plus sign, the country code 65, a space, and eight digits — e.g., '+65 80734991'."
+    ]
+  }
+]

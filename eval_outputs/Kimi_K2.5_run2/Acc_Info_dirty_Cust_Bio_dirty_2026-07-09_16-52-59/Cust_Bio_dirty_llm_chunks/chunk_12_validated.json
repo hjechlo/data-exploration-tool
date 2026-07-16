@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as int64 with 30 distinct values ranging from 6907 to 786055. All records are non-null and unique. Observed values display varying lengths (4, 5, and 6 digits), suggesting potential mixed geographic sources or leading zero truncation due to numeric storage.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve leading zeros and treat as categorical identifier rather than numeric value.",
+      "[CLARIFY] Verify whether 4-digit and 5-digit values (e.g., 6907, 99999) represent valid entries for different regions or indicate truncated/missing leading zeros compared to the dominant 6-digit format."
+    ]
+  }
+]

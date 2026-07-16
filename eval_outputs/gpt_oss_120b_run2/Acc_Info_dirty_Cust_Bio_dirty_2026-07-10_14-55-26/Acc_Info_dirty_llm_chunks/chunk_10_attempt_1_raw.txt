@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "AccountBalance field stores monetary balances as float64. All 30 values are non‑null and unique, ranging from -150.5 to 99,999.0. The value 99,999.0 is a statistical outlier above the expected upper bound (1525) and appears sentinel‑coded; the negative value -150.5 is sign‑anomalous in an otherwise positive column.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the sentinel value 99,999.0 and the negative value -150.5 represent missing or invalid data rather than legitimate balances."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "SubscriptionFee",
+    "description": "Subscription fee amounts stored as string despite representing monetary values. Contains 28 distinct non-null values across 30 records, with 2 missing values (6.7%). While most entries are numeric decimals (e.g., 16.53, 434.17, 961.14), the column includes the text value 'free' and a suspiciously high value '99999' that is orders of magnitude larger than other observed fees and may represent a sentinel for missing or unknown data. All non-null values are unique.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm handling of special values before type conversion: (1) 'free' — should this be encoded as 0.0 or NULL? (2) '99999' — is this a sentinel for missing/unknown fees given it is significantly higher than the next highest value (961.14)? (3) The 2 NULL values (6.7%) — do these indicate free subscriptions, inactive accounts, or data collection gaps?",
+      "[STANDARDIZE] Convert the column from string to float64 after resolving 'free' and '99999' values.",
+      "[VALIDATE] Ensure all values are positive numeric amounts with up to two decimal places (e.g., 434.17 or 152.2)."
+    ]
+  }
+]

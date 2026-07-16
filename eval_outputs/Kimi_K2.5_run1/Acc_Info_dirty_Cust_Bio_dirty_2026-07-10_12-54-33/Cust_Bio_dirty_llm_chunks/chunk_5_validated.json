@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Race or ethnicity classification stored as string. Contains 30 records with no missing values. Six distinct values represent three semantic categories (Chinese, Malay, Indian) with inconsistent casing (e.g., 'Malay'/'MALAY'/'malay', 'Indian'/'indian').",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[VALIDATE] Verify all values conform to the standard categories (Chinese, Malay, Indian) after standardisation."
+    ]
+  }
+]

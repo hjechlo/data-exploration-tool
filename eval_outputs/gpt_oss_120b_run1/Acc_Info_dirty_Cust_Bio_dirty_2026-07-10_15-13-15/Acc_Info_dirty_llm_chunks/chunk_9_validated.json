@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Status field stored as a string with 30 non‑null records (0% missing). It is a low‑cardinality categorical column containing six distinct values that represent boolean concepts: 'True', 'False', '1', '0', 'yes', 'no'. The intended data type is boolean.",
+    "recommended_actions": [
+      "[STANDARDIZE] Map non‑standard boolean representations to the canonical literals 'True' and 'False' (e.g., '1' → 'True', '0' → 'False', 'yes' → 'True', 'no' → 'False') and unify casing; these variants appear in roughly two‑thirds of the distinct values.",
+      "[VALIDATE] Verify that all values conform to the boolean literals 'True' or 'False' after standardisation."
+    ]
+  }
+]

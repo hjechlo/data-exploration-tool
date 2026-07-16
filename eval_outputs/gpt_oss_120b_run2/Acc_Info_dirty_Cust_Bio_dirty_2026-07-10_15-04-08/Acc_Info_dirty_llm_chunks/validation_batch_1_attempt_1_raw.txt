@@ -1,0 +1,10 @@
+[
+  {
+    "rule_id": 5,
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 27,
+    "failing_record_indices": [0, 1, 2, 3, 5, 6, 7, 12, 13, 14, 15, 16, 18, 23]
+  }
+]

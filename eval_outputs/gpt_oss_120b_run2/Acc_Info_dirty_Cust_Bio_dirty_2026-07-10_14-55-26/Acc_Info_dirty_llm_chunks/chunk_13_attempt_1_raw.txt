@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system field stored as string (30 records, 0% missing). Contains 8 distinct low‑cardinality values such as 'Android', 'android', 'Windows', 'iOS', 'IOS', 'Linux', 'LINUX', and 'macOs'. Casing varies across records, but the values represent a fixed set of known operating systems.",
+    "recommended_actions": [
+      "[STANDARDIZE] Align casing to the canonical OS names: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'.",
+      "[VALIDATE] Ensure all values belong to the allowed set of operating systems (e.g., Android, iOS, Linux, Windows, macOS)."
+    ]
+  }
+]

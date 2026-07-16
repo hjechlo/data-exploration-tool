@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device field records the type of device (Desktop, Mobile, Tablet). It is a categorical string with three distinct values across 30 records, no missing values, and low cardinality.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

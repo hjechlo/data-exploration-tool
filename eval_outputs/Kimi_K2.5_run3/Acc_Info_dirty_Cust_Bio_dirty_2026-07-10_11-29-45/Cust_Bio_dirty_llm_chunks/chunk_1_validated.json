@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier stored as integer. Contains sequential values from 1 to 30 with no missing values and 100% uniqueness. Serves as a one-to-one shared join key with Acc_Info_dirty.S_N (100% coverage on this side, 96.7% on the referenced table).",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]

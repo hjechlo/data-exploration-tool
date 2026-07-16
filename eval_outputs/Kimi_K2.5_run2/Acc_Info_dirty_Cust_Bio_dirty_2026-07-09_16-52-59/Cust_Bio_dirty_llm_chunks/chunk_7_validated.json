@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age field containing 30 records with no missing values and 24 distinct values. Value range spans -5 to 66. Data quality issues include: 1 non-numeric text value ('Twenty-five', 3.3% of records) and 2 implausible values (-5 and 4) that fall below typical age thresholds for service accounts.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text-based number to integer (3.3% of records): 'Twenty-five' → 25.",
+      "[CLARIFY] Verify validity of 2 age values (-5 and 4) that fall below 13 years; confirm if these represent data entry errors, test accounts, or minors with authorized access.",
+      "[VALIDATE] Ensure all values are non-negative integers within a reasonable age range (e.g., 0-120 years) after standardization."
+    ]
+  }
+]

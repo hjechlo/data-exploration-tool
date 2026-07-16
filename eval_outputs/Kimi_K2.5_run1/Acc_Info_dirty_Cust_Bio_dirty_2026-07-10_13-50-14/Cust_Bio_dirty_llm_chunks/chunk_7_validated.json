@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age field containing 30 records with no missing values. Values range from -5 to 66 across 24 distinct entries. Data quality issues identified: 1 record (3.3%) contains non-numeric text 'Twenty-five', and 2 records (6.7%) contain domain-implausible ages (-5 and 4) that are unrealistic for a standard service account.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → '25'.",
+      "[CLARIFY] Confirm whether the unrealistic age values (-5 and 4) represent data entry errors, unknown/missing value codes, or valid child account ages.",
+      "[VALIDATE] Ensure all values are positive integers within a reasonable age range (e.g., 13 to 120) appropriate for the service context."
+    ]
+  }
+]

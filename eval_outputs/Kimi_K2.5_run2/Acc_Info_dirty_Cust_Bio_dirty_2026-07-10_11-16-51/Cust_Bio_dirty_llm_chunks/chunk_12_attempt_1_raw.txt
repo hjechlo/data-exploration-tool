@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code values stored as integers with 0 missing values across 30 records. All 30 values are unique. Observed value lengths vary from 4 to 6 digits with a range of 6907 to 786055. Column is currently stored as int64 but intended to be string, indicating potential loss of leading zeros.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended type and preserve leading zero integrity.",
+      "[CLARIFY] Confirm the expected postal code format given observed length variation (4, 5, and 6 digits). Verify whether 4-digit values represent truncated codes with missing leading zeros (e.g., whether '6907' should be '006907' or '06907')."
+    ]
+  }
+]
+```

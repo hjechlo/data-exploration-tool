@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country field containing 8 distinct representations of Singapore across 30 complete records (0% missing). Values vary by language and script (English: 'Singapore', 'SINGAPORE', 'singapore', 'Republic of Singapore'; Malay: 'Singapura'; Chinese: '新加坡'), abbreviation style ('SG', 'S'pore'), and letter casing.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify casing variations to title case: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm standardization strategy for country representation: determine whether to use ISO 3166-1 alpha-2 codes ('SG'), English short names ('Singapore'), full formal names ('Republic of Singapore'), or retain multilingual variants ('Singapura', '新加坡'); review whether colloquial abbreviations ('S'pore') should be retained or expanded to standard form."
+    ]
+  }
+]
+```

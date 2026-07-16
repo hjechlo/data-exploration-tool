@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Phone number field stored as text representing Singapore contact numbers, with 2 missing values (6.7% of 30 records). Values exhibit format inconsistency: approximately 17.9% use international format with '+65' prefix, while others use '65' prefix without plus sign or local 8-digit format without country code. One anomalous 7-digit value ('8964359') observed, suggesting possible truncation compared to the standard 8-digit length. All 28 non-null values are unique. Value lengths range from 7 to 12 characters.",
+    "recommended_actions": [
+      "[STANDARDIZE] Unify phone number formats to consistent international format with '+65' prefix and space: '65 80742791' → '+65 80742791', '62357895' → '+65 62357895'.",
+      "[CLARIFY] Verify the 7-digit value '8964359' which appears truncated (Singapore phone numbers typically contain 8 digits).",
+      "[VALIDATE] Ensure all values conform to the format: '+65' followed by a space and 8 digits, after standardization."
+    ]
+  }
+]
+```

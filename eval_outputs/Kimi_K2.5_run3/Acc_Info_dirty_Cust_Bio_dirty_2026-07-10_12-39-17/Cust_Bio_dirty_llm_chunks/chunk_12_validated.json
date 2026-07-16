@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code identifier stored as integer (int64) with 30 distinct values and no missing data. Values range from 4 to 6 digits in length (minimum 6907, maximum 786055), suggesting potential loss of leading zeros due to numeric storage format.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve leading zeros and treat as categorical identifier: 6907 → '6907', 99999 → '99999', 410633 → '410633'.",
+      "[CLARIFY] Confirm whether 4-digit (e.g., 6907) and 5-digit (e.g., 99999) values represent valid postal codes or if they require left-padding to 6 digits to restore leading zeros lost during integer storage."
+    ]
+  }
+]

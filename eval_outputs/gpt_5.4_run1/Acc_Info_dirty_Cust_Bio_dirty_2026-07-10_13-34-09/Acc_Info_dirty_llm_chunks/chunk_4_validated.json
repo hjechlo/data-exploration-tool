@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Identifier field stored as text. The column is complete and fully unique, with 30 non-null values out of 30 records. Most values (29 of 30, 96.7%) follow a consistent pattern of one letter, 7 digits, and a trailing letter, for example 'S8403757E'. One value (3.3%), 'S123456', uses an incompatible shorter format with one letter followed by 6 digits.",
+    "recommended_actions": [
+      "[CLARIFY] Review the 1 incompatible value (3.3%) that does not match the dominant ID structure: 'S123456'. Confirm whether IDs should follow the format: one letter, 7 digits, and a trailing letter — for example, 'S8403757E' — and whether this value is incomplete or valid by exception.",
+      "[VALIDATE] Ensure all new ID values follow the confirmed format. If the dominant structure is correct, values should use one letter, 7 digits, and a trailing uppercase letter — for example, 'S8403757E'."
+    ]
+  }
+]

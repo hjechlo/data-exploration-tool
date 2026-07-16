@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as 19-character string in 'YYYY-MM-DD HH:MM:SS' format, spanning from 2019-01-01 to 2024-05-12. All 30 records are populated (0% missing) with 28 distinct values; 2 dates appear twice indicating multiple accounts sharing the same last login date. All observed values consistently show midnight time component (00:00:00).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from string to datetime64[ns] to enable proper temporal filtering, sorting, and date arithmetic.",
+      "[VALIDATE] Ensure all values follow the format: 4-digit year, 2-digit month, 2-digit day, space, 2-digit hour, colon, 2-digit minute, colon, 2-digit second — e.g., '2023-03-30 00:00:00'."
+    ]
+  }
+]
+```

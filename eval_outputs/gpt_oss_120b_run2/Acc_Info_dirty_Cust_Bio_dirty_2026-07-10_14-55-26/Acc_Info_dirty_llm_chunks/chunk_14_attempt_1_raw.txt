@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "FeedbackScore stores numeric rating scores as float64. All 30 records are non‑null, ranging from 1.0 to 7.3 with 29 distinct values. One value (7.3) is a statistical outlier and may be a sentinel for missing or invalid data. The column is near‑unique with a single duplicate value (1.78) and appears to duplicate the column FeedbackScore1.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the outlier value 7.3 is a sentinel representing missing or invalid data and decide on appropriate handling.",
+      "[CLARIFY] Determine if FeedbackScore is redundant with FeedbackScore1 and whether one column should be removed."
+    ]
+  }
+]

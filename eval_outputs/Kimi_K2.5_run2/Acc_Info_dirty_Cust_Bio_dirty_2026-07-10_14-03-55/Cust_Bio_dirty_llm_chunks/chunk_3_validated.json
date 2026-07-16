@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Personal full name stored as free-text. Contains 30 distinct unique values with no missing records (0%). Observed values reflect multicultural naming conventions including Malay patronymics ('Bin', 'Binte') and Indian relational suffixes ('s/o', 'd/o'). One value appears in all-lowercase ('lim wei jie') deviating from the dominant title-case pattern.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case-only deviations using the dominant title-like convention: 'lim wei jie' → 'Lim Wei Jie'."
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "JoinDate",
+    "description": "Account join date stored as string (intended type: datetime64[ns]). Contains 29 distinct non-null values across 30 records, with 1 missing value (3.3%). All non-null values are unique. One value ('2025-13-01') is unparseable due to invalid month 13. Observed dates span from 2020-01-01 to 2027-01-15, predominantly formatted as 'YYYY-MM-DD 00:00:00' with one abbreviated value lacking timestamp.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the correct value for unparseable date '2025-13-01' (invalid month 13). Determine whether this should be corrected to 2025-01-01, 2025-12-01, or another valid date.",
+      "[STANDARDIZE] Convert column from string to datetime64[ns] type. Standardize format variations to ensure consistent representation (either 'YYYY-MM-DD 00:00:00' or 'YYYY-MM-DD' uniformly).",
+      "[VALIDATE] Verify all values represent valid calendar dates (months 01-12, valid days for each month) after standardization."
+    ]
+  }
+]

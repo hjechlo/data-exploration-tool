@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as string with 0 missing values (0%) across 30 records. Contains 28 distinct values with 2 duplicates observed (e.g., '2023-11-17 00:00:00', '2023-07-10 00:00:00'). All values follow the format 'YYYY-MM-DD 00:00:00' with a consistent midnight timestamp, spanning from 2019-01-01 to 2024-05-12. Currently stored as string but intended to be datetime.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from string to datetime64[ns] to enable proper temporal analysis and sorting.",
+      "[VALIDATE] Verify all values conform to the format: YYYY-MM-DD HH:MM:SS (e.g., 2023-03-30 00:00:00) after conversion."
+    ]
+  }
+]

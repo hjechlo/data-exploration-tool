@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age field intended to store integer values. Contains 30 records with no missing values and 24 distinct values. Observed range spans -5 to 66 years. Data quality issues include one text value ('Twenty-five', representing 3.3% of records) that cannot be parsed as a number, and two values (-5 and 4) that fall below 13 years and may be unrealistic for service accounts.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representations of numbers to integers (affecting 3.3% of records): 'Twenty-five' → 25.",
+      "[CLARIFY] Confirm validity of unrealistic age values: -5 and 4 years. Verify if these represent data entry errors, placeholder values, or valid edge cases for the service.",
+      "[VALIDATE] Ensure all values are positive integers within a reasonable age range (e.g., 0 to 120 years) after standardization."
+    ]
+  }
+]

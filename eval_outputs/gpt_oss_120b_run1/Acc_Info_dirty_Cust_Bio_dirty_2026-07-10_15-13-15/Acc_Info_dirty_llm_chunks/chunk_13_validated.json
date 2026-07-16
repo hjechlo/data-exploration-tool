@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system field stored as string. Contains 30 non‑null records with 8 distinct values. Observed casing variations include 'android' vs 'Android', 'IOS' vs 'iOS', 'LINUX' vs 'Linux', and 'macOs' vs 'macOS'. No missing values.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise OS names to consistent casing: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS'."
+    ]
+  }
+]

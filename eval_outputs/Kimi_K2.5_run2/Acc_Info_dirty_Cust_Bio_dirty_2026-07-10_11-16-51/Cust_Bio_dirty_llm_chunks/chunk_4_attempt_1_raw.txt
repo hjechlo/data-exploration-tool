@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "ID_No",
+    "description": "National Registration Identity Card (NRIC) or Foreign Identification Number (FIN) field containing Singapore government-issued identifiers. All 30 records are non-null with 29 distinct values (96.7% unique). One value ('F1011121T') appears twice. The dominant format (93.3% of values) consists of one alphabetic prefix (S, T, F, or G), seven digits, and one checksum suffix (e.g., 'S8403757E'). Two records (6.6%) exhibit format deviations: 'F212233V' contains only six digits, and '1916569C' is missing the alphabetic prefix.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm correct values for format-deviant records: 'F212233V' (six digits, expected seven) and '1916569C' (missing prefix letter). Verify with data owner before correction.",
+      "[CLARIFY] Review duplicate value 'F1011121T' appearing in two records to determine if this represents a valid repeated entry or a data quality issue.",
+      "[VALIDATE] Ensure all values conform to the standard format: one uppercase letter (S, T, F, or G), followed by exactly 7 digits, ending with one uppercase letter — e.g., S1234567D."
+    ]
+  }
+]
+```

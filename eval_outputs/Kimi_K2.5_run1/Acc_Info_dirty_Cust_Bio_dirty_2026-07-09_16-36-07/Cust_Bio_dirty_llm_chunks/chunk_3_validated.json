@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full name field stored as text with 30 distinct non-null values representing individual customers. Contains multicultural naming conventions including Malay patronymics (Bin/Binte) and Indian patronymics (s/o, d/o). Predominantly Title Case with one lowercase value ('lim wei jie') and one all-caps value ('WANG SHI JIE') deviating from the dominant format.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize case deviations to Title Case: 'lim wei jie' → 'Lim Wei Jie', 'WANG SHI JIE' → 'Wang Shi Jie' (6.7% of values)."
+    ]
+  }
+]

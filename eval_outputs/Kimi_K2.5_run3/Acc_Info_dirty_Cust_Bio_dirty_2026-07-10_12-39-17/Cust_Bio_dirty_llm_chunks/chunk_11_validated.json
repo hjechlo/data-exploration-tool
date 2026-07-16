@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field stored as text, containing 30 distinct non-null values with no duplicates and complete coverage (0% missing). One value (3.3%) appears in all-caps format ('HOLLAND ROAD') while the remaining 29 values follow Title Case convention.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic casing deviations using the dominant Title Case convention: 'HOLLAND ROAD' → 'Holland Road' (1 record, 3.3%)."
+    ]
+  }
+]

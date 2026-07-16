@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "ID_No column stores an identifier as a string. All 30 records are non‑null with 29 distinct values, indicating near‑unique values and one duplicate ('F1011121T'). 93.3% of values follow the pattern letter‑7 digits‑letter (e.g., S8403757E), while 3.3% follow letter‑6 digits‑letter (e.g., F212233V) and another 3.3% follow 7 digits‑letter (e.g., 1916569C).",
+    "recommended_actions": [
+      "[CLARIFY] Confirm how to handle the 6.6% of values that do not match the dominant 'letter‑7 digits‑letter' format (patterns aXXXXXXa and XXXXXXXa).",
+      "[CLARIFY] Verify whether the duplicate value 'F1011121T' is valid or indicates a data quality issue."
+    ]
+  }
+]

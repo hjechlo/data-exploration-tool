@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age field containing 30 records with no missing values, ranging from -5 to 66 years with 24 distinct values. Data quality issues include one text representation ('Twenty-five', 3.3% of records) that cannot be parsed as numeric, and two values (-5 and 4) flagged as potentially unrealistic for service accounts.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric equivalent (3.3% of records): 'Twenty-five' → '25'.",
+      "[CLARIFY] Review unrealistic age values (-5 and 4) to confirm whether these represent data entry errors, default values, or organizational accounts.",
+      "[VALIDATE] Ensure all values are positive integers within a reasonable age range (e.g., 0-120) after standardization."
+    ]
+  }
+]
+```

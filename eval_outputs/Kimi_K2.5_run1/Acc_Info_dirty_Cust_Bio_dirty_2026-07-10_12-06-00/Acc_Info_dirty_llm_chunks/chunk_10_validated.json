@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance field stored as float64. Contains 30 records with no missing values; all values are unique. Observed range spans from -150.5 to 99999.0. Contains a potential sentinel value (99999.0) flagged as a statistical outlier, and one negative value (-150.5) which may represent an overdraft or data quality issue.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the value '99999.0' represents a sentinel/missing data indicator or a legitimate high balance.",
+      "[CLARIFY] Confirm whether the negative value '-150.5' represents a valid overdraft balance or an invalid entry."
+    ]
+  }
+]

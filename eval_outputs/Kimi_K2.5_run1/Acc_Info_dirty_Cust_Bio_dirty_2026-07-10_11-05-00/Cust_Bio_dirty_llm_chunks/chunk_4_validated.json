@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID_No",
+    "description": "Identifier field storing alphanumeric codes, appearing to represent Singapore NRIC or FIN numbers. Contains 30 non-null values with 29 distinct entries (one duplicate: 'F1011121T'). 93.3% follow the standard 9-character format (prefix letter, 7 digits, suffix letter), while 6.6% show format anomalies: '1916569C' lacks a prefix letter and 'F212233V' contains only 6 digits.",
+    "recommended_actions": [
+      "[CLARIFY] Review 3 data quality anomalies with the data owner: (1) 'F212233V' uses 6-digit format instead of standard 7 digits, (2) '1916569C' lacks alphabetic prefix, and (3) value 'F1011121T' appears in 2 records. Verify correct values and whether uniqueness should be enforced.",
+      "[VALIDATE] Ensure all values follow the standard format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567A."
+    ]
+  }
+]

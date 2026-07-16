@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full name field stored as free‑text. Contains 30 distinct values with no missing entries. Names include cultural prefixes such as “Bin”, “s/o”, “d/o”, “Binte”, which are part of the name and not errors. Case varies: most values are title‑case, one value is all lower‑case and one is all upper‑case.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case‑only deviations to title case: 'lim wei jie' → 'Lim Wei Jie', 'WANG SHI JIE' → 'Wang Shi Jie' (≈6.7% of rows)."
+    ]
+  }
+]

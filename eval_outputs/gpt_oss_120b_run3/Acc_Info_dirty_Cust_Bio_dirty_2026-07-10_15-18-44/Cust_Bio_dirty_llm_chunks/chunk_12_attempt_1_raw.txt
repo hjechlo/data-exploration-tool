@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal_Code field stored as int64 numeric, containing 30 distinct non‑null values (0 % missing). Values range from 6907 to 786055 and have lengths of 4–6 digits. Although stored as numbers, the intended representation is a string postal code, so numeric storage may drop leading zeros.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert integer postal codes to string type, e.g., 6907 → '6907', to preserve full code and any leading zeros.",
+      "[CLARIFY] Confirm the required postal code format (fixed length, leading zeros, possible alphanumeric characters) with business owners."
+    ]
+  }
+]

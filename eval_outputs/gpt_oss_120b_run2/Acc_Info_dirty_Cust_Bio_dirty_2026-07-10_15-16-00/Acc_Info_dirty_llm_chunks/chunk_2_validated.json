@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field stored as int64 but intended to be a 4‑character string representing numeric account identifiers. Contains 30 records, no missing values, 28 distinct values with two duplicated numbers (1001, 1010). All values are four digits long and uniformly numeric.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the duplicated account numbers (e.g., 1001, 1010) are valid or need deduplication.",
+      "[STANDARDIZE] Convert numeric values to string format: 1026 → \"1026\" (applies to 100% of rows).",
+      "[VALIDATE] Ensure all values are exactly four digits, e.g., \"1026\"."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Device column records the type of device (Desktop, Mobile, Tablet) as a categorical string. It contains 30 non‑null entries, all belonging to three distinct values, with observed lengths of 6–7 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

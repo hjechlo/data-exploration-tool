@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Postal_Code",
+    "description": "Postal code field stored as int64 despite representing categorical location identifiers, risking leading zero loss. Contains 30 distinct values across 30 records (0 missing). Observed values range from 4 to 6 digits in length (min: 6907, max: 786055), with sample values including 6-digit codes (410633, 387405) and 5-digit codes (99999).",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to preserve potential leading zeros and prevent numeric interpretation of postal codes.",
+      "[CLARIFY] Confirm whether the varying lengths (4-6 digits) represent different postal code systems (e.g., 4-digit vs 5-digit vs 6-digit formats) or if shorter values like '6907' have lost leading zeros and require padding to match the dominant 6-digit format."
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "OS",
+    "description": "Operating system field stored as a low‑cardinality string (30 records, 0 nulls, 8 distinct values). Observed values include multiple casing variants such as 'android' vs 'Android', 'IOS' vs 'iOS', 'LINUX' vs 'Linux', and 'macOs' vs the standard 'macOS'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert casing inconsistencies to the canonical form: 'android' → 'Android', 'IOS' → 'iOS', 'LINUX' → 'Linux', 'macOs' → 'macOS' (affects at least 4 records, ≈13% of the column).",
+      "[VALIDATE] Ensure all values belong to the approved OS list (e.g., 'Windows', 'iOS', 'Android', 'Linux', 'macOS') after standardisation."
+    ]
+  }
+]

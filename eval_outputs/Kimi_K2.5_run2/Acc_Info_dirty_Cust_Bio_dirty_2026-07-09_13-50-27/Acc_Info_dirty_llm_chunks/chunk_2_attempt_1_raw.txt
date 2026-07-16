@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account identifier field currently stored as int64 but intended as string type. Contains 30 non-null values with 28 distinct entries; values 1001 and 1010 each appear twice. All values are 4-digit integers ranging from 1001 to 1028.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from int64 to string to align with intended storage format.",
+      "[CLARIFY] Confirm whether duplicate account numbers (1001, 1010) represent valid business scenarios (e.g., multiple records per account) or data quality errors.",
+      "[VALIDATE] Ensure all values contain exactly 4 digits after type conversion."
+    ]
+  }
+]
+```

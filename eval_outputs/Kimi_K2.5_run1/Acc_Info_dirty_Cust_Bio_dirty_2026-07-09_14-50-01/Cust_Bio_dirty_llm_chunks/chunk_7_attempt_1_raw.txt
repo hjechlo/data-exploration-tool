@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age stored as integers. Contains 30 records with no missing values, ranging from -5 to 66 years. Includes 1 non-numeric text value ('Twenty-five', 3.3% of records) and 2 implausible values (-5 and 4) that fall below realistic thresholds for service accounts.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → '25'.",
+      "[CLARIFY] Review 2 implausible age values (-5 and 4) to confirm whether they represent data entry errors or valid exceptions for this dataset.",
+      "[VALIDATE] Ensure all values are positive integers within a realistic age range (e.g., 13-120) for service accounts."
+    ]
+  }
+]
+```

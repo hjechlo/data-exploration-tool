@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Email",
+    "description": "Email address field containing 30 records with no missing values and 29 distinct values (one duplicate entry: 'thm@example.com'). Contains 4 structurally malformed entries (13.3%): 'not-an-email' (invalid format), 'zx91 @example.com' (contains space), 'nabilah@@example.com' (double @ symbol), and 'useremail.com' (missing @ symbol).",
+    "recommended_actions": [
+      "[CLARIFY] Review and correct 4 malformed email addresses (13.3%): 'not-an-email', 'zx91 @example.com', 'nabilah@@example.com', 'useremail.com'. Determine the correct email values from the source system or contact record owners.",
+      "[VALIDATE] Implement format validation to ensure all values follow standard email structure: local part followed by single @ symbol, then domain (e.g., 'username@example.com') with no spaces."
+    ]
+  }
+]
+```

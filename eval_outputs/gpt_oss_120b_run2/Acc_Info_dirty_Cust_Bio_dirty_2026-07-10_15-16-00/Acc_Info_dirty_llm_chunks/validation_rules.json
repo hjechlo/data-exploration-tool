@@ -1,0 +1,381 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must not contain NULL values because it is the join key to Cust_Bio_dirty.",
+    "rationale": "The column is a mandatory identifier (join_key) and has 0 % missing values; enforcing non‑null protects referential integrity.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 2,
+    "table": "Acc_Info_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be exactly four numeric characters.",
+    "rationale": "Evidence shows all values are four‑digit numbers stored as int64 but intended as a 4‑character string.",
+    "check_params": {
+      "regex": "^\\d{4}$"
+    }
+  },
+  {
+    "rule_id": 3,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID must follow the nine‑character pattern: a leading letter, seven alphanumeric characters, and a trailing letter (e.g., S8403757E).",
+    "rationale": "96.7 % of observed IDs conform to this pattern; the short format is likely erroneous.",
+    "check_params": {
+      "regex": "^[A-Z]\\d{7}[A-Z]$"
+    }
+  },
+  {
+    "rule_id": 4,
+    "table": "Acc_Info_dirty",
+    "column": "ID",
+    "columns": [
+      "ID"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "Flag IDs that use the short 7‑character format (e.g., S123456) as potential sentinel values.",
+    "rationale": "3.3 % of IDs are six‑character strings lacking the trailing letter, which deviates from the dominant format.",
+    "check_params": {
+      "sentinel_values": [
+        "S123456"
+      ]
+    }
+  },
+  {
+    "rule_id": 5,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "datetime_parseable",
+    "rule": "JoinDate must be parseable as a datetime (YYYY‑MM‑DD HH:MM:SS or YYYY‑MM‑DD).",
+    "rationale": "One value ('2025-13-01') is not a valid date and the column is stored as string but intended as datetime.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 6,
+    "table": "Acc_Info_dirty",
+    "column": "JoinDate",
+    "columns": [
+      "JoinDate"
+    ],
+    "category": "per_column",
+    "type": "date_not_future",
+    "rule": "JoinDate must not be later than today because it records the historical join date of a customer.",
+    "rationale": "Future dates (e.g., 2027‑01‑15) are impossible for a past join event.",
+    "check_params": {
+      "col_a": "JoinDate"
+    }
+  },
+  {
+    "rule_id": 7,
+    "table": "Acc_Info_dirty",
+    "column": "LastLogin",
+    "columns": [
+      "LastLogin"
+    ],
+    "category": "per_column",
+    "type": "datetime_parseable",
+    "rule": "LastLogin must be parseable as a datetime in the format YYYY‑MM‑DD HH:MM:SS.",
+    "rationale": "All observed values are 19‑character timestamps; ensuring parseability catches malformed entries.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 8,
+    "table": "Acc_Info_dirty",
+    "column": "LastLogin",
+    "columns": [
+      "LastLogin"
+    ],
+    "category": "per_column",
+    "type": "date_not_future",
+    "rule": "LastLogin must not be later than today because it records a past login event.",
+    "rationale": "A login cannot occur in the future; this protects against erroneous timestamps.",
+    "check_params": {
+      "col_a": "LastLogin"
+    }
+  },
+  {
+    "rule_id": 9,
+    "table": "Acc_Info_dirty",
+    "column": "Subscription_Type",
+    "columns": [
+      "Subscription_Type"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Subscription_Type must be one of the allowed tiers: Basic, Free, Gold, Platinum, Premium.",
+    "rationale": "The column is categorical with exactly five observed values; restricting to this set prevents typos.",
+    "check_params": {
+      "values": [
+        "Basic",
+        "Free",
+        "Gold",
+        "Platinum",
+        "Premium"
+      ]
+    }
+  },
+  {
+    "rule_id": 10,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "numeric_parseable",
+    "rule": "SubscriptionFee must be convertible to a numeric value (float).",
+    "rationale": "All but one non‑null entry are numeric strings; the value 'free' cannot be parsed and is likely a sentinel.",
+    "check_params": {}
+  },
+  {
+    "rule_id": 11,
+    "table": "Acc_Info_dirty",
+    "column": "SubscriptionFee",
+    "columns": [
+      "SubscriptionFee"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "Flag the literal string 'free' in SubscriptionFee as a sentinel/non‑numeric placeholder.",
+    "rationale": "Evidence shows a single non‑numeric entry 'free' that should be treated specially.",
+    "check_params": {
+      "sentinel_values": [
+        "free"
+      ]
+    }
+  },
+  {
+    "rule_id": 12,
+    "table": "Acc_Info_dirty",
+    "column": "Status",
+    "columns": [
+      "Status"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Status must use the dominant boolean representations True or False",
+    "rationale": "The column stores a boolean flag using six distinct textual representations; enumerating them captures the current data state.",
+    "check_params": {
+      "values": [
+        "True",
+        "False"
+      ]
+    }
+  },
+  {
+    "rule_id": 13,
+    "table": "Acc_Info_dirty",
+    "column": "AccountBalance",
+    "columns": [
+      "AccountBalance"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "Flag the extreme values 99999.0 and -150.5 in AccountBalance as sentinel codes.",
+    "rationale": "Statistical analysis identified these two values as outliers and likely placeholders for missing/invalid data.",
+    "check_params": {
+      "sentinel_values": [
+        "99999.0",
+        "-150.5"
+      ]
+    }
+  },
+  {
+    "rule_id": 14,
+    "table": "Acc_Info_dirty",
+    "column": "AccountBalance",
+    "columns": [
+      "AccountBalance"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "AccountBalance must not be negative (negative values are anomalous for a balance).",
+    "rationale": "All but one balance are positive; the negative value -150.5 is flagged as a potential data error.",
+    "check_params": {
+      "logic": "pd.to_numeric(row['AccountBalance'], errors='coerce') < 0"
+    }
+  },
+  {
+    "rule_id": 15,
+    "table": "Acc_Info_dirty",
+    "column": "PreferredLanguage",
+    "columns": [
+      "PreferredLanguage"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "PreferredLanguage must be one of the supported languages: English, French, German, Malay, Tamil.",
+    "rationale": "The column contains exactly five distinct language values; enumerating them prevents invalid entries.",
+    "check_params": {
+      "values": [
+        "English",
+        "French",
+        "German",
+        "Malay",
+        "Tamil"
+      ]
+    }
+  },
+  {
+    "rule_id": 16,
+    "table": "Acc_Info_dirty",
+    "column": "Device",
+    "columns": [
+      "Device"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Device must be one of: Mobile, Desktop, Tablet.",
+    "rationale": "Device is a low‑cardinality categorical field with three observed values.",
+    "check_params": {
+      "values": [
+        "Mobile",
+        "Desktop",
+        "Tablet"
+      ]
+    }
+  },
+  {
+    "rule_id": 17,
+    "table": "Acc_Info_dirty",
+    "column": "OS",
+    "columns": [
+      "OS"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "OS must be one of the canonical operating‑system names: Android, iOS, Linux, macOS, Windows.",
+    "rationale": "Observed values differ only in case; standardising to the canonical list ensures consistency.",
+    "check_params": {
+      "values": [
+        "Android",
+        "iOS",
+        "Linux",
+        "macOS",
+        "Windows"
+      ]
+    }
+  },
+  {
+    "rule_id": 18,
+    "table": "Acc_Info_dirty",
+    "column": "OS",
+    "columns": [
+      "OS"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "OS values must match the canonical set irrespective of case.",
+    "rationale": "Case‑inconsistent entries (e.g., 'android', 'IOS', 'LINUX', 'macOs') should be flagged before standardisation.",
+    "check_params": {
+      "logic": "row['OS'].lower() not in {'android', 'ios', 'linux', 'macos', 'windows'}"
+    }
+  },
+  {
+    "rule_id": 19,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "Flag the outlier value 7.3 in FeedbackScore as a sentinel code.",
+    "rationale": "Statistical analysis shows 7.3 exceeds the expected upper bound and is likely a placeholder for missing/invalid data.",
+    "check_params": {
+      "sentinel_values": [
+        "7.3"
+      ]
+    }
+  },
+  {
+    "rule_id": 20,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore1",
+    "columns": [
+      "FeedbackScore1"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "Flag the outlier value 7.3 in FeedbackScore1 as a sentinel code (if present).",
+    "rationale": "Although not observed in the sample, the same sentinel logic should apply to the duplicate column.",
+    "check_params": {
+      "sentinel_values": [
+        "7.3"
+      ]
+    }
+  },
+  {
+    "rule_id": 21,
+    "table": "Acc_Info_dirty",
+    "column": "FeedbackScore",
+    "columns": [
+      "FeedbackScore",
+      "FeedbackScore1"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "FeedbackScore and FeedbackScore1 must contain identical values for each record.",
+    "rationale": "The two columns appear to be duplicate measures; mismatches indicate data inconsistency.",
+    "check_params": {
+      "logic": "row['FeedbackScore'] != row['FeedbackScore1']"
+    }
+  },
+  {
+    "rule_id": 22,
+    "table": "Acc_Info_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "Every S_N value must exist in Cust_Bio_dirty.S_N (one‑to‑one relationship).",
+    "rationale": "Join hints declare S_N as a one‑to‑one key with the customer‑bio table; referential integrity is required.",
+    "check_params": {
+      "ref_table": "Cust_Bio_dirty",
+      "ref_column": "S_N"
+    }
+  },
+  {
+    "rule_id": 23,
+    "table": "Acc_Info_dirty",
+    "column": "Full_Name",
+    "columns": [
+      "Full_Name"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "If Full_Name contains a male particle (\"Bin\", \"s/o\", \"d/o\") the linked Cust_Bio_dirty.Gender must be 'Male'; if it contains a female particle (\"Binte\", \"d/o\", \"s/o\") the gender must be 'Female'.",
+    "rationale": "Cultural name particles encode gender; consistency with the explicit Gender column in the sibling table improves data quality.",
+    "check_params": {
+      "sibling_table": "Cust_Bio_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Gender",
+      "semantic_check": "male particles -> Gender == 'Male'; female particles -> Gender == 'Female'"
+    }
+  }
+]

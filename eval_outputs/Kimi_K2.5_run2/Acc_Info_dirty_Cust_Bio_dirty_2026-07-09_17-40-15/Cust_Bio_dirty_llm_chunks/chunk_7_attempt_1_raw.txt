@@ -1,0 +1,13 @@
+```json
+[
+  {
+    "column_name": "Age",
+    "description": "Age field stored as integers across 30 records with 0% missing values. Observed range spans -5 to 66. Contains data quality issues: one value stored as text ('Twenty-five', 3.3% of records), one impossible negative value (-5), and one value of 4 that may be unrealistic for a service account context.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text representation to numeric: 'Twenty-five' → 25.",
+      "[CLARIFY] Review 2 age values below 13 for validity in service account context: -5 (negative, impossible) and 4 (child age) — confirm if these represent data entry errors or legitimate edge cases.",
+      "[VALIDATE] Ensure all values are positive integers within reasonable bounds (e.g., 0 to 120, or 13+ if restricted to adult accounts) after standardization."
+    ]
+  }
+]
+```

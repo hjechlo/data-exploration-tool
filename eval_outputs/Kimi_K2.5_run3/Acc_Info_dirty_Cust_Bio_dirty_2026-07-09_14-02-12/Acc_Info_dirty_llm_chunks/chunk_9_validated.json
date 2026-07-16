@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status flag stored as string with inconsistent representations. Contains 6 distinct text values ('0', '1', 'False', 'True', 'no', 'yes') encoding binary states across 30 records with no missing values. Intended data type is boolean.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert string representations to boolean type: '1', 'yes', 'True' → True and '0', 'no', 'False' → False.",
+      "[VALIDATE] Verify all values conform to boolean type (True/False) after conversion."
+    ]
+  }
+]

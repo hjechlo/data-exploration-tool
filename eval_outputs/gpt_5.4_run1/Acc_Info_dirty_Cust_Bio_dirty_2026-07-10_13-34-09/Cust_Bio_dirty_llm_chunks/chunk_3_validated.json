@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Customer name field stored as text. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Values appear to contain personal names with expected structural variation, including multi-word names and cultural relational markers such as 'Bin', 'Binte', 's/o', and 'd/o'. Case usage is mostly title case or uppercase, with at least one lowercase value ('lim wei jie') indicating a case consistency issue.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the preferred name-casing standard before standardisation. At least 3.3% of values show a lowercase deviation ('lim wei jie'), while other records use title case or uppercase; because personal names are proper nouns and the official form cannot be inferred with certainty, verify the canonical form with the data owner."
+    ]
+  }
+]

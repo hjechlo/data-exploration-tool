@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "PreferredLanguage",
+    "description": "Preferred language indicator stored as categorical text. Contains 5 distinct language values (English, French, German, Malay, Tamil) observed across 30 records with consistent title casing.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

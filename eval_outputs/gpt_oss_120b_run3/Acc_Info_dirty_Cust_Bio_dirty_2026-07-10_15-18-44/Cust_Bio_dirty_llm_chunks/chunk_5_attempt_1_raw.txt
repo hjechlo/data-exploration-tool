@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Race",
+    "description": "Categorical field storing race/ethnicity as free-text. Contains 30 non‑null records with 6 distinct values: 'Chinese', 'Indian', 'MALAY', 'Malay', 'indian', 'malay'. Case variations are present for 'Malay' and 'Indian' (uppercase, lowercase, title case). No missing values.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert case‑inconsistent entries to title case: 'MALAY' → 'Malay', 'malay' → 'Malay', 'indian' → 'Indian'.",
+      "[CLARIFY] Confirm the definitive list of allowed race categories (e.g., Chinese, Malay, Indian) and whether any additional values should be permitted."
+    ]
+  }
+]

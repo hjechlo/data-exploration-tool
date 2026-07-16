@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Full_Name stores personal full names as free‑text strings. The column has 30 distinct, non‑null values. Observed values show mixed casing (e.g., \"Wang Shi Jie\" vs \"junrong\"), and include cultural parentage markers such as \"d/o\", \"s/o\", \"Bin\", and \"Binte\".",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the desired casing convention for names (e.g., title case) and whether the cultural suffixes/prefixes should be preserved, standardized, or split into separate fields."
+    ]
+  }
+]

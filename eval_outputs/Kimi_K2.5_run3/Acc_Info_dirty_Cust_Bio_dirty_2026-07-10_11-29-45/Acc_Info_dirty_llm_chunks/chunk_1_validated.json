@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Numeric serial number identifier with integer values ranging from 1 to 30. All 30 records are non-null with 29 distinct values; value '3' appears twice. Serves as a one-to-one join key to Cust_Bio_dirty.S_N with 100% coverage from this table.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N before joining or loading new records."
+    ]
+  }
+]

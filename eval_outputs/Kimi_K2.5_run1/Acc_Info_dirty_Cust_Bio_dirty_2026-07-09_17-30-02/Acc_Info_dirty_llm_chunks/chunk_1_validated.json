@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "S_N",
+    "description": "Serial number identifier stored as integer (int64) with values ranging from 1 to 30. The column contains 30 records with no missing values and 29 distinct values (96.7% unique), with one duplicate occurrence of value '3'. Functions as a one-to-one shared join key with Cust_Bio_dirty.S_N, exhibiting 100% referential coverage on this table and 96.7% coverage on the target table.",
+    "recommended_actions": [
+      "[CLARIFY] Verify whether the duplicate serial number '3' represents a valid business scenario or a data entry error, given the near-uniqueness (29/30 distinct values) and the one-to-one key designation.",
+      "[VALIDATE] Enforce referential integrity against Cust_Bio_dirty.S_N before performing join operations or loading new records."
+    ]
+  }
+]

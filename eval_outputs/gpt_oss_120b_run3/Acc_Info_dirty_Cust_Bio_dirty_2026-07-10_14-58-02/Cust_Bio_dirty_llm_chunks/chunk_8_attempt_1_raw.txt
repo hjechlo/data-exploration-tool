@@ -1,0 +1,8 @@
+[{
+  "column_name": "Contact_No",
+  "description": "Contact phone number stored as a string. The column contains 28 distinct non‑null values, all unique, and 2 NULLs (6.7% missing). Observed formats vary: international format with a leading '+65 ' (e.g., '+65 80734991'), local format with '65 ' (e.g., '65 80742791'), and plain 8‑digit numbers without any prefix (e.g., '62357895'). Value lengths range from 7 to 12 characters, indicating inconsistent formatting.",
+  "recommended_actions": [
+    "[STANDARDIZE] Convert values lacking the '+65' prefix and containing spaces to the uniform international format '+65 XXXXXXXXX', e.g., '65 80742791' → '+65 80742791', '62357895' → '+65 62357895'.",
+    "[VALIDATE] Verify all values conform to the pattern: a plus sign, country code 65, a space, followed by eight digits — e.g., '+65 80734991'."
+  ]
+}]

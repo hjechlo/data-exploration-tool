@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Subscription_Type",
+    "description": "Categorical text field indicating the account subscription tier. The column is complete with 0 missing values out of 30 records and contains 5 distinct non-null values: Basic, Free, Gold, Platinum, and Premium.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

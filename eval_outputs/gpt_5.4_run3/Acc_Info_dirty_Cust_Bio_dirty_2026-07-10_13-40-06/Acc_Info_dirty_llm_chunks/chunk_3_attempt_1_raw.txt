@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Full_Name",
+    "description": "Person full name stored as text. The column is complete with 0 missing values out of 30 records, and all 30 non-null values are unique. Values show expected variation in personal naming conventions, including multi-word names and relational markers such as 'Bin', 'Binte', 's/o', and 'd/o'. Case usage is inconsistent in some records, with examples such as 'junrong', 'irfan', 'Hui Min tan', and 'Lee yixuan'.",
+    "recommended_actions": [
+      "[CLARIFY] Review inconsistent capitalization in personal names before standardisation, including examples such as 'junrong', 'irfan', 'Hui Min tan', and 'Lee yixuan'. Confirm the official casing from a trusted source because personal-name capitalization cannot be inferred deterministically."
+    ]
+  }
+]

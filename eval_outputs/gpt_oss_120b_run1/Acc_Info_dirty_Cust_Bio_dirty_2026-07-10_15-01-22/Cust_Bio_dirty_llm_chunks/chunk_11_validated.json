@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street_Name stores the street name of a customer's address as free-text. The column contains 30 distinct non-null values, all unique, with no missing entries. Observed values include a mix of title‑case names such as 'Balestier Road' and an all‑caps entry 'HOLLAND ROAD', indicating a possible case inconsistency.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm the expected case format for street names and whether the all‑caps entry 'HOLLAND ROAD' should be standardized to title case (e.g., 'Holland Road')."
+    ]
+  }
+]

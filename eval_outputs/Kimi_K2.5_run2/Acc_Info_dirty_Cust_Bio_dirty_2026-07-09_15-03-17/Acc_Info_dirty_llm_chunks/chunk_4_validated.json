@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "ID",
+    "description": "Government-issued identification number consistent with Singapore NRIC/FIN format. Contains 30 unique values with no missing data. 96.7% of values follow the standard 9-character structure (letter prefix S/T/F/G + 7 digits + checksum letter), while 1 record (3.3%) appears truncated as 'S123456' with only 7 characters.",
+    "recommended_actions": [
+      "[CLARIFY] Review the anomalous value 'S123456' (3.3% of data) which appears truncated compared to the dominant 9-character format. Confirm the correct complete ID and checksum with the data owner.",
+      "[VALIDATE] Ensure all values follow the format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter — e.g., S1234567A."
+    ]
+  }
+]

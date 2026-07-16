@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Contact_No",
+    "description": "Contact_No stores customer phone numbers as free‑text strings. The column has 30 rows, 2 nulls (6.7% missing), and 28 distinct non‑null values, all unique. Observed formats include international style with a leading '+65' (e.g., '+65 80734991'), local style with '65' and a space (e.g., '65 80742791'), and plain 8‑digit numbers without any prefix (e.g., '62357895'). Lengths vary from 7 to 12 characters, indicating inconsistent formatting.",
+    "recommended_actions": [
+      "[STANDARDIZE] Approximately 82% of non‑null values lack the '+65' prefix; convert them to the dominant format, e.g., '65 80742791' → '+65 80742791', '62357895' → '+65 62357895', '89649550' → '+65 89649550'.",
+      "[VALIDATE] Verify all values follow the format: '+65' followed by a space and eight digits — e.g., '+65 80734991'."
+    ]
+  }
+]

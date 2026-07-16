@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "Device",
+    "description": "Device type indicator categorizing records by platform type. Contains 3 distinct categorical values (Desktop, Mobile, Tablet) across 30 records with no missing values. Values exhibit natural length variation (6-7 characters) corresponding to the specific device category names.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]
+```

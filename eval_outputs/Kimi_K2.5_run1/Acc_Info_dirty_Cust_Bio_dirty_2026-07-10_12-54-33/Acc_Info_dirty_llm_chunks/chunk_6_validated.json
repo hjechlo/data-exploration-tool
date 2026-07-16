@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Timestamp of last user login stored as string data. Contains 28 distinct datetime values across 30 records (2 repeated timestamps) with no missing values. All values follow a consistent 'YYYY-MM-DD HH:MM:SS' format (19 characters) ranging from 2019-01-01 to 2024-05-12. Notably, all observed timestamps record exactly midnight (00:00:00), indicating date-level precision or a systematic recording pattern.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert data type from string to datetime64[ns] to enable proper temporal filtering, sorting, and date arithmetic operations.",
+      "[VALIDATE] Ensure all values conform to the format 'YYYY-MM-DD HH:MM:SS' (e.g., '2023-03-30 00:00:00') after type conversion."
+    ]
+  }
+]

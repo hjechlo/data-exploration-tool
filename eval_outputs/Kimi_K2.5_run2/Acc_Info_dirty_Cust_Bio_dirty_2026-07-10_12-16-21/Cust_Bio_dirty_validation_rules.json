@@ -1,0 +1,592 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must not be null as it serves as the primary join key",
+    "rationale": "S_N is a mandatory join key with 0% missing values and serves as the one-to-one link to Acc_Info_dirty",
+    "check_params": {},
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 2,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "S_N must be unique across all records",
+    "rationale": "S_N is described as a unique table-level identifier with 30 distinct values across 30 records",
+    "check_params": {
+      "logic": "df[df['S_N'] == row['S_N']].shape[0] > 1"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 3,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "Every S_N in Cust_Bio_dirty must exist in Acc_Info_dirty.S_N",
+    "rationale": "S_N is explicitly marked as a one-to-one join key with Acc_Info_dirty.S_N requiring referential integrity",
+    "check_params": {
+      "col_a": "S_N",
+      "pk_table": "Acc_Info_dirty",
+      "pk_col": "S_N",
+      "pk_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30"
+      ]
+    },
+    "failing_record_indices": [
+      5
+    ]
+  },
+  {
+    "rule_id": 4,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be a 4-digit code",
+    "rationale": "Account numbers are 4-digit identifiers ranging from 1001-1028; values should maintain consistent 4-character length",
+    "check_params": {
+      "regex": "^\\d{4}$"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 5,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Account_No should be unique unless business rules explicitly permit duplicate accounts",
+    "rationale": "Evidence shows 2 duplicate values (1001, 1010) appearing twice each; flag for verification if duplicates are unintended",
+    "check_params": {
+      "logic": "df[df['Account_No'] == row['Account_No']].shape[0] > 1"
+    },
+    "failing_record_indices": [
+      0,
+      1,
+      10,
+      11
+    ]
+  },
+  {
+    "rule_id": 6,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Name must be in Title Case except for recognized lowercase particles (bin, binte, d/o, s/o)",
+    "rationale": "Sample contains casing deviations: 'lim wei jie' (all lowercase) and 'WANG SHI JIE' (all uppercase); standard naming convention requires Title Case",
+    "check_params": {
+      "logic": "any((w[0].islower() and w.lower() not in ('bin','binte','d/o','s/o')) or w.isupper() for w in str(row['Name']).split() if len(w) > 1)"
+    },
+    "failing_record_indices": [
+      0,
+      27
+    ]
+  },
+  {
+    "rule_id": 7,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name",
+      "Gender"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "Gender must be consistent with gender-encoding name particles: Bin/s/o indicates Male, Binte/d/o indicates Female",
+    "rationale": "Malay and Indian naming conventions use specific particles that encode gender; mismatches indicate data quality issues (e.g., 'Danish Bin Kamaruddin' should be Male)",
+    "check_params": {
+      "logic": "(any(p == w.lower() for w in str(row['Name']).split() for p in ['bin', 's/o']) and str(row['Gender']).strip().lower() != 'male') or (any(p == w.lower() for w in str(row['Name']).split() for p in ['binte', 'd/o']) and str(row['Gender']).strip().lower() != 'female')"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 8,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "ID_No must follow Singapore NRIC format: one letter (S, T, F, or G), followed by 7 digits, ending with one uppercase letter",
+    "rationale": "93.3% of values follow this format; 6.6% deviate with missing prefix or 6 digits instead of 7, requiring validation",
+    "check_params": {
+      "regex": "^[STFG]\\d{7}[A-Z]$"
+    },
+    "failing_record_indices": [
+      22,
+      24
+    ]
+  },
+  {
+    "rule_id": 9,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "ID_No must be unique across all customer records",
+    "rationale": "National ID numbers should uniquely identify individuals; evidence shows duplicate 'F1011121T' requiring investigation",
+    "check_params": {
+      "logic": "df[df['ID_No'] == row['ID_No']].shape[0] > 1"
+    },
+    "failing_record_indices": [
+      19,
+      20
+    ]
+  },
+  {
+    "rule_id": 10,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "sentinel_check",
+    "rule": "ID_No must not be a placeholder or test value",
+    "rationale": "Value 'F0000000X' appears in the dataset with a suspicious pattern (all zeros) indicating a test or sentinel value",
+    "check_params": {
+      "sentinel_values": [
+        "F0000000X"
+      ]
+    },
+    "failing_record_indices": [
+      29
+    ]
+  },
+  {
+    "rule_id": 11,
+    "table": "Cust_Bio_dirty",
+    "column": "Race",
+    "columns": [
+      "Race"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Race must be one of the standard categories: Chinese, Malay, or Indian",
+    "rationale": "Dataset contains 3 semantic categories with casing variations (MALAY, malay, indian); standardization to canonical values required",
+    "check_params": {
+      "values": [
+        "Chinese",
+        "Malay",
+        "Indian"
+      ]
+    },
+    "failing_record_indices": [
+      3,
+      9,
+      16
+    ]
+  },
+  {
+    "rule_id": 12,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Gender"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Gender must be either Male or Female",
+    "rationale": "Column contains 4 distinct values due to casing inconsistencies (male, FEMALE); domain is binary Male/Female",
+    "check_params": {
+      "values": [
+        "Male",
+        "Female"
+      ]
+    },
+    "failing_record_indices": [
+      2,
+      12
+    ]
+  },
+  {
+    "rule_id": 13,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be parseable as a numeric value",
+    "rationale": "Column contains text value 'Twenty-five' which cannot be parsed as numeric despite int64 storage type",
+    "check_params": {
+      "logic": "pd.isna(pd.to_numeric(row['Age'], errors='coerce'))"
+    },
+    "failing_record_indices": [
+      19
+    ]
+  },
+  {
+    "rule_id": 14,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "Age must be between 0 and 120 years inclusive",
+    "rationale": "Domain constraint for human age; evidence shows negative value (-5) which is impossible",
+    "check_params": {
+      "min": 0,
+      "max": 120
+    },
+    "failing_record_indices": [
+      7
+    ]
+  },
+  {
+    "rule_id": 15,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age must be at least 13 years for service account eligibility",
+    "rationale": "Evidence indicates 2 values (4, -5) below 13 which may be unrealistic for a consumer service requiring customer consent",
+    "check_params": {
+      "logic": "pd.to_numeric(row['Age'], errors='coerce') < 13"
+    },
+    "failing_record_indices": [
+      1,
+      7
+    ]
+  },
+  {
+    "rule_id": 16,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Contact_No must not be null",
+    "rationale": "Contact number is a mandatory business field for customer communication; evidence shows 6.7% missing values (2 NULL records)",
+    "check_params": {},
+    "failing_record_indices": [
+      10,
+      29
+    ]
+  },
+  {
+    "rule_id": 17,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "phone_validity",
+    "rule": "Contact_No must be a valid Singapore phone number (8 digits, starting with 3, 6, 8, or 9, optionally prefixed with +65 or 65)",
+    "rationale": "Dataset is Singapore-based; observed formats include +65 prefix variations and local 8-digit numbers; one anomalous 7-digit value detected",
+    "check_params": {
+      "country_code": "65",
+      "valid_first_digits": [
+        "3",
+        "6",
+        "8",
+        "9"
+      ],
+      "dominant_length": 8
+    },
+    "failing_record_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ]
+  },
+  {
+    "rule_id": 18,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Email must contain exactly one @ symbol with no whitespace",
+    "rationale": "Evidence shows 4 malformed emails: missing @ ('not-an-email', 'useremail.com'), space before @ ('zx91 @example.com'), and double @ ('nabilah@@example.com')",
+    "check_params": {
+      "regex": "^[^@\\s]+@[^@\\s]+$"
+    },
+    "failing_record_indices": [
+      0,
+      6,
+      14,
+      18
+    ]
+  },
+  {
+    "rule_id": 19,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Email addresses must be unique across customers",
+    "rationale": "Email is typically a unique identifier; evidence shows exact duplicate 'thm@example.com'",
+    "check_params": {
+      "logic": "df[df['Email'] == row['Email']].shape[0] > 1"
+    },
+    "failing_record_indices": [
+      1,
+      10
+    ]
+  },
+  {
+    "rule_id": 20,
+    "table": "Cust_Bio_dirty",
+    "column": "Country",
+    "columns": [
+      "Country"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Country must use the canonical values: Republic of Singapore, S'pore, SG, Singapore, Singapura, 新加坡",
+    "rationale": "Dataset contains 8 variations of Singapore (Singapore, Singapura, S'pore, SG, SINGAPORE, singapore, Republic of Singapore, 新加坡); non-Singapore values should be flagged",
+    "check_params": {
+      "values": [
+        "Republic of Singapore",
+        "S'pore",
+        "SG",
+        "Singapore",
+        "Singapura",
+        "新加坡"
+      ]
+    },
+    "failing_record_indices": [
+      5,
+      11
+    ]
+  },
+  {
+    "rule_id": 21,
+    "table": "Cust_Bio_dirty",
+    "column": "Street_Name",
+    "columns": [
+      "Street_Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Street_Name must be in Title Case",
+    "rationale": "One value appears in all-uppercase ('HOLLAND ROAD') inconsistent with the dominant title case pattern of Singapore street names",
+    "check_params": {
+      "logic": "any(w[0].islower() for w in str(row['Street_Name']).split() if len(w) > 1)"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 22,
+    "table": "Cust_Bio_dirty",
+    "column": "Postal_Code",
+    "columns": [
+      "Postal_Code"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Postal_Code must be a 6-digit code",
+    "rationale": "Singapore postal codes are strictly 6 digits; evidence shows 4-digit (6907) and 5-digit (99999) values indicating missing leading zeros or data entry errors",
+    "check_params": {
+      "regex": "^\\d{6}$"
+    },
+    "failing_record_indices": [
+      8,
+      13
+    ]
+  },
+  {
+    "rule_id": 23,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name",
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "Name in Cust_Bio_dirty must match Full_Name in Acc_Info_dirty for the same S_N (accounting for truncation or casing differences)",
+    "rationale": "S_N is a one-to-one join key; semantic consistency requires that customer names match across biographical and account tables (e.g., 'Danish Bin Kamaruddin' should correspond to 'Danish' or exact match)",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Full_Name",
+      "semantic_check": "Name should match Full_Name from Acc_Info_dirty, allowing for middle name truncation or patronymic exclusion",
+      "sibling_lookup": {
+        "1": "Wei Jie",
+        "2": "Hui Min tan",
+        "4": "Aisyah",
+        "5": "Priya d/o Rajan",
+        "7": "Zhi Xuan Ong",
+        "8": "Kai Wen",
+        "9": "Farah Binte Hassan",
+        "10": "Ahmad Firdaus Bin Salleh",
+        "11": "Kavitha d/o Muthusamy",
+        "12": "Hariharan s/o Suresh",
+        "13": "Lee yixuan",
+        "14": "Jun Wei",
+        "15": "Nabilah",
+        "16": "Danish",
+        "17": "Ramesh s/o  Govindasamy",
+        "18": "Shalini d/o Krishnan",
+        "19": "Ann",
+        "20": "Koh Ming Hao",
+        "21": "Siti Ameerah Binte Aziz",
+        "22": "Faizal Bin Hamzah",
+        "23": "Tan Li Wei",
+        "24": "junrong",
+        "25": "Aishah Binte Yusof",
+        "26": "Manoj s/o Raghavan",
+        "27": "Revathi d/o Venkatesan",
+        "28": "Wang Shi Jie",
+        "29": "Lau Pei Ling",
+        "30": "Iskandar Bin Ahmad"
+      }
+    },
+    "failing_record_indices": [
+      1,
+      6
+    ]
+  },
+  {
+    "rule_id": 24,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No",
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "ID_No in Cust_Bio_dirty must exactly match ID in Acc_Info_dirty for the same S_N",
+    "rationale": "S_N is a one-to-one join key; national ID must be consistent across tables (e.g., S8421753J vs S8421753X discrepancy detected in sample requires flagging)",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "ID",
+      "semantic_check": "ID_No must exactly match ID from Acc_Info_dirty with identical alphanumeric characters",
+      "sibling_lookup": {
+        "1": "S1234567D",
+        "2": "S7654321F",
+        "4": "F1122334K",
+        "5": "G8765432L",
+        "7": "S9136271F",
+        "8": "F4455667M",
+        "9": "G5566778N",
+        "10": "S3387002G",
+        "11": "S8099150I",
+        "12": "T0292156H",
+        "13": "F7788990P",
+        "14": "G6677889Q",
+        "15": "S9539727A",
+        "16": "S8421753X",
+        "17": "F9900112R",
+        "18": "G2233445S",
+        "19": "S8705681C",
+        "20": "F1011121T",
+        "21": "S9203906D",
+        "22": "G3344556U",
+        "23": "S9916569C",
+        "24": "S8792459I",
+        "25": "F2122233V",
+        "26": "G4455667W",
+        "27": "S7516430J",
+        "28": "S8403757E",
+        "29": "S123456",
+        "30": "F0000000X"
+      }
+    },
+    "failing_record_indices": [
+      15,
+      20,
+      22,
+      24,
+      28
+    ]
+  }
+]

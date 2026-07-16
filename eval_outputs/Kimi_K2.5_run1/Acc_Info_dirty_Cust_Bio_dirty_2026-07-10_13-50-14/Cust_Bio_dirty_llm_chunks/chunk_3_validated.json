@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Name",
+    "description": "Full name stored as free-text with 30 distinct non-null values. Contains diverse cultural naming conventions including Malay patronymics (Bin/Binte) and Indian relational suffixes (s/o, d/o). Two records (6.7%) deviate from the dominant title case format: one all-lowercase value ('lim wei jie') and one all-uppercase value ('WANG SHI JIE').",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardise deterministic case deviations using the dominant title case convention: 'lim wei jie' → 'Lim Wei Jie', 'WANG SHI JIE' → 'Wang Shi Jie'."
+    ]
+  }
+]

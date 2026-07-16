@@ -1,0 +1,673 @@
+[
+  {
+    "rule_id": 1,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "S_N must not be null",
+    "rationale": "S_N is a mandatory join key linking to Acc_Info_dirty.S_N with one-to-one cardinality. While currently no nulls exist, this rule enforces referential integrity for future data loads.",
+    "check_params": {},
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 2,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "S_N must be unique across all records",
+    "rationale": "S_N serves as a unique table-level identifier with 30 distinct values out of 30 records. Duplicates would violate the one-to-one relationship with Acc_Info_dirty.",
+    "check_params": {},
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 3,
+    "table": "Cust_Bio_dirty",
+    "column": "S_N",
+    "columns": [
+      "S_N"
+    ],
+    "category": "cross_table",
+    "type": "referential_cross_table",
+    "rule": "S_N must exist in Acc_Info_dirty.S_N",
+    "rationale": "One-to-one key relationship requires every S_N in Cust_Bio_dirty to have a corresponding record in Acc_Info_dirty for valid joins.",
+    "check_params": {
+      "col_a": "S_N",
+      "pk_table": "Acc_Info_dirty",
+      "pk_col": "S_N",
+      "pk_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30"
+      ]
+    },
+    "failing_record_indices": [
+      5
+    ]
+  },
+  {
+    "rule_id": 4,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Account_No must not be null",
+    "rationale": "Account_No is a mandatory business identifier for customer accounts with 0% missing values in current data.",
+    "check_params": {},
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 5,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Account_No must be exactly 4 digits",
+    "rationale": "Account numbers are 4-digit numeric codes ranging from 1001-1028 per evidence. Stored as int64 but intended as string.",
+    "check_params": {
+      "regex": "^\\d{4}$"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 6,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Account_No should be unique (flag duplicates for review)",
+    "rationale": "Evidence shows 2 duplicate values (1001, 1010) appearing twice each. While joint accounts may be valid business logic, duplicates require explicit clarification.",
+    "check_params": {},
+    "failing_record_indices": [
+      0,
+      1,
+      10,
+      11
+    ]
+  },
+  {
+    "rule_id": 7,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Name must use title case (allowing for lowercase particles: bin, binte, s/o, d/o)",
+    "rationale": "29 of 30 records use title case (e.g., 'Danish Bin Kamaruddin'). One record 'lim wei jie' uses all lowercase and one 'WANG SHI JIE' uses all uppercase, requiring standardisation.",
+    "check_params": {
+      "logic": "any(w[0].islower() or w.isupper() for w in str(row['Name']).split() if w.lower() not in ('bin','binte','d/o','s/o') and len(w) > 1)"
+    },
+    "failing_record_indices": [
+      0,
+      27
+    ]
+  },
+  {
+    "rule_id": 8,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "ID_No must follow Singapore NRIC/FIN format: one letter (S/T/F/G) + 7 digits + one uppercase letter",
+    "rationale": "93.3% of values follow this format. Violations observed: '1916569C' (missing prefix), 'F212233V' (6 digits instead of 7).",
+    "check_params": {
+      "logic": "not re.match(r'^[STFG]\\d{7}[A-Z]$', str(row['ID_No']))"
+    },
+    "failing_record_indices": [
+      22,
+      24
+    ]
+  },
+  {
+    "rule_id": 9,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "ID_No must be unique",
+    "rationale": "National identification numbers should uniquely identify individuals. Evidence shows one duplicate value 'F1011121T' requiring investigation.",
+    "check_params": {},
+    "failing_record_indices": [
+      19,
+      20
+    ]
+  },
+  {
+    "rule_id": 10,
+    "table": "Cust_Bio_dirty",
+    "column": "Race",
+    "columns": [
+      "Race"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Race must be one of: Chinese, Malay, Indian",
+    "rationale": "Evidence shows three semantic categories with casing variations (MALAY, malay, indian). Standardising to title case canonical values.",
+    "check_params": {
+      "values": [
+        "Chinese",
+        "Malay",
+        "Indian"
+      ]
+    },
+    "failing_record_indices": [
+      3,
+      9,
+      16
+    ]
+  },
+  {
+    "rule_id": 11,
+    "table": "Cust_Bio_dirty",
+    "column": "Gender",
+    "columns": [
+      "Gender"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Gender must be either Male or Female",
+    "rationale": "Binary classification field with case inconsistencies (male, FEMALE). Must standardise to Title Case canonical values.",
+    "check_params": {
+      "values": [
+        "Male",
+        "Female"
+      ]
+    },
+    "failing_record_indices": [
+      2,
+      12
+    ]
+  },
+  {
+    "rule_id": 12,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "integer_parseable",
+    "rule": "Age must be parseable as an integer",
+    "rationale": "Column stored as int64 but contains text representation 'Twenty-five' which cannot be parsed as numeric.",
+    "check_params": {},
+    "failing_record_indices": [
+      19
+    ]
+  },
+  {
+    "rule_id": 13,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "range",
+    "rule": "Age must be between 0 and 120 inclusive",
+    "rationale": "Domain constraint for human age. Current data includes invalid negative value -5.",
+    "check_params": {
+      "min": 0,
+      "max": 120
+    },
+    "failing_record_indices": [
+      7
+    ]
+  },
+  {
+    "rule_id": 14,
+    "table": "Cust_Bio_dirty",
+    "column": "Age",
+    "columns": [
+      "Age"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Age below 13 may be unrealistic for a service account",
+    "rationale": "Evidence flags age value 4 as potentially unrealistic for consumer service accounts, requiring business clarification.",
+    "check_params": {
+      "logic": "pd.to_numeric(row['Age'], errors='coerce') < 13"
+    },
+    "failing_record_indices": [
+      1,
+      7
+    ]
+  },
+  {
+    "rule_id": 15,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "not_null",
+    "rule": "Contact_No must not be null",
+    "rationale": "Contact number is a required field for customer communication. Evidence shows 6.7% missing values (2 NULL records).",
+    "check_params": {},
+    "failing_record_indices": [
+      10,
+      29
+    ]
+  },
+  {
+    "rule_id": 16,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "phone_validity",
+    "rule": "Contact_No must be a valid Singapore phone number (8 digits, starting with 6, 8, or 9)",
+    "rationale": "Singapore phone numbers are 8 digits with country code +65. Evidence shows formats +65, 65 prefix, and raw 8-digit numbers. One 7-digit value '8964359' is invalid.",
+    "check_params": {
+      "country_code": "65",
+      "valid_first_digits": [
+        "6",
+        "8",
+        "9"
+      ],
+      "dominant_length": 8
+    },
+    "failing_record_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ]
+  },
+  {
+    "rule_id": 17,
+    "table": "Cust_Bio_dirty",
+    "column": "Contact_No",
+    "columns": [
+      "Contact_No"
+    ],
+    "category": "per_column",
+    "type": "phone_validity",
+    "rule": "Contact_No must contain exactly 8 digits (excluding country code)",
+    "rationale": "Specific check for the observed 7-digit anomaly '8964359'. Singapore numbers require exactly 8 digits.",
+    "check_params": {
+      "country_code": "65",
+      "dominant_length": 8,
+      "valid_first_digits": [
+        "3",
+        "6",
+        "8",
+        "9"
+      ]
+    },
+    "failing_record_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ]
+  },
+  {
+    "rule_id": 18,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Email must contain exactly one @ symbol and no whitespace",
+    "rationale": "4 records (13.3%) are malformed: 'not-an-email' (missing @), 'useremail.com' (missing @), 'zx91 @example.com' (contains space), 'nabilah@@example.com' (double @).",
+    "check_params": {
+      "regex": "^[^@\\s]+@[^@\\s]+$"
+    },
+    "failing_record_indices": [
+      0,
+      6,
+      14,
+      18
+    ]
+  },
+  {
+    "rule_id": 19,
+    "table": "Cust_Bio_dirty",
+    "column": "Country",
+    "columns": [
+      "Country"
+    ],
+    "category": "per_column",
+    "type": "enumeration",
+    "rule": "Country must be 'Singapore' (canonical form)",
+    "rationale": "Evidence shows 8 variations of Singapore (SINGAPORE, singapore, S'pore, SG, Republic of Singapore, Singapura, 新加坡). All must standardise to 'Singapore'.",
+    "check_params": {
+      "values": [
+        "Singapore"
+      ]
+    },
+    "failing_record_indices": [
+      2,
+      3,
+      4,
+      5,
+      9,
+      11,
+      12,
+      18,
+      20,
+      23,
+      27
+    ]
+  },
+  {
+    "rule_id": 20,
+    "table": "Cust_Bio_dirty",
+    "column": "Street_Name",
+    "columns": [
+      "Street_Name"
+    ],
+    "category": "per_column",
+    "type": "custom",
+    "rule": "Street_Name should not be in all capital letters",
+    "rationale": "96.7% of values use title case (e.g., 'Pandan Loop'). One value 'HOLLAND ROAD' uses all caps and requires standardisation.",
+    "check_params": {
+      "logic": "str(row['Street_Name']).isupper()"
+    },
+    "failing_record_indices": [
+      17
+    ]
+  },
+  {
+    "rule_id": 21,
+    "table": "Cust_Bio_dirty",
+    "column": "Postal_Code",
+    "columns": [
+      "Postal_Code"
+    ],
+    "category": "per_column",
+    "type": "format",
+    "rule": "Postal_Code must be a 6-digit code",
+    "rationale": "Singapore postal codes are 6 digits. Evidence shows variable lengths (4, 5, 6 digits: 6907, 99999, 410633). Stored as int64 but intended as string to preserve leading zeros.",
+    "check_params": {
+      "regex": "^\\d{6}$"
+    },
+    "failing_record_indices": [
+      8,
+      13
+    ]
+  },
+  {
+    "rule_id": 22,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name",
+      "Gender"
+    ],
+    "category": "cross_column",
+    "type": "custom",
+    "rule": "Name particles (Bin/s/o for Male, Binte/d/o for Female) must match Gender",
+    "rationale": "Cultural naming conventions in Malay and Indian communities encode gender. Bin/s/o indicate Male; Binte/d/o indicate Female. Mismatches indicate data errors.",
+    "check_params": {
+      "logic": "(re.search(r'\\b(bin|s/o)\\b', str(row['Name']), re.IGNORECASE) and str(row['Gender']).strip().lower() != 'male') or (re.search(r'\\b(binte|d/o)\\b', str(row['Name']), re.IGNORECASE) and str(row['Gender']).strip().lower() != 'female')"
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 23,
+    "table": "Cust_Bio_dirty",
+    "column": "Name",
+    "columns": [
+      "Name"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "Name must match Full_Name in Acc_Info_dirty for the same S_N",
+    "rationale": "One-to-one key relationship requires consistency between Cust_Bio_dirty.Name and Acc_Info_dirty.Full_Name (accounting for casing and completeness variations).",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Full_Name",
+      "semantic_check": "Full_Name should match Name (accounting for casing, particles, and completeness variations)",
+      "sibling_lookup": {
+        "1": "Wei Jie",
+        "2": "Hui Min tan",
+        "4": "Aisyah",
+        "5": "Priya d/o Rajan",
+        "7": "Zhi Xuan Ong",
+        "8": "Kai Wen",
+        "9": "Farah Binte Hassan",
+        "10": "Ahmad Firdaus Bin Salleh",
+        "11": "Kavitha d/o Muthusamy",
+        "12": "Hariharan s/o Suresh",
+        "13": "Lee yixuan",
+        "14": "Jun Wei",
+        "15": "Nabilah",
+        "16": "Danish",
+        "17": "Ramesh s/o  Govindasamy",
+        "18": "Shalini d/o Krishnan",
+        "19": "Ann",
+        "20": "Koh Ming Hao",
+        "21": "Siti Ameerah Binte Aziz",
+        "22": "Faizal Bin Hamzah",
+        "23": "Tan Li Wei",
+        "24": "junrong",
+        "25": "Aishah Binte Yusof",
+        "26": "Manoj s/o Raghavan",
+        "27": "Revathi d/o Venkatesan",
+        "28": "Wang Shi Jie",
+        "29": "Lau Pei Ling",
+        "30": "Iskandar Bin Ahmad"
+      }
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 24,
+    "table": "Cust_Bio_dirty",
+    "column": "ID_No",
+    "columns": [
+      "ID_No"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "ID_No must match ID in Acc_Info_dirty for the same S_N",
+    "rationale": "One-to-one key relationship requires exact match between identification numbers across tables (e.g., S8421753J vs S8421753X discrepancy observed).",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "ID",
+      "semantic_check": "ID must exactly match ID_No",
+      "sibling_lookup": {
+        "1": "S1234567D",
+        "2": "S7654321F",
+        "4": "F1122334K",
+        "5": "G8765432L",
+        "7": "S9136271F",
+        "8": "F4455667M",
+        "9": "G5566778N",
+        "10": "S3387002G",
+        "11": "S8099150I",
+        "12": "T0292156H",
+        "13": "F7788990P",
+        "14": "G6677889Q",
+        "15": "S9539727A",
+        "16": "S8421753X",
+        "17": "F9900112R",
+        "18": "G2233445S",
+        "19": "S8705681C",
+        "20": "F1011121T",
+        "21": "S9203906D",
+        "22": "G3344556U",
+        "23": "S9916569C",
+        "24": "S8792459I",
+        "25": "F2122233V",
+        "26": "G4455667W",
+        "27": "S7516430J",
+        "28": "S8403757E",
+        "29": "S123456",
+        "30": "F0000000X"
+      }
+    },
+    "failing_record_indices": [
+      15,
+      20,
+      22,
+      24,
+      28
+    ]
+  },
+  {
+    "rule_id": 25,
+    "table": "Cust_Bio_dirty",
+    "column": "Account_No",
+    "columns": [
+      "Account_No"
+    ],
+    "category": "cross_table",
+    "type": "cross_table_semantic",
+    "rule": "Account_No must match Account_No in Acc_Info_dirty for the same S_N",
+    "rationale": "Referential integrity requires Account_No to be consistent across both tables for the same S_N join key.",
+    "check_params": {
+      "sibling_table": "Acc_Info_dirty",
+      "join_col": "S_N",
+      "sibling_join_col": "S_N",
+      "sibling_data_col": "Account_No",
+      "semantic_check": "Account_No must exactly match across tables",
+      "sibling_lookup": {
+        "1": "1001",
+        "2": "1001",
+        "4": "1003",
+        "5": "1004",
+        "7": "1006",
+        "8": "1007",
+        "9": "1008",
+        "10": "1009",
+        "11": "1010",
+        "12": "1010",
+        "13": "1011",
+        "14": "1012",
+        "15": "1013",
+        "16": "1014",
+        "17": "1015",
+        "18": "1016",
+        "19": "1017",
+        "20": "1018",
+        "21": "1019",
+        "22": "1020",
+        "23": "1021",
+        "24": "1022",
+        "25": "1023",
+        "26": "1024",
+        "27": "1025",
+        "28": "1026",
+        "29": "1027",
+        "30": "1028"
+      }
+    },
+    "failing_record_indices": []
+  },
+  {
+    "rule_id": 26,
+    "table": "Cust_Bio_dirty",
+    "column": "Email",
+    "columns": [
+      "Email"
+    ],
+    "category": "per_column",
+    "type": "uniqueness",
+    "rule": "Email must be unique within Cust_Bio_dirty",
+    "rationale": "Column is 96.7% distinct with duplicate value(s) ['thm@example.com'] observed; treated as a candidate identifier — duplicates flagged for review.",
+    "check_params": {},
+    "failing_record_indices": [
+      1,
+      10
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Customer age in years stored as integer values (technical type int64). Contains 24 distinct values across 30 records with no missing values. Observed range spans -5 to 66 years. Contains one non-numeric text entry ('Twenty-five', 3.3% of records) and two implausible values (-5 and 4) flagged as unrealistic for service accounts.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert text-based numeric value to integer format: 'Twenty-five' → '25'.",
+      "[CLARIFY] Confirm validity of implausible age values: -5 (negative) and 4 (below typical service account threshold). Determine if these represent data entry errors or require exclusion from analysis.",
+      "[VALIDATE] Ensure all values are positive integers within a realistic age range (e.g., 13-120) after standardization."
+    ]
+  }
+]

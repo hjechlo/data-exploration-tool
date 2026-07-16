@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as text rather than a native datetime type. The column is complete with 0 missing values out of 30 records and contains 28 distinct non-null values, making it near-unique with 2 repeated timestamps. Observed values consistently use a 19-character datetime string format such as '2023-03-30 00:00:00', with values ranging from '2019-01-01 00:00:00' to '2024-05-12 00:00:00'.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the column from string to a native datetime type using the observed format 'YYYY-MM-DD HH:MM:SS' — for example, '2023-03-30 00:00:00' should be stored as a datetime value.",
+      "[VALIDATE] Ensure all values follow the format: 4-digit year, 2-digit month, 2-digit day, a space, then 2-digit hour, 2-digit minute, and 2-digit second — for example, '2023-03-30 00:00:00'."
+    ]
+  }
+]

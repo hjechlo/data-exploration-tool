@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "LastLogin",
+    "description": "Last login timestamp stored as string in 'YYYY-MM-DD HH:MM:SS' format. Contains 30 records with no missing values and 28 distinct timestamps ranging from 2019-01-01 to 2024-05-12. All observed values consistently show a midnight time component (00:00:00) and are exactly 19 characters in length. Two timestamps appear twice in the dataset, indicating multiple accounts with identical last login dates.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert string values to datetime64[ns] type: '2023-03-30 00:00:00' → 2023-03-30 00:00:00 (datetime)."
+    ]
+  }
+]

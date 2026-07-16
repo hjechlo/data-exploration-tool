@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "AccountBalance",
+    "description": "Account balance stored as float64 numeric values across 30 records with no missing values; all 30 values are unique. Observed range spans from -150.5 to 99999.0. One value (99999.0) exceeds the statistically expected upper bound (1525) and appears to be a sentinel code, while the minimum value (-150.5) is negative in an otherwise positive column.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the sentinel outlier 99999.0 and the negative value -150.5 represent missing, invalid, or legitimate data."
+    ]
+  }
+]

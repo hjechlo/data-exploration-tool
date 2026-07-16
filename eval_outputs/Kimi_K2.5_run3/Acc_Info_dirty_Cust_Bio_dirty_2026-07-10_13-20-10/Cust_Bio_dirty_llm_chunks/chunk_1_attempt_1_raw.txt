@@ -1,0 +1,11 @@
+```json
+[
+  {
+    "column_name": "S_N",
+    "description": "Unique integer identifier with values ranging from 1 to 30. Contains 30 distinct non-null values across 30 records (100% complete and unique). Serves as a one-to-one shared key with Acc_Info_dirty.S_N with 100% referential integrity coverage from this table.",
+    "recommended_actions": [
+      "[VALIDATE] Enforce referential integrity against Acc_Info_dirty.S_N before joining or loading new records."
+    ]
+  }
+]
+```

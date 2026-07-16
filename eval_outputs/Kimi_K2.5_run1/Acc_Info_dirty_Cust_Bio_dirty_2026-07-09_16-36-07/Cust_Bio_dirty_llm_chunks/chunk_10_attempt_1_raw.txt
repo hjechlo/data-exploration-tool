@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Country",
+    "description": "Country name field containing 8 distinct text representations of Singapore across 30 records with no missing values. Observed values include English variants ('Singapore', 'SINGAPORE', 'singapore', 'Republic of Singapore', 'S'pore'), the Malay name ('Singapura'), Chinese characters ('新加坡'), and the ISO code ('SG'), indicating mixed-language data entry or source system variation.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize deterministic case deviations to the dominant title-case format: 'SINGAPORE' → 'Singapore', 'singapore' → 'Singapore'.",
+      "[CLARIFY] Confirm handling of multilingual and abbreviated values: 'Republic of Singapore', 'S'pore', 'Singapura', '新加坡', 'SG'. Determine if these should be standardized to the English short form 'Singapore' or preserved as valid language-specific alternatives."
+    ]
+  }
+]
+```

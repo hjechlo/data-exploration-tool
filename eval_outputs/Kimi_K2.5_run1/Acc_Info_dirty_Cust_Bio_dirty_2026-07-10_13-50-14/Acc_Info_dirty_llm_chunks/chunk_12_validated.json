@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Device",
+    "description": "Categorical field indicating device type classification. Contains 3 distinct values (Desktop, Mobile, Tablet) across 30 records with 0 missing values (0.0%). Values are stored as strings with lengths of 6-7 characters.",
+    "recommended_actions": [
+      "[No Immediate Action]"
+    ]
+  }
+]

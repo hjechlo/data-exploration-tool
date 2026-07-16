@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "FeedbackScore",
+    "description": "Numeric rating field stored as float64 with 30 records and no missing values. Values range from 1.0 to 7.3; 29 distinct values with one repeat (1.78). All entries appear as numbers. One value (7.3) exceeds the statistically expected upper bound (6.945) and is flagged as a possible sentinel for missing or invalid data. The column is near‑duplicate of another column (FeedbackScore1) in the same table.",
+    "recommended_actions": [
+      "[CLARIFY] Confirm whether the outlier value 7.3 is a sentinel for missing or invalid data and decide on appropriate handling (e.g., treat as null, cap, or correct).",
+      "[CLARIFY] Assess if FeedbackScore is redundant with FeedbackScore1 and determine whether one of the columns should be removed."
+    ]
+  }
+]

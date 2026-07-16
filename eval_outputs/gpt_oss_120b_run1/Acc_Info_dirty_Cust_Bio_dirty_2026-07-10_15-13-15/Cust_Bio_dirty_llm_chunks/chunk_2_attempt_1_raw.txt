@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Account_No",
+    "description": "Account number field stored as int64 (30 rows, 0% missing). Values range from 1001 to 1028, are always four digits long, and are numeric. The column is near‑unique with 28 distinct values and two repeated numbers (e.g., 1001, 1010). Intended datatype is string, so a type conversion is recommended.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert numeric Account_No values to string representation, e.g., 1026 → \"1026\" (100% of rows).",
+      "[VALIDATE] Ensure all Account_No strings are exactly 4 digits long and contain only numeric characters, e.g., \"1026\"."
+    ]
+  }
+]

@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street_Name stores the street component of a customer's address as free-text. The column has 30 records, no missing values, and each value is unique. Values show natural variation in length and case, with one entry in all uppercase (e.g., 'HOLLAND ROAD').",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert uppercase street names to title case: 'HOLLAND ROAD' → 'Holland Road' (3.3% of records)."
+    ]
+  }
+]

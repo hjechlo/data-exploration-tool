@@ -1,0 +1,12 @@
+```json
+[
+  {
+    "column_name": "Status",
+    "description": "Boolean status indicator stored as string with 0 missing values (0%) across 30 records. Contains 6 distinct representations of binary states using inconsistent formats: numeric strings ('0', '1'), boolean strings ('False', 'True'), and natural language ('no', 'yes'). Column is stored as string but intended to be boolean.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert mixed string representations to native boolean type: 'True', '1', 'yes' → True; 'False', '0', 'no' → False.",
+      "[VALIDATE] Ensure all values are successfully converted to boolean type with no remaining string representations."
+    ]
+  }
+]
+```

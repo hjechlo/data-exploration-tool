@@ -1,0 +1,9 @@
+[
+  {
+    "column_name": "Street_Name",
+    "description": "Street name field containing 30 distinct Singapore road and street names (e.g., 'Ang Mo Kio Avenue 2', 'Balestier Road', 'Pandan Loop'). All 30 records are complete with no missing values, and all values are unique. One value appears in all-caps format ('HOLLAND ROAD') while the remaining 29 values follow Title Case convention.",
+    "recommended_actions": [
+      "[STANDARDIZE] Standardize the all-caps value to match the dominant Title Case format: 'HOLLAND ROAD' → 'Holland Road' (affecting 1 of 30 records, 3.3%)."
+    ]
+  }
+]

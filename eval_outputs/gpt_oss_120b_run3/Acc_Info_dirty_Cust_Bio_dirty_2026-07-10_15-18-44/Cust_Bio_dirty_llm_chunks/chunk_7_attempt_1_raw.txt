@@ -1,0 +1,10 @@
+[
+  {
+    "column_name": "Age",
+    "description": "Age column stored as integer (int64) with 30 records and no missing values. Values range from -5 to 66, with 24 distinct values. One entry is non-numeric ('Twenty-five'), representing 3.3% of rows. Two values (4 and -5) are below the typical minimum age of 13, which may be unrealistic.",
+    "recommended_actions": [
+      "[STANDARDIZE] Convert the non-numeric entry 'Twenty-five' to numeric '25' (3.3% of records).",
+      "[CLARIFY] Confirm whether ages below 13 (e.g., 4, -5) are valid or should be treated as errors or missing."
+    ]
+  }
+]

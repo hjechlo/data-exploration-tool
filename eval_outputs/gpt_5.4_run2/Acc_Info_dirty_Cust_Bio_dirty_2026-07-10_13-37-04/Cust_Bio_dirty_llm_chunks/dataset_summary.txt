@@ -1,0 +1,5 @@
+This dataset describes individual customer biographical and contact records, likely within a customer master or onboarding context in a Singapore-based setting. The fields indicate a personal profile domain, covering identity, demographic characteristics, and residential/contact details for named individuals.
+
+The data would likely support customer administration, identity verification, contact management, or basic customer segmentation and reporting. It would be useful in operational systems that maintain customer profiles, as well as in analytics focused on customer demographics, geographic distribution, and communication records.
+
+The table contains 30 rows and 12 columns. A unique table-level identifier is evident in S_N, while the remaining fields are organized into broad groups covering account and identity references, personal and demographic attributes, contact information, and address/location details.
