@@ -1,5 +1,5 @@
-"""Build human-readable column evidence for LLM prompts.
-
+"""
+Build human-readable column evidence for LLM prompts.
 The functions here were moved from ColumnAnalyzer without changing their logic.
 """
 

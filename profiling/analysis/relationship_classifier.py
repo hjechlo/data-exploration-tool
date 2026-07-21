@@ -286,24 +286,9 @@ class RelationshipClassifier:
         ):
             score = max(score, cfg.join_quality_threshold)
 
-        # Grade the score
-        if score >= 0.9:
-            grade = "Excellent"
-        elif score >= 0.7:
-            grade = "Good"
-        elif score >= 0.5:
-            grade = "Possible"
-        else:
-            grade = "Poor"
-
         return {
             'score': round(score, 4),
-            'grade': grade,
             'coverage_strength': round(coverage_strength, 4),
-            'asymmetry': round(asymmetry, 4),
-            'uniqueness_strength': round(uniqueness_strength, 4),
-            'size_asymmetry': round(size_asymmetry, 4),
-            'overlap_significance': round(overlap_significance, 4),
         }
 
     def identify_pk_fk_relationship(

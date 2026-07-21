@@ -61,17 +61,6 @@ def build_join_hints(minhash_results: dict) -> dict[str, list[str]]:
                 f"not a primary/foreign key relationship"
             )
 
-        # elif rel_type == "shared_join_key":
-        #     cov_a = jp.get("coverage_a", 0)
-        #     cov_b = jp.get("coverage_b", 0)
-        #     hints[key_a].append(
-        #         f"shared join key with '{key_b}' "
-        #         f"(coverage {cov_a:.1%} / {cov_b:.1%})"
-        #     )
-        #     hints[key_b].append(
-        #         f"shared join key with '{key_a}' "
-        #         f"(coverage {cov_a:.1%} / {cov_b:.1%})"
-        #     )
 
         else:
             # MinHash-only (unclassified) — symmetric, no FK framing
@@ -193,11 +182,6 @@ def annotate_relationship_roles(
         elif rel_type == "one_to_one_key":
             relationship_roles[jp.get("key_a", "")] = "join_key"
             relationship_roles[jp.get("key_b", "")] = "join_key"
-        # elif rel_type == "shared_join_key":
-        #     key_a = f"{jp['table_a']}.{jp['col_a']}"
-        #     key_b = f"{jp['table_b']}.{jp['col_b']}"
-        #     relationship_roles[key_a] = "join_key"
-        #     relationship_roles[key_b] = "join_key"
 
     annotated: dict[str, list[dict]] = {}
     for table_name, table_summary in column_summaries.items():

@@ -162,9 +162,8 @@ def generate_join_interpretation(
     if cfg.llm_resume and cached.exists():
         print("  Join interpretation: reusing cached result.")
         return cached.read_text(encoding="utf-8")
-    clean_join_paths = join_paths
     compact_join_paths = []
-    for jp in clean_join_paths:
+    for jp in join_paths:
         rel_type = jp.get("relationship_type")
         if rel_type == "foreign_key":
             fk_table = jp.get("foreign_key_table")

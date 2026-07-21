@@ -1,6 +1,7 @@
 """Build evidence payloads for column-level dictionary generation."""
 
 import re
+from .utils import is_length_variation_only
 
 
 def prepare_dictionary_evidence(
@@ -21,11 +22,14 @@ def prepare_dictionary_evidence(
             n_distinct = len(row.get("permissible_values") or [])
         n_distinct = int(n_distinct or 0)
         unique_ratio = n_distinct / n_non_missing if n_non_missing else 1.0
-        suppress_abstract_format_for_category = (
+        _is_low_cardinality_string = (
             str(row.get("data_type", "")).lower() in {"string", "object", "category"}
             and row.get("permissible_values") is not None
-            and (n_distinct >= 2)
-            and (unique_ratio <= 0.5)
+        )
+        suppress_abstract_format_for_category = (
+            _is_low_cardinality_string
+            and n_distinct >= 2
+            and unique_ratio <= 0.5
         )
         entry = {
             "table_name": table_name,
@@ -43,26 +47,6 @@ def prepare_dictionary_evidence(
         }
         if "_format_analysis" in row:
             format_analysis = row["_format_analysis"]
-
-            def is_length_variation_only(pattern: str) -> bool:
-                """
-                Suppress abstract fingerprint patterns that only describe text length,
-                word count, or simple numeric length.
-
-                Examples suppressed:
-                - aaaa
-                - aaa aaaa
-                - aaa a/a aaaaaaaa
-                - XXXXXX
-
-                These are internal fingerprint codes and should not be shown to the LLM.
-                """
-                stripped = re.sub("[\\s.'\\-\\/_(),:&]+", "", str(pattern))
-                if not stripped:
-                    return False
-                return all((c == "a" for c in stripped)) or all(
-                    (c == "X" for c in stripped)
-                )
 
             raw_fingerprints = format_analysis.get("format_fingerprints", {})
             raw_top_formats = raw_fingerprints.get("top_formats", [])

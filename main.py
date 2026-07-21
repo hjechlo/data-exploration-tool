@@ -1,5 +1,4 @@
-"""
-main.py — CLI entrypoint for the Data Dictionary Pipeline.
+"""CLI entrypoint for the Data Dictionary Pipeline.
 
 Usage
 -----
@@ -9,7 +8,7 @@ Usage
     # Specify datasets explicitly (skips the menu)
     python main.py --datasets data/raw/febrl4a.csv data/raw/febrl4b.csv
 
-    # Override the directory that is scanned for the menu
+    # Override the directory scanned for the menu
     python main.py --data-dir path/to/my/datasets/
 
     # Skip Word document generation
@@ -20,7 +19,6 @@ Usage
 
     # Adjust thresholds
     python main.py --join-threshold 0.4 --duplicate-threshold 0.85
-
 """
 
 import argparse
@@ -31,15 +29,17 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from profiling import PipelineConfig, run_pipeline
+from profiling.core.models import PipelineRunRequest
 from profiling.dataLoad.loader import DataLoader
 from profiling.llm.llm_engine import AzureLLMEngine
-from profiling.core.models import PipelineRunRequest
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Data Dictionary Pipeline — profiles datasets and generates "
-                    "LLM-powered data dictionaries.",
+        description=(
+            "Data Dictionary Pipeline — profiles datasets and generates "
+            "LLM-powered data dictionaries."
+        ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
@@ -104,22 +104,21 @@ def parse_args() -> argparse.Namespace:
         "--llm-model",
         default="",
         metavar="MODEL_NAME",
-        help="Azure deployment name for the primary model. Can also be set via DEPLOYMENT_KIMI in .env.",
+        help=(
+            "Azure deployment name for the primary model. "
+            "Can also be set via DEPLOYMENT_KIMI in .env."
+        ),
     )
-
     parser.add_argument(
         "--dataset-descriptions",
         nargs="+",
         metavar="NAME:DESCRIPTION",
         default=None,
         help=(
-            "Background descriptions per dataset, as key:value pairs. "
-            "Example: --dataset-descriptions "
-            "\"febrl4a:Synthetic Australian personal records\" "
-            "\"febrl4b:Modified version with errors\""
+            'Background descriptions per dataset as NAME:DESCRIPTION pairs. '
+            'Example: --dataset-descriptions "febrl4a:Synthetic Australian records"'
         ),
     )
-
 
     # Word document
     parser.add_argument(
@@ -137,12 +136,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def resolve_datasets(args: argparse.Namespace) -> list[Path]:
-    """
-    Return the list of dataset paths to process.
+    """Return the list of dataset paths to process.
 
-    If --datasets is provided, use those directly.
-    Otherwise, scan --data-dir and show an interactive numbered menu
-    so the user can pick which datasets to run.
+    Uses --datasets directly if provided, otherwise scans --data-dir and
+    presents an interactive numbered menu.
     """
     if args.datasets:
         paths = [Path(p) for p in args.datasets]
@@ -152,7 +149,6 @@ def resolve_datasets(args: argparse.Namespace) -> list[Path]:
             sys.exit(1)
         return paths
 
-    # Interactive selection
     loader = DataLoader()
     data_dir = Path(args.data_dir)
     if not data_dir.exists():
@@ -169,33 +165,26 @@ def resolve_datasets(args: argparse.Namespace) -> list[Path]:
         print(f"  {i}: {f.name}")
 
     while True:
-        choice_str = input(
-            "\nChoose dataset number(s), comma-separated (e.g. 0,1,3): "
-        ).strip()
-
+        raw = input("\nChoose dataset number(s), comma-separated (e.g. 0,1,3): ").strip()
         try:
-            chosen_indices = [int(x.strip()) for x in choice_str.split(",") if x.strip()]
+            indices = [int(x.strip()) for x in raw.split(",") if x.strip()]
         except ValueError:
             print("  Invalid input — enter numbers only, separated by commas.")
             continue
-
-        if not chosen_indices:
+        if not indices:
             print("  No datasets selected — please enter at least one number.")
             continue
-
-        invalid = [i for i in chosen_indices if i < 0 or i >= len(available)]
+        invalid = [i for i in indices if i < 0 or i >= len(available)]
         if invalid:
             print(f"  Invalid number(s): {invalid}. Choose from 0 to {len(available) - 1}.")
             continue
-
         break
 
-    selected = [available[i] for i in chosen_indices]
+    selected = [available[i] for i in indices]
     print("\nSelected datasets:")
     for p in selected:
         print(f"  - {p}")
     print(f"Output folder: {args.output_dir}\n")
-
     return selected
 
 
@@ -209,17 +198,18 @@ def build_config(args: argparse.Namespace) -> PipelineConfig:
         llm_resume=not args.no_resume,
         llm_model=args.llm_model or os.environ.get("DEPLOYMENT_KIMI", ""),
         llm_endpoint=os.environ.get("ENDPOINT_KIMI", ""),
-        llm_is_native_azure=False,  
+        llm_is_native_azure=False,
     )
     if args.chunk_size is not None:
         kwargs["llm_chunk_size"] = args.chunk_size
     return PipelineConfig(**kwargs)
 
+
 def parse_dataset_descriptions(args: argparse.Namespace) -> dict[str, str]:
     """Parse --dataset-descriptions NAME:DESCRIPTION pairs into a dict."""
     if not args.dataset_descriptions:
         return {}
-    descriptions = {}
+    descriptions: dict[str, str] = {}
     for item in args.dataset_descriptions:
         if ":" not in item:
             print(f"Warning: skipping malformed description '{item}' — expected NAME:DESCRIPTION")
@@ -229,10 +219,8 @@ def parse_dataset_descriptions(args: argparse.Namespace) -> dict[str, str]:
     return descriptions
 
 
-
 def main() -> None:
     load_dotenv()
-
     args = parse_args()
     dataset_paths = resolve_datasets(args)
     config = build_config(args)
@@ -240,24 +228,15 @@ def main() -> None:
     try:
         llm_client = AzureLLMEngine(
             api_key=os.environ["AZURE_OPENAI_KEY"].strip(),
-            api_version=os.environ.get(
-                "AZURE_OPENAI_API_VERSION",
-                "2024-05-01-preview",
-            ),
+            api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-05-01-preview"),
         )
-    except KeyError as error:
-        print(
-            f"Error: missing environment variable {error}."
-        )
-        print(
-            "Set AZURE_OPENAI_KEY in your .env file."
-        )
+    except KeyError as err:
+        print(f"Error: missing environment variable {err}.")
+        print("Set AZURE_OPENAI_KEY in your .env file.")
         sys.exit(1)
 
     if args.llm_model:
-        print(
-            f"Using primary model: {args.llm_model}"
-        )
+        print(f"Using primary model: {args.llm_model}")
 
     request = PipelineRunRequest(
         dataset_paths=tuple(dataset_paths),
@@ -266,15 +245,8 @@ def main() -> None:
         word_script=Path(args.word_script),
     )
 
-    result = run_pipeline(
-        request=request,
-        config=config,
-        llm_client=llm_client,
-    )
-
-    print(
-        f"Outputs saved under: {result.run_directory}"
-    )
+    result = run_pipeline(request=request, config=config, llm_client=llm_client)
+    print(f"Outputs saved under: {result.run_directory}")
 
 
 if __name__ == "__main__":

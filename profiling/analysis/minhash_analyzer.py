@@ -30,6 +30,31 @@ class MinHashAnalyzer:
     def _are_compatible(kind_a: str, kind_b: str) -> bool:
         allowed = {"categorical", "discrete_code", "key_like"}
         return kind_a in allowed and kind_b in allowed
+    
+    @staticmethod
+    def _sort_key_coverage(x: dict) -> tuple:
+        """Sort key for coverage-detected joins: FK first, then by coverage descending."""
+        cov = -max(x.get("coverage_a", 0), x.get("coverage_b", 0))
+        if x.get("relationship_type") == "foreign_key":
+            return (0, cov)
+        if x.get("relationship_type") == "one_to_one_key":
+            return (1, cov)
+        if x.get("relationship_type") == "shared_value_domain":
+            return (2, cov)
+        return (3, -x.get("quality_score", 0))
+
+    @staticmethod
+    def _sort_key_joins(x: dict) -> tuple:
+        """Sort key for merged join paths: classified relationships before MinHash-only."""
+        q = -x.get("quality_score", 0)
+        cov = -max(x.get("coverage_a", 0), x.get("coverage_b", 0))
+        if x.get("relationship_type") == "foreign_key":
+            return (0, q, cov)
+        if x.get("relationship_type") == "one_to_one_key":
+            return (1, q, cov)
+        if x.get("method") == "coverage":
+            return (2, q, cov)
+        return (3, -x.get("resemblance", 0), 0)
 
     @classmethod
     def _should_report_join(cls, jp: dict) -> bool:
@@ -41,17 +66,6 @@ class MinHashAnalyzer:
 
         if rel_type in {"foreign_key", "one_to_one_key", "shared_value_domain"}:
             return True
-
-        # # Keep old shared_join_key only if both sides are non-numeric and clearly named alike.
-        # if rel_type == "shared_join_key":
-        #     type_a = str(jp.get("type_a", "")).lower()
-        #     type_b = str(jp.get("type_b", "")).lower()
-        #     numeric = ("int", "float", "double", "decimal", "number")
-        #     if any(t in type_a for t in numeric) or any(t in type_b for t in numeric):
-        #         return False
-        #     return True
-
-        # Hide low-confidence / unclassified MinHash-only pairs from final report.
         return False
 
     def find_joins_by_coverage_with_data(
@@ -196,7 +210,6 @@ class MinHashAnalyzer:
                     "kind_b": row_b.get("similarity_kind"),
 
                     "quality_score": quality["score"],
-                    "quality_grade": quality["grade"],
                     "score_components": quality,
                     "uniqueness_a": round(uniqueness_a, 4),
                     "uniqueness_b": round(uniqueness_b, 4),
@@ -215,16 +228,7 @@ class MinHashAnalyzer:
                     "relationship_interpretation": relationship.get("interpretation"),
                 })
 
-        def sort_key(x: dict):
-            if x.get("relationship_type") == "foreign_key":
-                return (0, -max(x.get("coverage_a", 0), x.get("coverage_b", 0)))
-            if x.get("relationship_type") == "one_to_one_key":
-                return (1, -max(x.get("coverage_a", 0), x.get("coverage_b", 0)))
-            if x.get("relationship_type") == "shared_value_domain":
-                return (2, -max(x.get("coverage_a", 0), x.get("coverage_b", 0)))
-            return (3, -x.get("quality_score", 0))
-
-        joins.sort(key=sort_key)
+        joins.sort(key=self._sort_key_coverage)
         return joins
 
     def find_joinable_columns(
@@ -445,17 +449,7 @@ class MinHashAnalyzer:
                         existing[k] = v
 
         join_paths_final = list(join_by_pair.values())
-
-        def sort_key(x):
-            if x.get("relationship_type") == "foreign_key":
-                return (0, -x.get("quality_score", 0), -max(x.get("coverage_a", 0), x.get("coverage_b", 0)))
-            if x.get("relationship_type") == "one_to_one_key":
-                return (1, -x.get("quality_score", 0), -max(x.get("coverage_a", 0), x.get("coverage_b", 0)))
-            if x.get("method") == "coverage":
-                return (2, -x.get("quality_score", 0), -max(x.get("coverage_a", 0), x.get("coverage_b", 0)))
-            return (3, -x.get("resemblance", 0), 0)
-
-        join_paths_final.sort(key=sort_key)
+        join_paths_final.sort(key=self._sort_key_joins)
         # Fallback: classify any MinHash-only pairs that coverage detection missed.
         if dataframes is not None:
             for jp in join_paths_final:

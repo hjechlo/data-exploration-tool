@@ -11,6 +11,7 @@ from .prompts import DATA_DICTIONARY_SYSTEM_PROMPT, DATA_DICTIONARY_USER_PROMPT
 from .semantic_ordering import group_by_logic
 from .summaries import generate_dataset_summary
 from .utils import clean_actions, clean_output, semantic_chunks, validate_llm_rows
+from ..analysis.relationship_reporting import build_join_hints
 
 
 class LLMDictionaryGenerator:
@@ -167,7 +168,6 @@ class LLMDictionaryGenerator:
                         json.dump(rows[0], f, indent=2, ensure_ascii=False)
                     results.append(rows[0])
                     print(f"    [{table_name}] {col_name}: success.")
-                    last_error = None
                     break
                 except Exception as e:
                     last_error = e
@@ -231,7 +231,6 @@ def generate_dictionaries(
     join_hints: dict | None = None,
 ) -> tuple[dict[str, list[dict]], dict[str, str]]:
     """Generate and merge data dictionaries and dataset summaries for all tables."""
-    from ..analysis.relationship_reporting import build_join_hints
 
     if join_hints is None:
         join_hints = build_join_hints(minhash_results)

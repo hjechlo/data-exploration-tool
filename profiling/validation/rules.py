@@ -868,45 +868,6 @@ def generate_rules_for_tables(
                 "check_params": {},
             })
 
-    # # Uniqueness — also inject for columns used as sibling_data_col in
-    # # cross_table_semantic rules, which MinHash may not have linked directly.
-    # for tname, trules in all_rules.items():
-    #     _tdf = all_dfs.get(tname)
-    #     if _tdf is None:
-    #         continue
-    #     for rule in trules:
-    #         if rule.get("type") != "cross_table_semantic":
-    #             continue
-    #         cname = rule.get("column")
-    #         if not cname or cname not in _tdf.columns:
-    #             continue
-    #         if any(
-    #             r.get("type") == "uniqueness" and r.get("column") == cname
-    #             for r in all_rules[tname]
-    #         ):
-    #             continue
-    #         _non_null = _tdf[cname].dropna()
-    #         if len(_non_null) == 0:
-    #             continue
-    #         _ratio = _non_null.nunique(dropna=True) / len(_non_null)
-    #         if _ratio < _min_ratio or _ratio >= 1.0:
-    #             continue
-    #         all_rules[tname].append({
-    #             "rule_id": len(all_rules[tname]) + 1,
-    #             "table": tname,
-    #             "column": cname,
-    #             "columns": [cname],
-    #             "category": "per_column",
-    #             "type": "uniqueness",
-    #             "rule": f"{cname} must be unique within {tname}",
-    #             "rationale": (
-    #                 f"Column is referenced in a cross-table semantic rule "
-    #                 f"and is {_ratio:.1%} distinct; treated as a candidate key, "
-    #                 f"duplicates flagged for review."
-    #             ),
-    #             "check_params": {},
-    #         })
-
     for table_name, table_summary in column_summaries.items():
         for col_row in table_summary:
             col = col_row["column_name"]
@@ -956,48 +917,6 @@ def generate_rules_for_tables(
                 ),
                 "check_params": {"regex": rf"^\d{{{dominant_len}}}$"},
             })
-
-    # # Consistency supplement — near-duplicate column pairs within a table
-    # # (detected by MinHash) must agree row-by-row; divergent rows are the
-    # # violation. Pairs that are exactly equal produce no rule (no dirt).
-    # for dc in minhash_results.get("duplicate_columns", []):
-    #     tname = dc.get("table_a")
-    #     if not tname or dc.get("table_b") != tname or tname not in all_rules:
-    #         continue
-    #     col_a, col_b = dc.get("col_a"), dc.get("col_b")
-    #     _tdf = all_dfs.get(tname)
-    #     if (
-    #         not col_a or not col_b
-    #         or _tdf is None
-    #         or col_a not in _tdf.columns
-    #         or col_b not in _tdf.columns
-    #         or _tdf[col_a].equals(_tdf[col_b])
-    #     ):
-    #         continue
-    #     if any(
-    #         r.get("type") == "custom"
-    #         and set(re.findall(r"row\['([^']+)'\]",
-    #                 (r.get("check_params") or {}).get("logic") or ""))
-    #             == {col_a, col_b}
-    #         for r in all_rules[tname]
-    #     ):
-    #         continue
-    #     all_rules[tname].append({
-    #         "rule_id": len(all_rules[tname]) + 1,
-    #         "table": tname,
-    #         "column": col_a,
-    #         "columns": [col_a, col_b],
-    #         "category": "cross_column",
-    #         "type": "custom",
-    #         "rule": f"{col_a} and {col_b} must contain identical values",
-    #         "rationale": (
-    #             f"MinHash detected {col_a} and {col_b} as near-duplicate "
-    #             f"columns; rows where they diverge indicate an inconsistency."
-    #         ),
-    #         "check_params": {
-    #             "logic": f"str(row['{col_a}']) != str(row['{col_b}'])"
-    #         },
-    #     })
 
     # Sentinel supplement
     _sentinel_pattern = re.compile(r"\[([^\]]+)\] is a statistical outlier.*sentinel-coded")

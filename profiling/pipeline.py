@@ -15,10 +15,7 @@ from .dataLoad.loader import DataLoader
 from .dataLoad.preprocessor import DataPreprocessor
 from .dataLoad.profiler import DataProfiler, profile_datasets
 from .llm.llm_generator import LLMDictionaryGenerator, generate_dictionaries
-from .llm.summaries import (
-    generate_join_interpretation,
-    generate_report_summary,
-)
+from .llm.summaries import generate_join_interpretation, generate_report_summary
 from .reporting.exporters import DataDictionaryExporter, export_outputs
 from .validation.failures import validate_tables
 from .validation.rules import generate_rules_for_tables
@@ -33,14 +30,15 @@ def run(
     if llm_client is None:
         raise ValueError("An LLM client is required for the pipeline.")
 
-    dataset_paths = [Path(path) for path in request.dataset_paths]
-    missing_paths = [path for path in dataset_paths if not path.exists()]
-    if missing_paths:
-        raise FileNotFoundError(f"Dataset files do not exist: {missing_paths}")
+    dataset_paths = [Path(p) for p in request.dataset_paths]
+    missing = [p for p in dataset_paths if not p.exists()]
+    if missing:
+        raise FileNotFoundError(f"Dataset files do not exist: {missing}")
 
     run_config = RunManager(config).create_run_config(dataset_paths)
     print(f"Run folder: {run_config.output_dir}")
 
+    # Initialise components
     loader = DataLoader()
     preprocessor = DataPreprocessor(run_config)
     profiler = DataProfiler(run_config, preprocessor)
@@ -49,36 +47,24 @@ def run(
     llm_generator = LLMDictionaryGenerator(llm_client, run_config)
     exporter = DataDictionaryExporter(run_config)
 
+    # ── Step 1: Profiling ────────────────────────────────────────────────
     print("\n── Step 1: Profiling ───────────────────────────────")
-    profile_results = profile_datasets(
-        dataset_paths,
-        loader,
-        profiler,
-    )
+    profile_results = profile_datasets(dataset_paths, loader, profiler)
 
+    # ── Step 2: Column analysis ──────────────────────────────────────────
     print("\n── Step 2: Column analysis ─────────────────────────")
-    column_summaries = build_column_summaries(
-        column_analyzer,
-        profile_results,
-    )
+    column_summaries = build_column_summaries(column_analyzer, profile_results)
 
+    # ── Step 3: MinHash relationship analysis ────────────────────────────
     print("\n── Step 3: MinHash analysis ────────────────────────")
-    minhash_results = analyze_relationships(
-        minhash_analyzer,
-        column_summaries,
-        profile_results,
-    )
+    minhash_results = analyze_relationships(minhash_analyzer, column_summaries, profile_results)
 
+    # ── Step 3.5: Clean FK false-positive errors and annotate roles ──────
     print("\n── Step 3.5: Cleaning FK false positive errors ─────")
-    column_summaries = cleanup_fk_errors(
-        column_summaries,
-        minhash_results,
-    )
-    column_summaries = annotate_relationship_roles(
-        column_summaries,
-        minhash_results,
-    )
+    column_summaries = cleanup_fk_errors(column_summaries, minhash_results)
+    column_summaries = annotate_relationship_roles(column_summaries, minhash_results)
 
+    # ── Step 4: LLM dictionary generation ───────────────────────────────
     print("\n── Step 4: LLM dictionary generation ───────────────")
     all_dictionaries, dataset_summaries = generate_dictionaries(
         generator=llm_generator,
@@ -99,9 +85,10 @@ def run(
     )
 
     print("\n  Generating join path interpretation...")
-    join_paths_for_interpretation = minhash_results.get(
-        "candidate_join_paths", []
-    ) + minhash_results.get("join_paths", [])
+    join_paths_for_interpretation = (
+        minhash_results.get("candidate_join_paths", [])
+        + minhash_results.get("join_paths", [])
+    )
     join_interpretation = (
         generate_join_interpretation(
             call_llm=llm_generator.call,
@@ -115,6 +102,7 @@ def run(
         else ""
     )
 
+    # ── Step 5: Validation rules ─────────────────────────────────────────
     print("\n── Step 5: Validation rules ────────────────────────")
     validation_rules = generate_rules_for_tables(
         config=run_config,
@@ -125,6 +113,7 @@ def run(
         dataset_descriptions=dataset_summaries,
     )
 
+    # ── Step 5b: Record-level validation checks ──────────────────────────
     print("\n── Step 5b: Validation checks (record-wise) ────────")
     validation_check_results = validate_tables(
         config=run_config,
@@ -133,6 +122,7 @@ def run(
         profile_results=profile_results,
     )
 
+    # ── Step 6: Export ───────────────────────────────────────────────────
     print("\n── Step 6: Export ──────────────────────────────────")
     output_paths = export_outputs(
         exporter=exporter,

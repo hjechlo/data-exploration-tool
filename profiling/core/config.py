@@ -1,22 +1,23 @@
-"""
-Shared constants and default configuration for the profiling pipeline.
-"""
+"""Shared constants and default configuration for the profiling pipeline."""
 
 import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+
 PLACEHOLDER_TOKENS: set[str] = {
-        'n/a', 'na', 'null', 'none', 'unknown', 'tbd', 'pending',
-        'n.a.', 'not available', '--', '???', '?', 'missing'
-    }
+    "n/a", "na", "null", "none", "unknown", "tbd", "pending",
+    "n.a.", "not available", "--", "???", "?", "missing",
+}
 
 EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+$")
 
 ID_NAME_HINTS: set[str] = {"id", "key", "identifier", "uuid", "ssn", "soc_sec"}
 
-SUPPORTED_EXTENSIONS: list[str] = [".csv", ".xlsx", ".xls", ".parquet", ".json",".geojson", ".txt"]
+SUPPORTED_EXTENSIONS: list[str] = [
+    ".csv", ".xlsx", ".xls", ".parquet", ".json", ".geojson", ".txt",
+]
 
 BOOLEAN_SPELLINGS: dict[str, bool] = {
     "true": True, "t": True, "yes": True, "y": True, "1": True, "1.0": True,
@@ -26,9 +27,10 @@ BOOLEAN_SPELLINGS: dict[str, bool] = {
 
 @dataclass
 class PipelineConfig:
-    """
-    Central configuration object.  Pass one instance through the pipeline
-    so every component reads from the same source of truth.
+    """Central configuration object.
+
+    Pass one instance through the pipeline so every component reads from
+    the same source of truth.
     """
 
     # Directories
@@ -55,10 +57,10 @@ class PipelineConfig:
     duplicate_threshold: float = 0.9
     near_identical_threshold: float = 0.7
 
-    # Composite quality score approach
-    join_quality_threshold: float = 0.65    
-    min_join_cardinality: int = 5      
-    min_overlap_count: int = 500  
+    # Composite quality score
+    join_quality_threshold: float = 0.65
+    min_join_cardinality: int = 5
+    min_overlap_count: int = 500
     enable_country_specific_patterns: bool = False
 
     # Relationship detection
@@ -77,42 +79,40 @@ class PipelineConfig:
     llm_resume: bool = False
     llm_timeout: int = 600
 
-    llm_model: str = field(default_factory=lambda: os.environ.get("DEPLOYMENT_KIMI", "")) 
+    llm_model: str = field(default_factory=lambda: os.environ.get("DEPLOYMENT_KIMI", ""))
     llm_endpoint: str = field(default_factory=lambda: os.environ.get("ENDPOINT_KIMI", ""))
-    llm_is_native_azure: bool = False  # True = AzureOpenAI client, False = OpenAI-compatible client
+    # True = AzureOpenAI client; False = OpenAI-compatible client
+    llm_is_native_azure: bool = False
 
     uniqueness_rule_min_ratio: float = 0.9
 
     outlier_z_score_threshold: float = 3.0
     outlier_tail_multiplier: float = 2.0
     suspicious_string_patterns: list[str] = field(default_factory=lambda: [
-        r'^0{3,}$',
-        r'^1{3,}$',
-        r'^9{3,}$',
-        r'^x{3,}',
-        r'^dummy',
+        r"^0{3,}$",
+        r"^1{3,}$",
+        r"^9{3,}$",
+        r"^x{3,}",
+        r"^dummy",
     ])
 
     # Cross-column date ordering — semantic name hints
     date_ordering_start_hints: set[str] = field(default_factory=lambda: {
-        "start", "begin", "open", "created", "sell"
+        "start", "begin", "open", "created", "sell",
     })
     date_ordering_end_hints: set[str] = field(default_factory=lambda: {
-        "end", "close", "expir", "discontinu"
+        "end", "close", "expir", "discontinu",
     })
     date_ordering_update_hints: set[str] = field(default_factory=lambda: {
-        "modified", "updated", "changed"
+        "modified", "updated", "changed",
     })
 
-    # Relationship-name heuristics
-    # These are generic defaults, not dataset-specific rules.
-    # They can be tuned per project if needed.
+    # Relationship-name heuristics — generic defaults, not dataset-specific.
     relationship_descriptive_prefixes: set[str] = field(default_factory=lambda: {
         "billing", "shipping", "mailing",
         "home", "work", "customer", "supplier", "vendor",
-        "contact", "delivery", "invoice"
+        "contact", "delivery", "invoice",
     })
-
     relationship_descriptive_terms: set[str] = field(default_factory=lambda: {
         "name", "firstname", "lastname", "fullname",
         "address", "street", "city", "state", "province", "region",
@@ -120,27 +120,24 @@ class PipelineConfig:
         "phone", "mobile", "fax", "email",
         "title", "description", "comment", "notes",
     })
-
     relationship_hierarchy_terms: set[str] = field(default_factory=lambda: {
         "reportsto", "manager", "managerid",
         "parent", "parentid",
         "supervisor", "supervisorid",
-        "boss", "lead", "owner", "ownerid"
+        "boss", "lead", "owner", "ownerid",
     })
-
     relationship_assignment_parent_terms: set[str] = field(default_factory=lambda: {
         "employee", "staff", "person", "people",
         "user", "agent", "representative", "rep",
-        "accountmanager"
+        "accountmanager",
     })
-
     relationship_assignment_fk_terms: set[str] = field(default_factory=lambda: {
         "rep", "representative", "agent", "staff",
         "employee", "salesperson", "owner",
-        "manager", "assignee"
+        "manager", "assignee",
     })
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.data_dir = Path(self.data_dir)
         self.output_dir = Path(self.output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)

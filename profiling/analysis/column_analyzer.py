@@ -39,13 +39,13 @@ class ColumnAnalyzer:
         if pd.api.types.is_bool_dtype(dtype):
             return "bool"
         if pd.api.types.is_datetime64_any_dtype(dtype):
-            return str(dtype)
+            return "datetime64[ns]"
         if isinstance(dtype, pd.CategoricalDtype):
             return "category"
         if pd.api.types.is_object_dtype(dtype):
             if series.isna().all():
                 return "object"
-            # Use full series as denominator so NaN is counted (not silently excluded)
+            # Use full series as denominator so NaN is counted
             numeric_try = pd.to_numeric(series, errors="coerce")
             if numeric_try.notna().sum() / len(series) >= 0.95:
                 whole = ((numeric_try.dropna() % 1) == 0).all()
@@ -54,7 +54,6 @@ class ColumnAnalyzer:
             if non_null_mask.any() and series[non_null_mask].map(lambda x: isinstance(x, str)).mean() >= 0.95:
                 return "string"
             return "object"
-
 
         return str(dtype)
 
@@ -201,7 +200,6 @@ class ColumnAnalyzer:
             if similarity_kind in ("key_like", "categorical") and "int" in storage_type.lower():
                 _anoms = format_analysis.get("anomalies", {})
                 _anoms["suspicious_values"] = []
-                #_anoms["outlier_values"] = []
 
             errors, flagged_idx, fences = detect_column_errors(
                 self.config, col_name, raw_series, storage_type,
@@ -214,9 +212,6 @@ class ColumnAnalyzer:
                 format_analysis=format_analysis,
                 intended_type=intended_type,
             )
-            # similarity_kind = classify_column_for_similarity(
-            #     raw_series, storage_type, col_name
-            # )
 
             # Exact MinHash
             minhash_sketch = (

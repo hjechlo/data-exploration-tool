@@ -102,7 +102,6 @@ class DataDictionaryExporter:
                         "interpretation": jp.get("relationship_interpretation", ""),
                         "referential_integrity": round(referential_integrity, 1),
                         "quality_score": jp.get("quality_score", 0),
-                        "quality_grade": jp.get("quality_grade", "N/A"),
                         "coverage_a": coverage_a,
                         "coverage_b": coverage_b,
                     }
@@ -121,7 +120,6 @@ class DataDictionaryExporter:
                     "coverage_a": jp.get("coverage_a", 0),
                     "coverage_b": jp.get("coverage_b", 0),
                     "quality_score": jp.get("quality_score", 0),
-                    "quality_grade": jp.get("quality_grade", "N/A"),
                 })
 
             elif rel_type == "shared_value_domain":
@@ -132,7 +130,6 @@ class DataDictionaryExporter:
                     "coverage_a": jp.get("coverage_a", 0),
                     "coverage_b": jp.get("coverage_b", 0),
                     "quality_score": jp.get("quality_score", 0),
-                    "quality_grade": jp.get("quality_grade", "N/A"),
                 })
 
             elif rel_type == "shared_join_key":
@@ -143,7 +140,6 @@ class DataDictionaryExporter:
                     "coverage_a": jp.get("coverage_a", 0),
                     "coverage_b": jp.get("coverage_b", 0),
                     "quality_score": jp.get("quality_score", 0),
-                    "quality_grade": jp.get("quality_grade", "N/A"),
                 })
 
             elif rel_type == "many_to_many_or_lookup":

@@ -19,7 +19,7 @@ def detect_numeric_anomalies(
     is_date_like: bool = False,
     missing_mask: "pd.Series | None" = None,
     intended_type: str | None = None,
-) -> list[str]:
+) -> tuple[list[str], set, dict]:
     """
     Detect statistical outliers in a numeric column using IQR-based fencing.
 
@@ -196,7 +196,7 @@ def detect_near_duplicate_values(series: pd.Series, config: PipelineConfig) -> l
 
 def detect_column_errors(
     config: PipelineConfig, col_name: str, series: pd.Series, storage_type: str, intended_type: str, is_foreign_key: bool = False, format_analysis: dict | None = None
-) -> list[str]:
+) -> tuple[list[str], set, dict]:
     """Return a list of human-readable error/quality strings for a column.
 
     Args:

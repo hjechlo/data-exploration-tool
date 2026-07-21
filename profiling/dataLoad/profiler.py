@@ -1,6 +1,4 @@
-"""
-DataProfiler — generates ydata_profiling reports and saves HTML + JSON.
-"""
+"""DataProfiler — generates ydata_profiling reports and saves HTML + JSON."""
 
 from pathlib import Path
 
@@ -12,9 +10,9 @@ from .preprocessor import DataPreprocessor
 
 
 class DataProfiler:
-    """Wraps ydata_profiling to generate and persist profile reports."""
+    """Wrap ydata_profiling to generate and persist profile reports."""
 
-    def __init__(self, config: PipelineConfig, preprocessor: DataPreprocessor):
+    def __init__(self, config: PipelineConfig, preprocessor: DataPreprocessor) -> None:
         self.config = config
         self.preprocessor = preprocessor
 
@@ -23,17 +21,16 @@ class DataProfiler:
         raw_df: pd.DataFrame,
         dataset_name: str,
     ) -> tuple[pd.DataFrame, ProfileReport, dict]:
-        """
-        Preprocess, profile, and save reports for one dataset.
+        """Preprocess, profile, and save reports for one dataset.
 
         Returns
         -------
-        df          : preprocessed DataFrame
-        report      : ProfileReport object
-        summary     : dict with paths and shape info
+        df_clean : lightly preprocessed DataFrame used for validation/LLM
+        report   : ProfileReport object
+        summary  : dict with paths and shape info
         """
         df_profiling = self.preprocessor.fit_transform(raw_df)
-         # Minimal preprocessing → for validation checks, format analysis, LLM
+        # Minimal cleaning for validation checks, format analysis, and LLM.
         df_clean = self.preprocessor.basic_preclean(raw_df, normalize_case=False)
         type_schema = self.preprocessor.infer_type_schema(df_profiling)
 

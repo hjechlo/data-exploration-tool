@@ -1,142 +1,123 @@
-"""
-DataLoader — responsible for reading files into DataFrames.
-"""
+"""DataLoader — responsible for reading files into DataFrames."""
 
+import json
 from pathlib import Path
 
-import pandas as pd
 import chardet
-import json
+import pandas as pd
 
 from ..core.config import SUPPORTED_EXTENSIONS
 
 
 class DataLoader:
-    """Loads one or more datasets from disk."""
+    """Load one or more datasets from disk into DataFrames."""
 
-    # Common encodings ordered by likelihood
-    ENCODING_FALLBACKS = [
-        'utf-8',
-        'utf-8-sig',  
-        'iso-8859-1',  
-        'windows-1252', 
-        'cp1252', 
-        'latin-1',  
+    # Tried in order when chardet confidence is low.
+    _ENCODING_FALLBACKS: list[str] = [
+        "utf-8",
+        "utf-8-sig",
+        "iso-8859-1",
+        "windows-1252",
+        "cp1252",
+        "latin-1",
     ]
- 
+
     @staticmethod
     def _detect_encoding(path: Path) -> str:
-        """Detect file encoding with validation.
-        
-        Uses chardet for detection with high confidence threshold,
-        otherwise tries common encodings in order.
-        
-        Returns:
-            Detected encoding name
-        """
-        # Try chardet first
-        with open(path, 'rb') as f:
-            raw_data = f.read(100000)  
-        
-        result = chardet.detect(raw_data)
-        detected_encoding = result.get('encoding')
-        confidence = result.get('confidence', 0)
-        
-        # If chardet is very confident (>80%), try it first
-        if detected_encoding and confidence > 0.8:
+        """Detect file encoding, falling back through common encodings."""
+        with open(path, "rb") as fh:
+            raw = fh.read(100_000)
+
+        result = chardet.detect(raw)
+        detected = result.get("encoding")
+        confidence = result.get("confidence", 0)
+
+        if detected and confidence > 0.8:
             try:
-                raw_data.decode(detected_encoding)
-                return detected_encoding
+                raw.decode(detected)
+                return detected
             except (UnicodeDecodeError, LookupError):
-                pass  # Fall through to fallback chain
-        
-        # Try common encodings in order
-        for encoding in DataLoader.ENCODING_FALLBACKS:
+                pass
+
+        for enc in DataLoader._ENCODING_FALLBACKS:
             try:
-                raw_data.decode(encoding)
-                return encoding
+                raw.decode(enc)
+                return enc
             except (UnicodeDecodeError, LookupError):
                 continue
-        
-        # Last resort: return UTF-8 with error handling
-        return 'utf-8'
- 
+
+        return "utf-8"
+
     @staticmethod
-    def _load_csv_safe(path: Path) -> pd.DataFrame:
-        """Load CSV with automatic encoding detection."""
+    def _load_csv(path: Path) -> pd.DataFrame:
         encoding = DataLoader._detect_encoding(path)
         try:
             return pd.read_csv(path, encoding=encoding)
         except UnicodeDecodeError:
-            return pd.read_csv(path, encoding='utf-8', errors='replace')
-    
+            return pd.read_csv(path, encoding="utf-8", errors="replace")
+
+    @staticmethod
+    def _load_json(path: Path) -> pd.DataFrame:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+
+        if isinstance(data, dict):
+            list_keys = [
+                k for k, v in data.items()
+                if isinstance(v, list) and v and isinstance(v[0], dict)
+            ]
+            if len(list_keys) == 1:
+                rows = pd.json_normalize(data[list_keys[0]])
+                # Inject top-level scalar fields into every row so downstream
+                # profiling can flag constant/metadata columns.
+                for k, v in data.items():
+                    if k != list_keys[0] and not isinstance(v, (list, dict)):
+                        rows[k] = v
+                return rows
+
+        return pd.read_json(path)
+
     @staticmethod
     def _load_geojson(path: Path) -> pd.DataFrame:
-        import json
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        features = data.get("features", [])
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+
         rows = []
-        for feature in features:
-            row = feature.get("properties", {}) or {}
-            # Optionally include geometry type as a column
-            geom = feature.get("geometry", {})
+        for feature in data.get("features", []):
+            row = dict(feature.get("properties") or {})
+            geom = feature.get("geometry") or {}
             if geom:
                 row["_geometry_type"] = geom.get("type")
             rows.append(row)
         return pd.DataFrame(rows)
-    
-    @staticmethod
-    def _load_json(path: Path) -> pd.DataFrame:
-        with open(path, encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, dict):
-            list_keys = [k for k, v in data.items()
-                         if isinstance(v, list) and v and isinstance(v[0], dict)]
-            if len(list_keys) == 1:
-                rows = pd.json_normalize(data[list_keys[0]])
-                # Inject all top-level scalar fields into every row.
-                # Constant/metadata fields will be flagged by downstream profiling.
-                scalar_fields = {
-                    k: v for k, v in data.items()
-                    if k != list_keys[0]
-                    and not isinstance(v, (list, dict))
-                }
-                for col, val in scalar_fields.items():
-                    rows[col] = val
-                return rows
-        return pd.read_json(path)
- 
-    READERS = {
-        ".csv": _load_csv_safe.__func__,
-        ".xlsx": lambda p: pd.read_excel(p),
-        ".xls": lambda p: pd.read_excel(p),
-        ".json": _load_json.__func__,
-        ".geojson": _load_geojson.__func__,
-        ".parquet": lambda p: pd.read_parquet(p),
+
+    _READERS: dict = {
+        ".csv":     _load_csv.__func__,           # type: ignore[attr-defined]
+        ".xlsx":    staticmethod(lambda p: pd.read_excel(p)),
+        ".xls":     staticmethod(lambda p: pd.read_excel(p)),
+        ".json":    _load_json.__func__,           # type: ignore[attr-defined]
+        ".geojson": _load_geojson.__func__,        # type: ignore[attr-defined]
+        ".parquet": staticmethod(lambda p: pd.read_parquet(p)),
     }
- 
+
     def load(self, path: str | Path) -> pd.DataFrame:
         path = Path(path)
-        suffix = path.suffix.lower()
-        reader = self.READERS.get(suffix)
+        reader = self._READERS.get(path.suffix.lower())
         if reader is None:
             raise ValueError(
-                f"Unsupported file type '{suffix}'. "
-                f"Supported: {list(self.READERS)}"
+                f"Unsupported file type '{path.suffix}'. "
+                f"Supported: {list(self._READERS)}"
             )
         return reader(path)
- 
+
     def discover(self, data_dir: str | Path) -> list[Path]:
-        """Return sorted list of supported files in data_dir."""
+        """Return a sorted list of supported files found in *data_dir*."""
         data_dir = Path(data_dir)
-        files = [
+        return sorted(
             f for f in data_dir.iterdir()
             if f.is_file() and f.suffix.lower() in SUPPORTED_EXTENSIONS
-        ]
-        return sorted(files)
- 
+        )
+
     def load_all(self, paths: list[Path]) -> dict[str, pd.DataFrame]:
         """Load multiple datasets, keyed by file stem."""
         return {path.stem: self.load(path) for path in paths}
- 

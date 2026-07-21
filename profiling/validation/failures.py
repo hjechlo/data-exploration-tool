@@ -4,12 +4,8 @@ Deterministically identify records that fail generated validation rules.
 The LLM generates rule definitions. Pandas applies those rules to the full
 dataframe, and Python builds the record-level validation results.
 """
-
-import asyncio
 import json
 import re
-import threading
-from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 
 from ..core.config import PipelineConfig
@@ -17,8 +13,6 @@ from ..llm.utils import clean_output
 from .prompts import APPLY_VALIDATION_RULES_PROMPT
 from .results import run_validation_checks, _apply_rule_check
 
-# Guards the shared `failures` dict when batches write results concurrently.
-_failures_lock = threading.Lock()
 
 def identify_validation_failures(
     config: PipelineConfig,
@@ -28,241 +22,141 @@ def identify_validation_failures(
     df,
     batch_size: int | None = None,
 ) -> dict[int, list[int]]:
-    """Identify records that fail each validation rule.
-
-    Runs deterministically via _apply_rule_check for all rule types that
-    have a Python implementation, including row-wise custom expressions.
-    Only cross_table_semantic rules and custom expressions whose logic
-    cannot be evaluated in Python fall back to the LLM batch dispatch.
-    """
     cfg = config
     batch_size = batch_size or cfg.llm_validation_batch_size
-    max_concurrency: int = getattr(cfg, "llm_validation_concurrency", 5)
- 
+
     cache_dir = cfg.output_dir / f"{table_name}_llm_chunks"
     cache_dir.mkdir(parents=True, exist_ok=True)
     cached = cache_dir / "validation_llm_failures.json"
- 
+
     if cfg.llm_resume and cached.exists():
         print(f"  [{table_name}] LLM validation failures: reusing cached result.")
         with open(cached, encoding="utf-8") as f:
             stored = json.load(f)
-        return {
-            int(rule_id): [int(index) for index in indices]
-            for rule_id, indices in stored.items()
-        }
- 
+        return {int(k): [int(i) for i in v] for k, v in stored.items()}
+
     if not df.index.equals(pd.RangeIndex(start=0, stop=len(df), step=1)):
         raise ValueError(
             "Validation requires a zero-based RangeIndex. "
             "Reset the dataframe index before running validation."
         )
-    
-    # ------------------------------------------------------------------ #
-    # Deterministic pass — run Python-evaluable rules without the LLM.   #
-    # Only rules that return None from _apply_rule_check go to the LLM.  #
-    # ------------------------------------------------------------------ #
+
+    # ── Deterministic pass ───────────────────────────────────────────────
+    # Run every rule that _apply_rule_check can handle in Python.
+    # Only rules that return None fall through to the LLM.
     deterministic_results: dict[int, list[int]] = {}
     llm_rules: list[dict] = []
 
     for rule in validation_rules:
         rule_id = int(rule["rule_id"])
         col = rule.get("column") or (rule.get("columns") or [""])[0]
-        rule_type = rule.get("type")
-        check_params = rule.get("check_params", {})
-
-        mask = _apply_rule_check(df, rule_type, col, check_params)
+        mask = _apply_rule_check(df, rule.get("type"), col, rule.get("check_params", {}))
         if mask is not None:
-            deterministic_results[rule_id] = sorted(
-                df.index[mask.fillna(False)].tolist()
-            )
+            deterministic_results[rule_id] = sorted(df.index[mask.fillna(False)].tolist())
         else:
             llm_rules.append(rule)
 
-    # If everything is deterministic, skip LLM entirely
     if not llm_rules:
         with open(cached, "w", encoding="utf-8") as f:
-            json.dump(
-                {str(k): v for k, v in deterministic_results.items()},
-                f,
-                indent=2,
-                ensure_ascii=False,
-            )
+            json.dump({str(k): v for k, v in deterministic_results.items()}, f, indent=2)
         return deterministic_results
- 
-    # ------------------------------------------------------------------ #
-    # Build the column subset and serialisable rule list once, up front.  #
-    # ------------------------------------------------------------------ #
+
+    # ── LLM pass (synchronous) ───────────────────────────────────────────
+    # Only cross_table_semantic rules and genuinely unevaluable custom
+    # expressions reach here. Batching is kept for large dataframes but
+    # runs sequentially — determinism matters more than speed here.
     required_columns: set[str] = set()
     for rule in llm_rules:
-        for column in rule.get("columns") or []:
-            if column in df.columns:
-                required_columns.add(column)
-        column = rule.get("column")
-        if column in df.columns:
-            required_columns.add(column)
+        for col in rule.get("columns") or []:
+            if col in df.columns:
+                required_columns.add(col)
+        col = rule.get("column")
+        if col in df.columns:
+            required_columns.add(col)
         params = rule.get("check_params") or {}
         for key in ("col_a", "col_b", "col_c", "join_col"):
-            column = params.get(key)
-            if column in df.columns:
-                required_columns.add(column)
-        for column in re.findall(r"row\['([^']+)'\]", params.get("logic") or ""):
-            if column in df.columns:
-                required_columns.add(column)
- 
+            col = params.get(key)
+            if col in df.columns:
+                required_columns.add(col)
+        for col in re.findall(r"row\['([^']+)'\]", params.get("logic") or ""):
+            if col in df.columns:
+                required_columns.add(col)
+
     selected_columns = sorted(required_columns)
- 
     serializable_rules = []
     for rule in llm_rules:
-        copied = {
-            key: value for key, value in rule.items() if key != "failing_record_indices"
-        }
+        copied = {k: v for k, v in rule.items() if k != "failing_record_indices"}
         params = dict(copied.get("check_params") or {})
         if isinstance(params.get("pk_values"), set):
             params["pk_values"] = sorted(str(v) for v in params["pk_values"])
         copied["check_params"] = params
         serializable_rules.append(copied)
- 
+
     rules_json = json.dumps(serializable_rules, indent=2, ensure_ascii=False, default=str)
- 
-    expected_rule_ids = {
-        int(rule["rule_id"])
-        for rule in llm_rules
-        if rule.get("rule_id") is not None
-    }
-    failures: dict[int, set[int]] = {rule_id: set() for rule_id in expected_rule_ids}
- 
-    # ------------------------------------------------------------------ #
-    # Pre-build every (batch_number, prompt, allowed_indices) triple so   #
-    # the async loop only needs to call the LLM.                          #
-    # ------------------------------------------------------------------ #
-    batches: list[tuple[int, str, set[int]]] = []
-    for batch_number, start in enumerate(range(0, len(df), batch_size), start=1):
-        stop = min(start + batch_size, len(df))
-        batch_df = df.iloc[start:stop][selected_columns].copy()
+    expected_rule_ids = {int(r["rule_id"]) for r in llm_rules if r.get("rule_id") is not None}
+    failures: dict[int, list[int]] = {rule_id: [] for rule_id in expected_rule_ids}
+
+    total_batches = (len(df) + batch_size - 1) // batch_size
+    print(f"  [{table_name}] Dispatching {total_batches} LLM validation batch(es) sequentially...")
+
+    for batch_num, start in enumerate(range(0, len(df), batch_size), start=1):
+        batch_df = df.iloc[start:start + batch_size][selected_columns].copy()
         batch_df.insert(0, "_row_index", batch_df.index.astype(int))
- 
+        allowed_indices = set(batch_df.index.astype(int))
+
         records_json = json.dumps(
             json.loads(batch_df.to_json(orient="records", force_ascii=False, date_format="iso")),
-            indent=2,
-            ensure_ascii=False,
-            default=str,
+            indent=2, ensure_ascii=False, default=str,
         )
-        prompt = APPLY_VALIDATION_RULES_PROMPT.replace(
-            "{rules_json}", rules_json
-        ).replace("{records_json}", records_json)
- 
-        allowed_indices = {int(i) for i in batch_df.index}
-        batches.append((batch_number, prompt, allowed_indices))
- 
-    total_batches = len(batches)
-    print(
-        f"  [{table_name}] Dispatching {total_batches} validation batches "
-        #f"(concurrency={max_concurrency})..."
-    )
- 
-    # ------------------------------------------------------------------ #
-    # Async worker: retries for one batch, writes raw file, merges hits.  #
-    # ------------------------------------------------------------------ #
-    async def _run_batch(
-        executor: ThreadPoolExecutor,
-        loop: asyncio.AbstractEventLoop,
-        batch_number: int,
-        prompt: str,
-        allowed_indices: set[int],
-    ) -> None:
-        last_error: Exception | None = None
- 
+        prompt = (
+            APPLY_VALIDATION_RULES_PROMPT
+            .replace("{rules_json}", rules_json)
+            .replace("{records_json}", records_json)
+        )
+
+        last_error = None
         for attempt in range(1, cfg.llm_max_retries + 1):
-            print(
-                f"  [{table_name}] batch {batch_number}/{total_batches}, "
-                f"attempt {attempt}/{cfg.llm_max_retries}"
-            )
-            # Run the blocking LLM call in the thread pool so the event
-            # loop stays free for other concurrent batches.
-            raw: str = await loop.run_in_executor(executor, llm_generator.call, prompt)
- 
-            raw_path = cache_dir / f"validation_batch_{batch_number}_attempt_{attempt}_raw.txt"
+            print(f"  [{table_name}] batch {batch_num}/{total_batches}, attempt {attempt}/{cfg.llm_max_retries}")
+            raw = llm_generator.call(prompt)
+            raw_path = cache_dir / f"validation_batch_{batch_num}_attempt_{attempt}_raw.txt"
             raw_path.write_text(raw, encoding="utf-8")
- 
             try:
                 rows = clean_output(raw)
-                returned_rule_ids: set[int] = set()
-                batch_hits: dict[int, set[int]] = {}
- 
+                returned_ids: set[int] = set()
                 for row in rows:
                     rule_id = int(row["rule_id"])
-                    returned_rule_ids.add(rule_id)
- 
+                    returned_ids.add(rule_id)
                     if rule_id not in failures:
                         raise ValueError(f"Unknown rule_id returned: {rule_id}")
- 
                     indices = row.get("failing_record_indices", [])
                     if not isinstance(indices, list):
                         raise ValueError("failing_record_indices must be a JSON list.")
- 
-                    for index in indices:
-                        index = int(index)
-                        if index not in allowed_indices:
-                            raise ValueError(
-                                f"Returned row index {index} was not in this batch."
-                            )
-                        batch_hits.setdefault(rule_id, set()).add(index)
- 
-                if returned_rule_ids != expected_rule_ids:
+                    for idx in indices:
+                        idx = int(idx)
+                        if idx not in allowed_indices:
+                            raise ValueError(f"Returned row index {idx} was not in this batch.")
+                        if idx not in failures[rule_id]:
+                            failures[rule_id].append(idx)
+                if returned_ids != expected_rule_ids:
                     raise ValueError(
-                        "The LLM did not return every rule_id. "
-                        f"Expected {sorted(expected_rule_ids)}, "
-                        f"returned {sorted(returned_rule_ids)}."
+                        f"Rule ID mismatch. Expected {sorted(expected_rule_ids)}, "
+                        f"got {sorted(returned_ids)}."
                     )
- 
-                # Merge under lock — other batches may be writing simultaneously.
-                with _failures_lock:
-                    for rule_id, indices in batch_hits.items():
-                        failures[rule_id].update(indices)
- 
                 last_error = None
                 break
- 
-            except Exception as error:
-                last_error = error
-                print(f"  [{table_name}] batch {batch_number} failed: {error}")
- 
+            except Exception as e:
+                last_error = e
+                print(f"  [{table_name}] batch {batch_num} failed: {e}")
+
         if last_error is not None:
             raise ValueError(
-                f"{table_name} validation batch {batch_number} failed after "
+                f"{table_name} validation batch {batch_num} failed after "
                 f"{cfg.llm_max_retries} attempts. Last error: {last_error}"
             )
- 
-    # ------------------------------------------------------------------ #
-    # Run all batches concurrently, bounded by the semaphore.             #
-    # ------------------------------------------------------------------ #
-    async def _run_all() -> None:
-        loop = asyncio.get_running_loop()
-        semaphore = asyncio.Semaphore(max_concurrency)
- 
-        async def _guarded(batch_number, prompt, allowed_indices):
-            async with semaphore:
-                await _run_batch(executor, loop, batch_number, prompt, allowed_indices)
- 
-        with ThreadPoolExecutor(max_workers=max_concurrency) as executor:
-            await asyncio.gather(*[
-                _guarded(bn, pr, ai) for bn, pr, ai in batches
-            ])
- 
-    asyncio.run(_run_all())
- 
-    result = {**deterministic_results}
-    result.update({rule_id: sorted(indices) for rule_id, indices in failures.items()})
 
+    result = {**deterministic_results, **{k: sorted(v) for k, v in failures.items()}}
     with open(cached, "w", encoding="utf-8") as f:
-        json.dump(
-            {str(rule_id): indices for rule_id, indices in result.items()},
-            f,
-            indent=2,
-            ensure_ascii=False,
-        )
-
+        json.dump({str(k): v for k, v in result.items()}, f, indent=2, ensure_ascii=False)
     return result
 
 

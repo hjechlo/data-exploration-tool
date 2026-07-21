@@ -17,11 +17,10 @@ class PipelineRunRequest:
     join_hints: dict[str, list[str]] | None = None
 
     def __post_init__(self) -> None:
-        normalized_paths = tuple(Path(path) for path in self.dataset_paths)
-        object.__setattr__(self, "dataset_paths", normalized_paths)
+        normalized = tuple(Path(p) for p in self.dataset_paths)
+        object.__setattr__(self, "dataset_paths", normalized)
         object.__setattr__(self, "word_script", Path(self.word_script))
-
-        if not normalized_paths:
+        if not normalized:
             raise ValueError("At least one dataset path must be provided.")
 
 
