@@ -428,3 +428,235 @@ Return JSON only — no preamble, no explanation.
 Before returning, verify each flagged index: confirm the record at that index actually
 violates the rule as written. If uncertain, omit the index rather than include it.
 """
+
+INSPECT_RULES_PROMPT_WITH_HISTORY = """
+You are a data quality rule auditor reviewing validation results for a dataset pipeline.
+
+## Your task
+
+Review the validation rules below that produced either a 0% or 100% failure rate.
+For each rule, decide whether it is correctly specified or needs revision.
+
+---
+
+## Critical guidance — when to keep vs revise
+
+### 0% failure rate — do NOT automatically flag as suspicious
+
+A 0% failure rate is EXPECTED and CORRECT for rules that check:
+- Mandatory fields that are genuinely populated (e.g. not_null on a primary key)
+- Enumeration rules where all observed values are valid
+- Format rules where all values conform to the expected pattern
+- Referential integrity rules where the foreign key relationship holds
+
+Only flag a 0% failure rule as needing revision when you can identify a SPECIFIC
+technical flaw — for example:
+- The rule type is incompatible with the column's data type
+- The rule condition is logically always true (tautology)
+- The rule text is ambiguous or self-contradictory
+- The rule was already revised in a previous pass and is still not catching known violations
+
+DO NOT flag a rule simply because the table is named "dirty" or because you expect
+more failures. A dirty dataset has some dirty columns — not every column is dirty.
+
+### 100% failure rate — ALWAYS suspicious
+
+A rule failing on every single record is almost always a specification error:
+- The condition is inverted (flags valid records instead of invalid ones)
+- The allowed value set is too restrictive
+- The rule is checking the wrong column
+- The rule was created from a misinterpretation of the evidence
+
+For 100% failure rules, `sample_failing_values` shows up to 5 examples of what
+the rule is flagging. Use these to diagnose whether valid records are being caught.
+
+### Prior revision history
+
+Some rules have been revised in a previous pass and are still misfiring. These are
+the most important to fix correctly. The `prior_revisions` field shows what was
+changed before and the resulting failure rate. Do not suggest the same fix again.
+
+### When to keep
+
+Keep a rule when:
+- The failure rate is plausible given the column evidence
+- The rule is correctly typed and logically sound
+- You cannot identify a specific flaw in the specification
+
+### When to revise
+
+Revise a rule only when you can state a SPECIFIC reason — not just "0% failure
+is suspicious for dirty data."
+
+---
+
+## Output format
+
+Return a JSON array. Each element covers one suspicious rule:
+
+```json
+[
+  {{
+    "rule_id": <int>,
+    "table": "<table_name>",
+    "verdict": "keep" | "revise" | "regenerate",
+    "reason": "<specific technical reason — not just the failure rate>",
+    "suggested_fix": "<concrete fix instruction, or null if verdict is keep>"
+  }}
+]
+```
+
+Every rule in the input must appear in the output.
+Return JSON only — no preamble, no explanation.
+
+---
+
+## Pre-submission checklist
+
+Before returning your output, verify each verdict against these gates:
+
+1. **Keep verdicts** — confirm you cannot identify a specific technical flaw.
+2. **Revise verdicts** — confirm the reason is a specific technical issue, NOT just
+   "0% failure is suspicious" or "dirty data should have more failures."
+3. **100% failure rules** — always mark as revise unless the rule is a known
+   intentional catch-all (e.g. a rule explicitly designed to flag all records).
+4. **Suggested fixes** — must be actionable and specific. "Make it stricter" is not
+   a valid fix. Provide the exact change needed.
+5. **Previously revised rules** — do not suggest the same fix that was already tried.
+6. **Regenerate verdicts** — only use when the entire table's rules are fundamentally
+   wrong, not just one or two rules. Revise individual bad rules instead.
+---
+
+## Suspicious rules to review
+
+{suspicious_json}
+
+---
+
+## Prior revision history (rules revised in earlier passes)
+
+{revision_history_json}
+"""
+
+REVISE_RULE_PROMPT_WITH_CONTEXT = """
+You are a data quality rule author revising a single validation rule.
+
+## Your task
+
+Revise the rule below based on the feedback provided. Return the corrected rule
+as a single JSON object using exactly the same schema as the input.
+
+---
+
+## Revision guidance
+
+1. Preserve the original rule_id, table, column, and category unchanged.
+2. Change only what the feedback specifies — do not broaden or weaken other parts
+   of the rule that are not mentioned in the feedback.
+3. The revised rule text must be a complete, self-contained plain-English description.
+4. Verify the revised check_params are consistent with the revised rule text.
+5. The rule type must remain valid — do not change the type unless the feedback
+   explicitly requires it.
+
+---
+
+## Feedback
+
+{fix_hint}
+
+---
+
+## Sample values that triggered the incorrect result (use these to verify your fix)
+
+{sample_values_json}
+
+---
+
+## Original rule
+
+{original_rule_json}
+
+---
+
+Return the corrected rule as a single JSON object. Return JSON only — no preamble,
+no explanation.
+"""
+
+ASSESS_RULES_PROMPT = """
+You are a data quality rule auditor assessing whether a generated set of validation
+rules is sufficient and correct before running validation.
+
+## Your task
+
+For each table, review the generated rules against the column evidence and decide
+whether to proceed with validation or regenerate the rules for that table.
+
+---
+
+## Decision criteria
+
+### Proceed when:
+- The number of rules is proportional to the number of columns (roughly 2-4 rules
+  per column on average is healthy)
+- Columns flagged with errors in the profiler have at least one corresponding rule
+- Rule types are appropriate for the column data types (e.g. not_null for mandatory
+  fields, format for pattern-constrained fields, enumeration for categoricals)
+- Cross-table rules are present when join paths exist
+
+### Regenerate when:
+- The rule count is suspiciously low relative to column count (e.g. fewer than
+  1 rule per column on average)
+- Columns explicitly flagged with profiler errors have no corresponding rules
+- A column has rules with obviously wrong types (e.g. range check on a string
+  column, enumeration on a datetime column)
+- Cross-table rules are entirely absent despite confirmed join paths existing
+
+---
+
+## Output format
+
+Return a JSON array with one entry per table:
+
+```json
+[
+  {{
+    "table": "<table_name>",
+    "verdict": "proceed" | "regenerate",
+    "reason": "<specific reason — not just rule count>",
+    "problem_columns": ["<col>", "<col>"]
+  }}
+]
+```
+
+- `problem_columns` lists columns that are missing rules or have wrong rule types.
+  Leave as empty list [] if verdict is proceed.
+- Every table in the input must appear in the output.
+- Return JSON only — no preamble, no explanation.
+
+---
+
+## Pre-submission checklist
+
+1. **Proceed verdicts** — confirm rule count is proportional and error columns are covered.
+2. **Regenerate verdicts** — confirm you can name a specific missing or wrong rule,
+   not just a low count.
+3. **problem_columns** — must be column names that actually appear in the table.
+
+---
+
+## Tables and generated rules
+
+{rules_json}
+
+---
+
+## Column evidence per table (profiler output)
+
+{column_evidence_json}
+
+---
+
+## Confirmed join paths
+
+{join_paths_json}
+"""

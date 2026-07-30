@@ -102,25 +102,32 @@ def run(
         else ""
     )
 
-    # ── Step 5: Validation rules ─────────────────────────────────────────
-    print("\n── Step 5: Validation rules ────────────────────────")
-    validation_rules = generate_rules_for_tables(
+    # ── Step 5 + 5b: Agentic validation (LangGraph) ──────────────────────
+    print("\n── Step 5+5b: Agentic validation ───────")
+    from .validation.graph import build_pipeline_graph
+
+    graph = build_pipeline_graph(
         config=run_config,
         llm_generator=llm_generator,
-        column_summaries=all_dictionaries,
-        minhash_results=minhash_results,
         profile_results=profile_results,
-        dataset_descriptions=dataset_summaries,
+        all_dictionaries=all_dictionaries,
+        minhash_results=minhash_results,
+        dataset_summaries=dataset_summaries,
     )
 
-    # ── Step 5b: Record-level validation checks ──────────────────────────
-    print("\n── Step 5b: Validation checks (record-wise) ────────")
-    validation_check_results = validate_tables(
-        config=run_config,
-        llm_generator=llm_generator,
-        validation_rules=validation_rules,
-        profile_results=profile_results,
+    initial_state = {
+        "validation_rules":         {},
+        "revision_count":           0,
+        "validation_check_results": {},
+        "inspection_notes":         [],
+    }
+
+    final_state = graph.invoke(
+        initial_state,
+        config={"configurable": {"thread_id": run_config.output_dir.name}},
     )
+    validation_rules         = final_state["validation_rules"]
+    validation_check_results = final_state["validation_check_results"]
 
     # ── Step 6: Export ───────────────────────────────────────────────────
     print("\n── Step 6: Export ──────────────────────────────────")

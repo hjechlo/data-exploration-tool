@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Running Pipeline...</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Pipeline Running</h1>
+      <p class="subtitle">Job ID: <code>{{ job_id }}</code></p>
+    </header>
+
+    <section class="card">
+      <div class="status-row">
+        <div class="spinner" id="spinner"></div>
+        <span id="statusText">Initialising...</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Live Log</h2>
+      <div class="log-box" id="logBox"></div>
+    </section>
+  </div>
+
+  <script>
+    const jobId = "{{ job_id }}";
+    const logBox = document.getElementById("logBox");
+    const statusText = document.getElementById("statusText");
+    const spinner = document.getElementById("spinner");
+    const progressBar = document.getElementById("progressBar");
+
+    const stages = [
+      "Step 1: Profiling",
+      "Step 2: Column analysis",
+      "Step 3: MinHash",
+      "Step 4: LLM dictionary",
+      "Step 5: Agentic validation",
+      "Step 6: Export",
+    ];
+
+    let lastLogCount = 0;
+
+    function detectStage(logs) {
+      let stage = 0;
+      logs.forEach(line => {
+        stages.forEach((s, i) => {
+          if (line.includes(s)) stage = Math.max(stage, i + 1);
+        });
+      });
+      return stage;
+    }
+
+    async function poll() {
+      try {
+        const res = await fetch(`/status/${jobId}`);
+        const data = await res.json();
+
+        // Append new log lines only
+        const newLines = data.logs.slice(lastLogCount);
+        newLines.forEach(line => {
+          const div = document.createElement("div");
+          div.className = "log-line";
+          div.textContent = line;
+          logBox.appendChild(div);
+        });
+        lastLogCount = data.logs.length;
+        logBox.scrollTop = logBox.scrollHeight;
+
+        // Update progress bar
+        const stage = detectStage(data.logs);
+        progressBar.style.width = `${Math.round((stage / stages.length) * 100)}%`;
+        statusText.textContent = stage > 0 ? stages[stage - 1] : "Initialising...";
+
+        if (data.status === "complete") {
+          spinner.style.display = "none";
+          statusText.textContent = "Complete!";
+          progressBar.style.width = "100%";
+          progressBar.classList.add("complete");
+          setTimeout(() => window.location.href = `/results/${jobId}`, 1000);
+          return;
+        }
+
+        if (data.status === "error") {
+          spinner.style.display = "none";
+          statusText.textContent = "Error — see log below";
+          progressBar.classList.add("error");
+          return;
+        }
+
+        setTimeout(poll, 2000);
+      } catch (e) {
+        setTimeout(poll, 3000);
+      }
+    }
+
+    poll();
+  </script>
+</body>
+</html>

@@ -674,7 +674,20 @@ def _apply_rule_check(
         
         # Row-wise expressions — evaluate per row deterministically.
         if "row[" in logic:
-            clean_logic = re.sub(r"^\s*import\s+\w+\s*;\s*", "", logic.strip())
+            clean_logic = logic.strip()
+
+            # Strip leading import statements (handles both semicolon and newline forms)
+            clean_logic = re.sub(
+                r"^import\s+\w+(?:\s+as\s+\w+)?\s*[;\n]?\s*",
+                "",
+                clean_logic,
+                flags=re.MULTILINE,
+            ).strip()
+
+            # Fix common LLM mistakes
+            clean_logic = re.sub(r"\.strip(?!\s*\()", ".strip()", clean_logic)
+            clean_logic = re.sub(r"\.lower(?!\s*\()", ".lower()", clean_logic)
+            clean_logic = re.sub(r"\.upper(?!\s*\()", ".upper()", clean_logic)
             _err_count = [0]
             def _row_eval(row, _logic=clean_logic):
                 try:

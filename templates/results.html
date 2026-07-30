@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pipeline Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Pipeline Results</h1>
+      <div class="header-actions">
+        <a href="/download/{{ job_id }}?type=word" class="btn-primary">Download Word Report</a>
+        <a href="/download/{{ job_id }}?type=csv" class="btn-primary">Download CSV Results</a>
+        <a href="/" class="btn-secondary">Run Again</a>
+      </div>
+    </header>
+
+    {% for table in summary %}
+    <section class="card">
+      <h2>{{ table.table }}</h2>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-value">{{ table.n_rules }}</span>
+          <span class="stat-label">Rules Generated</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value warning">{{ table.n_violations }}</span>
+          <span class="stat-label">Rules with Violations</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value danger">{{ table.n_failing_records }}</span>
+          <span class="stat-label">Failing Records</span>
+        </div>
+      </div>
+
+      {% if table.violation_records %}
+      <h3>Failing Records</h3>
+      <div class="table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Record</th>
+              <th>Failed Column(s)</th>
+              <th>Failed Value(s)</th>
+              <th>Rules Failed</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in table.violation_records %}
+            <tr>
+              <td><code>{{ record.get("Record Identifier", "—") }}</code></td>
+              <td>{{ record.get("Failed Column", "—") }}</td>
+              <td>{{ record.get("Failed Value", "—") }}</td>
+              <td class="rules-cell">
+                {% for rule in record.get("Validation Rules Failed", "").split(" | ") %}
+                    <div class="rule-item">{{ rule }}</div>
+                {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="no-violations">✓ No failing records for this table.</p>
+      {% endif %}
+    </section>
+    {% endfor %}
+
+  </div>
+</body>
+</html>

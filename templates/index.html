@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Profiling Pipeline</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Data Profiling & Validation Pipeline</h1>
+      <p class="subtitle">Upload your datasets and configure the agentic validation settings</p>
+    </header>
+
+    <form action="/run" method="POST" enctype="multipart/form-data">
+
+      <section class="card">
+        <h2>1. Upload Datasets</h2>
+        <div class="upload-area" id="uploadArea">
+          <input type="file" id="datasets" name="datasets" multiple
+                 accept=".csv,.xlsx,.xls,.parquet,.json"
+                 onchange="updateFileList(this)">
+          <label for="datasets">
+            <div class="upload-icon">📂</div>
+            <p>Click to select files or drag and drop</p>
+            <p class="hint">Supports CSV, Excel, Parquet, JSON</p>
+          </label>
+        </div>
+        <ul id="fileList" class="file-list"></ul>
+      </section>
+
+      <section class="card">
+        <h2>2. Validation Settings</h2>
+        <div class="controls-grid">
+
+          <div class="control-group">
+            <label for="max_revisions">
+              Max Rule Revisions
+              <span class="tooltip" title="How many times the agent can revise a suspicious rule before accepting it">ⓘ</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="max_revisions" name="max_revisions"
+                     min="0" max="5" value="2"
+                     oninput="document.getElementById('rev_val').textContent = this.value">
+              <span id="rev_val" class="slider-value">2</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="max_regenerations">
+              Max Rule Regenerations
+              <span class="tooltip" title="How many times the agent can fully regenerate rules for a table">ⓘ</span>
+            </label>
+            <div class="slider-row">
+              <input type="range" id="max_regenerations" name="max_regenerations"
+                     min="0" max="3" value="1"
+                     oninput="document.getElementById('regen_val').textContent = this.value">
+              <span id="regen_val" class="slider-value">1</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label for="batch_size">
+              Validation Batch Size
+              <span class="tooltip" title="Number of records sent to the LLM per batch for validation">ⓘ</span>
+            </label>
+            <input type="number" id="batch_size" name="batch_size"
+                   min="50" max="500" value="200" step="50">
+          </div>
+
+          <div class="control-group">
+            <label for="max_retries">
+              LLM Max Retries
+              <span class="tooltip" title="Number of retry attempts if an LLM call fails">ⓘ</span>
+            </label>
+            <input type="number" id="max_retries" name="max_retries"
+                   min="1" max="5" value="3">
+          </div>
+
+        </div>
+      </section>
+
+      <button type="submit" class="btn-primary" id="runBtn">
+        Run Pipeline
+      </button>
+
+    </form>
+  </div>
+
+  <script>
+    function updateFileList(input) {
+      const list = document.getElementById("fileList");
+      list.innerHTML = "";
+      Array.from(input.files).forEach(f => {
+        const li = document.createElement("li");
+        li.textContent = `${f.name} (${(f.size / 1024).toFixed(1)} KB)`;
+        list.appendChild(li);
+      });
+    }
+
+    document.querySelector("form").addEventListener("submit", () => {
+      document.getElementById("runBtn").textContent = "Starting...";
+      document.getElementById("runBtn").disabled = true;
+    });
+  </script>
+</body>
+</html>
